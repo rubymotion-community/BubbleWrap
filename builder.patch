@@ -1,0 +1,10 @@
+--- /Library/Motion/lib/motion/project/builder.rb	2012-01-23 07:18:14.000000000 -0800
++++ /tmp/builder_patch.rb	2012-01-24 21:52:34.000000000 -0800
+@@ -139,6 +139,7 @@
+       if config.spec_mode
+         # Build spec files too, but sequentially.
+         objs << build_file.call(File.expand_path(File.join(File.dirname(__FILE__), '../spec.rb')))
++        objs << build_file.call(config.spec_helper) if File.exist?(config.spec_helper)
+         spec_objs = config.spec_files.map { |path| build_file.call(path) }
+         objs += spec_objs
+       end
