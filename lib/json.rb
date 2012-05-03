@@ -1,4 +1,4 @@
-module Motion
+module BubbleWrap
 
   # Handles JSON encoding and decoding in a similar way Ruby 1.9 does.
   module JSON

@@ -29,7 +29,7 @@ EOS
   describe "parsing a basic JSON string" do
     
     before do
-      @parsed = Motion::JSON.parse(@json_string)
+      @parsed = BubbleWrap::JSON.parse(@json_string)
     end
 
     it "should convert a top object into a Ruby hash" do
@@ -48,7 +48,7 @@ EOS
 
     it "should convert an array into a Ruby array" do
       p Bacon::Counter.inspect
-      obj = Motion::JSON.parse("[1,2,3]")
+      obj = BubbleWrap::JSON.parse("[1,2,3]")
       obj.class.should == Array
       obj.size.should == 3
     end
@@ -67,14 +67,14 @@ EOS
     end
 
     it "should generate from a hash" do
-      json = Motion::JSON.generate(@obj)
+      json = BubbleWrap::JSON.generate(@obj)
       json.class == String
       json.should == "{\"foo\":\"bar\",\"bar\":\"baz\",\"baz\":123,\"foobar\":[1,2,3],\"foobaz\":{\"a\":1,\"b\":2}}"
     end
 
     it "should encode and decode and object losslessly" do
-      json = Motion::JSON.generate(@obj)
-      obj = Motion::JSON.parse(json)
+      json = BubbleWrap::JSON.generate(@obj)
+      obj = BubbleWrap::JSON.parse(json)
       obj.keys.sort.should == @obj.keys.sort
       obj.values.sort.should == @obj.values.sort
     end

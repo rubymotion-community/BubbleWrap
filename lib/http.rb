@@ -1,6 +1,4 @@
-module Motion
-
-  # SETTINGS = {}
+module BubbleWrap
 
   # The HTTP module provides a simple interface to make HTTP requests.
   #
@@ -11,12 +9,13 @@ module Motion
     #
     # @examples
     #  # Simple GET request printing the body
-    #   Motion::HTTP.get("https://api.github.com/users/mattetti") do |response|
-    #     p response.body
+    #   BubbleWrap::HTTP.get("https://api.github.com/users/mattetti") do |response|
+    #     p response.body.to_str
     #   end
     #
-    #   Motion::HTTP.get("https://api.github.com/users/mattetti", {:basic_auth => {username: 'matt', password: 'aimonetti'}}) do |response|
-    #     p response.body # prints the response's body
+    #  # GET request with basic auth credentials
+    #   BubbleWrap::HTTP.get("https://api.github.com/users/mattetti", {credentials: {username: 'matt', password: 'aimonetti'}}) do |response|
+    #     p response.body.to_str # prints the response's body
     #   end
     #
     def self.get(url, options={}, &block)
@@ -58,17 +57,26 @@ module Motion
     class Response
       attr_reader :body
       attr_reader :headers
-      attr_accessor :status_code
+      attr_accessor :status_code, :error_message
       attr_reader :url
 
       def initialize(values={})
+        self.update(values)
+      end
+
+      def update(values)
         values.each do |k,v|
           self.instance_variable_set("@#{k}", v)
         end
       end
+
+      def ok?
+        status_code == 200
+      end
+
     end
 
-    # Class wrapping NSConnection and often used indirectly by the Motion::HTTP module methods.
+    # Class wrapping NSConnection and often used indirectly by the BubbleWrap::HTTP module methods.
     class Query
       attr_accessor :request
       attr_accessor :connection
@@ -102,8 +110,13 @@ module Motion
         @payload = options.delete(:payload)
         @credentials = options.delete(:credentials) || {}
         @credentials = {:user => '', :password => ''}.merge(@credentials)
-        @headers = options.delete(:headers) || {}
+        headers = options.delete(:headers)
+        if headers
+          @headers = {}
+          headers.each{|k,v| @headers[k] = v.gsub("\n", '\\n') } # escaping LFs
+        end
         @options = options
+        @response = HTTP::Response.new
         initiate_request(url)
         connection.start
         connection
@@ -112,13 +125,13 @@ module Motion
       def initiate_request(url_string)
         # http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/nsrunloop_Class/Reference/Reference.html#//apple_ref/doc/constant_group/Run_Loop_Modes
         # NSConnectionReplyMode
-        # p "HTTP building a NSRequest for #{url_string}" if SETTINGS[:debug]
+        p "HTTP building a NSRequest for #{url_string}"# if SETTINGS[:debug]
         @url = NSURL.URLWithString(url_string)
         @request = NSMutableURLRequest.requestWithURL(@url,
                                                       cachePolicy:NSURLRequestUseProtocolCachePolicy,
                                                       timeoutInterval:30.0)
         @request.setHTTPMethod @method
-        @request.allHTTPHeaderFields = @headers unless @headers.empty?
+        @request.setAllHTTPHeaderFields(@headers) if @headers
 
         # @payload needs to be converted to data
         unless method == :get || @payload.nil?
@@ -127,7 +140,7 @@ module Motion
           @request.setHTTPBody @payload
         end
 
-        NSHTTPCookieStorage.sharedHTTPCookieStorage
+        # NSHTTPCookieStorage.sharedHTTPCookieStorage
 
         @connection = NSURLConnection.connectionWithRequest(request, delegate:self)
         @request.instance_variable_set("@done_loading", false)
@@ -139,7 +152,7 @@ module Motion
         @status_code = response.statusCode
         @response_headers = response.allHeaderFields
         @response_size = response.expectedContentLength.to_f
-        p "HTTP status code: #{@status_code}, content length: #{@response_size}, headers: #{@response_headers}" if SETTINGS[:debug]
+        # p "HTTP status code: #{@status_code}, content length: #{@response_size}, headers: #{@response_headers}" if SETTINGS[:debug]
       end
 
       # This delegate method get called every time a chunk of data is being received
@@ -149,9 +162,9 @@ module Motion
       end
 
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
-        # puts "HTTP redirected #{request.description}" if SETTINGS[:debug]
+        # puts "HTTP redirected #{request.description}" #if SETTINGS[:debug]
         new_request = request.mutableCopy
-        new_request.allHTTPHeaderFields = @headers unless @headers.empty?
+        new_request.allHTTPHeaderFields = @headers if @headers
         @connection.cancel
         @connection = NSURLConnection.connectionWithRequest(new_request, delegate:self)
         new_request
@@ -159,6 +172,7 @@ module Motion
 
       def connection(connection, didFailWithError: error)
         p "HTTP Connection failed #{error.localizedDescription}"
+        response.error_message = error.localizedDescription
       end
 
       # The transfer is done and everything went well
@@ -167,7 +181,7 @@ module Motion
 
         # copy the data in a local var that we will attach to the response object
         response_body = NSData.dataWithData(@received_data) if @received_data
-        @response = HTTP::Response.new(status_code: status_code, body: response_body, headers: response_headers, url: @url)
+        @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url)
         # Don't reset the received data since this method can be called multiple times if the headers can report the wrong length.
         # @received_data = nil
         if @delegator.respond_to?(:call)
