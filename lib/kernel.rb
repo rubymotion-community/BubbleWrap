@@ -1,5 +1,3 @@
-
-
 module Kernel
   
   # Verifies that the device running the app is an iPhone.

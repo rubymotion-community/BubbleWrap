@@ -1,6 +1,6 @@
 # BubbleWrap for RubyMotion
 
-A collection of wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
+A collection of helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
 
 ## HTTP
 
@@ -15,11 +15,36 @@ BubbleWrap::HTTP.get("https://api.github.com/users/mattetti") do |response|
 end
 ```
 
-
 ## JSON
 
-`BubbleWrap::JSON` wraps `NSJSONSerialization` available in iOS5 and offer the same API as Ruby's json std lib.
+`BubbleWrap::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
 
 ## Kernel
 
-A collection of useful methods used often in RubyMotion apps.
+A collection of useful methods used often in my RubyMotion apps.
+
+Examples:
+```ruby
+> iphone?
+# true
+> ipad?
+# false
+> orientation
+# :portrait
+> simulator?
+> true
+```
+
+## App
+
+A module allowing developers to store global states and alos provides a
+persistence layer.
+
+## NSUserDefaults
+
+Helper methods added to the class repsonsible for user preferences.
+
+## NSIndexPath
+
+Helper methods added to give `NSIndexPath` a bit more or a Ruby
+interface.
