@@ -1,15 +1,4 @@
-# HACKS
 
-class NSUserDefaults
-  def [](val)
-    self.objectForKey(val)
-  end
-
-  def []=(key, val)
-    self.setObject(val, forKey: key)
-    self.synchronize
-  end
-end
 
 module Kernel
   
@@ -74,6 +63,15 @@ module Kernel
                                               cancelButtonTitle: "OK", 
                                               otherButtonTitles: nil
     alert
+  end
+
+  def simulator?
+    @simulator_state ||= !(UIDevice.currentDevice.model =~ /simulator/i).nil?
+  end
+
+  # I had issues with #p on the device, this is a temporary workaround
+  def p(arg)
+    NSLog arg.inspect
   end
 
 end
