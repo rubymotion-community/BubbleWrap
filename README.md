@@ -23,7 +23,7 @@ end
 
 ```ruby
 data = {first_name: 'Matt', last_name: 'Aimonetti'}
-BubbleWrap::HTTP.post("http://foo.bar.com/", {payload: data} do |response|
+BubbleWrap::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
   if response.ok?
     json = BubbleWrap::JSON.parse(response.body.to_str)
     p json['id']
