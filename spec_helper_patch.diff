@@ -1,0 +1,31 @@
+diff --git a/lib/motion/project/builder.rb b/lib/motion/project/builder.rb
+index 39956a8..3e5a646 100644
+--- a/lib/motion/project/builder.rb
++++ b/lib/motion/project/builder.rb
+@@ -143,6 +143,7 @@ module Motion; module Project;
+       if config.spec_mode
+         # Build spec files too, but sequentially.
+         objs << build_file.call(File.expand_path(File.join(File.dirname(__FILE__), '../spec.rb')))
++        objs << build_file.call(config.spec_helper) if File.exist?(config.spec_helper)
+         spec_objs = config.spec_files.map { |path| build_file.call(path) }
+         objs += spec_objs
+       end
+diff --git a/lib/motion/project/config.rb b/lib/motion/project/config.rb
+index 8c7ba43..d43d9a3 100644
+--- a/lib/motion/project/config.rb
++++ b/lib/motion/project/config.rb
+@@ -253,7 +253,13 @@ module Motion; module Project
+     end
+ 
+     def spec_files
+-      Dir.glob(File.join(specs_dir, '**', '*.rb'))
++      files = Dir.glob(File.join(specs_dir, '**', '*.rb'))
++      files.delete(spec_helper)
++      files
++    end
++
++    def spec_helper
++      File.join(specs_dir, 'spec_helper.rb')
+     end
+ 
+     def motiondir
