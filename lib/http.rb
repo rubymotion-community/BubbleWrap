@@ -40,7 +40,7 @@ module BubbleWrap
     # Make a DELETE request
     def self.delete(url, options={}, &block)
       delegator = block_given? ? block : options.delete(:action)
-      HTTP::Query.new( url, :put, options.merge({:action => delegator}) )
+      HTTP::Query.new( url, :delete, options.merge({:action => delegator}) )
     end
 
     # Make a HEAD request
