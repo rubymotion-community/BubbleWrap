@@ -20,39 +20,15 @@ module BubbleWrap
     #     p response.body.to_str # prints the response's body
     #   end
     #
-    def self.get(url, options={}, &block)
-      delegator = block_given? ? block : options.delete(:action)
-      HTTP::Query.new( url, :get, options.merge({:action => delegator}) )
-    end
-    
-    # Make a POST request
-    def self.post(url, options={}, &block)
-      delegator = block_given? ? block : options.delete(:action)
-      HTTP::Query.new( url, :post, options.merge({:action => delegator}) )
-    end
-    
-    # Make a PUT request
-    def self.put(url, options={}, &block)
-      delegator = block_given? ? block : options.delete(:action)
-      HTTP::Query.new( url, :put, options.merge({:action => delegator}) )
-    end
-    
-    # Make a DELETE request
-    def self.delete(url, options={}, &block)
-      delegator = block_given? ? block : options.delete(:action)
-      HTTP::Query.new( url, :put, options.merge({:action => delegator}) )
-    end
-
-    # Make a HEAD request
-    def self.head(url, options={}, &block)
-      delegator = block_given? ? block : options.delete(:action)
-      HTTP::Query.new( url, :head, options.merge({:action => delegator}) )
-    end
-
-    # Make a PATCH request
-    def self.patch(url, options={}, &block)
-      delegator = block_given? ? block : options.delete(:action)
-      HTTP::Query.new( url, :patch, options.merge({:action => delegator}) )
+    class << self
+      # Make the request types
+      [:get, :post, :put, :delete, :head, :patch].each do |request_type|
+        # Make a request type
+        define_method(request_type) do |url, options = {}, &block|
+          delegator = block ? block : options.delete(:action)
+          HTTP::Query.new( url, request_type, options.merge({:action => delegator}) )
+        end
+      end
     end
 
     # Response class wrapping the results of a Query's response
