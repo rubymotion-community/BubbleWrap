@@ -15,6 +15,26 @@ BubbleWrap::HTTP.get("https://api.github.com/users/mattetti") do |response|
 end
 ```
 
+```ruby
+BubbleWrap::HTTP.get("https://api.github.com/users/mattetti", {credentials: {username: 'matt', password: 'aimonetti'}}) do |response|
+  p response.body.to_str # prints the response's body
+end
+```
+
+```ruby
+data = {first_name: 'Matt', last_name: 'Aimonetti'}
+BubbleWrap::HTTP.post("http://foo.bar.com/", {payload: data} do |response|
+  if response.ok?
+    json = BubbleWrap::JSON.parse(response.body.to_str)
+    p json['id']
+  elsif response.status_code.to_s =~ /40\d/
+    alert("Login failed") # helper provided by the kernel file in this repo.
+  else
+    alert(response.error_message)
+  end
+end
+```
+
 ## JSON
 
 `BubbleWrap::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
@@ -32,7 +52,9 @@ Examples:
 > orientation
 # :portrait
 > simulator?
-> true
+# true
+> documents_path
+# "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/Documents"
 ```
 
 ## App

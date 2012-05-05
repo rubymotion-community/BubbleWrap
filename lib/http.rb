@@ -1,5 +1,7 @@
 module BubbleWrap
 
+  SETTINGS = {}
+
   # The HTTP module provides a simple interface to make HTTP requests.
   #
   # TODO: preflight support, easier/better cookie support, better error handling
@@ -109,7 +111,7 @@ module BubbleWrap
         @delegator = options.delete(:action) || self
         @payload = options.delete(:payload)
         @credentials = options.delete(:credentials) || {}
-        @credentials = {:user => '', :password => ''}.merge(@credentials)
+        @credentials = {:username => '', :password => ''}.merge(@credentials)
         headers = options.delete(:headers)
         if headers
           @headers = {}
@@ -162,9 +164,10 @@ module BubbleWrap
       end
 
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
-        # puts "HTTP redirected #{request.description}" #if SETTINGS[:debug]
+        puts "HTTP redirected #{request.description}" #if SETTINGS[:debug]
         new_request = request.mutableCopy
-        new_request.allHTTPHeaderFields = @headers if @headers
+        @request.setAllHTTPHeaderFields(@headers) if @headers
+        # p @request.allHTTPHeaderFields.description
         @connection.cancel
         @connection = NSURLConnection.connectionWithRequest(new_request, delegate:self)
         new_request
@@ -197,6 +200,7 @@ module BubbleWrap
           # NSURLCredentialPersistenceNone,
           # NSURLCredentialPersistenceForSession,
           # NSURLCredentialPersistencePermanent
+          p "auth challenged, answered with credentials: #{credentials.inspect}"
           new_credential = NSURLCredential.credentialWithUser(credentials[:username], password:credentials[:password], persistence:NSURLCredentialPersistenceForSession)
           challenge.sender.useCredential(new_credential, forAuthenticationChallenge:challenge)
         else
