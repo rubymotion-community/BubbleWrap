@@ -59,7 +59,7 @@ Examples:
 
 ## App
 
-A module allowing developers to store global states and alos provides a
+A module allowing developers to store global states and also provides a
 persistence layer.
 
 ## NSUserDefaults
