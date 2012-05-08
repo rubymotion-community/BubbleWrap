@@ -12,6 +12,18 @@ module Kernel
     UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad
   end
 
+  # Verifies that the device running has a front facing camera.
+  # @return [TrueClass, FalseClass] true will be returned if the device has a front facing camera, false otherwise.
+  def front_camera?
+    UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceFront)
+  end
+
+  # Verifies that the device running has a rear facing camera.
+  # @return [TrueClass, FalseClass] true will be returned if the device has a rear facing camera, false otherwise.
+  def rear_camera?
+    UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceRear)
+  end
+
   # Returns the application's document directory path where users might be able to upload content.
   # @return [String] the path to the document directory
   def documents_path
