@@ -26,7 +26,7 @@ module Kernel
     case UIDevice.currentDevice.orientation
     when UIDeviceOrientationUnknown then :unknown
     when UIDeviceOrientationPortrait then :portrait
-    when UIDeviceOrientationPortraitUpsideDown then :upside_down_portrait
+    when UIDeviceOrientationPortraitUpsideDown then :portrait_upside_down
     when UIDeviceOrientationLandscapeLeft then :landscape_left
     when UIDeviceOrientationLandscapeRight then :landscape_right
     when UIDeviceOrientationFaceUp then :face_up
