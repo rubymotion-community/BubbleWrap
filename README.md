@@ -26,7 +26,9 @@ class AppDelegate
     true
   end
 end
+
 ```
+For a more complete list of helper/wrapper descriptions and more details, see the [wiki](https://github.com/mattetti/BubbleWrap/wiki).
 
 ## HTTP
 
@@ -96,3 +98,18 @@ Helper methods added to the class repsonsible for user preferences.
 
 Helper methods added to give `NSIndexPath` a bit more or a Ruby
 interface.
+## Gestures
+
+Extra methods on `UIView` for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:
+
+```ruby
+    view.whenTapped do
+      UIView.animateWithDuration(1,
+        animations:lambda {
+          # animate
+          # @view.transform = ...
+        })
+    end
+```
+
+There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
