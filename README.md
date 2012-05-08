@@ -10,19 +10,23 @@ Add BubbleWrap as a git submodule of your RubyMotion project:
 
 Add the BubbleWrap lib path to your project 'Rakefile'
 
-    Motion::Project::App.setup do |app|
-      app.name = 'myapp'
-      app.files += Dir.glob(File.join(app.project_dir, 'vendor/BubbleWrap/lib/**/*.rb'))
-    end
+```ruby
+Motion::Project::App.setup do |app|
+  app.name = 'myapp'
+  app.files += Dir.glob(File.join(app.project_dir, 'vendor/BubbleWrap/lib/**/*.rb'))
+end
+```
 
 Now, you can use BubbleWrap extension in your app:
 
-    class AppDelegate
-      def application(application, didFinishLaunchingWithOptions:launchOptions)
-        puts "#{App.name} (#{documents_path})"
-        true
-      end
-    end
+```ruby
+class AppDelegate
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
+    puts "#{App.name} (#{documents_path})"
+    true
+  end
+end
+```
 
 ## HTTP
 
