@@ -12,6 +12,11 @@ module App
   def name
     NSBundle.mainBundle.bundleIdentifier
   end
+  
+  # Return application frame
+  def frame
+    UIScreen.mainScreen.applicationFrame
+  end
 
   # Persistence module built on top of NSUserDefaults
   module Persistence
