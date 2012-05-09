@@ -112,6 +112,7 @@ module BubbleWrap
         @payload = options.delete(:payload)
         @credentials = options.delete(:credentials) || {}
         @credentials = {:username => '', :password => ''}.merge(@credentials)
+        @timeout = options.delete(:timeout) || 30.0
         headers = options.delete(:headers)
         if headers
           @headers = {}
@@ -127,17 +128,24 @@ module BubbleWrap
       def initiate_request(url_string)
         # http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/nsrunloop_Class/Reference/Reference.html#//apple_ref/doc/constant_group/Run_Loop_Modes
         # NSConnectionReplyMode
+        
+        unless @payload.nil?
+          @payload = @payload.map{|k,v| "#{k}=#{v}"}.join('&') if @payload.is_a?(Hash)
+          if @method == "GET"
+            url_string = "#{url_string}?#{@payload}"
+          end
+        end
+        
         p "HTTP building a NSRequest for #{url_string}"# if SETTINGS[:debug]
         @url = NSURL.URLWithString(url_string)
         @request = NSMutableURLRequest.requestWithURL(@url,
                                                       cachePolicy:NSURLRequestUseProtocolCachePolicy,
-                                                      timeoutInterval:30.0)
+                                                      timeoutInterval:@timeout)
         @request.setHTTPMethod @method
         @request.setAllHTTPHeaderFields(@headers) if @headers
 
         # @payload needs to be converted to data
-        unless method == :get || @payload.nil?
-          @payload = @payload.map{|k,v| "#{k}=#{v}"}.join('&') if @payload.is_a?(Hash)
+        unless @method == "GET" || @payload.nil?
           @payload = @payload.to_s.dataUsingEncoding(NSUTF8StringEncoding)
           @request.setHTTPBody @payload
         end
