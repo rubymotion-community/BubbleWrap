@@ -113,3 +113,13 @@ Extra methods on `UIView` for working with gesture recognizers. A gesture recogn
 ```
 
 There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
+
+## UIButton
+
+Helper methods to give `UIButton` a Ruby-like interface. Ex:
+
+```ruby
+button.when(UIControlEventTouchUpInside) do
+  self.view.backgroundColor = UIColor.redColor
+end
+```
