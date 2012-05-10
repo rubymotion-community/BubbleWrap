@@ -5,7 +5,7 @@ describe "NSNotificationCenter" do
   end
   
   after do
-    notification_center.unobserve(@observe)
+    notification_center.unobserve(@observer)
   end
 
   it "return notification center" do
@@ -14,7 +14,7 @@ describe "NSNotificationCenter" do
 
   it "add observer" do
     notified = false
-    notification_center.observe(@observe, SampleNotification) do
+    notification_center.observe(@observer, SampleNotification) do
       notified = true
     end
 
@@ -24,12 +24,12 @@ describe "NSNotificationCenter" do
   end
 
   it "remove observer" do
-    notification_center.observe(@observe, SampleNotification) do
+    notification_center.observe(@observer, SampleNotification) do
       notified = true
     end
     
     lambda { 
-      notification_center.unobserve(@observe)
+      notification_center.unobserve(@observer)
     }.should.change { notification_center.observers.keys.size }
   end
 end
