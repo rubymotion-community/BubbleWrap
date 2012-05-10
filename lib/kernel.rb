@@ -36,6 +36,12 @@ module Kernel
     NSBundle.mainBundle.resourcePath
   end
 
+  # Returns the default notification center
+  # @return [NSNotificationCenter] the default notification center
+  def notification_center
+    NSNotificationCenter.defaultCenter
+  end
+
   def orientation
     case UIDevice.currentDevice.orientation
     when UIDeviceOrientationUnknown then :unknown
