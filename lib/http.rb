@@ -174,9 +174,8 @@ module BubbleWrap
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
         puts "HTTP redirected #{request.description}" #if SETTINGS[:debug]
         new_request = request.mutableCopy
-        new_request.setValue(@credentials.inspect, forHTTPHeaderField:'Authorization')
+        # new_request.setValue(@credentials.inspect, forHTTPHeaderField:'Authorization') # disabled while we figure this one out
         new_request.setAllHTTPHeaderFields(@headers) if @headers
-        # p @request.allHTTPHeaderFields.description
         @connection.cancel
         @connection = NSURLConnection.connectionWithRequest(new_request, delegate:self)
         new_request
