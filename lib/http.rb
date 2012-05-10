@@ -174,6 +174,7 @@ module BubbleWrap
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
         puts "HTTP redirected #{request.description}" #if SETTINGS[:debug]
         new_request = request.mutableCopy
+        new_request.setValue(@credentials.inspect, forHTTPHeaderField:'Authorization')
         @request.setAllHTTPHeaderFields(@headers) if @headers
         # p @request.allHTTPHeaderFields.description
         @connection.cancel
