@@ -24,12 +24,9 @@ describe "NSNotificationCenter" do
   end
 
   it "remove observer" do
-    notification_center.observe(@observer, SampleNotification) do
-      notified = true
-    end
-    
     lambda { 
+      notification_center.observe(@observer, SampleNotification) {}
       notification_center.unobserve(@observer)
-    }.should.change { notification_center.observers.keys.size }
+    }.should.not.change { notification_center.observers.keys.size }
   end
 end
