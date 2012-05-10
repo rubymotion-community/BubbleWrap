@@ -29,6 +29,12 @@ module Kernel
   def documents_path
     NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0]
   end
+  
+  # Returns the application resource path where resource located
+  # @return [String] the application main bundle resource path
+  def resources_path
+    NSBundle.mainBundle.resourcePath
+  end
 
   def app_delegate
     UIApplication.sharedApplication.delegate
