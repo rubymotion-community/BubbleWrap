@@ -98,6 +98,7 @@ Helper methods added to the class repsonsible for user preferences.
 
 Helper methods added to give `NSIndexPath` a bit more or a Ruby
 interface.
+
 ## Gestures
 
 Extra methods on `UIView` for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:
@@ -121,5 +122,29 @@ Helper methods to give `UIButton` a Ruby-like interface. Ex:
 ```ruby
 button.when(UIControlEventTouchUpInside) do
   self.view.backgroundColor = UIColor.redColor
+end
+```
+
+## NSNotificationCenter
+
+Helper methods to give NSNotificationCenter a Ruby-like interface:
+
+```ruby
+def viewWillAppear(animated)
+  notification_center.observe self, UIApplicationWillEnterForegroundNotification do
+    loadAndRefresh
+  end
+  
+  notification_center.observe self, ReloadNotification do
+    loadAndRefresh
+  end
+end
+
+def viewWillDisappear(animated)
+  notification_center.unobserve self
+end
+
+def reload
+  notification_center.post ReloadNotification
 end
 ```
