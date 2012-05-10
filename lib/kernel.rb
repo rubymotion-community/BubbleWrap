@@ -36,10 +36,6 @@ module Kernel
     NSBundle.mainBundle.resourcePath
   end
 
-  def app_delegate
-    UIApplication.sharedApplication.delegate
-  end
-
   def orientation
     case UIDevice.currentDevice.orientation
     when UIDeviceOrientationUnknown then :unknown

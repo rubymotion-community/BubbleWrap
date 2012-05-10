@@ -12,10 +12,15 @@ module App
   def name
     NSBundle.mainBundle.bundleIdentifier
   end
-  
+
   # Return application frame
   def frame
     UIScreen.mainScreen.applicationFrame
+  end
+
+  # Application Delegate
+  def delegate
+    UIApplication.sharedApplication.delegate
   end
 
   # Persistence module built on top of NSUserDefaults
