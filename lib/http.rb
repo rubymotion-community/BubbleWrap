@@ -182,8 +182,12 @@ module BubbleWrap
       end
 
       def connection(connection, didFailWithError: error)
+        @request.done_loading!
         p "HTTP Connection failed #{error.localizedDescription}"
-        response.error_message = error.localizedDescription
+        @response.error_message = error.localizedDescription
+        if @delegator.respond_to?(:call)
+          @delegator.call( @response, self )
+        end
       end
 
       # The transfer is done and everything went well
