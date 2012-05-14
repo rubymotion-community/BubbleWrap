@@ -42,7 +42,7 @@ module App
 
     private
 
-    def storage_key(key)
+    def self.storage_key(key)
       app_key + '_' + key
     end
   end
