@@ -6,7 +6,7 @@ A collection of helpers and wrappers used to wrap CocoaTouch code and provide mo
 
 Add BubbleWrap as a git submodule of your RubyMotion project:
 
-    git clone https://github.com/mattetti/BubbleWrap.git vendor/BubbleWrap
+    git submodule add https://github.com/mattetti/BubbleWrap.git vendor/BubbleWrap
 
 Add the BubbleWrap lib path to your project 'Rakefile'
 
