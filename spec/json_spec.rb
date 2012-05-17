@@ -29,7 +29,9 @@ EOS
   describe "parsing a basic JSON string" do
     
     before do
-      @parsed = BubbleWrap::JSON.parse(@json_string)
+      BubbleWrap::JSON.parse(@json_string) do |parsed|
+        @parsed = parsed
+      end
     end
 
     it "should convert a top object into a Ruby hash" do
