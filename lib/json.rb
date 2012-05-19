@@ -18,7 +18,11 @@ module BubbleWrap
       error = Pointer.new(:id)
       obj = NSJSONSerialization.JSONObjectWithData(data, options:opts, error:error)
       raise ParserError, error[0].description if error[0]
-      yield obj if block_given?
+      if block_given?
+        yield obj
+      else 
+        obj
+      end
       
     end
 
