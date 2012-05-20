@@ -136,7 +136,6 @@ module BubbleWrap
           end
           list << param
         end
-        p list
         return list.flatten
       end
 
