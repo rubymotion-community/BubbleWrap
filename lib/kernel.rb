@@ -80,7 +80,7 @@ module Kernel
                                               delegate: nil, 
                                               cancelButtonTitle: "OK", 
                                               otherButtonTitles: nil
-    alert
+    alert.show
   end
 
   def simulator?
