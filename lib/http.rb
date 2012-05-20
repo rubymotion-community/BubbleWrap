@@ -131,11 +131,8 @@ module BubbleWrap
             new_prefix = prefix ? "#{prefix}[#{k.to_s}" : k.to_s
             generate_get_params(v, new_prefix)
           else
-            if prefix
-              @params << "#{prefix}[#{k}]=#{v}"
-            else
-              @params << "#{k}=#{v}"
-            end
+            param = prefix ? "#{prefix}[#{k}]=#{v}" : "#{k}=#{v}"
+            @params << param
           end
         end
       end
