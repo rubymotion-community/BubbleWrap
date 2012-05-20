@@ -125,15 +125,29 @@ module BubbleWrap
         connection
       end
 
+      def generate_get_params(payload, prefix=nil)
+        payload.each do |k,v|
+          if v.is_a?(Hash)
+            new_prefix = prefix ? "#{prefix}[#{k.to_s}" : k.to_s
+            generate_get_params(v, new_prefix)
+          else
+            param = prefix ? "#{prefix}[#{k}]=#{v}" : "#{k}=#{v}"
+            @params << param
+          end
+        end
+      end
+
       def initiate_request(url_string)
         # http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/nsrunloop_Class/Reference/Reference.html#//apple_ref/doc/constant_group/Run_Loop_Modes
         # NSConnectionReplyMode
         
         unless @payload.nil?
-          @payload = @payload.map{|k,v| "#{k}=#{v}"}.join('&') if @payload.is_a?(Hash)
-          if @method == "GET"
-            url_string = "#{url_string}?#{@payload}"
+          if @payload.is_a?(Hash)
+            @params  = []
+            generate_get_params(@payload)
+            @payload = @params.join("&")
           end
+          url_string = "#{url_string}?#{@payload}" if @method == "GET"
         end
         
         p "HTTP building a NSRequest for #{url_string}"# if SETTINGS[:debug]
