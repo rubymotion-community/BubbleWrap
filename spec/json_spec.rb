@@ -26,10 +26,41 @@ describe "JSON" do
 EOS
   end
 
-  describe "parsing a basic JSON string" do
+  describe "parsing a basic JSON string without block" do
     
     before do
       @parsed = BubbleWrap::JSON.parse(@json_string)
+    end
+
+    it "should convert a top object into a Ruby hash" do
+      obj = @parsed
+      obj.class.should == Hash
+      obj.keys.size.should == 19
+    end
+
+    it "should properly convert integers values" do
+      @parsed["id"].is_a?(Integer).should == true
+    end
+
+    it "should properly convert string values" do
+      @parsed["login"].is_a?(String).should == true
+    end
+
+    it "should convert an array into a Ruby array" do
+      p Bacon::Counter.inspect
+      obj = BubbleWrap::JSON.parse("[1,2,3]")
+      obj.class.should == Array
+      obj.size.should == 3
+    end
+
+  end
+
+    describe "parsing a basic JSON string with block" do
+    
+    before do
+      BubbleWrap::JSON.parse(@json_string) do |parsed|
+        @parsed = parsed
+      end
     end
 
     it "should convert a top object into a Ruby hash" do
