@@ -2,32 +2,29 @@
 
 A collection of helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
 
-## Getting started
-
-Add BubbleWrap as a git submodule of your RubyMotion project:
-
-    git submodule add https://github.com/mattetti/BubbleWrap.git vendor/BubbleWrap
-
-Add the BubbleWrap lib path to your project 'Rakefile'
+## Installation
 
 ```ruby
-Motion::Project::App.setup do |app|
-  app.name = 'myapp'
-  app.files += Dir.glob(File.join(app.project_dir, 'vendor/BubbleWrap/lib/**/*.rb'))
-end
+gem install bubble-wrap
 ```
 
-Now, you can use BubbleWrap extension in your app:
+### Setup
 
+1. Edit the Rakefile of your RubyMotion project and add the following require line.
 ```ruby
+require 'bubble-wrap'
+```
+
+2. Now, you can use BubbleWrap extension in your app:
+````ruby
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     puts "#{App.name} (#{documents_path})"
     true
   end
 end
+````
 
-```
 For a more complete list of helper/wrapper descriptions and more details, see the [wiki](https://github.com/mattetti/BubbleWrap/wiki).
 
 ## HTTP
