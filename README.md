@@ -14,16 +14,15 @@ gem install bubble-wrap
 ```ruby
 require 'bubble-wrap'
 ```
-
 2. Now, you can use BubbleWrap extension in your app:
-````ruby
+```ruby
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     puts "#{App.name} (#{documents_path})"
     true
   end
 end
-````
+```
 
 For a more complete list of helper/wrapper descriptions and more details, see the [wiki](https://github.com/mattetti/BubbleWrap/wiki).
 
