@@ -8,7 +8,7 @@ A collection of helpers and wrappers used to wrap CocoaTouch code and provide mo
 gem install bubble-wrap
 ```
 
-### Setup
+## Setup
 
 1. Edit the Rakefile of your RubyMotion project and add the following require line.
 ```ruby
