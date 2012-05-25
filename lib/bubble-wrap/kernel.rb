@@ -12,6 +12,16 @@ module Kernel
     UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad
   end
 
+  # Certifies that the device running the app has a Retina display
+  # @return [TrueClass, FalseClass] true will be returned if the device has a Retina display, false otherwise.
+  def retina?
+    if UIScreen.mainScreen.respondsToSelector('displayLinkWithTarget:selector:') && UIScreen.mainScreen.scale == 2.0
+      true
+    else
+      false
+    end
+  end
+
   # Verifies that the device running has a front facing camera.
   # @return [TrueClass, FalseClass] true will be returned if the device has a front facing camera, false otherwise.
   def front_camera?
