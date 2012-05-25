@@ -106,8 +106,18 @@ EOS
     it "should encode and decode and object losslessly" do
       json = BubbleWrap::JSON.generate(@obj)
       obj = BubbleWrap::JSON.parse(json)
-      obj.keys.sort.should == @obj.keys.sort
-      obj.values.sort.should == @obj.values.sort
+      
+      obj["foo"].should == 'bar'
+      obj["bar"].should == 'baz'
+      obj["baz"].should == 123
+      obj["foobar"].should == [1,2,3]  
+      obj["foobaz"].should == {"a" => 1, "b" => 2}
+
+      # TODO Find out why following line cause runtime error
+      # obj.keys.sort.should == @obj.keys.sort
+      # obj.values.sort.should == @obj.values.sort
+      obj.keys.sort { |a, b| a.to_s <=> b.to_s }.should == @obj.keys.sort { |a, b| a.to_s <=> b.to_s }      
+      obj.values.sort { |a, b| a.to_s <=> b.to_s }.should == @obj.values.sort { |a, b| a.to_s <=> b.to_s }
     end
 
   end
