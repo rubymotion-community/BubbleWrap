@@ -4,12 +4,12 @@ class NSUserDefaults
 
   # Retrieves the object for the passed key
   def [](key)
-    self.objectForKey(key)
+    self.objectForKey(key.to_s)
   end
 
   # Sets the value for a given key and save it right away.
   def []=(key, val)
-    self.setObject(val, forKey: key)
+    self.setObject(val, forKey: key.to_s)
     self.synchronize
   end
 end

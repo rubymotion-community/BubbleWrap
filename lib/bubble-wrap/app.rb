@@ -31,19 +31,19 @@ module App
 
     def self.[]=(key, value)
       defaults = NSUserDefaults.standardUserDefaults
-      defaults.setObject(value, forKey: storage_key(key))
+      defaults.setObject(value, forKey: storage_key(key.to_s))
       defaults.synchronize
     end
 
     def self.[](key)
       defaults = NSUserDefaults.standardUserDefaults
-      defaults.objectForKey storage_key(key)
+      defaults.objectForKey storage_key(key.to_s)
     end
 
     private
 
     def self.storage_key(key)
-      app_key + '_' + key
+      app_key + '_' + key.to_s
     end
   end
 
