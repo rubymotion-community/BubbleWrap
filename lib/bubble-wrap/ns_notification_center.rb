@@ -1,19 +1,20 @@
 class NSNotificationCenter
-  attr_reader :observers
+  def observers
+    @observers ||= {}
+  end
 
   def observe(observer, name, object=nil, &proc)
-    @observers            ||= {}
-    @observers[observer]  ||= []
-    @observers[observer]  << proc
+    observers[observer]  ||= []
+    observers[observer]  << proc
     self.addObserver(proc, selector:'call', name:name, object:object)
   end
 
   def unobserve(observer)
-    return unless @observers[observer]
-    @observers[observer].each do |proc|
+    return unless observers[observer]
+    observers[observer].each do |proc|
       removeObserver(proc)
     end
-    @observers.delete(observer)
+    observers.delete(observer)
   end
   
   def post(name, object=nil, info=nil)
