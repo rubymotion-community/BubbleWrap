@@ -1,3 +1,5 @@
 .rake_tasks~
+pkg/*
+Gemfile.lock
 build/
 .DS_Store
