@@ -93,7 +93,7 @@ EOS
                'bar' => 'baz', 
                baz: 123, 
                foobar: [1,2,3], 
-               foobaz: {a: 1, b: 2} 
+               foobaz: {'a' => 1, 'b' => 2} 
             }
     end
 
