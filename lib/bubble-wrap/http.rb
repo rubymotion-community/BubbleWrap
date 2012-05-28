@@ -122,6 +122,7 @@ module BubbleWrap
         @response = HTTP::Response.new
         initiate_request(url)
         connection.start
+        UIApplication.sharedApplication.networkActivityIndicatorVisible = true
         connection
       end
 
@@ -197,6 +198,7 @@ module BubbleWrap
       end
 
       def connection(connection, didFailWithError: error)
+        UIApplication.sharedApplication.networkActivityIndicatorVisible = false
         @request.done_loading!
         p "HTTP Connection failed #{error.localizedDescription}"
         @response.error_message = error.localizedDescription
@@ -207,6 +209,7 @@ module BubbleWrap
 
       # The transfer is done and everything went well
       def connectionDidFinishLoading(connection)
+        UIApplication.sharedApplication.networkActivityIndicatorVisible = false
         @request.done_loading!
 
         # copy the data in a local var that we will attach to the response object
