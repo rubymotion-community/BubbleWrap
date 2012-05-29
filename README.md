@@ -96,7 +96,7 @@ Helper methods added to the class repsonsible for user preferences.
 
 ## NSIndexPath
 
-Helper methods added to give `NSIndexPath` a bit more or a Ruby
+Helper methods added to give `NSIndexPath` a bit more of a Ruby
 interface.
 
 ## Gestures
