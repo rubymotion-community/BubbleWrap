@@ -1,4 +1,4 @@
-class NSIndexPath
+module NSIndexPathWrap
 
   # Gives access to an index at a given position.
   # @param [Integer] position to use to fetch the index

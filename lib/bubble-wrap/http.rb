@@ -152,7 +152,7 @@ module BubbleWrap
           url_string = "#{url_string}?#{@payload}" if @method == "GET"
         end
         
-        p "HTTP building a NSRequest for #{url_string}"# if SETTINGS[:debug]
+        p "BubbleWrap::HTTP building a NSRequest for #{url_string}"# if SETTINGS[:debug]
         @url = NSURL.URLWithString(url_string)
         @request = NSMutableURLRequest.requestWithURL(@url,
                                                       cachePolicy:NSURLRequestUseProtocolCachePolicy,
@@ -188,7 +188,7 @@ module BubbleWrap
       end
 
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
-        puts "HTTP redirected #{request.description}" #if SETTINGS[:debug]
+        p "HTTP redirected #{request.description}" #if SETTINGS[:debug]
         new_request = request.mutableCopy
         # new_request.setValue(@credentials.inspect, forHTTPHeaderField:'Authorization') # disabled while we figure this one out
         new_request.setAllHTTPHeaderFields(@headers) if @headers
@@ -200,7 +200,7 @@ module BubbleWrap
       def connection(connection, didFailWithError: error)
         UIApplication.sharedApplication.networkActivityIndicatorVisible = false
         @request.done_loading!
-        p "HTTP Connection failed #{error.localizedDescription}"
+        NSLog"HTTP Connection failed #{error.localizedDescription}"
         @response.error_message = error.localizedDescription
         if @delegator.respond_to?(:call)
           @delegator.call( @response, self )
