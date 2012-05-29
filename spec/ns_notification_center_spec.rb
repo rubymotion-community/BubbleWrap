@@ -14,12 +14,16 @@ describe "NSNotificationCenter" do
 
   it "add observer" do
     notified = false
-    notification_center.observe(@observer, SampleNotification) do
+    notification_center.observe(@observer, SampleNotification) do |note|
       notified = true
+      note.class.should == NSNotification
+      note.object.class.should == Time
+      note.userInfo.should.not.be.nil
+      note.userInfo[:status].should == "ok"
     end
 
     lambda { 
-      notification_center.post SampleNotification
+      notification_center.post SampleNotification, Time.now, {:status => "ok"}
     }.should.change { notified }
   end
 
