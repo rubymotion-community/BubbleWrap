@@ -14,7 +14,6 @@ gem install bubble-wrap
 ```ruby
 require 'bubble-wrap'
 ```
-
 Note: **DON'T** use `app.files =` in your Rakefile to set up your files once you've required BubbleWrap.
 Make sure to append onto the array or use `+=`.
 
