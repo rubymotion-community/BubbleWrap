@@ -18,7 +18,7 @@ describe "HTTP::Response" do
     BubbleWrap::HTTP::Response.new({status_code: 205}).ok?.should.not.equal true
   end
   
-  it "should have appropriate attributes" do
+  it "has appropriate attributes" do
     @response.should.respond_to :body
     @response.should.respond_to :headers
     @response.should.respond_to :url
@@ -34,7 +34,7 @@ describe "HTTP::Query" do
     @query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, {})
   end
 
-  it "should have appropriate attributes" do
+  it "has appropriate attributes" do
       @query.should.respond_to :request=
       @query.should.respond_to :connection=
       @query.should.respond_to :credentials=
@@ -48,5 +48,29 @@ describe "HTTP::Query" do
       @query.should.respond_to :response_size
       @query.should.respond_to :options
   end
+
+  it "should set default timeout to 30s or the one from hash" do
+    @query.instance_variable_get(:@timeout).should == 30
+    
+    new_query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, {timeout: 10})
+    new_query.instance_variable_get(:@timeout).should == 10
+  end
+
+  it "should create params with a nested hash with prefix[key]=value" do
+    payload = { 
+                user: { name: 'marin', surname: 'usalj' }, 
+                twitter: '@mneorr',
+                website: 'mneorr.com'
+    }
+    expected_params = [
+      'user[name]=marin', 
+      'user[surname]=usalj', 
+      'twitter=@mneorr',
+      'website=mneorr.com'
+    ]
+    @query.generate_get_params(payload).should.equal expected_params
+  end
+
+
 
 end
