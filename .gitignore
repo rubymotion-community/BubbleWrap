@@ -3,3 +3,5 @@ pkg/*
 Gemfile.lock
 build/
 .DS_Store
+.repl_history
+0
