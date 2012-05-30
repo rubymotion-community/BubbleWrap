@@ -52,7 +52,7 @@ describe "HTTP::Query" do
   it "should set default timeout to 30s or the one from hash" do
     @query.instance_variable_get(:@timeout).should == 30
     
-    new_query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, {timeout: 10})
+    new_query = BubbleWrap::HTTP::Query.new( 'http://localhost/', :get, {timeout: 10})
     new_query.instance_variable_get(:@timeout).should == 10
   end
 
@@ -60,17 +60,41 @@ describe "HTTP::Query" do
     payload = { 
                 user: { name: 'marin', surname: 'usalj' }, 
                 twitter: '@mneorr',
-                website: 'mneorr.com'
+                website: 'mneorr.com',
+                values: [1, 2, 3]
     }
     expected_params = [
       'user[name]=marin', 
       'user[surname]=usalj', 
       'twitter=@mneorr',
-      'website=mneorr.com'
+      'website=mneorr.com',
+      'values=[1, 2, 3]'
     ]
     @query.generate_get_params(payload).should.equal expected_params
   end
 
+  it "should assign status_code, headers and response_size on didReceiveResponse:" do
+    headers = { foo: 'bar' }
+    status_code = 234
+    length = 123.53
+
+    response = FakeURLResponse.new(status_code, headers, length)
+    @query.connection(nil, didReceiveResponse:response)
+
+    @query.status_code.should.equal status_code
+    @query.response_headers.should.equal headers
+    @query.response_size.should.equal length
+  end
+
+  class FakeURLResponse
+    attr_reader :statusCode, :allHeaderFields, :expectedContentLength
+    
+    def initialize(status_code, headers, length)
+      @statusCode = status_code
+      @allHeaderFields = headers
+      @expectedContentLength = length
+    end
+  end
 
 
 end
