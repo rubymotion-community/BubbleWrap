@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>BubbleWrap by mattetti</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>BubbleWrap</h1>
+        <p>Cocoa wrappers and helpers for RubyMotion (Ruby for iOS)</p>
+        <p class="view"><a href="https://github.com/mattetti/BubbleWrap">View the Project on GitHub <small>mattetti/BubbleWrap</small></a></p>
+        <ul>
+          <li><a href="https://github.com/mattetti/BubbleWrap/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/mattetti/BubbleWrap/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/mattetti/BubbleWrap">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>BubbleWrap for RubyMotion</h1>
+
+<p>A collection of helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.</p>
+
+<h2>Installation</h2>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="n">install</span> <span class="n">bubble</span><span class="o">-</span><span class="n">wrap</span>
+</pre>
+</div>
+
+
+<h2>Setup</h2>
+
+<ol>
+<li>
+<p>Edit the Rakefile of your RubyMotion project and add the following require line.</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap'</span>
+</pre>
+</div>
+
+
+<p>Note: <strong>DON'T</strong> use <code>app.files =</code> in your Rakefile to set up your files once you've required BubbleWrap.
+Make sure to append onto the array or use <code>+=</code>.</p>
+</li>
+<li><p>Now, you can use BubbleWrap extension in your app:</p></li>
+</ol><div class="highlight">
+<pre><span class="k">class</span> <span class="nc">AppDelegate</span>
+  <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="no">App</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">documents_path</span><span class="si">}</span><span class="s2">)"</span>
+    <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>For a more complete list of helper/wrapper descriptions and more details, see the <a href="https://github.com/mattetti/BubbleWrap/wiki">wiki</a>.</p>
+
+<h2>HTTP</h2>
+
+<p><code>BubbleWrap::HTTP</code> wraps <code>NSURLRequest</code>, <code>NSURLConnection</code> and friends to provide Ruby developers with a more familiar and easier to use API.
+The API uses async calls and blocks to stay as simple as possible.</p>
+
+<p>Usage example:</p>
+
+<div class="highlight">
+<pre><span class="no">BubbleWrap</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"https://api.github.com/users/mattetti"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
+  <span class="nb">p</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">to_str</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="no">BubbleWrap</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"https://api.github.com/users/mattetti"</span><span class="p">,</span> <span class="p">{</span><span class="n">credentials</span><span class="p">:</span> <span class="p">{</span><span class="n">username</span><span class="p">:</span> <span class="s1">'matt'</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="s1">'aimonetti'</span><span class="p">}})</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
+  <span class="nb">p</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">to_str</span> <span class="c1"># prints the response's body</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">first_name</span><span class="p">:</span> <span class="s1">'Matt'</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s1">'Aimonetti'</span><span class="p">}</span>
+<span class="no">BubbleWrap</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"http://foo.bar.com/"</span><span class="p">,</span> <span class="p">{</span><span class="n">payload</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
+  <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">ok?</span>
+    <span class="n">json</span> <span class="o">=</span> <span class="no">BubbleWrap</span><span class="o">::</span><span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">to_str</span><span class="p">)</span>
+    <span class="nb">p</span> <span class="n">json</span><span class="o">[</span><span class="s1">'id'</span><span class="o">]</span>
+  <span class="k">elsif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="o">.</span><span class="n">to_s</span> <span class="o">=~</span> <span class="sr">/40\d/</span>
+    <span class="n">alert</span><span class="p">(</span><span class="s2">"Login failed"</span><span class="p">)</span> <span class="c1"># helper provided by the kernel file in this repo.</span>
+  <span class="k">else</span>
+    <span class="n">alert</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h2>JSON</h2>
+
+<p><code>BubbleWrap::JSON</code> wraps <code>NSJSONSerialization</code> available in iOS5 and offers the same API as Ruby's JSON std lib.</p>
+
+<h2>Kernel</h2>
+
+<p>A collection of useful methods used often in my RubyMotion apps.</p>
+
+<p>Examples:</p>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="n">iphone?</span>
+<span class="c1"># true</span>
+<span class="o">&gt;</span> <span class="n">ipad?</span>
+<span class="c1"># false</span>
+<span class="o">&gt;</span> <span class="n">orientation</span>
+<span class="c1"># :portrait</span>
+<span class="o">&gt;</span> <span class="n">simulator?</span>
+<span class="c1"># true</span>
+<span class="o">&gt;</span> <span class="n">documents_path</span>
+<span class="c1"># "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/Documents"</span>
+</pre>
+</div>
+
+
+<h2>App</h2>
+
+<p>A module allowing developers to store global states and also provides a
+persistence layer.</p>
+
+<h2>NSUserDefaults</h2>
+
+<p>Helper methods added to the class repsonsible for user preferences.</p>
+
+<h2>NSIndexPath</h2>
+
+<p>Helper methods added to give <code>NSIndexPath</code> a bit more of a Ruby
+interface.</p>
+
+<h2>Gestures</h2>
+
+<p>Extra methods on <code>UIView</code> for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:</p>
+
+<div class="highlight">
+<pre>    <span class="n">view</span><span class="o">.</span><span class="n">whenTapped</span> <span class="k">do</span>
+      <span class="no">UIView</span><span class="o">.</span><span class="n">animateWithDuration</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">animations</span><span class="ss">:lambda</span> <span class="p">{</span>
+          <span class="c1"># animate</span>
+          <span class="c1"># @view.transform = ...</span>
+        <span class="p">})</span>
+    <span class="k">end</span>
+</pre>
+</div>
+
+
+<p>There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.</p>
+
+<h2>UIButton</h2>
+
+<p>Helper methods to give <code>UIButton</code> a Ruby-like interface. Ex:</p>
+
+<div class="highlight">
+<pre><span class="n">button</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="no">UIControlEventTouchUpInside</span><span class="p">)</span> <span class="k">do</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h2>NSNotificationCenter</h2>
+
+<p>Helper methods to give NSNotificationCenter a Ruby-like interface:</p>
+
+<div class="highlight">
+<pre><span class="k">def</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+  <span class="vi">@foreground_observer</span> <span class="o">=</span> <span class="n">notification_center</span><span class="o">.</span><span class="n">observe</span> <span class="no">UIApplicationWillEnterForegroundNotification</span> <span class="k">do</span> <span class="o">|</span><span class="n">notification</span><span class="o">|</span>
+    <span class="n">loadAndRefresh</span>
+  <span class="k">end</span>
+
+  <span class="vi">@reload_observer</span> <span class="n">notification_center</span><span class="o">.</span><span class="n">observe</span> <span class="no">ReloadNotification</span> <span class="k">do</span> <span class="o">|</span><span class="n">notification</span><span class="o">|</span>
+    <span class="n">loadAndRefresh</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">viewWillDisappear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+  <span class="n">notification_center</span><span class="o">.</span><span class="n">unobserve</span> <span class="vi">@foreground_observer</span>
+  <span class="n">notification_center</span><span class="o">.</span><span class="n">unobserve</span> <span class="vi">@reload_observer</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">reload</span>
+  <span class="n">notification_center</span><span class="o">.</span><span class="n">post</span> <span class="no">ReloadNotification</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/mattetti">mattetti</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
