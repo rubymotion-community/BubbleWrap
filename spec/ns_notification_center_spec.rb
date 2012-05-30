@@ -1,20 +1,21 @@
 describe "NSNotificationCenter" do
   SampleNotification = "SampleNotification"
+
   after do
     @observer = Object.new
   end
   
   after do
-    notification_center.unobserve(@observer)
+    BW.notification_center.unobserve(@observer)
   end
 
   it "return notification center" do
-    notification_center.should.not.be.nil
+    BW.notification_center.should.not.be.nil
   end
 
   it "add observer" do
     notified = false
-    notification_center.observe(@observer, SampleNotification) do |note|
+    BW.notification_center.observe(@observer, SampleNotification) do |note|
       notified = true
       note.class.should == NSNotification
       note.object.class.should == Time
@@ -23,14 +24,14 @@ describe "NSNotificationCenter" do
     end
 
     lambda { 
-      notification_center.post SampleNotification, Time.now, {:status => "ok"}
+      BW.notification_center.post SampleNotification, Time.now, {:status => "ok"}
     }.should.change { notified }
   end
 
   it "remove observer" do
     lambda { 
-      notification_center.observe(@observer, SampleNotification) {}
-      notification_center.unobserve(@observer)
-    }.should.not.change { notification_center.observers.keys.size }
+      BW.notification_center.observe(@observer, SampleNotification) {}
+      BW.notification_center.unobserve(@observer)
+    }.should.not.change { BW.notification_center.observers.keys.size }
   end
 end

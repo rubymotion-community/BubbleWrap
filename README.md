@@ -67,21 +67,21 @@ end
 
 `BubbleWrap::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
 
-## Kernel
+## BubbleWrap
 
-A collection of useful methods used often in my RubyMotion apps.
+A collection of useful methods used often in my RubyMotion apps. Aliased to `BW` for your typing convenience.
 
 Examples:
 ```ruby
-> iphone?
+> BW.iphone?
 # true
-> ipad?
+> BW.ipad?
 # false
-> orientation
+> BW.orientation
 # :portrait
-> simulator?
+> BW.simulator?
 # true
-> documents_path
+> BW.documents_path
 # "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/Documents"
 ```
 
