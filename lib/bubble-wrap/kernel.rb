@@ -83,6 +83,16 @@ module Kernel
   def user_cache
     NSUserDefaults.standardUserDefaults
   end
+  
+  # @return [NSLocale] locale of user settings
+  def current_locale
+    languages = NSLocale.preferredLanguages
+    if languages.count > 0
+      return NSLocale.alloc.initWithLocaleIdentifier(languages.first)
+    else
+      return NSLocale.currentLocale
+    end
+  end
 
   def alert(msg)
     alert = UIAlertView.alloc.initWithTitle msg, 
