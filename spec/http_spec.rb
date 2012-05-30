@@ -100,6 +100,18 @@ describe "HTTP::Query" do
     query_received_data.length.should.equal 48
   end
 
+
+  it "should turn off network indicator when failed" do
+    UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
+    @query.request.done_loading.should == false
+
+    fake_error = NSError.errorWithDomain('testing', code:7768, userInfo:nil)
+    @query.connection(nil, didFailWithError:fake_error)
+
+    UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false    
+    @query.request.done_loading.should == true
+  end
+
   def query_received_data
     @query.instance_variable_get(:@received_data)
   end

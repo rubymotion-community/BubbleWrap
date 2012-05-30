@@ -200,7 +200,7 @@ module BubbleWrap
       def connection(connection, didFailWithError: error)
         UIApplication.sharedApplication.networkActivityIndicatorVisible = false
         @request.done_loading!
-        NSLog"HTTP Connection failed #{error.localizedDescription}"
+        NSLog"HTTP Connection failed #{error.localizedDescription}" if SETTINGS[:debug]
         @response.error_message = error.localizedDescription
         if @delegator.respond_to?(:call)
           @delegator.call( @response, self )
