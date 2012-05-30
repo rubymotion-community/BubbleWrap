@@ -86,6 +86,24 @@ describe "HTTP::Query" do
     @query.response_size.should.equal length
   end
 
+  it "should initialize iVar and append the received data on didReceiveData:" do
+    query_received_data.should.equal nil
+    data = NSData.dataWithBytesNoCopy(Pointer.new(:char, 'abc'), length:24)
+    
+    @query.connection(nil, didReceiveData:nil)
+    query_received_data.should.not.equal nil
+    
+    @query.connection(nil, didReceiveData:data)
+    query_received_data.length.should.equal 24
+
+    @query.connection(nil, didReceiveData:data)
+    query_received_data.length.should.equal 48
+  end
+
+  def query_received_data
+    @query.instance_variable_get(:@received_data)
+  end
+
   class FakeURLResponse
     attr_reader :statusCode, :allHeaderFields, :expectedContentLength
     
