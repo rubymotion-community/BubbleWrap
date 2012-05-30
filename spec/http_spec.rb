@@ -56,7 +56,7 @@ describe "HTTP::Query" do
     new_query.instance_variable_get(:@timeout).should == 10
   end
 
-  it "should create params with a nested hash with prefix[key]=value" do
+  it "should create params with nested hashes with prefix[key]=value" do
     payload = { 
                 user: { name: 'marin', surname: 'usalj' }, 
                 twitter: '@mneorr',
