@@ -100,16 +100,32 @@ describe "HTTP::Query" do
     query_received_data.length.should.equal 48
   end
 
+  describe "when requestDidFailWithError:" do
+    before do
+      @fake_error = NSError.errorWithDomain('testing', code:7768, userInfo:nil)
+    end
 
-  it "should turn off network indicator when failed" do
-    UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
-    @query.request.done_loading.should == false
+    it "should turn off network indicator and set reauest_done when failed" do
+      UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
+      
+      @query.connection(nil, didFailWithError:@fake_error)
+      UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false    
+    end
 
-    fake_error = NSError.errorWithDomain('testing', code:7768, userInfo:nil)
-    @query.connection(nil, didFailWithError:fake_error)
+    it "should set request_done to true" do
+      @query.request.done_loading.should == false
+      
+      @query.connection(nil, didFailWithError:@fake_error)
+      @query.request.done_loading.should == true
+    end
 
-    UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false    
-    @query.request.done_loading.should == true
+    it "should set the error message to response object" do
+      @query.response.error_message.should.equal nil
+      
+      @query.connection(nil, didFailWithError:@fake_error)
+      @query.response.error_message.should.equal @fake_error.localizedDescription
+    end
+
   end
 
   def query_received_data
