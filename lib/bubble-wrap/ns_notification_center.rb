@@ -1,23 +1,21 @@
 class NSNotificationCenter
   def observers
-    @observers ||= {}
+    @observers ||= []
   end
 
-  def observe(observer, name, object=nil, &proc)
-    observers[observer]  ||= []
-    observers[observer]  << proc
-    self.addObserver(proc, selector:'call', name:name, object:object)
+  def observe(name, object=nil, &proc)
+    observer = self.addObserverForName(name, object:object, queue:NSOperationQueue.mainQueue, usingBlock:proc)
+    observers << observer
+    observer
   end
 
   def unobserve(observer)
-    return unless observers[observer]
-    observers[observer].each do |proc|
-      removeObserver(proc)
-    end
+    return unless observers.include?(observer)
+    removeObserver(observer)
     observers.delete(observer)
   end
   
   def post(name, object=nil, info=nil)
-    self.postNotificationName(name, object: object, userInfo:info)
+    self.postNotificationName(name, object: object, userInfo: info)
   end
 end

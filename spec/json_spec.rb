@@ -47,7 +47,6 @@ EOS
     end
 
     it "should convert an array into a Ruby array" do
-      p Bacon::Counter.inspect
       obj = BubbleWrap::JSON.parse("[1,2,3]")
       obj.class.should == Array
       obj.size.should == 3
@@ -78,7 +77,6 @@ EOS
     end
 
     it "should convert an array into a Ruby array" do
-      p Bacon::Counter.inspect
       obj = BubbleWrap::JSON.parse("[1,2,3]")
       obj.class.should == Array
       obj.size.should == 3

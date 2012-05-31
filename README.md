@@ -131,17 +131,18 @@ Helper methods to give NSNotificationCenter a Ruby-like interface:
 
 ```ruby
 def viewWillAppear(animated)
-  notification_center.observe self, UIApplicationWillEnterForegroundNotification do
+  @foreground_observer = notification_center.observe UIApplicationWillEnterForegroundNotification do |notification|
     loadAndRefresh
   end
   
-  notification_center.observe self, ReloadNotification do
+  @reload_observer notification_center.observe ReloadNotification do |notification|
     loadAndRefresh
   end
 end
 
 def viewWillDisappear(animated)
-  notification_center.unobserve self
+  notification_center.unobserve @foreground_observer
+  notification_center.unobserve @reload_observer
 end
 
 def reload
