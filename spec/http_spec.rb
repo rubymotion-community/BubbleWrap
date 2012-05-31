@@ -31,7 +31,7 @@ end
 describe "HTTP::Query" do
 
   before do
-    @query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, {})
+    @query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, { action: lambda{|fa, ke|}})
   end
 
   it "has appropriate attributes" do
@@ -105,7 +105,7 @@ describe "HTTP::Query" do
       @fake_error = NSError.errorWithDomain('testing', code:7768, userInfo:nil)
     end
 
-    it "should turn off network indicator and set reauest_done when failed" do
+    it "should turn off network indicator" do
       UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
       
       @query.connection(nil, didFailWithError:@fake_error)
@@ -135,6 +135,52 @@ describe "HTTP::Query" do
       query.instance_variable_set(:@response, expected_response)
 
       query.connection(nil, didFailWithError:@fake_error)
+      real_response.should.equal expected_response
+    end
+
+  end
+
+  describe "when connectionDidFinishLoading:" do
+    
+    it "should turn off the network indicator" do
+      UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
+      
+      @query.connectionDidFinishLoading(nil)
+      UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
+    end
+
+    it "should set request_done to true" do
+      @query.request.done_loading.should == false
+      
+      @query.connectionDidFinishLoading(nil)
+      @query.request.done_loading.should == true
+    end
+
+    it "should set response_body to @received data if not nil" do
+      data = NSData.dataWithBytesNoCopy(Pointer.new(:char, 'abc'), length:24)
+      headers = { foo: 'bar' }
+      status_code = 234
+      response = FakeURLResponse.new(status_code, headers, 65456)
+      
+      @query.connection(nil, didReceiveResponse:response)
+      @query.connection(nil, didReceiveData:data)
+      @query.connectionDidFinishLoading(nil)
+
+      @query.response.body.should.equal data
+      @query.response.status_code.should.equal status_code
+      @query.response.headers.should.equal headers
+      @query.response.url.should.equal @query.instance_variable_get(:@url)
+    end
+
+    it "should check if there's a callback block and pass the response in" do
+      expected_response = BubbleWrap::HTTP::Response.new
+      real_response = nil
+      block = lambda{ |response, query| real_response = response }
+      
+      query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, { :action => block })
+      query.instance_variable_set(:@response, expected_response)
+
+      query.connectionDidFinishLoading(nil)
       real_response.should.equal expected_response
     end
 

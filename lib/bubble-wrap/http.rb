@@ -201,10 +201,9 @@ module BubbleWrap
         @request.done_loading!
         NSLog"HTTP Connection failed #{error.localizedDescription}" if SETTINGS[:debug]
         @response.error_message = error.localizedDescription
-        if @delegator.respond_to?(:call)
-          @delegator.call( @response, self )
-        end
+        call_delegator_with_response
       end
+
 
       # The transfer is done and everything went well
       def connectionDidFinishLoading(connection)
@@ -216,9 +215,7 @@ module BubbleWrap
         @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url)
         # Don't reset the received data since this method can be called multiple times if the headers can report the wrong length.
         # @received_data = nil
-        if @delegator.respond_to?(:call)
-          @delegator.call( @response, self )
-        end
+        call_delegator_with_response
       end
 
       def connection(connection, didReceiveAuthenticationChallenge:challenge)
@@ -237,6 +234,13 @@ module BubbleWrap
           p 'Auth Failed :('
         end
       end
+
+      def call_delegator_with_response
+        if @delegator.respond_to?(:call)
+          @delegator.call( @response, self )
+        end
+      end
+
     end
   end
 end
