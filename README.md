@@ -81,6 +81,7 @@ Examples:
 # :portrait
 > Device.simulator?
 # true
+```
 
 ## App
 
