@@ -67,28 +67,35 @@ end
 
 `BubbleWrap::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
 
-## BubbleWrap
+## Device
 
-A collection of useful methods used often in my RubyMotion apps. Aliased to `BW` for your typing convenience.
+A collection of useful methods about the current device:
 
 Examples:
 ```ruby
-> BW.iphone?
+> Device.iphone?
 # true
-> BW.ipad?
+> Device.ipad?
 # false
-> BW.orientation
+> Device.orientation
 # :portrait
-> BW.simulator?
+> Device.simulator?
 # true
-> BW.documents_path
-# "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/Documents"
-```
 
 ## App
 
-A module allowing developers to store global states and also provides a
-persistence layer.
+A module with useful methods related to the running application
+
+```ruby
+> App.documents_path
+# "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/Documents"
+> App.resources_path
+# "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/testSuite_spec.app"
+> App.name
+# "testSuite"
+> App.identifier
+# "io.bubblewrap.testSuite"
+```
 
 ## NSUserDefaults
 
