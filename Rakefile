@@ -3,7 +3,8 @@ $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project'
 
 Motion::Project::App.setup do |app|
-  app.name = 'MotionLibTestSuite'
+  app.name = 'testSuite'
+  app.identifier = 'io.bubblewrap.testSuite'
   
   app.development do
     app.files << './lib/tests/test_suite_delegate.rb'
