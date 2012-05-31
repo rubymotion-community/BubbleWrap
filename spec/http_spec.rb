@@ -186,6 +186,39 @@ describe "HTTP::Query" do
 
   end
 
+  describe "when connection:willSendRequest:redirectResponse:" do
+    before do
+      @request = NSURLRequest.requestWithURL NSURL.URLWithString('http://fakehost.local/')
+    end
+    it "should make a mutableCopy of passed in request and set headers from @headers" do
+      headers = @query.request.instance_variable_get(:@headers)
+  
+      copied_request = @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+      
+      @query.request.should.not.be.equal @request
+      copied_request.URL.description.should.equal @request.URL.description
+    end
+
+    it "should check if @headers are nil before setting them to the new request" do
+      @query.instance_variable_set(:@headers, nil)
+      action = lambda { @query.connection(nil, willSendRequest:@request, redirectResponse:nil) }
+
+      action.should.not.raise(Exception)
+    end
+
+    it "should create a new Connection with the request passed in" do
+      old_connection = @query.connection
+      @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+
+      old_connection.should.not.equal @query.connection
+    end
+
+    # it "should set itself as a delegate of new NSURLConnection" do
+      #not sure how to test this one
+    # end
+
+  end
+
   def query_received_data
     @query.instance_variable_get(:@received_data)
   end
