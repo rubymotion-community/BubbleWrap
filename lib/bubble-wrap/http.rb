@@ -118,6 +118,7 @@ module BubbleWrap
           @headers = {}
           headers.each{|k,v| @headers[k] = v.gsub("\n", '\\n') } # escaping LFs
         end
+        @cachePolicy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @options = options
         @response = HTTP::Response.new
         initiate_request(url)
@@ -155,7 +156,7 @@ module BubbleWrap
         p "BubbleWrap::HTTP building a NSRequest for #{url_string}" if SETTINGS[:debug]
         @url = NSURL.URLWithString(url_string)
         @request = NSMutableURLRequest.requestWithURL(@url,
-                                                      cachePolicy:NSURLRequestUseProtocolCachePolicy,
+                                                      cachePolicy:@cachePolicy,
                                                       timeoutInterval:@timeout)
         @request.setHTTPMethod @method
         @request.setAllHTTPHeaderFields(@headers) if @headers
