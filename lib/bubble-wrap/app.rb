@@ -1,4 +1,4 @@
-# Provides a module to store global states and a persistence layer.
+# Provides a module to store global states 
 #
 module BubbleWrap
   module App
@@ -60,27 +60,13 @@ module BubbleWrap
       UIApplication.sharedApplication.delegate
     end
 
-    # Persistence module built on top of NSUserDefaults
-    module Persistence
-      def self.app_key
-        @app_key ||= App.name
-      end
-
-      def self.[]=(key, value)
-        defaults = NSUserDefaults.standardUserDefaults
-        defaults.setObject(value, forKey: storage_key(key.to_s))
-        defaults.synchronize
-      end
-
-      def self.[](key)
-        defaults = NSUserDefaults.standardUserDefaults
-        defaults.objectForKey storage_key(key.to_s)
-      end
-
-      private
-
-      def self.storage_key(key)
-        app_key + '_' + key.to_s
+    # @return [NSLocale] locale of user settings
+    def current_locale
+      languages = NSLocale.preferredLanguages
+      if languages.count > 0
+        return NSLocale.alloc.initWithLocaleIdentifier(languages.first)
+      else
+        return NSLocale.currentLocale
       end
     end
 
