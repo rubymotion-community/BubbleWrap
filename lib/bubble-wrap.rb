@@ -29,7 +29,7 @@ end
 
 Motion::Project::App.setup do |app|
   wrapper_files = []
-  Dir.glob(File.join(File.dirname(__FILE__), 'bubble-wrap/*.rb')).each do |file|
+  Dir.glob(File.join(File.dirname(__FILE__), 'bubble-wrap/**/*.rb')).each do |file|
     app.files << file
     wrapper_files << file
   end
