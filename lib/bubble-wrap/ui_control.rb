@@ -1,4 +1,4 @@
-module UIButtonWrap
+module UIControlWrap
   def when(events, &block)
     @callback ||= {}
     @callback[events] = block

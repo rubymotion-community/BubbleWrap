@@ -34,6 +34,6 @@ Motion::Project::App.setup do |app|
     wrapper_files << file
   end
   pollution_file = File.expand_path(File.join(File.dirname(__FILE__), 'pollute.rb'))
-  app.files << pollution_file
+  app.files.unshift pollution_file
   app.files_dependencies pollution_file => wrapper_files
 end

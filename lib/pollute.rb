@@ -1,6 +1,6 @@
 [
   [NSIndexPath, NSIndexPathWrap],
-  [UIButton, UIButtonWrap]
+  [UIControl, UIControlWrap]
 ].each do |base, wrapper|
   base.send(:include, wrapper)
 end
