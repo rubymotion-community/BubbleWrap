@@ -1,5 +1,5 @@
 describe "HTTP" do
-  
+
 end
 
 
@@ -35,18 +35,18 @@ describe "HTTP::Query" do
   end
 
   it "has appropriate attributes" do
-      @query.should.respond_to :request=
-      @query.should.respond_to :connection=
-      @query.should.respond_to :credentials=
-      @query.should.respond_to :proxy_credential=
-      @query.should.respond_to :post_data=
+    @query.should.respond_to :request=
+    @query.should.respond_to :connection=
+    @query.should.respond_to :credentials=
+    @query.should.respond_to :proxy_credential=
+    @query.should.respond_to :post_data=
 
-      @query.should.respond_to :method
-      @query.should.respond_to :response
-      @query.should.respond_to :status_code
-      @query.should.respond_to :response_headers
-      @query.should.respond_to :response_size
-      @query.should.respond_to :options
+    @query.should.respond_to :method
+    @query.should.respond_to :response
+    @query.should.respond_to :status_code
+    @query.should.respond_to :response_headers
+    @query.should.respond_to :response_size
+    @query.should.respond_to :options
   end
 
   it "should set default timeout to 30s or the one from hash" do
@@ -58,10 +58,10 @@ describe "HTTP::Query" do
 
   it "should create params with nested hashes with prefix[key]=value" do
     payload = { 
-                user: { name: 'marin', surname: 'usalj' }, 
-                twitter: '@mneorr',
-                website: 'mneorr.com',
-                values: [1, 2, 3]
+      user: { name: 'marin', surname: 'usalj' }, 
+      twitter: '@mneorr',
+      website: 'mneorr.com',
+      values: [1, 2, 3]
     }
     expected_params = [
       'user[name]=marin', 
@@ -141,7 +141,7 @@ describe "HTTP::Query" do
   end
 
   describe "when connectionDidFinishLoading:" do
-    
+
     it "should turn off the network indicator" do
       UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
       
@@ -190,20 +190,16 @@ describe "HTTP::Query" do
     before do
       @request = NSURLRequest.requestWithURL NSURL.URLWithString('http://fakehost.local/')
     end
+
     it "should make a mutableCopy of passed in request and set headers from @headers" do
-      headers = @query.request.instance_variable_get(:@headers)
-  
-      copied_request = @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+      expected_headers = { new_header: 'should_be_here' }
+      @query.instance_variable_set(:@headers, expected_headers)
+
+      new_request = @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
       
       @query.request.should.not.be.equal @request
-      copied_request.URL.description.should.equal @request.URL.description
-    end
-
-    it "should check if @headers are nil before setting them to the new request" do
-      @query.instance_variable_set(:@headers, nil)
-      action = lambda { @query.connection(nil, willSendRequest:@request, redirectResponse:nil) }
-
-      action.should.not.raise(Exception)
+      new_request.URL.description.should.equal @request.URL.description
+      new_request.allHTTPHeaderFields.should.equal expected_headers
     end
 
     it "should create a new Connection with the request passed in" do
@@ -214,7 +210,8 @@ describe "HTTP::Query" do
     end
 
     # it "should set itself as a delegate of new NSURLConnection" do
-      #not sure how to test this one
+    #   @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+    #   @query.connection.fake_delegate.should.equal @query
     # end
 
   end
