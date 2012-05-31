@@ -178,7 +178,6 @@ module BubbleWrap
         @status_code = response.statusCode
         @response_headers = response.allHeaderFields
         @response_size = response.expectedContentLength.to_f
-        # p "HTTP status code: #{@status_code}, content length: #{@response_size}, headers: #{@response_headers}" if SETTINGS[:debug]
       end
 
       # This delegate method get called every time a chunk of data is being received

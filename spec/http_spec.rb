@@ -126,6 +126,18 @@ describe "HTTP::Query" do
       @query.response.error_message.should.equal @fake_error.localizedDescription
     end
 
+    it "should check if there's a callback block and pass the response in" do
+      expected_response = BubbleWrap::HTTP::Response.new
+      real_response = nil
+      block = lambda{ |response, query| real_response = response }
+      
+      query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, { :action => block })
+      query.instance_variable_set(:@response, expected_response)
+
+      query.connection(nil, didFailWithError:@fake_error)
+      real_response.should.equal expected_response
+    end
+
   end
 
   def query_received_data
