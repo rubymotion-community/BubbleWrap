@@ -40,7 +40,16 @@ describe "HTTP::Query" do
       credentials: @credentials
     }
     @action = lambda{|fa, ke|}
-    @options = { action: @action, payload: @payload, credentials: @credentials }
+    @cache_policy = 24234
+    @leftover_option = 'trololo'
+    @headers = { 'User-Agent' => "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \n Gecko/20100101 Firefox/12.0" }
+    @options = {  action: @action, 
+                  payload: @payload, 
+                  credentials: @credentials, 
+                  headers: @headers, 
+                  cache_policy: @cache_policy,
+                  leftover_option: @leftover_option
+    }
     
     @query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, @options )
   end
@@ -96,10 +105,40 @@ describe "HTTP::Query" do
     it "should set default timeout to 30s or the one from hash" do
       @query.instance_variable_get(:@timeout).should == 30
 
-      new_query = BubbleWrap::HTTP::Query.new( 'http://localhost/', :get, {timeout: 10})
+      options = {timeout: 10}
+      new_query = BubbleWrap::HTTP::Query.new( 'http://localhost/', :get, options)
+      
       new_query.instance_variable_get(:@timeout).should == 10
+      options.should.be.empty
     end
 
+    it "should delete :headers from options and escape Line Feeds" do
+      gsubbed = @headers['User-Agent'].gsub("\n", '\\n')
+      @headers['User-Agent'] = gsubbed
+      @query.instance_variable_get(:@headers).should.equal @headers
+    end
+
+    it "should delete :cache_policy or set NSURLRequestUseProtocolCachePolicy" do
+      @query.instance_variable_get(:@cachePolicy).should.equal @cache_policy
+      @options.should.not.has_key? :cache_policy
+      
+      new_query = BubbleWrap::HTTP::Query.new( 'http://fakehost.local/', :get, {})
+      new_query.instance_variable_get(:@cachePolicy).should.equal NSURLRequestUseProtocolCachePolicy
+    end
+
+    it "should set the rest of options{} to ivar @options" do
+      @query.options.size.should.equal 1
+      @query.options.values[0].should.equal @leftover_option
+    end
+
+    # it "should create a new response" do
+      
+    # end
+
+  end
+
+  describe "Generating GET params" do
+    
     it "should create params with nested hashes with prefix[key]=value" do
       expected_params = [
         'user[name]=marin', 
@@ -271,8 +310,9 @@ describe "HTTP::Query" do
 
     it "should pass the new request in the new connection" do
       @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
-      @query.connection.request.should.equal @request
+      @query.connection.request.URL.description.should.equal @request.URL.description
     end
+
   end
 
   class BubbleWrap::HTTP::Query
