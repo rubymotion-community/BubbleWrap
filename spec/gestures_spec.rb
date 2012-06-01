@@ -12,8 +12,13 @@ describe UIView do
 
   testMethod = proc do |method|
     it 'enables interaction when called' do
-      @view.whenTapped &:nil?
+      @view.send(method, &:nil)
       @view.isUserInteractionEnabled.should == true
+    end
+
+    it "doesn't enable interaction if asked not to" do
+      @view.send(method, false, &:nil)
+      @view.isUserInteractionEnabled.should == false
     end
 
     # it 'responds to interaction'
@@ -21,6 +26,26 @@ describe UIView do
 
   describe '#whenTapped' do
     testMethod.call :whenTapped
+  end
+
+  describe '#whenPinched' do
+    testMethod.call :whenPinched
+  end
+
+  describe '#whenRotated' do
+    testMethod.call :whenRotated
+  end
+  
+  describe '#whenSwiped' do
+    testMethod.call :whenSwiped
+  end
+
+  describe '#whenPanned' do
+    testMethod.call :whenPanned
+  end
+
+  describe '#whenPressed' do
+    testMethod.call :whenPressed
   end
 
 end

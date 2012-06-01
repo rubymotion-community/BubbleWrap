@@ -2,35 +2,35 @@
 
 class UIView
 
-  def whenTapped(&proc)
-    addGestureRecognizerHelper(proc, UITapGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+  def whenTapped(enableInteraction=true, &proc)
+    addGestureRecognizerHelper(proc, enableInteraction, UITapGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
   end
 
-  def whenPinched(&proc)
-    addGestureRecognizerHelper(proc, UIPinchGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+  def whenPinched(enableInteraction=true, &proc)
+    addGestureRecognizerHelper(proc, enableInteraction, UIPinchGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
   end
 
-  def whenRotated(&proc)
-    addGestureRecognizerHelper(proc, UIRotationGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+  def whenRotated(enableInteraction=true, &proc)
+    addGestureRecognizerHelper(proc, enableInteraction, UIRotationGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
   end
 
-  def whenSwiped(&proc)
-    addGestureRecognizerHelper(proc, UISwipeGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+  def whenSwiped(enableInteraction=true, &proc)
+    addGestureRecognizerHelper(proc, enableInteraction, UISwipeGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
   end
 
-  def whenPanned(&proc)
-    addGestureRecognizerHelper(proc, UIPanGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+  def whenPanned(enableInteraction=true, &proc)
+    addGestureRecognizerHelper(proc, enableInteraction, UIPanGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
   end
 
-  def whenPressed(&proc)
-    addGestureRecognizerHelper(proc, UILongPressGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+  def whenPressed(enableInteraction=true, &proc)
+    addGestureRecognizerHelper(proc, enableInteraction, UILongPressGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
   end
 
   private
 
   # Adds the recognizer and keeps a strong reference to the Proc object.
-  def addGestureRecognizerHelper(proc, recognizer)
-    setUserInteractionEnabled true unless isUserInteractionEnabled
+  def addGestureRecognizerHelper(proc, enableInteraction, recognizer)
+    setUserInteractionEnabled true if enableInteraction && !isUserInteractionEnabled
     self.addGestureRecognizer(recognizer)
     @recognizers = {} unless @recognizers
     @recognizers["#{proc}"] = proc
