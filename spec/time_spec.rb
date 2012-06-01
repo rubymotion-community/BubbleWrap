@@ -5,6 +5,10 @@ describe "Time" do
       @time = Time.iso8601("2012-05-31T19:41:33Z")
     end
 
+    it "should be a time" do
+      @time.instance_of?(Time).should == true
+    end
+
     it "should have a valid year" do
       @time.year.should == 2012
     end
