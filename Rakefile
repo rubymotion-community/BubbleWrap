@@ -11,7 +11,7 @@ Motion::Project::App.setup do |app|
     app.delegate_class = 'TestSuiteDelegate'
   end
 
-  app.files += Dir.glob('./lib/bubble-wrap/**.rb')
+  app.files += Dir.glob('./lib/bubble-wrap/**/*.rb')
   wrapper_files = app.files.dup
   pollution_file = Dir.glob('./lib/pollute.rb')[0]
   app.files << pollution_file
