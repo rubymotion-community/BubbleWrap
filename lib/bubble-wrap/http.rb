@@ -169,7 +169,7 @@ module BubbleWrap
 
         # NSHTTPCookieStorage.sharedHTTPCookieStorage
 
-        @connection = create_connection(@request)
+        @connection = create_connection(request)
         @request.instance_variable_set("@done_loading", false)
         def @request.done_loading; @done_loading; end
         def @request.done_loading!; @done_loading = true; end
