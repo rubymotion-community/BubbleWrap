@@ -209,20 +209,37 @@ describe "HTTP::Query" do
       old_connection.should.not.equal @query.connection
     end
 
-    # it "should set itself as a delegate of new NSURLConnection" do
-    #   @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
-    #   @query.connection.fake_delegate.should.equal @query
-    # end
+    it "should set itself as a delegate of new NSURLConnection" do
+      @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+      @query.connection.delegate.should.equal @query
+    end
 
+    it "should pass the new request in the new connection" do
+      @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+      @query.connection.request.should.equal @request
+    end
   end
 
   def query_received_data
     @query.instance_variable_get(:@received_data)
   end
 
+  class BubbleWrap::HTTP::Query
+    def create_connection(request); FakeURLConnection.new(request, self); end      
+  end
+
+  class FakeURLConnection < NSURLConnection
+    attr_reader :delegate, :request
+    def initialize(request, delegate)
+      @request = request
+      @delegate = delegate
+      NSURLConnection.connectionWithRequest(request, delegate:delegate)
+    end
+  end
+
   class FakeURLResponse
     attr_reader :statusCode, :allHeaderFields, :expectedContentLength
-    
+
     def initialize(status_code, headers, length)
       @statusCode = status_code
       @allHeaderFields = headers

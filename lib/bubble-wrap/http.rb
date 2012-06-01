@@ -169,7 +169,7 @@ module BubbleWrap
 
         # NSHTTPCookieStorage.sharedHTTPCookieStorage
 
-        @connection = NSURLConnection.connectionWithRequest(request, delegate:self)
+        @connection = create_connection(@request)
         @request.instance_variable_set("@done_loading", false)
         def @request.done_loading; @done_loading; end
         def @request.done_loading!; @done_loading = true; end
@@ -193,7 +193,7 @@ module BubbleWrap
         # new_request.setValue(@credentials.inspect, forHTTPHeaderField:'Authorization') # disabled while we figure this one out
         new_request.setAllHTTPHeaderFields(@headers) if @headers
         @connection.cancel
-        @connection = NSURLConnection.connectionWithRequest(new_request, delegate:self)
+        @connection = create_connection(new_request)
         new_request
       end
 
@@ -210,17 +210,15 @@ module BubbleWrap
       def connectionDidFinishLoading(connection)
         UIApplication.sharedApplication.networkActivityIndicatorVisible = false
         @request.done_loading!
-
         # copy the data in a local var that we will attach to the response object
         response_body = NSData.dataWithData(@received_data) if @received_data
         @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url)
-        # Don't reset the received data since this method can be called multiple times if the headers can report the wrong length.
-        # @received_data = nil
+
         call_delegator_with_response
       end
 
       def connection(connection, didReceiveAuthenticationChallenge:challenge)
-        # p "HTTP auth required" if SETTINGS[:debug]
+
         if (challenge.previousFailureCount == 0)
           # by default we are keeping the credential for the entire session
           # Eventually, it would be good to let the user pick one of the 3 possible credential persistence options:
@@ -240,6 +238,11 @@ module BubbleWrap
         if @delegator.respond_to?(:call)
           @delegator.call( @response, self )
         end
+      end
+
+      # This is a temporary method used for mocking.
+      def create_connection(request)
+        NSURLConnection.connectionWithRequest(request, delegate:self)
       end
 
     end
