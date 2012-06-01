@@ -169,7 +169,7 @@ module BubbleWrap
 
         # NSHTTPCookieStorage.sharedHTTPCookieStorage
 
-        @connection = create_connection(request)
+        @connection = create_connection(request, self)
         @request.instance_variable_set("@done_loading", false)
         def @request.done_loading; @done_loading; end
         def @request.done_loading!; @done_loading = true; end
@@ -193,7 +193,7 @@ module BubbleWrap
         # new_request.setValue(@credentials.inspect, forHTTPHeaderField:'Authorization') # disabled while we figure this one out
         new_request.setAllHTTPHeaderFields(@headers) if @headers
         @connection.cancel
-        @connection = create_connection(new_request)
+        @connection = create_connection(new_request, self)
         new_request
       end
 
@@ -241,10 +241,9 @@ module BubbleWrap
       end
 
       # This is a temporary method used for mocking.
-      def create_connection(request)
-        NSURLConnection.connectionWithRequest(request, delegate:self)
+      def create_connection(request, delegate)
+        NSURLConnection.connectionWithRequest(request, delegate:delegate)
       end
-
     end
   end
 end

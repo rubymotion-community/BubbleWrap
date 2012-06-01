@@ -225,7 +225,7 @@ describe "HTTP::Query" do
   end
 
   class BubbleWrap::HTTP::Query
-    def create_connection(request); FakeURLConnection.new(request, self); end      
+    def create_connection(request, delegate); FakeURLConnection.new(request, delegate); end      
   end
 
   class FakeURLConnection < NSURLConnection
@@ -233,13 +233,12 @@ describe "HTTP::Query" do
     def initialize(request, delegate)
       @request = request
       @delegate = delegate
-      NSURLConnection.connectionWithRequest(request, delegate:delegate)
+      self.class.connectionWithRequest(request, delegate:delegate)
     end
   end
 
   class FakeURLResponse
     attr_reader :statusCode, :allHeaderFields, :expectedContentLength
-
     def initialize(status_code, headers, length)
       @statusCode = status_code
       @allHeaderFields = headers
