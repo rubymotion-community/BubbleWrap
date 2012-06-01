@@ -183,6 +183,23 @@ footer {
   bottom:50px;
 }
 
+footer ul {
+  display: block;
+  padding: 0;
+}
+
+footer li {
+  list-style-type: none;
+}
+
+footer img {
+  float: left;
+  border: 1px solid #707070;
+  vertical-align: top;
+  padding: 0;
+  margin: 2px;
+}
+
 @media print, screen and (max-width: 960px) {
   
   div.wrapper {
