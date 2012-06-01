@@ -31,7 +31,18 @@ end
 describe "HTTP::Query" do
 
   before do
-    @query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, { action: lambda{|fa, ke|}})
+    @credentials = { credit_card: 23423948234 }
+    @payload = { 
+      user: { name: 'marin', surname: 'usalj' }, 
+      twitter: '@mneorr',
+      website: 'mneorr.com',
+      values: [1, 2, 3],
+      credentials: @credentials
+    }
+    @action = lambda{|fa, ke|}
+    @options = { action: @action, payload: @payload, credentials: @credentials }
+    
+    @query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, @options )
   end
 
   it "has appropriate attributes" do
@@ -51,6 +62,37 @@ describe "HTTP::Query" do
 
   describe "When initialized" do
 
+    it "should upcase the HTTP method" do
+      @query.method.should.equal "GET"
+    end
+
+    it "should set the deleted delegator from options" do
+      @query.instance_variable_get(:@delegator).should.equal @action
+      @options.should.not.has_key? :action
+    end
+
+    it "should set self as the delegator if action not passed in" do
+      new_query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, {})
+      new_query.instance_variable_get(:@delegator).should.equal new_query
+    end
+
+    it "should merge :username and :password in loaded credentials" do
+      @query.credentials.should.equal @credentials.merge({:username => '', :password => ''})
+
+      new_credentials = {:username => 'user', :password => 'pass'}
+      options = { credentials: new_credentials }
+      new_query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get,  options)
+      
+      new_query.credentials.should.equal new_credentials
+      options.should.be.empty
+    end
+
+    it "should set payload from options{} to @payload" do
+      payload = "user[name]=marin&user[surname]=usalj&twitter=@mneorr&website=mneorr.com&values=[1, 2, 3]&credentials[credit_card]=23423948234"
+      @query.instance_variable_get(:@payload).should.equal payload
+      @options.should.not.has_key? :payload
+    end
+
     it "should set default timeout to 30s or the one from hash" do
       @query.instance_variable_get(:@timeout).should == 30
 
@@ -59,23 +101,22 @@ describe "HTTP::Query" do
     end
 
     it "should create params with nested hashes with prefix[key]=value" do
-      payload = { 
-        user: { name: 'marin', surname: 'usalj' }, 
-        twitter: '@mneorr',
-        website: 'mneorr.com',
-        values: [1, 2, 3]
-      }
       expected_params = [
         'user[name]=marin', 
         'user[surname]=usalj', 
         'twitter=@mneorr',
         'website=mneorr.com',
-        'values=[1, 2, 3]'
+        'values=[1, 2, 3]',
+        'credentials[credit_card]=23423948234'
       ]
-      @query.generate_get_params(payload).should.equal expected_params
+      @query.generate_get_params(@payload).should.equal expected_params
     end
 
-    it "should assign status_code, headers and response_size on didReceiveResponse:" do
+  end
+
+  describe "when didReceiveResponse:" do
+
+    it "should assign status_code, headers and response_size" do
       headers = { foo: 'bar' }
       status_code = 234
       length = 123.53
