@@ -50,8 +50,7 @@ describe "HTTP::Query" do
                   cache_policy: @cache_policy,
                   leftover_option: @leftover_option
     }
-    
-    @query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, @options )
+    @query = BubbleWrap::HTTP::Query.new( 'http://localhost' , :get, @options )
   end
 
   it "has appropriate attributes" do
@@ -131,9 +130,15 @@ describe "HTTP::Query" do
       @query.options.values[0].should.equal @leftover_option
     end
 
-    # it "should create a new response" do
-      
-    # end
+    it "should create a new response before instantiating a new request" do
+      @query.response.should.not.equal nil
+    end
+
+    it "should call initiate_request with the URL passed in" do
+      processed_url = "http://localhost?user%5Bname%5D=marin&user%5Bsurname%5D=usalj&twitter=@mneorr&website=mneorr.com&values=%5B1,%202,%203%5D&credentials%5Bcredit_card%5D=23423948234"
+      @query.instance_variable_get(:@url).description.should.equal processed_url
+    end
+
 
   end
 

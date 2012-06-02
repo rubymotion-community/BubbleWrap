@@ -154,7 +154,7 @@ module BubbleWrap
         end
         
         p "BubbleWrap::HTTP building a NSRequest for #{url_string}" if SETTINGS[:debug]
-        @url = NSURL.URLWithString(url_string)
+        @url = NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
         @request = NSMutableURLRequest.requestWithURL(@url,
                                                       cachePolicy:@cachePolicy,
                                                       timeoutInterval:@timeout)
