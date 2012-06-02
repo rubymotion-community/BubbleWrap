@@ -3,6 +3,10 @@ $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project'
 require File.expand_path '../lib/bubble-wrap', __FILE__
 
+task :rspec do
+  sh "rspec lib_spec/"
+end
+
 Motion::Project::App.setup do |app|
   app.name = 'testSuite'
   app.identifier = 'io.bubblewrap.testSuite'

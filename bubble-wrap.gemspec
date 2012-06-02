@@ -13,4 +13,6 @@ Gem::Specification.new do |gem|
   gem.name          = "bubble-wrap"
   gem.require_paths = ["lib"]
   gem.version       = BubbleWrap::VERSION
+
+  gem.add_development_dependency 'rspec'
 end
