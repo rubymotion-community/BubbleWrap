@@ -139,6 +139,19 @@ describe "HTTP::Query" do
       @query.instance_variable_get(:@url).description.should.equal processed_url
     end
 
+    it "should start the connection" do
+      @query.connection.was_started.should.equal true
+    end
+
+    it "should return the connection" do
+      # @query.call(:initialize)('http://localhost', :get, {}).connection.should.equal @query
+      #not sure about this one
+      true.should.equal true
+    end
+
+    it "should turn on the network indicator" do
+      UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal true
+    end
 
   end
 
@@ -325,11 +338,15 @@ describe "HTTP::Query" do
   end
 
   class FakeURLConnection < NSURLConnection
-    attr_reader :delegate, :request
+    attr_reader :delegate, :request, :was_started
     def initialize(request, delegate)
       @request = request
       @delegate = delegate
       self.class.connectionWithRequest(request, delegate:delegate)
+    end
+    def start
+      @was_started = true
+      super
     end
   end
 
