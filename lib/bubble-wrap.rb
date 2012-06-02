@@ -11,7 +11,7 @@ module Motion
       # dependencies.
       def files_dependencies(deps_hash)
         res_path = lambda do |x|
-          path = /^\.|\/Users\//.match(x) ? x : File.join('.', x)
+          path = /^\.|\/Users\/|\/Library\//.match(x) ? x : File.join('.', x)
           unless @files.include?(path)
             App.fail "Can't resolve dependency `#{x}' because #{path} is not in #{@files.inspect}"
           end
