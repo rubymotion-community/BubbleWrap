@@ -28,17 +28,3 @@ end
   file('app/bubble-wrap/pollute.rb').depends_on 'app/bubble-wrap/ns_index_path.rb'
   file('app/bubble-wrap/pollute.rb').depends_on 'app/bubble-wrap/ui_control.rb'
 end
-
-# Motion::Project::App.setup do |app|
-#   wrapper_files = []
-#   app_location = File.expand_path('../app/**/*.rb', __FILE__)
-#   puts app_location
-#   exit
-#   Dir.glob(File.join(File.dirname(__FILE__), 'bubble-wrap/**/*.rb')).each do |file|
-#     app.files << file
-#     wrapper_files << file
-#   end
-#   pollution_file = File.expand_path(File.join(File.dirname(__FILE__), 'pollute.rb'))
-#   app.files.unshift pollution_file
-#   app.files_dependencies pollution_file => wrapper_files
-# end
