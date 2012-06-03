@@ -1,6 +1,6 @@
 ## 0.3.0
 
-* Major refactoring preparing for 1.0: https://github.com/mattetti/BubbleWrap/compare/v0.2.1…v0.3.0
+* Major refactoring preparing for 1.0: [List of commits](https://github.com/mattetti/BubbleWrap/compare/v0.2.1...v0.3.0)
 
 ## 0.2.1
 
