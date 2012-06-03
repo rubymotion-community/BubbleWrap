@@ -36,6 +36,18 @@ module BubbleWrap
       alert
     end
 
+    # Executes a block after a certain delay
+    # Usage example:
+    #   App.run_after(0.5) {  p "It's #{Time.now}"   }
+    def run_after(delay, user_info=nil, &block)
+      NSTimer.scheduledTimerWithTimeInterval( delay,
+                                              target: block,
+                                              selector: "call:",
+                                              userInfo: user_info,
+                                              repeats: false)
+    end
+
+
     @states = {}
 
     def states
