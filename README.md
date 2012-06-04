@@ -96,6 +96,10 @@ A module with useful methods related to the running application
 # "testSuite"
 > App.identifier
 # "io.bubblewrap.testSuite"
+> App.alert("BubbleWrap is awesome!")
+# creates and shows an alert message.
+> App.run_after(0.5) {  p "It's #{Time.now}"   }
+# Runs the block after 0.5 seconds.
 ```
 
 ## NSUserDefaults
