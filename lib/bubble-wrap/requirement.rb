@@ -74,7 +74,9 @@ module BubbleWrap
       end
 
       def frameworks
-        paths.values.map(&:frameworks).flatten.compact.sort.uniq
+        frameworks = ['UIKit', 'Foundation', 'CoreGraphics'] +
+          paths.values.map(&:frameworks)
+        frameworks.flatten.compact.sort.uniq
       end
 
       def bw_file

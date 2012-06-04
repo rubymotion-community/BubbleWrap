@@ -10,8 +10,6 @@ end
 Motion::Project::App.setup do |app|
   app.name = 'testSuite'
   app.identifier = 'io.bubblewrap.testSuite'
-
-  app.files = []
   
   app.development do
     app.files << './lib/tests/test_suite_delegate.rb'

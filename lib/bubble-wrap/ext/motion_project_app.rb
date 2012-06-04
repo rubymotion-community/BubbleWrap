@@ -8,10 +8,10 @@ module BubbleWrap
             bw_config = proc do |app|
               app.files = ::BubbleWrap::Requirement.files
               app.files_dependencies ::BubbleWrap::Requirement.files_dependencies
-              app.frameworks += ::BubbleWrap::Requirement.frameworks
+              app.frameworks = ::BubbleWrap::Requirement.frameworks
+              block.call(app)
             end
             configs.each_value &bw_config
-            configs.each_value &block
             config.validate
           end
           alias :setup_without_bubblewrap :setup
