@@ -61,7 +61,7 @@ describe BubbleWrap::String do
 
     describe '.underscore' do
       it "doesn't change the value" do
-        'snake_case'.underscore.should == @test_string
+        'snake_case'.underscore.should == 'snake_case'
       end
     end
   end
