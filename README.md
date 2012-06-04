@@ -12,10 +12,15 @@ gem install bubble-wrap
 
 ## Setup
 
-1. Edit the Rakefile of your RubyMotion project and add the following require line.
+1. Edit the `Rakefile` of your RubyMotion project and add the following require line.
 ```ruby
 require 'bubble-wrap'
 ```
+
+BubbleWrap is split into multiple submodules so that you can easily choose which parts
+are included at compile-time.  You enable them by adding additional requires under the
+line above in your `Rakefile`.
+
 Note: **DON'T** use `app.files =` in your Rakefile to set up your files once you've required BubbleWrap.
 Make sure to append onto the array or use `+=`.
 
@@ -37,6 +42,11 @@ use the versioned gem.
 
 `BubbleWrap::HTTP` wraps `NSURLRequest`, `NSURLConnection` and friends to provide Ruby developers with a more familiar and easier to use API.
 The API uses async calls and blocks to stay as simple as possible.
+
+To enable it add the following require line to your `Rakefile`:
+```ruby
+require 'bubble-wrap/http'
+```
 
 Usage example:
 
