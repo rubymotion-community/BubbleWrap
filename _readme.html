@@ -1,6 +1,8 @@
 <h1>BubbleWrap for RubyMotion</h1>
 
-<p>A collection of helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.</p>
+<p>A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.</p>
+
+<p><a href="http://bubblewrap.io">BubbleWrap website</a></p>
 
 <h2>Installation</h2>
 
@@ -28,7 +30,8 @@ Make sure to append onto the array or use <code>+=</code>.</p></li>
 end
 </code></pre>
 
-<p>For a more complete list of helper/wrapper descriptions and more details, see the <a href="https://github.com/mattetti/BubbleWrap/wiki">wiki</a>.</p>
+<p>Note: You can also vendor this repository but the recommended way is to<br>
+use the versioned gem.</p>
 
 <h2>HTTP</h2>
 
@@ -64,6 +67,12 @@ end
 
 <p><code>BubbleWrap::JSON</code> wraps <code>NSJSONSerialization</code> available in iOS5 and offers the same API as Ruby&#39;s JSON std lib.</p>
 
+<pre lang="ruby"><code>BW::JSON.generate({&#39;foo =&gt; 1, &#39;bar&#39; =&gt; [1,2,3], &#39;baz =&gt; &#39;awesome&#39;})
+=&gt; &quot;{\&quot;foo\&quot;:1,\&quot;bar\&quot;:[1,2,3],\&quot;baz\&quot;:\&quot;awesome\&quot;}&quot;
+BW::JSON.parse &quot;{\&quot;foo\&quot;:1,\&quot;bar\&quot;:[1,2,3],\&quot;baz\&quot;:\&quot;awesome\&quot;}&quot;
+=&gt; {&quot;foo&quot;=&gt;1, &quot;bar&quot;=&gt;[1, 2, 3], &quot;baz&quot;=&gt;&quot;awesome&quot;}
+</code></pre>
+
 <h2>Device</h2>
 
 <p>A collection of useful methods about the current device:</p>
@@ -96,11 +105,16 @@ end
 # creates and shows an alert message.
 &gt; App.run_after(0.5) {  p &quot;It&#39;s #{Time.now}&quot;   }
 # Runs the block after 0.5 seconds.
+&gt; App::Persistence[&#39;channels&#39;] # application specific persistence storage
+# [&#39;NBC&#39;, &#39;ABC&#39;, &#39;Fox&#39;, &#39;CBS&#39;, &#39;PBS&#39;]
+&gt; App::Persistence[&#39;channels&#39;] = [&#39;TF1&#39;, &#39;France 2&#39;, &#39;France 3&#39;]
+# [&#39;TF1&#39;, &#39;France 2&#39;, &#39;France 3&#39;]
 </code></pre>
 
 <h2>NSUserDefaults</h2>
 
-<p>Helper methods added to the class repsonsible for user preferences.</p>
+<p>Helper methods added to the class repsonsible for user preferences used<br>
+by the <code>App::Persistence</code> module shown above.</p>
 
 <h2>NSIndexPath</h2>
 
@@ -154,3 +168,8 @@ def reload
   notification_center.post ReloadNotification
 end
 </code></pre>
+
+<p>Do you have a suggestion for a specific wrapper? Feel free to open an<br>
+issue/ticket and tell us about what you are after. If you have a<br>
+wrapper/helper you are using and are thinking that others might enjoy,<br>
+please send a pull request (with tests if possible).</p>
