@@ -5,12 +5,13 @@ module BubbleWrap
     extend PathManipulation
     include PathManipulation
 
-    attr_accessor :file, :root, :file_dependencies
+    attr_accessor :file, :root, :file_dependencies, :frameworks
 
     def initialize(file,root)
       self.file = file
       self.root = root
       self.file_dependencies = []
+      self.frameworks = []
     end
 
     def relative
@@ -26,6 +27,10 @@ module BubbleWrap
           self.class.file(f)
         end
       end.compact
+    end
+
+    def uses_framework(framework_name)
+      self.frameworks << framework_name
     end
 
     def dependencies
@@ -62,10 +67,14 @@ module BubbleWrap
 
       def files_dependencies
         deps = {}
-        paths.values.each do |file|
+        paths.each_value do |file|
           deps.merge! file.dependencies
         end
         deps
+      end
+
+      def frameworks
+        paths.values.map(&:frameworks).flatten.compact.sort.uniq
       end
 
       def bw_file

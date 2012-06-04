@@ -8,6 +8,7 @@ module BubbleWrap
             bw_config = proc do |app|
               app.files = ::BubbleWrap::Requirement.files
               app.files_dependencies ::BubbleWrap::Requirement.files_dependencies
+              app.frameworks += ::BubbleWrap::Requirement.frameworks
             end
             configs.each_value &bw_config
             configs.each_value &block
