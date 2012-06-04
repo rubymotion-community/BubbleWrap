@@ -143,14 +143,29 @@ describe "HTTP::Query" do
       @query.connection.was_started.should.equal true
     end
 
-    it "should return the connection" do
-      # @query.call(:initialize)('http://localhost', :get, {}).connection.should.equal @query
-      #not sure about this one
-      true.should.equal true
-    end
-
     it "should turn on the network indicator" do
       UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal true
+    end    
+
+  end
+
+  describe "initiate request" do
+    
+    before do
+      @url_string = 'http://initiated-request.dev'
+      
+      @get_query = BubbleWrap::HTTP::Query.new( 'nil' , :get,  { payload: {name: 'apple', model: 'macbook'} } )
+      @get_query.initiate_request @url_string
+      
+      @post_query = BubbleWrap::HTTP::Query.new( 'nil' , :post,  { payload: {name: 'apple', model: 'macbook'}} )
+      @post_query.initiate_request @url_string
+    end
+
+    it "should check if @payload is a hash before generating params" do
+      @get_query.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
+
+      query_string_payload = BubbleWrap::HTTP::Query.new( 'nil' , :get,  { payload: "name=apple&model=macbook"} )
+      query_string_payload.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
     end
 
   end
@@ -358,6 +373,5 @@ describe "HTTP::Query" do
       @expectedContentLength = length
     end
   end
-
 
 end
