@@ -1,6 +1,8 @@
 # BubbleWrap for RubyMotion
 
-A collection of helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
+A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
+
+[BubbleWrap website](http://bubblewrap.io)
 
 ## Installation
 
@@ -28,7 +30,8 @@ class AppDelegate
 end
 ```
 
-For a more complete list of helper/wrapper descriptions and more details, see the [wiki](https://github.com/mattetti/BubbleWrap/wiki).
+Note: You can also vendor this repository but the recommended way is to
+use the versioned gem.
 
 ## HTTP
 
@@ -67,6 +70,14 @@ end
 
 `BubbleWrap::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
 
+```ruby
+BW::JSON.generate({'foo => 1, 'bar' => [1,2,3], 'baz => 'awesome'})
+=> "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
+BW::JSON.parse "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
+=> {"foo"=>1, "bar"=>[1, 2, 3], "baz"=>"awesome"}
+```
+
+
 ## Device
 
 A collection of useful methods about the current device:
@@ -100,11 +111,18 @@ A module with useful methods related to the running application
 # creates and shows an alert message.
 > App.run_after(0.5) {  p "It's #{Time.now}"   }
 # Runs the block after 0.5 seconds.
+> App::Persistence['channels'] # application specific persistence storage
+# ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
+> App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
+# ['TF1', 'France 2', 'France 3']
 ```
+
+
 
 ## NSUserDefaults
 
-Helper methods added to the class repsonsible for user preferences.
+Helper methods added to the class repsonsible for user preferences used
+by the `App::Persistence` module shown above.
 
 ## NSIndexPath
 
@@ -161,3 +179,8 @@ def reload
   notification_center.post ReloadNotification
 end
 ```
+
+Do you have a suggestion for a specific wrapper? Feel free to open an
+issue/ticket and tell us about what you are after. If you have a
+wrapper/helper you are using and are thinking that others might enjoy,
+please send a pull request (with tests if possible).
