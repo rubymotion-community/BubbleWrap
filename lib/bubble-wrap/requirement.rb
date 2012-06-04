@@ -43,7 +43,7 @@ module BubbleWrap
 
       def scan(caller_location, file_spec, block=nil)
         root = convert_caller_to_root_path caller_location
-        self.paths = {}
+        self.paths ||= {}
         Dir.glob(File.expand_path(file_spec, root)).each do |file|
           p = new(file,root)
           p.depends_on bw_file
