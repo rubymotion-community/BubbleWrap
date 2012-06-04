@@ -80,7 +80,7 @@ module BubbleWrap
       end
 
       def bw_file
-        @bw_file ||= new(File.join(::BubbleWrap.root,'app/bubble-wrap.rb'), ::BubbleWrap.root)
+        @bw_file ||= new(File.join(::BubbleWrap.root,'app/core.rb'), ::BubbleWrap.root)
       end
 
     end

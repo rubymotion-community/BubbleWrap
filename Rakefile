@@ -2,6 +2,7 @@ require "bundler/gem_tasks"
 $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project'
 require File.expand_path '../lib/bubble-wrap', __FILE__
+require File.expand_path '../lib/bubble-wrap/http', __FILE__
 
 task :rspec do
   sh "rspec lib_spec/"

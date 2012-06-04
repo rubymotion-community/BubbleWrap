@@ -20,4 +20,6 @@ module BubbleWrap
 
 end
 
+BW = BubbleWrap
+
 require "bubble-wrap/core"

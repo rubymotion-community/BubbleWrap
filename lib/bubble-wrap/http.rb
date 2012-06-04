@@ -1,1 +1,1 @@
-BW.require('app/http.rb')
+BubbleWrap.require('app/http.rb')
