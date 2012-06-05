@@ -6,7 +6,7 @@ module BubbleWrap
         base.instance_eval do
           def setup_with_bubblewrap(&block)
             bw_config = proc do |app|
-              app.files = ::BubbleWrap::Requirement.files + Dir.glob('app/**/*.rb')
+              app.files = ::BubbleWrap::Requirement.files + Dir.glob('./app/**/*.rb')
               app.files_dependencies ::BubbleWrap::Requirement.files_dependencies
               app.frameworks = ::BubbleWrap::Requirement.frameworks
               block.call(app)

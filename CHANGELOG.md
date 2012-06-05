@@ -1,3 +1,8 @@
+## 0.4.0
+
+* Refactored the code and test suite to be more modular and to handle
+  dependencies. One can now require only a subset of BW such as `require 'bubble-wrap/core'` or 'bubble-wrap/http'
+
 ## 0.3.1
 
 * Added App.run_after(delay){ }
