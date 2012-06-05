@@ -121,11 +121,11 @@ describe "HTTP" do
       end
 
       it "should delete :cache_policy or set NSURLRequestUseProtocolCachePolicy" do
-        @query.instance_variable_get(:@cachePolicy).should.equal @cache_policy
+        @query.instance_variable_get(:@cache_policy).should.equal @cache_policy
         @options.should.not.has_key? :cache_policy
 
         new_query = BubbleWrap::HTTP::Query.new( 'http://fakehost.local/', :get, {})
-        new_query.instance_variable_get(:@cachePolicy).should.equal NSURLRequestUseProtocolCachePolicy
+        new_query.instance_variable_get(:@cache_policy).should.equal NSURLRequestUseProtocolCachePolicy
       end
 
       it "should set the rest of options{} to ivar @options" do
@@ -209,6 +209,11 @@ describe "HTTP" do
         @query.request.done_loading.should.equal false
         @query.request.done_loading!
         @query.request.done_loading.should.equal true
+      end
+
+      it "should pass the right arguments when creating new request" do
+        @query.request.cachePolicy.should.equal @query.instance_variable_get(:@cache_policy)
+        @query.request.timeoutInterval.should.equal @query.instance_variable_get(:@timeout)
       end
 
     end
