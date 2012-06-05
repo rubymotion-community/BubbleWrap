@@ -13,6 +13,7 @@ gem install bubble-wrap
 ## Setup
 
 1. Edit the `Rakefile` of your RubyMotion project and add the following require line.
+
 ```ruby
 require 'bubble-wrap'
 ```
