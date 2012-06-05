@@ -174,6 +174,14 @@ describe "HTTP" do
         lambda{ nil_payload.initiate_request('fake') }.should.not.raise NoMethodError        
       end      
 
+      it "should set the payload in URL only for GET request" do
+        url = 'http://localhost/'
+        [:put, :delete, :head, :patch].each do |method|
+          query = BubbleWrap::HTTP::Query.new( url , method, { payload: @payload } )
+          query.instance_variable_get(:@url).description.should.equal url
+        end  
+      end
+
       it "sets the HTTPBody DATA to @request for all methods except GET" do
       
         [:put, :delete, :head, :patch].each do |method|
