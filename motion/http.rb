@@ -113,11 +113,7 @@ module BubbleWrap
         @credentials = options.delete(:credentials) || {}
         @credentials = {:username => '', :password => ''}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
-        headers = options.delete(:headers)
-        if headers
-          @headers = {}
-          headers.each{|k,v| @headers[k] = v.gsub("\n", '\\n') } # escaping LFs
-        end
+        @headers = escape_line_feeds(options.delete :headers)
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @options = options
         @response = HTTP::Response.new
@@ -229,6 +225,14 @@ module BubbleWrap
           challenge.sender.cancelAuthenticationChallenge(challenge)
           p 'Auth Failed :('
         end
+      end
+
+      def escape_line_feeds(hash)
+        return nil if hash.nil?
+        escaped_hash = {}
+        
+        hash.each{|k,v| escaped_hash[k] = v.gsub("\n", '\\n') }
+        escaped_hash
       end
 
       def patch_nsurl_request
