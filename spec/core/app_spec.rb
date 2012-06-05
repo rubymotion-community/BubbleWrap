@@ -13,13 +13,13 @@ describe BubbleWrap::App do
 
   describe '.notification_center' do
     it 'should be a NSNotificationCenter' do
-      BW::App.notification_center.class.should == NSNotificationCenter
+      BW::App.notification_center.should == NSNotificationCenter.defaultCenter
     end
   end
 
   describe '.user_cache' do
     it 'should be a NSUserDefaults' do
-      BW::App.user_cache.class.should == NSUserDefaults
+      BW::App.user_cache.should == NSUserDefaults.standardUserDefaults
     end
   end
 
@@ -55,6 +55,9 @@ describe BubbleWrap::App do
     it 'returns a hash' do
       BW::App.states.class.should == Hash
     end
+    it "returns the real instance variable" do
+      BW::App.states.should == BW::App.instance_variable_get(:@states)
+    end
   end
 
   describe '.name' do
@@ -70,14 +73,14 @@ describe BubbleWrap::App do
   end
 
   describe '.frame' do
-    it 'returns a CGRect' do
-      BW::App.frame.class.should == CGRect
+    it 'returns Application Frame' do
+      BW::App.frame.should == UIScreen.mainScreen.applicationFrame
     end
   end
 
   describe '.delegate' do
     it 'returns a TestSuiteDelegate' do
-      BW::App.delegate.class.should == TestSuiteDelegate
+      BW::App.delegate.should == UIApplication.sharedApplication.delegate
     end
   end
 

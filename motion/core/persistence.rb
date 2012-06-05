@@ -8,14 +8,16 @@ module BubbleWrap
     end
 
     def []=(key, value)
-      defaults = NSUserDefaults.standardUserDefaults
       defaults.setObject(value, forKey: storage_key(key.to_s))
       defaults.synchronize
     end
 
     def [](key)
-      defaults = NSUserDefaults.standardUserDefaults
       defaults.objectForKey storage_key(key.to_s)
+    end
+
+    def defaults
+      NSUserDefaults.standardUserDefaults
     end
 
     def storage_key(key)
