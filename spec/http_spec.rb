@@ -155,14 +155,11 @@ describe "HTTP" do
     describe "initiate request" do
 
       before do
-        @url_string = 'http://initiated-request.dev'
-        @payload = {name: 'apple', model: 'macbook'}
-        
-        @get_query = BubbleWrap::HTTP::Query.new( 'nil' , :get,  { payload: @payload } )
+        @url_string = 'http://initiated-request.dev/to convert'
+        @payload = { name: 'apple', model: 'macbook'}
+        @headers = { fake: 'headers' }
+        @get_query = BubbleWrap::HTTP::Query.new( @url_string , :get,  { headers: @headers, payload: @payload } )
         @get_query.initiate_request @url_string
-
-        # @post_query = BubbleWrap::HTTP::Query.new( 'nil' , :post,  { payload: @payload } )
-        # @post_query.initiate_request @url_string
       end
 
       it "should check if @payload is a hash before generating params" do
@@ -177,15 +174,43 @@ describe "HTTP" do
         lambda{ nil_payload.initiate_request('fake') }.should.not.raise NoMethodError        
       end      
 
-      it "sets the HTTP body to @request for all methods except GET" do
+      it "sets the HTTPBody DATA to @request for all methods except GET" do
+      
         [:put, :delete, :head, :patch].each do |method|
           query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: @payload } )
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
 
-          real_payload.should.be.equal 'name=apple&model=macbook'
+          real_payload.should.equal 'name=apple&model=macbook'
         end
+
       end
-      
+
+      it "should add UTF8 escaping on the URL string" do
+        @get_query.instance_variable_get(:@url).description.should.equal 'http://initiated-request.dev/to%20convert?name=apple&model=macbook'
+      end
+
+      it "should create a new request with HTTP method & header fields" do
+        @query.request.HTTPMethod.should.equal @query.method
+        @get_query.request.allHTTPHeaderFields.should.equal @headers
+      end
+
+      it "creates a new NSURLConnection and sets itself as a delegate" do
+        @query.connection.delegate.should.equal @query
+      end
+
+      it "should pass the new request in the new connection" do
+        @query.connection.request.URL.description.should.equal @query.request.URL.description
+      end
+
+      it "should patch the NSURLRequest with done_loading and done_loading!" do
+        @query.request.done_loading.should.equal @query.request.instance_variable_get(:@done_loading)
+        
+        @query.request.instance_variable_set(:@done_loading, false)
+        @query.request.done_loading.should.equal false
+        @query.request.done_loading!
+        @query.request.done_loading.should.equal true
+      end
+
     end
 
     describe "Generating GET params" do
