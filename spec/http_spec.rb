@@ -156,12 +156,13 @@ describe "HTTP" do
 
       before do
         @url_string = 'http://initiated-request.dev'
-
-        @get_query = BubbleWrap::HTTP::Query.new( 'nil' , :get,  { payload: {name: 'apple', model: 'macbook'} } )
+        @payload = {name: 'apple', model: 'macbook'}
+        
+        @get_query = BubbleWrap::HTTP::Query.new( 'nil' , :get,  { payload: @payload } )
         @get_query.initiate_request @url_string
 
-        @post_query = BubbleWrap::HTTP::Query.new( 'nil' , :post,  { payload: {name: 'apple', model: 'macbook'}} )
-        @post_query.initiate_request @url_string
+        # @post_query = BubbleWrap::HTTP::Query.new( 'nil' , :post,  { payload: @payload } )
+        # @post_query.initiate_request @url_string
       end
 
       it "should check if @payload is a hash before generating params" do
@@ -171,6 +172,20 @@ describe "HTTP" do
         query_string_payload.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
       end
 
+      it "should check if payload is nil" do
+        nil_payload = BubbleWrap::HTTP::Query.new( 'nil' , :post, {} )
+        lambda{ nil_payload.initiate_request('fake') }.should.not.raise NoMethodError        
+      end      
+
+      it "sets the HTTP body to @request for all methods except GET" do
+        [:put, :delete, :head, :patch].each do |method|
+          query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: @payload } )
+          real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
+
+          real_payload.should.be.equal 'name=apple&model=macbook'
+        end
+      end
+      
     end
 
     describe "Generating GET params" do
