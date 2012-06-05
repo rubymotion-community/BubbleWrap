@@ -3,8 +3,8 @@ unless defined?(Motion::Project::Config)
 end
 
 require "bubble-wrap/version" unless defined?(BubbleWrap::VERSION)
-require "bubble-wrap/ext"
-require "bubble-wrap/requirement"
+require File.expand_path('../bubble-wrap/ext', __FILE__)
+require File.expand_path('../bubble-wrap/requirement', __FILE__)
 
 module BubbleWrap
 
@@ -22,4 +22,4 @@ end
 
 BW = BubbleWrap
 
-require "bubble-wrap/core"
+require File.expand_path('../bubble-wrap/core', __FILE__)
