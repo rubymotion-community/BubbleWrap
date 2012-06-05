@@ -52,7 +52,7 @@ module BubbleWrap
       # The same as `.width` and `.height` but
       # compensating for screen rotation (which
       # can do your head in).
-      def widthForOrientation(o=orientation)
+      def width_for_orientation(o=orientation)
         return height if (o == :landscape_left) || (o == :landscape_right) 
         width
       end
@@ -60,7 +60,7 @@ module BubbleWrap
       # The same as `.width` and `.height` but
       # compensating for screen rotation (which
       # can do your head in).
-      def heightForOrientation(o=orientation)
+      def height_for_orientation(o=orientation)
         return width if (o == :landscape_left) || (o == :landscape_right) 
         height
       end
