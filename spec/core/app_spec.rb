@@ -7,7 +7,7 @@ describe BubbleWrap::App do
 
   describe '.resources_path' do 
     it 'should end in "/testSuite.app"' do
-      BW::App.resources_path.should =~ /\/testSuite.app$/
+      BW::App.resources_path.should =~ /\/testSuite(_spec)?.app$/
     end
   end
 
