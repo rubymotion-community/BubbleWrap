@@ -226,7 +226,7 @@ Helper methods to give `UIButton` a Ruby-like interface. Ex:
 button.when(UIControlEventTouchUpInside) do
   self.view.backgroundColor = UIColor.redColor
 end
-
+```
 
 ### UIViewController
 
