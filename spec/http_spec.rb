@@ -43,6 +43,7 @@ describe "HTTP" do
         values: [1, 2, 3],
         credentials: @credentials
       }
+      @localhost_url = 'http://localhost'
       @action = lambda{|fa, ke|}
       @cache_policy = 24234
       @leftover_option = 'trololo'
@@ -54,7 +55,7 @@ describe "HTTP" do
         cache_policy: @cache_policy,
         leftover_option: @leftover_option
       }
-      @query = BubbleWrap::HTTP::Query.new( 'http://localhost' , :get, @options )
+      @query = BubbleWrap::HTTP::Query.new( @localhost_url , :get, @options )
     end
 
     it "has appropriate attributes" do
@@ -93,7 +94,7 @@ describe "HTTP" do
 
         new_credentials = {:username => 'user', :password => 'pass'}
         options = { credentials: new_credentials }
-        new_query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get,  options)
+        new_query = BubbleWrap::HTTP::Query.new( @localhost_url, :get,  options)
 
         new_query.credentials.should.equal new_credentials
         options.should.be.empty
@@ -109,7 +110,7 @@ describe "HTTP" do
         @query.instance_variable_get(:@timeout).should == 30
 
         options = {timeout: 10}
-        new_query = BubbleWrap::HTTP::Query.new( 'http://localhost/', :get, options)
+        new_query = BubbleWrap::HTTP::Query.new( @localhost_url, :get, options)
 
         new_query.instance_variable_get(:@timeout).should == 10
         options.should.be.empty
@@ -124,7 +125,7 @@ describe "HTTP" do
         @query.instance_variable_get(:@cache_policy).should.equal @cache_policy
         @options.should.not.has_key? :cache_policy
 
-        new_query = BubbleWrap::HTTP::Query.new( 'http://fakehost.local/', :get, {})
+        new_query = BubbleWrap::HTTP::Query.new( @localhost_url, :get, {})
         new_query.instance_variable_get(:@cache_policy).should.equal NSURLRequestUseProtocolCachePolicy
       end
 
@@ -175,10 +176,9 @@ describe "HTTP" do
       end      
 
       it "should set the payload in URL only for GET request" do
-        url = 'http://localhost/'
         [:put, :delete, :head, :patch].each do |method|
-          query = BubbleWrap::HTTP::Query.new( url , method, { payload: @payload } )
-          query.instance_variable_get(:@url).description.should.equal url
+          query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: @payload } )
+          query.instance_variable_get(:@url).description.should.equal @localhost_url
         end  
       end
 
@@ -314,7 +314,7 @@ describe "HTTP" do
         real_response = nil
         block = lambda{ |response, query| real_response = response }
 
-        query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, { :action => block })
+        query = BubbleWrap::HTTP::Query.new(@localhost_url, :get, { :action => block })
         query.instance_variable_set(:@response, expected_response)
 
         query.connection(nil, didFailWithError:@fake_error)
@@ -360,7 +360,7 @@ describe "HTTP" do
         real_response = nil
         block = lambda{ |response, query| real_response = response }
 
-        query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, { :action => block })
+        query = BubbleWrap::HTTP::Query.new(@localhost_url, :get, { :action => block })
         query.instance_variable_set(:@response, expected_response)
 
         query.connectionDidFinishLoading(nil)
