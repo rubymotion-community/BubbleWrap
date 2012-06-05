@@ -30,22 +30,6 @@ module BubbleWrap
       @simulator_state ||= !(UIDevice.currentDevice.model =~ /simulator/i).nil?
     end
 
-    # Verifies that the device running has a front facing camera.
-    # @return [TrueClass, FalseClass] true will be returned if the device has a front facing camera, false otherwise.
-    def front_camera?(picker=UIImagePickerController)
-      picker.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceFront)
-    end
-
-    # Verifies that the device running has a rear facing camera.
-    # @return [TrueClass, FalseClass] true will be returned if the device has a rear facing camera, false otherwise.
-    def rear_camera?(picker=UIImagePickerController)
-      picker.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceRear)
-    end
-
-    def simulator?
-      @simulator_state ||= !(UIDevice.currentDevice.model =~ /simulator/i).nil?
-    end
-
     # Shameless shorthand for accessing BubbleWrap::Screen
     def screen
       BubbleWrap::Device::Screen

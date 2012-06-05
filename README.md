@@ -18,9 +18,22 @@ gem install bubble-wrap
 require 'bubble-wrap'
 ```
 
-BubbleWrap is split into multiple submodules so that you can easily choose which parts
-are included at compile-time.  You enable them by adding additional requires under the
-line above in your `Rakefile`.
+BubbleWrap is split into multiple modules so that you can easily choose which parts
+are included at compile-time. 
+
+The above example requires all the wrappers/helpers. If you wish to only
+include the core modules use the following line of code instead:
+
+```ruby
+require 'bubble-wrap/core'
+```
+
+If you wish to only include the `HTTP` wrapper:
+
+```ruby
+require 'bubble-wrap/http'
+```
+
 
 Note: **DON'T** use `app.files =` in your Rakefile to set up your files once you've required BubbleWrap.
 Make sure to append onto the array or use `+=`.
@@ -38,6 +51,188 @@ end
 
 Note: You can also vendor this repository but the recommended way is to
 use the versioned gem.
+
+
+## Core
+
+### App
+
+A module with useful methods related to the running application
+
+```ruby
+> App.documents_path
+# "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/Documents"
+> App.resources_path
+# "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/testSuite_spec.app"
+> App.name
+# "testSuite"
+> App.identifier
+# "io.bubblewrap.testSuite"
+> App.alert("BubbleWrap is awesome!")
+# creates and shows an alert message.
+> App.run_after(0.5) {  p "It's #{Time.now}"   }
+# Runs the block after 0.5 seconds.
+> App::Persistence['channels'] # application specific persistence storage
+# ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
+> App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
+# ['TF1', 'France 2', 'France 3']
+```
+
+Other available methods:
+
+* `App.notification_center`
+* `App.user_cache`
+* `App.states`
+* `App.frame`
+* `App.delegate`
+* `App.current_locale`
+
+
+### Device
+
+A collection of useful methods about the current device:
+
+Examples:
+```ruby
+> Device.iphone?
+# true
+> Device.ipad?
+# false
+> Device.front_camera?
+# true
+> Device.rear_camera?
+# true
+> Device.orientation
+# :portrait
+> Device.simulator?
+# true
+> Device.retina?
+# false
+> Device.screen.width
+# 320
+> Device.screen.height
+# 480
+> Device.screen.widthForOrientation(:landscape_left)
+# 480
+> Device.screen.heightForOrientation(:landscape_left)
+# 320
+```
+
+### Gestures
+
+Extra methods on `UIView` for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:
+
+```ruby
+    view.whenTapped do
+      UIView.animateWithDuration(1,
+        animations:lambda {
+          # animate
+          # @view.transform = ...
+        })
+    end
+```
+
+There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
+
+
+
+### JSON
+
+`BubbleWrap::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
+
+```ruby
+BW::JSON.generate({'foo => 1, 'bar' => [1,2,3], 'baz => 'awesome'})
+=> "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
+BW::JSON.parse "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
+=> {"foo"=>1, "bar"=>[1, 2, 3], "baz"=>"awesome"}
+```
+
+### NSIndexPath
+
+Helper methods added to give `NSIndexPath` a bit more of a Ruby
+interface.
+
+
+### NSNotificationCenter
+
+Helper methods to give NSNotificationCenter a Ruby-like interface:
+
+```ruby
+def viewWillAppear(animated)
+  @foreground_observer = notification_center.observe UIApplicationWillEnterForegroundNotification do |notification|
+    loadAndRefresh
+  end
+  
+  @reload_observer notification_center.observe ReloadNotification do |notification|
+    loadAndRefresh
+  end
+end
+
+def viewWillDisappear(animated)
+  notification_center.unobserve @foreground_observer
+  notification_center.unobserve @reload_observer
+end
+
+def reload
+  notification_center.post ReloadNotification
+end
+```
+
+
+### NSUserDefaults
+
+Helper methods added to the class repsonsible for user preferences used
+by the `App::Persistence` module shown below.
+
+### Persistence
+
+Offers a way to persist application specific information using a very
+simple interface:
+
+``` ruby
+> App::Persistence['channels'] # application specific persistence storage
+# ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
+> App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
+# ['TF1', 'France 2', 'France 3']
+```
+
+### String
+
+The Ruby `String` class was extended to add `#camelize` and
+`#underscore` methods.
+
+```ruby
+> "matt_aimonetti".camelize
+=> "MattAimonetti"
+> "MattAimonetti".underscore
+=> "matt_aimonetti"
+```
+
+### Time
+
+The `Time` Ruby class was added a class level method to convert a
+iso8601 formatted string into a Time instance.
+
+```ruby
+> Time.iso8601("2012-05-31T19:41:33Z")
+=> 2012-05-31 21:41:33 +0200
+```
+
+### UIControl / UIButton
+
+Helper methods to give `UIButton` a Ruby-like interface. Ex:
+
+```ruby
+button.when(UIControlEventTouchUpInside) do
+  self.view.backgroundColor = UIColor.redColor
+end
+```
+
+### UIViewController
+
+A custom method was added to `UIViewController` to return the content
+frame of a view controller.
+
 
 ## HTTP
 
@@ -77,119 +272,7 @@ BubbleWrap::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
 end
 ```
 
-## JSON
 
-`BubbleWrap::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
-
-```ruby
-BW::JSON.generate({'foo => 1, 'bar' => [1,2,3], 'baz => 'awesome'})
-=> "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
-BW::JSON.parse "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
-=> {"foo"=>1, "bar"=>[1, 2, 3], "baz"=>"awesome"}
-```
-
-
-## Device
-
-A collection of useful methods about the current device:
-
-Examples:
-```ruby
-> Device.iphone?
-# true
-> Device.ipad?
-# false
-> Device.orientation
-# :portrait
-> Device.simulator?
-# true
-```
-
-## App
-
-A module with useful methods related to the running application
-
-```ruby
-> App.documents_path
-# "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/Documents"
-> App.resources_path
-# "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/testSuite_spec.app"
-> App.name
-# "testSuite"
-> App.identifier
-# "io.bubblewrap.testSuite"
-> App.alert("BubbleWrap is awesome!")
-# creates and shows an alert message.
-> App.run_after(0.5) {  p "It's #{Time.now}"   }
-# Runs the block after 0.5 seconds.
-> App::Persistence['channels'] # application specific persistence storage
-# ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
-> App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
-# ['TF1', 'France 2', 'France 3']
-```
-
-
-
-## NSUserDefaults
-
-Helper methods added to the class repsonsible for user preferences used
-by the `App::Persistence` module shown above.
-
-## NSIndexPath
-
-Helper methods added to give `NSIndexPath` a bit more of a Ruby
-interface.
-
-## Gestures
-
-Extra methods on `UIView` for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:
-
-```ruby
-    view.whenTapped do
-      UIView.animateWithDuration(1,
-        animations:lambda {
-          # animate
-          # @view.transform = ...
-        })
-    end
-```
-
-There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
-
-## UIButton
-
-Helper methods to give `UIButton` a Ruby-like interface. Ex:
-
-```ruby
-button.when(UIControlEventTouchUpInside) do
-  self.view.backgroundColor = UIColor.redColor
-end
-```
-
-## NSNotificationCenter
-
-Helper methods to give NSNotificationCenter a Ruby-like interface:
-
-```ruby
-def viewWillAppear(animated)
-  @foreground_observer = notification_center.observe UIApplicationWillEnterForegroundNotification do |notification|
-    loadAndRefresh
-  end
-  
-  @reload_observer notification_center.observe ReloadNotification do |notification|
-    loadAndRefresh
-  end
-end
-
-def viewWillDisappear(animated)
-  notification_center.unobserve @foreground_observer
-  notification_center.unobserve @reload_observer
-end
-
-def reload
-  notification_center.post ReloadNotification
-end
-```
 
 Do you have a suggestion for a specific wrapper? Feel free to open an
 issue/ticket and tell us about what you are after. If you have a
