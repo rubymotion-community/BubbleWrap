@@ -49,14 +49,13 @@ module BubbleWrap
 
     class << self
 
-      attr_accessor :paths, :bw_file
+      attr_accessor :paths
 
       def scan(caller_location, file_spec, &block)
         root = convert_caller_to_root_path caller_location
         self.paths ||= {}
         Dir.glob(File.expand_path(file_spec, root)).each do |file|
           p = new(file,root)
-          p.depends_on bw_file
           self.paths[p.relative] = p
         end
         self.class_eval(&block) if block
@@ -82,10 +81,6 @@ module BubbleWrap
         frameworks = ['UIKit', 'Foundation', 'CoreGraphics'] +
           paths.values.map(&:frameworks)
         frameworks.flatten.compact.sort.uniq
-      end
-
-      def bw_file
-        @bw_file ||= new(File.join(::BubbleWrap.root,'motion/core.rb'), ::BubbleWrap.root)
       end
 
     end
