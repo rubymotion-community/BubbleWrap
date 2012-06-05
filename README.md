@@ -7,14 +7,8 @@ A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and p
 
 ## Installation
 
-```
-gem install bubble-wrap
-```
-
-or in your `Gemfile`:
-
 ```ruby
-gem 'bubble-wrap', '~> 0.4.0'
+gem install bubble-wrap
 ```
 
 ## Setup
@@ -119,9 +113,9 @@ Examples:
 # 320
 > Device.screen.height
 # 480
-> Device.screen.widthForOrientation(:landscape_left)
+> Device.screen.width_for_orientation(:landscape_left)
 # 480
-> Device.screen.heightForOrientation(:landscape_left)
+> Device.screen.height_for_orientation(:landscape_left)
 # 320
 ```
 
