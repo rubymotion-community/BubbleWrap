@@ -1,6 +1,8 @@
 # BubbleWrap for RubyMotion
 
-A collection of helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
+A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
+
+[BubbleWrap website](http://bubblewrap.io)
 
 ## Installation
 
@@ -10,10 +12,15 @@ gem install bubble-wrap
 
 ## Setup
 
-1. Edit the Rakefile of your RubyMotion project and add the following require line.
+1. Edit the `Rakefile` of your RubyMotion project and add the following require line.
 ```ruby
 require 'bubble-wrap'
 ```
+
+BubbleWrap is split into multiple submodules so that you can easily choose which parts
+are included at compile-time.  You enable them by adding additional requires under the
+line above in your `Rakefile`.
+
 Note: **DON'T** use `app.files =` in your Rakefile to set up your files once you've required BubbleWrap.
 Make sure to append onto the array or use `+=`.
 
@@ -28,12 +35,18 @@ class AppDelegate
 end
 ```
 
-For a more complete list of helper/wrapper descriptions and more details, see the [wiki](https://github.com/mattetti/BubbleWrap/wiki).
+Note: You can also vendor this repository but the recommended way is to
+use the versioned gem.
 
 ## HTTP
 
 `BubbleWrap::HTTP` wraps `NSURLRequest`, `NSURLConnection` and friends to provide Ruby developers with a more familiar and easier to use API.
 The API uses async calls and blocks to stay as simple as possible.
+
+To enable it add the following require line to your `Rakefile`:
+```ruby
+require 'bubble-wrap/http'
+```
 
 Usage example:
 
@@ -66,6 +79,14 @@ end
 ## JSON
 
 `BubbleWrap::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
+
+```ruby
+BW::JSON.generate({'foo => 1, 'bar' => [1,2,3], 'baz => 'awesome'})
+=> "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
+BW::JSON.parse "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
+=> {"foo"=>1, "bar"=>[1, 2, 3], "baz"=>"awesome"}
+```
+
 
 ## Device
 
@@ -100,11 +121,18 @@ A module with useful methods related to the running application
 # creates and shows an alert message.
 > App.run_after(0.5) {  p "It's #{Time.now}"   }
 # Runs the block after 0.5 seconds.
+> App::Persistence['channels'] # application specific persistence storage
+# ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
+> App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
+# ['TF1', 'France 2', 'France 3']
 ```
+
+
 
 ## NSUserDefaults
 
-Helper methods added to the class repsonsible for user preferences.
+Helper methods added to the class repsonsible for user preferences used
+by the `App::Persistence` module shown above.
 
 ## NSIndexPath
 
@@ -161,3 +189,8 @@ def reload
   notification_center.post ReloadNotification
 end
 ```
+
+Do you have a suggestion for a specific wrapper? Feel free to open an
+issue/ticket and tell us about what you are after. If you have a
+wrapper/helper you are using and are thinking that others might enjoy,
+please send a pull request (with tests if possible).
