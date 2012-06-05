@@ -80,4 +80,19 @@ describe BubbleWrap::App do
       BW::App.delegate.class.should == TestSuiteDelegate
     end
   end
+
+  describe '.run_after' do
+    class DelayedRunAfterTest; attr_accessor :test_value end
+
+    it 'should run a block after the provided delay' do
+      @test_obj = DelayedRunAfterTest.new
+
+      App.run_after(0.1){ @test_obj.test_value = true }
+      wait_for_change(@test_obj, 'test_value') do
+        @test_obj.test_value.should == true
+      end
+    end
+
+  end
+
 end

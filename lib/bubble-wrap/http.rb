@@ -73,7 +73,7 @@ module BubbleWrap
       end
 
       def ok?
-        status_code == 200
+        status_code.to_s =~ /20\d/ ? true : false
       end
 
     end

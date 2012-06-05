@@ -1,6 +1,5 @@
 describe "HTTP" do
 
-end
 
 
 describe "HTTP::Response" do
@@ -13,10 +12,17 @@ describe "HTTP::Response" do
     @response.instance_variable_get(:@url).should == 'http://localhost'
   end
 
-  it "says OK only for status code 200" do
+
+  it "says OK status code 20x" do
     @response.ok?.should.equal true
-    BubbleWrap::HTTP::Response.new({status_code: 205}).ok?.should.not.equal true
+    (200..206).each do |code|
+      BubbleWrap::HTTP::Response.new({status_code: code}).ok?.should.be.true
+    end
+    [100..101, 300..307, 400..417, 500..505].inject([]){|codes, rg| codes += rg.to_a}.each do |code|
+      BubbleWrap::HTTP::Response.new({status_code: code}).ok?.should.be.false
+    end
   end
+
   
   it "has appropriate attributes" do
     @response.should.respond_to :body
@@ -44,11 +50,11 @@ describe "HTTP::Query" do
     @leftover_option = 'trololo'
     @headers = { 'User-Agent' => "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \n Gecko/20100101 Firefox/12.0" }
     @options = {  action: @action, 
-                  payload: @payload, 
-                  credentials: @credentials, 
-                  headers: @headers, 
-                  cache_policy: @cache_policy,
-                  leftover_option: @leftover_option
+      payload: @payload, 
+      credentials: @credentials, 
+      headers: @headers, 
+      cache_policy: @cache_policy,
+      leftover_option: @leftover_option
     }
     @query = BubbleWrap::HTTP::Query.new( 'http://localhost' , :get, @options )
   end
@@ -150,7 +156,7 @@ describe "HTTP::Query" do
   end
 
   describe "initiate request" do
-    
+
     before do
       @url_string = 'http://initiated-request.dev'
       
@@ -171,7 +177,7 @@ describe "HTTP::Query" do
   end
 
   describe "Generating GET params" do
-    
+
     it "should create params with nested hashes with prefix[key]=value" do
       expected_params = [
         'user[name]=marin', 
@@ -373,5 +379,7 @@ describe "HTTP::Query" do
       @expectedContentLength = length
     end
   end
+
+end
 
 end
