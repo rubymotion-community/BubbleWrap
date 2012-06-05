@@ -7,8 +7,14 @@ A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and p
 
 ## Installation
 
-```ruby
+```
 gem install bubble-wrap
+```
+
+or in your `Gemfile`:
+
+```ruby
+gem 'bubble-wrap', '~> 0.4.0'
 ```
 
 ## Setup
