@@ -5,13 +5,12 @@ module BubbleWrap
     extend PathManipulation
     include PathManipulation
 
-    attr_accessor :file, :root, :file_dependencies, :frameworks
+    attr_accessor :file, :root
+    attr_writer :file_dependencies
 
     def initialize(file,root)
       self.file = file
       self.root = root
-      self.file_dependencies = []
-      self.frameworks = []
     end
 
     def relative
@@ -21,12 +20,10 @@ module BubbleWrap
     def depends_on(file_or_paths)
       paths = file_or_paths.respond_to?(:each) ? file_or_paths : [ file_or_paths ]
       self.file_dependencies += paths.map do |f|
-        if f.is_a? Requirement
-          f unless f.file == file
-        else
-          self.class.file(f)
-        end
+        f = self.class.file(f) unless f.is_a? Requirement
+        f unless f.file == file
       end.compact
+      self.file_dependencies.uniq!(&:to_s)
     end
 
     def uses_framework(framework_name)
@@ -42,11 +39,19 @@ module BubbleWrap
       file
     end
 
+    def file_dependencies
+      @file_dependencies ||= []
+    end
+
+    def frameworks
+      @frameworks ||= []
+    end
+
     class << self
 
       attr_accessor :paths, :bw_file
 
-      def scan(caller_location, file_spec, block=nil)
+      def scan(caller_location, file_spec, &block)
         root = convert_caller_to_root_path caller_location
         self.paths ||= {}
         Dir.glob(File.expand_path(file_spec, root)).each do |file|
@@ -54,7 +59,7 @@ module BubbleWrap
           p.depends_on bw_file
           self.paths[p.relative] = p
         end
-        class_eval(&block) if block.respond_to?(:call)
+        self.class_eval(&block) if block
       end
 
       def file(relative)

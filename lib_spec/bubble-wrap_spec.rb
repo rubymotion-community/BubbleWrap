@@ -1,24 +1,5 @@
-describe 'Motion guard' do
-  context 'when Motion is not present' do
-    it 'raises an exception' do
-      proc do
-        require 'bubble-wrap'
-      end.should raise_error
-    end
-  end
-
-  context 'when Motion is present' do
-    before do
-      require File.expand_path('../motion_stub', __FILE__)
-    end
-
-    it "doesn't raise an exception" do
-      proc do 
-        require 'bubble-wrap'
-      end.should_not raise_error
-    end
-  end
-end
+require File.expand_path('../motion_stub.rb', __FILE__)
+require 'bubble-wrap'
 
 describe BubbleWrap do
   describe '.root' do

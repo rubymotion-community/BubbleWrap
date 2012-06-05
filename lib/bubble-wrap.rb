@@ -15,7 +15,7 @@ module BubbleWrap
   end
 
   def require(file_spec, &block)
-    Requirement.scan(caller.first, file_spec, block)
+    Requirement.scan(caller.first, file_spec, &block)
   end
 
 end

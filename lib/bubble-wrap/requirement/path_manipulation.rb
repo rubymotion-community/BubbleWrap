@@ -8,26 +8,31 @@ module BubbleWrap
         strip_up_to_last_lib path
       end
 
-      def convert_caller_to_path(caller_string)
-        caller_string.split(':')[0..-3].join(':')
+      def convert_caller_to_path(string)
+        chunks = string.split(':')
+        return chunks[0..-3].join(':') if chunks.size >= 3
+        string
       end
 
       def convert_to_absolute_path(path)
-        path = File.expand_path(path) unless path[0] == '/'
-        path
+        File.expand_path(path)
       end
 
       def strip_up_to_last_lib(path)
         path = path.split('lib')
-        if path.size > 1
-          path[0..-2].join('lib')
-        else
-          path[0]
-        end
+        path = if path.size > 1
+                 path[0..-2].join('lib')
+               else
+                 path[0]
+               end
+        path = path[0..-2] if path[-1] == '/'
+        path
       end
 
       def convert_to_relative(path,root)
-        path.gsub(root,'')
+        path = path.gsub(root,'')
+        path = path[1..-1] if path[0] == '/'
+        path
       end
 
     end
