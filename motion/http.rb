@@ -118,7 +118,7 @@ module BubbleWrap
           @headers = {}
           headers.each{|k,v| @headers[k] = v.gsub("\n", '\\n') } # escaping LFs
         end
-        @cachePolicy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
+        @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @options = options
         @response = HTTP::Response.new
         initiate_request(url)
@@ -156,7 +156,7 @@ module BubbleWrap
         p "BubbleWrap::HTTP building a NSRequest for #{url_string}" if SETTINGS[:debug]
         @url = NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
         @request = NSMutableURLRequest.requestWithURL(@url,
-                                                      cachePolicy:@cachePolicy,
+                                                      cachePolicy:@cache_policy,
                                                       timeoutInterval:@timeout)
         @request.setHTTPMethod @method
         @request.setAllHTTPHeaderFields(@headers) if @headers
@@ -168,11 +168,8 @@ module BubbleWrap
         end
 
         # NSHTTPCookieStorage.sharedHTTPCookieStorage
-
         @connection = create_connection(request, self)
-        @request.instance_variable_set("@done_loading", false)
-        def @request.done_loading; @done_loading; end
-        def @request.done_loading!; @done_loading = true; end
+        patch_nsurl_request
       end
 
       def connection(connection, didReceiveResponse:response)
@@ -232,6 +229,13 @@ module BubbleWrap
           challenge.sender.cancelAuthenticationChallenge(challenge)
           p 'Auth Failed :('
         end
+      end
+
+      def patch_nsurl_request
+        @request.instance_variable_set("@done_loading", false)
+        
+        def @request.done_loading; @done_loading; end
+        def @request.done_loading!; @done_loading = true; end
       end
 
       def call_delegator_with_response
