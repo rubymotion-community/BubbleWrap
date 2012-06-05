@@ -113,9 +113,9 @@ Examples:
 # 320
 > Device.screen.height
 # 480
-> Device.screen.widthForOrientation(:landscape_left)
+> Device.screen.width_for_orientation(:landscape_left)
 # 480
-> Device.screen.heightForOrientation(:landscape_left)
+> Device.screen.height_for_orientation(:landscape_left)
 # 320
 ```
 
