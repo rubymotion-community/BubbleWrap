@@ -152,7 +152,7 @@ module BubbleWrap
           end
           url_string = "#{url_string}?#{@payload}" if @method == "GET"
         end
-        
+        #this method needs a refactor when the specs are done. (especially this utf8 escaping part)
         p "BubbleWrap::HTTP building a NSRequest for #{url_string}" if SETTINGS[:debug]
         @url = NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
         @request = NSMutableURLRequest.requestWithURL(@url,
