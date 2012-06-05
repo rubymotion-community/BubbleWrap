@@ -22,7 +22,7 @@ Make sure to append onto the array or use `+=`.
 ```ruby
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    puts "#{App.name} (#{documents_path})"
+    puts "#{App.name} (#{App.documents_path})"
     true
   end
 end
