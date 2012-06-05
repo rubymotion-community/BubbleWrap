@@ -3,6 +3,7 @@
 A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
 
 [BubbleWrap website](http://bubblewrap.io)
+[BubbleWrap mailing list](https://groups.google.com/forum/#!forum/bubblewrap)
 
 ## Installation
 
@@ -43,7 +44,7 @@ Make sure to append onto the array or use `+=`.
 ```ruby
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    puts "#{App.name} (#{documents_path})"
+    puts "#{App.name} (#{App.documents_path})"
     true
   end
 end
