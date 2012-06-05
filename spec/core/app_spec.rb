@@ -6,8 +6,8 @@ describe BubbleWrap::App do
   end
 
   describe '.resources_path' do 
-    it 'should end in "/MotionLibTestSuite.app"' do
-      BW::App.resources_path[-19..-1].should == '/testSuite_spec.app'
+    it 'should end in "/testSuite.app"' do
+      BW::App.resources_path.should =~ /\/testSuite.app$/
     end
   end
 

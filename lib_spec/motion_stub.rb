@@ -1,4 +1,4 @@
-# Create a fake Motion class heirarcy for testing.
+# Create a fake Motion class hierarchy for testing.
 module Motion
   module Project
     class App
