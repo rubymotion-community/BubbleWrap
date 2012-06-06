@@ -197,6 +197,33 @@ simple interface:
 # ['TF1', 'France 2', 'France 3']
 ```
 
+### Observers
+**Since: > version 0.4**
+
+You can observe for object's changes and trigger blocks:
+
+``` ruby
+class ExampleViewController < UIViewController
+  include BW::KVO
+
+  def viewDidLoad
+    @label = "Initial state"
+
+    observe(@label, "text") do |old_value, new_value|
+      puts "Hello from viewDidLoad!"
+    end
+  end
+
+  def viewDidAppear(animated)
+    observe(@label, "text") do |old_value, new_value|
+      puts "Hello from viewDidAppear!"
+    end
+  end
+
+end
+```
+
+
 ### String
 
 The Ruby `String` class was extended to add `#camelize` and
