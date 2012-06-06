@@ -111,42 +111,42 @@ describe BubbleWrap::Device::Screen do
     end
   end
 
-  describe '.widthForOrientation' do
+  describe '.width_for_orientation' do
     describe ':landscape_left' do
       it 'returns the current device screen height' do
-        BW::Device::Screen.widthForOrientation(:landscape_left).should == BW::Device::Screen.height
+        BW::Device::Screen.width_for_orientation(:landscape_left).should == BW::Device::Screen.height
       end
     end
 
     describe ':landscape_right' do
       it 'returns the current device screen height' do
-        BW::Device::Screen.widthForOrientation(:landscape_right).should == BW::Device::Screen.height
+        BW::Device::Screen.width_for_orientation(:landscape_right).should == BW::Device::Screen.height
       end
     end
 
     describe 'default' do
       it 'returns the current device screen width' do
-        BW::Device::Screen.widthForOrientation.should == BW::Device::Screen.width
+        BW::Device::Screen.width_for_orientation.should == BW::Device::Screen.width
       end
     end
   end
 
-  describe '.heightForOrientation' do
+  describe '.height_for_orientation' do
     describe ':landscape_left' do
       it 'returns the current device screen width' do
-        BW::Device::Screen.heightForOrientation(:landscape_left).should == BW::Device::Screen.width
+        BW::Device::Screen.height_for_orientation(:landscape_left).should == BW::Device::Screen.width
       end
     end
 
     describe ':landscape_right' do
       it 'returns the current device screen width' do
-        BW::Device::Screen.heightForOrientation(:landscape_right).should == BW::Device::Screen.width
+        BW::Device::Screen.height_for_orientation(:landscape_right).should == BW::Device::Screen.width
       end
     end
 
     describe 'default' do
       it 'returns the current device screen height' do
-        BW::Device::Screen.heightForOrientation.should == BW::Device::Screen.height
+        BW::Device::Screen.height_for_orientation.should == BW::Device::Screen.height
       end
     end
   end
