@@ -11,7 +11,7 @@ describe BubbleWrap::Persistence do
     it 'delegates to BubbleWrap::App.idenfitier' do
       BubbleWrap::Persistence.app_key.should == BubbleWrap::App.identifier
     end
-    
+
   end
 
 
@@ -24,7 +24,7 @@ describe BubbleWrap::Persistence do
     end 
 
     it "must call synchronize" do
-      storage = BubbleWrap::Persistence.storage
+      storage = NSUserDefaults.standardUserDefaults
       def storage.synchronize; @sync_was_called = true; end
 
       BubbleWrap::Persistence['arbitraryNumber'] = 42
