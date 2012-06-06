@@ -1,4 +1,4 @@
-require File.expand_path "../requirement/path_manipulation", __FILE__
+require 'bubble-wrap/requirement/path_manipulation'
 
 module BubbleWrap
   class Requirement

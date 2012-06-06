@@ -1,4 +1,4 @@
-require File.expand_path('../loader.rb', __FILE__)
+require 'bubble-wrap/loader'
 BubbleWrap.require('motion/core.rb')
 BubbleWrap.require('motion/core/**/*.rb') do 
   file('motion/core/device/screen.rb').depends_on 'motion/core/device.rb'

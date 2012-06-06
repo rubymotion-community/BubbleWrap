@@ -1,2 +1,2 @@
-require File.expand_path('../loader.rb', __FILE__)
+require 'bubble-wrap/loader'
 BubbleWrap.require('motion/http.rb')
