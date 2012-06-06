@@ -15,7 +15,7 @@ file '_readme.html' => ['README.md', '/usr/local/bin/pygmentize' ] do
   doc.search("//pre[@lang]").each do |pre|
     pre.replace Albino.colorize(pre.text.rstrip, pre[:lang])
   end
-  File.write('_readme.html', doc.to_s)
+  File.open('_readme.html', 'w'){|f| f << doc.to_s}
 end
 
 file 'index.html' => [ 'template.html', '_readme.html' ] do
