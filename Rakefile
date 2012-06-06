@@ -4,9 +4,11 @@ require 'motion/project'
 require File.expand_path '../lib/bubble-wrap', __FILE__
 require File.expand_path '../lib/bubble-wrap/http', __FILE__
 
-task :rspec do
-  sh "rspec lib_spec/"
+task :lib_spec do
+  sh "bacon #{Dir.glob("lib_spec/**/*_spec.rb").join(' ')}"
 end
+
+task :test => [ :lib_spec, :spec ]
 
 Motion::Project::App.setup do |app|
   app.name = 'testSuite'
