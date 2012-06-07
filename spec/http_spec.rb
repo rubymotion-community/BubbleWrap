@@ -35,7 +35,7 @@ describe "HTTP" do
   describe "HTTP::Query" do
 
     before do
-      @credentials = { credit_card: 23423948234 }
+      @credentials = { username: 'mneorr', password: '123456xx!@crazy' }
       @payload = { 
         user: { name: 'marin', surname: 'usalj' }, 
         twitter: '@mneorr',
@@ -90,18 +90,18 @@ describe "HTTP" do
       end
 
       it "should merge :username and :password in loaded credentials" do
-        @query.credentials.should.equal @credentials.merge({:username => '', :password => ''})
+        @query.credentials.should.equal @credentials
 
-        new_credentials = {:username => 'user', :password => 'pass'}
-        options = { credentials: new_credentials }
+        options = { credentials: {} }
         new_query = BubbleWrap::HTTP::Query.new( @localhost_url, :get,  options)
 
-        new_query.credentials.should.equal new_credentials
+        generated_credentials = {:username => '', :password => ''}
+        new_query.credentials.should.equal generated_credentials
         options.should.be.empty
       end
 
       it "should set payload from options{} to @payload" do
-        payload = "user[name]=marin&user[surname]=usalj&twitter=@mneorr&website=mneorr.com&values=[1, 2, 3]&credentials[credit_card]=23423948234"
+        payload = "user[name]=marin&user[surname]=usalj&twitter=@mneorr&website=mneorr.com&values=[1, 2, 3]&credentials[username]=mneorr&credentials[password]=123456xx!@crazy"
         @query.instance_variable_get(:@payload).should.equal payload
         @options.should.not.has_key? :payload
       end
@@ -139,7 +139,7 @@ describe "HTTP" do
       end
 
       it "should call initiate_request with the URL passed in" do
-        processed_url = "http://localhost?user%5Bname%5D=marin&user%5Bsurname%5D=usalj&twitter=@mneorr&website=mneorr.com&values=%5B1,%202,%203%5D&credentials%5Bcredit_card%5D=23423948234"
+        processed_url = "http://localhost?user%5Bname%5D=marin&user%5Bsurname%5D=usalj&twitter=@mneorr&website=mneorr.com&values=%5B1,%202,%203%5D&credentials%5Busername%5D=mneorr&credentials%5Bpassword%5D=123456xx!@crazy"
         @query.instance_variable_get(:@url).description.should.equal processed_url
       end
 
@@ -235,7 +235,8 @@ describe "HTTP" do
           'twitter=@mneorr',
           'website=mneorr.com',
           'values=[1, 2, 3]',
-          'credentials[credit_card]=23423948234'
+          "credentials[username]=mneorr", 
+          "credentials[password]=123456xx!@crazy"
         ]
         @query.generate_get_params(@payload).should.equal expected_params
       end
@@ -400,26 +401,46 @@ describe "HTTP" do
     end
 
     describe "didReceiveAuthenticationChallenge" do
+      before do
+        @challenge = FakeChallenge.new
+        @challenge.previousFailureCount = 0
+        @query.connection(nil, didReceiveAuthenticationChallenge:@challenge)
+      end
+
       it "should cancel the authentication if the failure count was not 0" do
-        challenge = FakeChallenge.new
-        challenge.previousFailureCount = 1
-        @query.connection(nil, didReceiveAuthenticationChallenge:challenge)
-        challenge.sender.cancel_was_called?.should.equal true
+        @challenge.previousFailureCount = 1
+        @query.connection(nil, didReceiveAuthenticationChallenge:@challenge)
+        @challenge.sender.was_cancelled.should.equal true
+      end
+
+      it "should pass in Credentials and the challenge itself to the sender" do
+        @challenge.sender.challenge.should.equal @challenge
+        @challenge.sender.credential.user.should.equal @credentials[:username]
+        @challenge.sender.credential.password.should.equal @credentials[:password]
+      end
+
+      it "always uses NSURLCredentialPersistenceForSession" do
+        @challenge.sender.credential.persistence.should.equal NSURLCredentialPersistenceForSession
+      end
+
+    end
+
+    class FakeSender
+      attr_accessor :challenge, :credential, :was_cancelled
+      def cancelAuthenticationChallenge(challenge)
+        @was_cancelled = true
+      end
+      def useCredential(credential, forAuthenticationChallenge:challenge)
+        @challenge = challenge
+        @credential = credential
       end
     end
 
     class FakeChallenge
       attr_accessor :previousFailureCount
-      
-      def initialize_fake_sender
-        @fake_sender = Object.new
-        def @fake_sender.cancelAuthenticationChallenge(challenge); @cancelled = true; end
-        def @fake_sender.cancel_was_called?; @cancelled; end
-        @fake_sender
-      end
 
       def sender
-        @fake_sender ||= initialize_fake_sender
+        @fake_sender ||= FakeSender.new
       end
     end
 
