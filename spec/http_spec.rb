@@ -183,7 +183,7 @@ describe "HTTP" do
       end
 
       it "sets the HTTPBody DATA to @request for all methods except GET" do
-      
+
         [:put, :delete, :head, :patch].each do |method|
           query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: @payload } )
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
@@ -290,21 +290,18 @@ describe "HTTP" do
 
       it "should turn off network indicator" do
         UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
-
         @query.connection(nil, didFailWithError:@fake_error)
         UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false    
       end
 
       it "should set request_done to true" do
         @query.request.done_loading.should == false
-
         @query.connection(nil, didFailWithError:@fake_error)
         @query.request.done_loading.should == true
       end
 
       it "should set the error message to response object" do
         @query.response.error_message.should.equal nil
-
         @query.connection(nil, didFailWithError:@fake_error)
         @query.response.error_message.should.equal @fake_error.localizedDescription
       end
@@ -388,7 +385,6 @@ describe "HTTP" do
       it "should create a new Connection with the request passed in" do
         old_connection = @query.connection
         @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
-
         old_connection.should.not.equal @query.connection
       end
 
@@ -401,7 +397,30 @@ describe "HTTP" do
         @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
         @query.connection.request.URL.description.should.equal @request.URL.description
       end
+    end
 
+    describe "didReceiveAuthenticationChallenge" do
+      it "should cancel the authentication if the failure count was not 0" do
+        challenge = FakeChallenge.new
+        challenge.previousFailureCount = 1
+        @query.connection(nil, didReceiveAuthenticationChallenge:challenge)
+        challenge.sender.cancel_was_called?.should.equal true
+      end
+    end
+
+    class FakeChallenge
+      attr_accessor :previousFailureCount
+      
+      def initialize_fake_sender
+        @fake_sender = Object.new
+        def @fake_sender.cancelAuthenticationChallenge(challenge); @cancelled = true; end
+        def @fake_sender.cancel_was_called?; @cancelled; end
+        @fake_sender
+      end
+
+      def sender
+        @fake_sender ||= initialize_fake_sender
+      end
     end
 
     class BubbleWrap::HTTP::Query
