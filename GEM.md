@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
 end
 ```
 
-Then run `bubdler`:
+Then run `bundler`:
 ```
 $ bundle
 Fetching gem metadata from https://rubygems.org/..
