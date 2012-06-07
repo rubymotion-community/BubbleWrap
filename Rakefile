@@ -2,7 +2,7 @@ require 'bundler'
 Bundler.require
 
 task :clean do
-  sh "rm _*.html"
+  sh "rm _*.html README.md HACKING.md GEM.md"
 end
 
 task :pygmentize, [:file] => '/usr/local/bin/pygmentize' do |t,args|
