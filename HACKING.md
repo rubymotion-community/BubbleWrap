@@ -58,7 +58,16 @@ which is compiled into RubyMotion projects that are using BubbleWrap.
     reasonably think should be included in every BubbleWrap using project.
     Careful consideration should be taken when making changes to the 
     contents and test coverage (in `spec/core`) must be updated to match.
-  - `motion/http` contains the "http" extension.
+    This can be included in your project by requiring `bubble-wrap` or 
+    `bubble-wrap/core` in your project `Rakefile`.
+  - `motion/http` contains the "http" extension.  This can be included
+    by requiring `bubble-wrap/http` in your project `Rakefile`.
+  - `motion/test_suite_delegate` contains a simple `AppDelegate` which
+    can be used to enable the `rake spec` to run when developing a
+    BubbleWrap gem.  Using `require 'bubble-wrap/test'` will include
+    it in the build process and also configure the app delegate to point
+    to `TestSuiteDelegate`. See the [BubbleWrap gem guide](gem.html) for
+    more information.
 
 #### Your project here
 
