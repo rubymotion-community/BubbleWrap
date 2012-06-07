@@ -213,6 +213,7 @@ module BubbleWrap
       def connection(connection, didReceiveAuthenticationChallenge:challenge)
 
         if (challenge.previousFailureCount == 0)
+          NSLog "WENT IN!!!!!"
           # by default we are keeping the credential for the entire session
           # Eventually, it would be good to let the user pick one of the 3 possible credential persistence options:
           # NSURLCredentialPersistenceNone,
@@ -223,7 +224,7 @@ module BubbleWrap
           challenge.sender.useCredential(new_credential, forAuthenticationChallenge:challenge)
         else
           challenge.sender.cancelAuthenticationChallenge(challenge)
-          p 'Auth Failed :('
+          p 'Auth Failed :(' if SETTINGS[:debug]
         end
       end
 
