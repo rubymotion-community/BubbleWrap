@@ -149,7 +149,7 @@ module BubbleWrap
           url_string = "#{url_string}?#{@payload}" if @method == "GET"
         end
         #this method needs a refactor when the specs are done. (especially this utf8 escaping part)
-        p "BubbleWrap::HTTP building a NSRequest for #{url_string}" if SETTINGS[:debug]
+        log "BubbleWrap::HTTP building a NSRequest for #{url_string}"
         @url = NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
         @request = NSMutableURLRequest.requestWithURL(@url,
                                                       cachePolicy:@cache_policy,
@@ -181,7 +181,7 @@ module BubbleWrap
       end
 
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
-        p "HTTP redirected #{request.description}" if SETTINGS[:debug]
+        log "HTTP redirected #{request.description}"
         new_request = request.mutableCopy
         # new_request.setValue(@credentials.inspect, forHTTPHeaderField:'Authorization') # disabled while we figure this one out
         new_request.setAllHTTPHeaderFields(@headers) if @headers
@@ -193,7 +193,7 @@ module BubbleWrap
       def connection(connection, didFailWithError: error)
         UIApplication.sharedApplication.networkActivityIndicatorVisible = false
         @request.done_loading!
-        NSLog"HTTP Connection failed #{error.localizedDescription}" if SETTINGS[:debug]
+        log "HTTP Connection failed #{error.localizedDescription}"
         @response.error_message = error.localizedDescription
         call_delegator_with_response
       end
@@ -213,19 +213,25 @@ module BubbleWrap
       def connection(connection, didReceiveAuthenticationChallenge:challenge)
 
         if (challenge.previousFailureCount == 0)
-          NSLog "WENT IN!!!!!"
           # by default we are keeping the credential for the entire session
           # Eventually, it would be good to let the user pick one of the 3 possible credential persistence options:
           # NSURLCredentialPersistenceNone,
           # NSURLCredentialPersistenceForSession,
           # NSURLCredentialPersistencePermanent
-          p "auth challenged, answered with credentials: #{credentials.inspect}" if SETTINGS[:debug]
+          log "auth challenged, answered with credentials: #{credentials.inspect}"
           new_credential = NSURLCredential.credentialWithUser(credentials[:username], password:credentials[:password], persistence:NSURLCredentialPersistenceForSession)
           challenge.sender.useCredential(new_credential, forAuthenticationChallenge:challenge)
         else
           challenge.sender.cancelAuthenticationChallenge(challenge)
-          p 'Auth Failed :(' if SETTINGS[:debug]
+          log 'Auth Failed :('
         end
+      end
+
+
+      private
+
+      def log(message)
+        NSLog message if SETTINGS[:debug]
       end
 
       def escape_line_feeds(hash)
