@@ -164,7 +164,7 @@ def viewWillAppear(animated)
     loadAndRefresh
   end
   
-  @reload_observer notification_center.observe ReloadNotification do |notification|
+  @reload_observer = notification_center.observe ReloadNotification do |notification|
     loadAndRefresh
   end
 end
