@@ -1,5 +1,37 @@
 describe "HTTP" do
 
+  before do
+    @localhost_url = 'http://localhost'
+  end
+
+  describe "Core HTTP method calls" do
+
+    def test_http_method(method)
+      delegator = Proc.new { |q| @the_query = q }
+      query = BubbleWrap::HTTP.send(method, @localhost_url, { name: 'bubble-wrap', action: delegator })
+      query.should.not.equal nil
+      query.method.should.equal method.to_s.upcase
+      query.options[:name].should.equal 'bubble-wrap'
+      query.instance_variable_get(:@delegator).should.equal delegator
+      @query.should.be.same_as @the_query
+    end
+
+    it ".get .post .put .delete .head .patch should properly generate the HTTP::Query" do
+      [:get, :post, :put, :delete, :head, :patch].each do |method|  
+        test_http_method method
+      end
+    end
+
+    it "uses the block instead of action passed in " do
+      expected_delegator = Proc.new {|response|}
+      
+      [:get, :post, :put, :delete, :head, :patch].each do |method|  
+        query = BubbleWrap::HTTP.send(method, @localhost_url, { action: 'not_valid' }, &expected_delegator)
+        query.instance_variable_get(:@delegator).should.equal expected_delegator
+      end
+    end
+
+  end
 
 
   describe "HTTP::Response" do
@@ -14,12 +46,22 @@ describe "HTTP" do
 
     it "says OK status code 20x" do
       @response.ok?.should.equal true
-      (200..206).each do |code|
+      (200..209).each do |code|
         BubbleWrap::HTTP::Response.new({status_code: code}).ok?.should.be.true
       end
       [100..101, 300..307, 400..417, 500..505].inject([]){|codes, rg| codes += rg.to_a}.each do |code|
         BubbleWrap::HTTP::Response.new({status_code: code}).ok?.should.be.false
       end
+    end
+
+    it "updates ivars when calling update" do
+      @response.update( { one: 'one', two: 'two' } )
+      @response.instance_variable_get(:@one).should.equal 'one'
+      @response.instance_variable_get(:@two).should.equal 'two'
+
+      @response.update( { one: 'three', two: 'four' } )
+      @response.instance_variable_get(:@one).should.equal 'three'
+      @response.instance_variable_get(:@two).should.equal 'four'
     end
 
     it "has appropriate attributes" do
@@ -43,7 +85,6 @@ describe "HTTP" do
         values: [1, 2, 3],
         credentials: @credentials
       }
-      @localhost_url = 'http://localhost'
       @action = lambda{|fa, ke|}
       @cache_policy = 24234
       @leftover_option = 'trololo'
@@ -84,7 +125,7 @@ describe "HTTP" do
         @options.should.not.has_key? :action
       end
 
-      it "should set self as the delegator if action not passed in" do
+      it "should set self as the delegator if action was not passed in" do
         new_query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, {})
         new_query.instance_variable_get(:@delegator).should.equal new_query
       end
@@ -176,7 +217,7 @@ describe "HTTP" do
       end      
 
       it "should set the payload in URL only for GET request" do
-        [:put, :delete, :head, :patch].each do |method|
+        [:post, :put, :delete, :head, :patch].each do |method|
           query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: @payload } )
           query.instance_variable_get(:@url).description.should.equal @localhost_url
         end  
@@ -184,7 +225,7 @@ describe "HTTP" do
 
       it "sets the HTTPBody DATA to @request for all methods except GET" do
 
-        [:put, :delete, :head, :patch].each do |method|
+        [:post, :put, :delete, :head, :patch].each do |method|
           query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: @payload } )
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
 
@@ -357,7 +398,6 @@ describe "HTTP" do
         expected_response = BubbleWrap::HTTP::Response.new
         real_response = nil
         block = lambda{ |response, query| real_response = response }
-
         query = BubbleWrap::HTTP::Query.new(@localhost_url, :get, { :action => block })
         query.instance_variable_set(:@response, expected_response)
 
@@ -426,7 +466,7 @@ describe "HTTP" do
     end
 
     class FakeSender
-      attr_accessor :challenge, :credential, :was_cancelled
+      attr_reader :challenge, :credential, :was_cancelled
       def cancelAuthenticationChallenge(challenge)
         @was_cancelled = true
       end

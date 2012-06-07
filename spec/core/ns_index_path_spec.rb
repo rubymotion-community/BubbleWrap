@@ -9,7 +9,6 @@ describe "NSIndexPathWrap" do
   end
 
   it "should support the each iterator" do
-    puts @index.inspect
     i = []
     @index.each do |idx|
       i << idx
