@@ -1,5 +1,20 @@
 describe "Time" do
 
+    describe "Caching the date formatter" do
+    
+      it "should reuse the created formatter" do
+        #this is a bad test, relies on implementation.
+        #I'll rewrite it when the better idea comes on my mind.. 
+        100.times do
+          Time.iso8601("2011-04-11T13:22:21Z")
+        end
+        Thread.current[:date_formatters].count.should.equal 1
+        Thread.current[:date_formatters]["yyyy-MM-dd'T'HH:mm:ss'Z'"].should.not.equal nil
+      end
+
+  end
+
+
   describe "parsing an iso8601 formatted time to a Time object" do
     before do
       @time = Time.iso8601("2012-05-31T19:41:33Z")
