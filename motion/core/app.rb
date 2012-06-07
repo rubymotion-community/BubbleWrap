@@ -67,6 +67,11 @@ module BubbleWrap
       UIScreen.mainScreen.applicationFrame
     end
 
+    # Main Screen bounds. Useful when starting the app
+    def bounds
+      UIScreen.mainScreen.bounds
+    end
+
     # Application Delegate
     def delegate
       UIApplication.sharedApplication.delegate

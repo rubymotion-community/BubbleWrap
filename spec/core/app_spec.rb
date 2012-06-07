@@ -78,6 +78,13 @@ describe BubbleWrap::App do
     end
   end
 
+  describe '.bounds' do
+    it 'returns Main Screen bounds' do
+      BW::App.bounds.should == UIScreen.mainScreen.bounds
+    end
+  end
+
+
   describe '.delegate' do
     it 'returns a TestSuiteDelegate' do
       BW::App.delegate.should == UIApplication.sharedApplication.delegate
