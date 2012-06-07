@@ -116,9 +116,19 @@ which is compiled into RubyMotion projects that are using BubbleWrap.</p>
 <code>motion/core</code> contains "core" extension, things that the developers
 reasonably think should be included in every BubbleWrap using project.
 Careful consideration should be taken when making changes to the 
-contents and test coverage (in <code>spec/core</code>) must be updated to match.</li>
+contents and test coverage (in <code>spec/core</code>) must be updated to match.
+This can be included in your project by requiring <code>bubble-wrap</code> or 
+<code>bubble-wrap/core</code> in your project <code>Rakefile</code>.</li>
 <li>
-<code>motion/http</code> contains the "http" extension.</li>
+<code>motion/http</code> contains the "http" extension.  This can be included
+by requiring <code>bubble-wrap/http</code> in your project <code>Rakefile</code>.</li>
+<li>
+<code>motion/test_suite_delegate</code> contains a simple <code>AppDelegate</code> which
+can be used to enable the <code>rake spec</code> to run when developing a
+BubbleWrap gem.  Using <code>require 'bubble-wrap/test'</code> will include
+it in the build process and also configure the app delegate to point
+to <code>TestSuiteDelegate</code>. See the <a href="gem.html">BubbleWrap gem guide</a> for
+more information.</li>
 </ul>
 <h4>Your project here</h4>
 
