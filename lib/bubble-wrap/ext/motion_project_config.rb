@@ -1,6 +1,7 @@
 module Motion
   module Project
     class Config
+
       # HACK NEEDED since RubyMotion doesn't support full path
       # dependencies.
       def files_dependencies(deps_hash)
