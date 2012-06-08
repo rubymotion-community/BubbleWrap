@@ -39,6 +39,20 @@ describe "HTTP" do
       end 
     end
 
+    [:get, :post, :put, :delete, :head, :patch].each do |verb|
+      it "has access to the proper response scope for #{verb} request" do
+        class WatchedObj; attr_accessor :test_value end
+        @watched_object = WatchedObj.new
+        @name = 'Matt'
+        query = BubbleWrap::HTTP.send(verb, @localhost_url) do |response|
+          @watched_object.test_value = @name
+        end
+        wait_for_change(@watched_object, 'test_value') do
+          @watched_object.test_value.should == 'Matt'
+        end
+      end
+    end
+
   end
 
 
