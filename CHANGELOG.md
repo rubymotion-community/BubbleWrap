@@ -1,3 +1,12 @@
+## 1.0.0
+
+* Improved the integration with RubyMotion build system.
+* Improved test suite.
+* Added better documentation, including on how to work on the internals.
+* Added a KVO DSL to observe objects.
+* Renamed `Device.screen.widthForOrientation` to Device.screen.width_for_orientation` and `Device.screen.heightForOrientation` to `Device.screen.height_for_orientation`.
+* The `HTTP` wrapper now encodes arrays in params in a way that's compatible with Rails.
+
 ## 0.4.0
 
 * Refactored the code and test suite to be more modular and to handle
