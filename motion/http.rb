@@ -123,16 +123,22 @@ module BubbleWrap
         connection
       end
 
-      def generate_get_params(payload, prefix=nil)
+      def generate_params(payload, prefix=nil)
         list = []
         payload.each do |k,v|
           if v.is_a?(Hash)
             new_prefix = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
-            param = generate_get_params(v, new_prefix)
+            param = generate_params(v, new_prefix)
+            list << param
+          elsif v.is_a?(Array)
+            v.each do |val|
+              param = prefix ? "#{prefix}[#{k}][]=#{val}" : "#{k}[]=#{val}"
+              list << param
+            end
           else
             param = prefix ? "#{prefix}[#{k}]=#{v}" : "#{k}=#{v}"
+            list << param
           end
-          list << param
         end
         return list.flatten
       end
@@ -143,7 +149,7 @@ module BubbleWrap
         
         unless @payload.nil?
           if @payload.is_a?(Hash)
-            params   = generate_get_params(@payload)
+            params   = generate_params(@payload)
             @payload = params.join("&")
           end
           url_string = "#{url_string}?#{@payload}" if @method == "GET"

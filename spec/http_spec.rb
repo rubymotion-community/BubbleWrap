@@ -104,7 +104,7 @@ describe "HTTP" do
         user: { name: 'marin', surname: 'usalj' }, 
         twitter: '@mneorr',
         website: 'mneorr.com',
-        values: [1, 2, 3],
+        values: ['apple', 'orange', 'peach'],
         credentials: @credentials
       }
       @action = lambda{|fa, ke|}
@@ -164,7 +164,7 @@ describe "HTTP" do
       end
 
       it "should set payload from options{} to @payload" do
-        payload = "user[name]=marin&user[surname]=usalj&twitter=@mneorr&website=mneorr.com&values=[1, 2, 3]&credentials[username]=mneorr&credentials[password]=123456xx!@crazy"
+        payload = "user[name]=marin&user[surname]=usalj&twitter=@mneorr&website=mneorr.com&values[]=apple&values[]=orange&values[]=peach&credentials[username]=mneorr&credentials[password]=123456xx!@crazy"
         @query.instance_variable_get(:@payload).should.equal payload
         @options.should.not.has_key? :payload
       end
@@ -202,7 +202,7 @@ describe "HTTP" do
       end
 
       it "should call initiate_request with the URL passed in" do
-        processed_url = "http://localhost?user%5Bname%5D=marin&user%5Bsurname%5D=usalj&twitter=@mneorr&website=mneorr.com&values=%5B1,%202,%203%5D&credentials%5Busername%5D=mneorr&credentials%5Bpassword%5D=123456xx!@crazy"
+        processed_url = "http://localhost?user%5Bname%5D=marin&user%5Bsurname%5D=usalj&twitter=@mneorr&website=mneorr.com&values%5B%5D=apple&values%5B%5D=orange&values%5B%5D=peach&credentials%5Busername%5D=mneorr&credentials%5Bpassword%5D=123456xx!@crazy"
         @query.instance_variable_get(:@url).description.should.equal processed_url
       end
 
@@ -297,11 +297,13 @@ describe "HTTP" do
           'user[surname]=usalj', 
           'twitter=@mneorr',
           'website=mneorr.com',
-          'values=[1, 2, 3]',
+          'values[]=apple',
+          'values[]=orange',
+          'values[]=peach',
           "credentials[username]=mneorr", 
           "credentials[password]=123456xx!@crazy"
         ]
-        @query.generate_get_params(@payload).should.equal expected_params
+        @query.generate_params(@payload).should.equal expected_params
       end
 
     end
