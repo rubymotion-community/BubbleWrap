@@ -10,7 +10,7 @@ describe BubbleWrap::Requirement do
   describe '.scan' do
     before do
       @subject.paths = {}
-      @root_path = File.expand_path('../../../', __FILE__) 
+      @root_path = File.expand_path('../../../../', __FILE__) 
     end
 
     it 'asking for a not-yet-found file raises an exception' do

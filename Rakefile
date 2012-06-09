@@ -6,13 +6,19 @@ Bundler.require
 
 require 'bubble-wrap/test'
 
-task :lib_spec do
-  sh "bacon #{Dir.glob("lib_spec/**/*_spec.rb").join(' ')}"
-end
-
-task :test => [ :lib_spec, :spec ]
-
 Motion::Project::App.setup do |app|
   app.name = 'testSuite'
   app.identifier = 'io.bubblewrap.testSuite'
+  app.specs_dir = './spec/motion'
 end
+
+namespace :spec do
+  task :lib do
+    sh "bacon #{Dir.glob("spec/lib/**/*_spec.rb").join(' ')}"
+  end
+
+  task :motion => 'spec'
+
+  task :all => [:lib, :motion]
+end
+

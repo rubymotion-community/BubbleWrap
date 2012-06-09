@@ -1,4 +1,4 @@
-require File.expand_path('../../../../lib/bubble-wrap/requirement/path_manipulation', __FILE__)
+require File.expand_path('../../../../../lib/bubble-wrap/requirement/path_manipulation', __FILE__)
 
 describe BubbleWrap::Requirement::PathManipulation do
   
