@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>BubbleWrap - A Cocoa wrapper by Matt Aimonetti</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-30927742-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+       })();
+
+     </script>
+   </head>
+   <body>
+     <div class="wrapper">
+       <header>
+         <h1>BubbleWrap</h1>
+         <p>
+           Cocoa wrappers and helpers for <a href="http://www.rubymotion.com/">RubyMotion</a>.
+         </p>
+         <p class="view">
+           <a href="https://github.com/mattetti/BubbleWrap">View the Project on GitHub <small>mattetti/BubbleWrap</small></a>
+           <a href="http://rdoc.info/github/mattetti/BubbleWrap/master/frames">Read the RDoc<small>rdoc.info</small></a>
+           <a href="http://rubygems.org/gems/bubble-wrap">Get the Ruby Gem<small>gem 'bubble-wrap'</small></a>
+           <a href="https://groups.google.com/d/forum/bubblewrap">Join the discussion<small>bubblewrap@googlegroups.com</small></a>
+           <a href="getting_started.html">Using BubbleWrap<small>A guide to getting started with BubbleWrap</small></a>
+           <a href="hacking.html">Hacking BubbleWrap<small>A guide to working on BubbleWrap</small></a>
+           <a href="gem.html">Gem Howto<small>Building RubyMotion gems with BW</small></a>
+         </p>
+       </header>
+       <section>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body>
+<h1>Getting Started with BubbleWrap</h1>
+
+<p>A short guide to starting a RubyMotion application using the bubble wrappers.</p>
+
+<h2>A quick note about RubyMotion</h2>
+
+<p><a href="http://www.rubymotion.com/">RubyMotion</a> is a commercial product available from
+<a href="http://www.hipbyte.com/">HipByte SPRL</a>. RubyMotion needs a recent (10.6 or newer)
+version of Mac OS X and Apple's Xcode tools installed. If you don't have a working
+RubyMotion install take a look at the <a href="http://www.rubymotion.com/developer-center/guides/getting-started/">getting started guide</a>.</p>
+
+<h2>Create a new RubyMotion project</h2>
+
+<p>RubyMotion ships with the <code>motion</code> command-line tool to handle creating projects,
+updating and creatint support tickets.</p>
+
+<pre><code>$ motion create bw-demo
+    Create bw-demo
+    Create bw-demo/.gitignore
+    Create bw-demo/Rakefile
+    Create bw-demo/app
+    Create bw-demo/app/app_delegate.rb
+    Create bw-demo/resources
+    Create bw-demo/spec
+    Create bw-demo/spec/main_spec.rb
+</code></pre>
+
+<p>This gives us an empty project (and one failing spec).  That's fine for now.</p>
+
+<h2>Set up Bundler</h2>
+
+<p><a href="http://www.gembundler.com/">Bundler</a> is a project to manage your project's
+RubyGem dependencies. You can get by without it if you want to, but it will
+save time and hassle as the number of BubbleWrap gems grows over time.</p>
+
+<pre><code>$ gem install bundler
+</code></pre>
+
+<p>Create a new file called <code>Gemfile</code> in your project directory and add the
+following:</p>
+
+<div class="highlight">
+<pre><span class="n">source</span> <span class="ss">:rubygems</span>
+<span class="n">gem</span> <span class="s1">'bubble-wrap'</span><span class="p">,</span> <span class="s1">'~&gt; 1.0.0'</span>
+<span class="n">gem</span> <span class="s1">'rake'</span>
+</pre>
+</div>
+
+
+<p>Then run <code>bundle</code> from the command-line in the same directory and Bundler
+should install BubbleWrap and Rake for you.</p>
+
+<h2>Adding BubbleWrap</h2>
+
+<p>Now that we have BubbleWrap installed we need to configure the project to use
+it - the easiest way is to add Bundler to our build-environment and tell it 
+to take care of everything for us.</p>
+
+<p>Edit your project's <code>Rakefile</code> and add the following just under <code>require 'motion/project'</code>:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bundler'</span>
+<span class="no">Bundler</span><span class="o">.</span><span class="n">setup</span>
+<span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</pre>
+</div>
+
+
+<p>Now when you build your project by running <code>rake</code> you will see the BubbleWrap files
+being compiled into your project.</p>
+
+<h2>Customising BubbleWrap requires</h2>
+
+<p>By default BubbleWrap will include all the bubble wrappers into your project, but often
+you won't need them all - perhaps you only want to use BubbleWrap's <code>http</code> wrappers?
+You can change your bubble-wrap line in your <code>Gemfile</code> as follows:</p>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="s1">'bubble-wrap'</span><span class="p">,</span> <span class="s1">'~&gt; 1.0.0'</span><span class="p">,</span> <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="s1">'bubble-wrap/http'</span>
+</pre>
+</div>
+
+
+<p>If you just want core, the change is similarly easy:</p>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="s1">'bubble-wrap'</span><span class="p">,</span> <span class="s1">'~&gt; 1.0.0'</span><span class="p">,</span> <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="s1">'bubble-wrap/core'</span>
+</pre>
+</div>
+
+
+<p>Also, if you don't want any of BubbleWrap loaded by default, and you just want to use
+it's ability to add projects to your build system you can change it to:</p>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="s1">'bubble-wrap'</span><span class="p">,</span> <span class="s1">'~&gt; 1.0.0'</span><span class="p">,</span> <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="s1">'bubble-wrap/loader'</span>
+</pre>
+</div>
+
+
+<p>And modify your <code>Rakefile</code> to include one or more <code>BW.require</code> lines:</p>
+
+<div class="highlight">
+<pre><span class="no">BW</span><span class="o">.</span><span class="n">require</span> <span class="s1">'/path/to/some/files/**/*.rb'</span>
+</pre>
+</div>
+
+
+<p>For more information in using <code>BW.require</code> take a look at
+<a href="http://bubblewrap.io/hacking.html">the bubblewrap hacking guide</a>.</p>
+
+<h2>Go forth and conquer!</h2>
+
+<p>The developers wish to thank you for using BubbleWrap.
+Please feel free to open issues or pull requests on 
+<a href="https://www.github.com/mattetti/BubbleWrap">GitHub</a>, join our
+<a href="https://groups.google.com/forum/#!forum/bubblewrap">mailing list</a>
+or join us on <code>#bubblewrap</code> on <code>irc.freenode.net</code>.</p>
+</body></html>
+
+       </section>
+       <footer>
+       <p>This project is maintained by:</p>
+       <ul>
+         <li><a href="https://github.com/mattetti"><img src="https://secure.gravatar.com/avatar/c69521d6e22fc0bbd69337ec8b1698df?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">Matt Aimonetti</a><a href="http://twitter.com/merbist"><small>@merbist</small></a></li>
+         <li><a href="https://github.com/siuying"><img src="https://secure.gravatar.com/avatar/ecdf9a83234e21743d77b75fd308b929?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">Francis Chong</a><a href="http://twitter.com/siuying"><small>@siuying</small></a></li>
+         <li><a href="https://github.com/mneorr"><img src="https://secure.gravatar.com/avatar/9ee164729035736549e4ae6e6e2d7cfc?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">Marin Usalj</a><a href="http://twitter.com/mneorr"><small>@mneorr</small></a></li>
+         <li><a href="https://github.com/jamesotron"><img src="https://secure.gravatar.com/avatar/d468b182b11cdee834dd1f9777645b79?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">James Harton</a><a href="http://twitter.com/jamesotron"><small>@jamesotron</small></a></li>
+         <li><a href="https://github.com/janweinkauff"><img src="https://secure.gravatar.com/avatar/89a1b3da3c51c9028598e4c703c6acbf?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">Jan Weinkauff</a><a href="http://twitter.com/janweinkauff"><small>@janweinkauff</small></a></li>
+       </ul>
+       </footer>
+     </div>
+     <script src="javascripts/scale.fix.js"></script>
+
+   </body>
+ </html>

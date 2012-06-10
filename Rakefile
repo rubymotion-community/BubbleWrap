@@ -2,7 +2,7 @@ require 'bundler'
 Bundler.require
 
 task :clean do
-  sh "rm _*.html README.md HACKING.md GEM.md"
+  sh "rm *.fragment *.md"
 end
 
 task :pygmentize, [:file] => '/usr/local/bin/pygmentize' do |t,args|
@@ -14,9 +14,9 @@ task :pygmentize, [:file] => '/usr/local/bin/pygmentize' do |t,args|
   File.open(args.file, 'w'){|f| f << doc.to_s}
 end
 
-task :template, [:source,:destination] => 'template.html' do |t,args|
+task :template, [:source,:destination] => 'main.template' do |t,args|
   puts "Creating #{args.destination} from #{args.source}"
-  template = File.read('template.html')
+  template = File.read('main.template')
   contents = File.read(args.source)
   File.open(args.destination, 'w') do |file|
     content_pos = (template =~ /##CONTENTS##/)
@@ -30,49 +30,28 @@ file '/usr/local/bin/pygmentize' do
   sh "sudo easy_install pygments"
 end
 
-task 'README.md' do
-  sh "git checkout master README.md"
+rule '.md' do |t|
+  git_name = t.name.split('.')
+  git_name.first.upcase!
+  git_name = git_name.join('.')
+  sh "git checkout master #{git_name}"
+  sh "mv #{git_name} #{t.name}"
 end
 
-task 'HACKING.md' do
-  sh "git checkout master HACKING.md"
-end
-
-task "GEM.md" do
-  sh "git checkout master GEM.md"
-end
-
-file '_readme.html' => ['README.md'] do
-  sh "github-markup README.md > _readme.html"
-  Rake::Task['pygmentize'].invoke('_readme.html')
+rule '.fragment' => '.md' do |t|
+  sh "github-markup #{t.sources.first} > #{t.name}"
+  Rake::Task['pygmentize'].invoke(t.name)
   Rake::Task['pygmentize'].reenable
 end
 
-file '_hacking.html' => ['HACKING.md'] do
-  sh "github-markup HACKING.md > _hacking.html"
-  Rake::Task['pygmentize'].invoke('_hacking.html')
-  Rake::Task['pygmentize'].reenable
-end
-
-file '_gem.html' => ['GEM.md'] do
-  sh "github-markup GEM.md > _gem.html"
-  Rake::Task['pygmentize'].invoke('_gem.html')
-  Rake::Task['pygmentize'].reenable
-end
-
-file 'index.html' => '_readme.html' do
-  Rake::Task['template'].invoke('_readme.html', 'index.html')
+rule '.html' => '.fragment' do |t|
+  puts "Creating #{t.name} with template."
+  Rake::Task['template'].invoke(t.source, t.name)
   Rake::Task['template'].reenable
 end
 
-file 'hacking.html' => '_hacking.html' do
-  Rake::Task['template'].invoke('_hacking.html', 'hacking.html')
-  Rake::Task['template'].reenable
+file 'index.html' => 'readme.html' do
+  sh "mv readme.html index.html"
 end
 
-file 'gem.html' => '_gem.html' do
-  Rake::Task['template'].invoke('_gem.html', 'gem.html')
-  Rake::Task['template'].reenable
-end
-
-task :default => ['index.html', 'hacking.html', 'gem.html', :clean]
+task :default => ['index.html', 'hacking.html', 'gem.html', 'getting_started.html', :clean]

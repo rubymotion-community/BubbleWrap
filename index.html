@@ -37,6 +37,7 @@
            <a href="http://rdoc.info/github/mattetti/BubbleWrap/master/frames">Read the RDoc<small>rdoc.info</small></a>
            <a href="http://rubygems.org/gems/bubble-wrap">Get the Ruby Gem<small>gem 'bubble-wrap'</small></a>
            <a href="https://groups.google.com/d/forum/bubblewrap">Join the discussion<small>bubblewrap@googlegroups.com</small></a>
+           <a href="getting_started.html">Using BubbleWrap<small>A guide to getting started with BubbleWrap</small></a>
            <a href="hacking.html">Hacking BubbleWrap<small>A guide to working on BubbleWrap</small></a>
            <a href="gem.html">Gem Howto<small>Building RubyMotion gems with BW</small></a>
          </p>
@@ -226,7 +227,7 @@ interface.</p>
     <span class="n">loadAndRefresh</span>
   <span class="k">end</span>
 
-  <span class="vi">@reload_observer</span> <span class="n">notification_center</span><span class="o">.</span><span class="n">observe</span> <span class="no">ReloadNotification</span> <span class="k">do</span> <span class="o">|</span><span class="n">notification</span><span class="o">|</span>
+  <span class="vi">@reload_observer</span> <span class="o">=</span> <span class="n">notification_center</span><span class="o">.</span><span class="n">observe</span> <span class="no">ReloadNotification</span> <span class="k">do</span> <span class="o">|</span><span class="n">notification</span><span class="o">|</span>
     <span class="n">loadAndRefresh</span>
   <span class="k">end</span>
 <span class="k">end</span>
