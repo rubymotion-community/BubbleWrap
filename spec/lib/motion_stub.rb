@@ -7,6 +7,8 @@ module Motion
     end
     
     class Config
+      def files_dependencies
+      end
     end
   end
 end

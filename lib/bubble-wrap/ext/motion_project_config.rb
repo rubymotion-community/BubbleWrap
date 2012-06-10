@@ -1,14 +1,23 @@
-module Motion
-  module Project
-    class Config
+module BubbleWrap
+  module Ext
+    module ConfigTask
 
-      # HACK NEEDED since RubyMotion doesn't support full path
-      # dependencies.
-      def files_dependencies(deps_hash)
+      def self.included(base) 
+        base.class_eval do
+          alias_method :files_dependencies_without_bubblewrap, :files_dependencies
+          alias_method :files_dependencies, :files_dependencies_with_bubblewrap
+        end
+      end
+
+      def path_matching_expression
+        /^\.?\//
+      end
+
+      def files_dependencies_with_bubblewrap(deps_hash)
         res_path = lambda do |x|
-          path = /^\.?\//.match(x) ? x : File.join('.', x)
+          path = path_matching_expression.match(x) ? x : File.join('.', x)
           unless @files.include?(path)
-            App.fail "Can't resolve dependency `#{x}' because #{path} is not in #{@files.inspect}"
+            Motion::Project::App.send(:fail, "Can't resolve dependency `#{x}' because #{path} is not in #{@files.inspect}")
           end
           path
         end
@@ -17,6 +26,9 @@ module Motion
           @dependencies[res_path.call(path)] = deps.map(&res_path)
         end
       end
+
     end
   end
 end
+
+Motion::Project::Config.send(:include, BubbleWrap::Ext::ConfigTask)
