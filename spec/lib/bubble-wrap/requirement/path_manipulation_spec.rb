@@ -9,7 +9,7 @@ describe BubbleWrap::Requirement::PathManipulation do
 
   describe '#convert_caller_to_path' do
     it 'strips off from the second-to-last colon' do
-      @subject.convert_caller_to_path("/fake/:path:91:in `fake_method'").
+      @subject.convert_caller_to_path("/fake/:path/foo:91:in `fake_method'").
         should == '/fake/:path'
     end
 

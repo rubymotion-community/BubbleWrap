@@ -10,7 +10,10 @@ module BubbleWrap
 
       def convert_caller_to_path(string)
         chunks = string.split(':')
-        return chunks[0..-3].join(':') if chunks.size >= 3
+        if chunks.size >= 3
+          string = chunks[0..-3].join(':')
+          string = File.dirname(string)
+        end
         string
       end
 
