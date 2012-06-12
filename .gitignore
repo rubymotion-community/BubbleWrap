@@ -1,0 +1,8 @@
+.rake_tasks~
+pkg/*
+build/
+.DS_Store
+0
+.repl_history
+vendor/
+.dat*
