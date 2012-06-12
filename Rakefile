@@ -21,4 +21,3 @@ namespace :spec do
 
   task :all => [:lib, :motion]
 end
-
