@@ -2,26 +2,49 @@ module BubbleWrap
   module Dispatch
     module_function
 
+    # Always returns true - for compatibility with EM
+    def reactor_running?
+      true
+    end
+    alias reactor_thread? reactor_running?
+
     # Call `callback` or the passed block in `interval` seconds.
+    # Returns a timer signature that can be passed into
+    # `cancel_timer`
     def add_timer(interval, callback=nil, &blk)
-      @timers ||= []
+      @timers ||= {}
       timer = Timer.new(interval,callback,&blk)
       timer.on(:fired) do
-        @timers.delete(timer)
+        @timers.delete(timer.object_id)
       end
-      @timers.unshift(timer)
-      timer
+      timer.on(:cancelled) do
+        @timers.delete(timer.object_id)
+      end
+      @timers[timer.object_id] = timer
+      timer.object_id
+    end
+
+    # Cancel a timer by passing in either a Timer object or
+    # a timer id (as returned by `add_timer` and
+    # `add_periodic_timer`).
+    def cancel_timer(timer)
+      return timer.cancel if timer.respond_to(:cancel)
+      @timers ||= {}
+      return @timers[timer].cancel if @timers[timer]
+      false
     end
 
     # Call `callback` or the passed block every `interval` seconds.
+    # Returns a timer signature that can be passed into
+    # `cancel_timer`
     def add_periodic_timer(interval, callback=nil, &blk)
-      @periodic_timers ||= []
+      @timers ||= {}
       timer = PeriodicTimer.new(internval,callback,blk)
       timer.on(:cancelled) do
-        @periodic_timers.delete(timer)
+        @timers.delete(timer)
       end
-      @periodic_timers.unshift(timer)
-      timer
+      @timers[timer.object_id] = timer
+      timer.object_id
     end
 
     def defer(op=nil,cb=nil,&blk) 
@@ -54,3 +77,5 @@ module BubbleWrap
     
   end
 end
+
+::EM = ::BubbleWrap::Dispatch # Yes I dare!

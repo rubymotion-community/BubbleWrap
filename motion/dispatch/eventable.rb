@@ -10,7 +10,7 @@ module BubbleWrap
       def trigger(event, *args)
         @events ||= Hash.new { [] }
         @events[event].map do |event|
-          event.call(*args)
+          ::BubbleWrap::Dispatch.schedule(*args,&event)
         end
       end
 

@@ -17,6 +17,7 @@ module BubbleWrap
       def cancel
         @timer.invalidate
         trigger(:cancelled)
+        true
       end
 
     end
