@@ -207,8 +207,10 @@ class ExampleViewController < UIViewController
   include BW::KVO
 
   def viewDidLoad
-    @label = "Initial state"
-
+	@label = UILabel.alloc.initWithFrame [[20,20],[280,44]]
+	@label.text = ""
+	view.addSubview @label
+	
     observe(@label, "text") do |old_value, new_value|
       puts "Hello from viewDidLoad!"
     end

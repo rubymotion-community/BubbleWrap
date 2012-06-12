@@ -4,7 +4,9 @@
 #     include BW::KVO
 #
 #     def viewDidLoad
-#         @label = create_ui_label()
+#         @label = UILabel.alloc.initWithFrame [[20,20],[280,44]]
+#         @label.text = ""
+#         view.addSubview @label
 #
 #         observe(@label, "text") do |old_value, new_value|
 #             puts "Changed #{old_value} to #{new_value}"
