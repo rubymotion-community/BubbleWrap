@@ -274,7 +274,9 @@ simple interface:</p>
   <span class="kp">include</span> <span class="no">BW</span><span class="o">::</span><span class="no">KVO</span>
 
   <span class="k">def</span> <span class="nf">viewDidLoad</span>
-    <span class="vi">@label</span> <span class="o">=</span> <span class="s2">"Initial state"</span>
+    <span class="vi">@label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span> <span class="o">[[</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">280</span><span class="p">,</span><span class="mi">44</span><span class="o">]]</span>
+    <span class="vi">@label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span> <span class="vi">@label</span>
 
     <span class="n">observe</span><span class="p">(</span><span class="vi">@label</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">old_value</span><span class="p">,</span> <span class="n">new_value</span><span class="o">|</span>
       <span class="nb">puts</span> <span class="s2">"Hello from viewDidLoad!"</span>
