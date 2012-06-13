@@ -82,7 +82,7 @@ describe BubbleWrap::Dispatch do
         @proxy.proof = true
       end
       @proxy.proof.should == false
-      wait_for_change @proxy, 'proof' do
+      wait 0.5 do
         @proxy.proof.should == true
       end
     end
@@ -96,7 +96,7 @@ describe BubbleWrap::Dispatch do
         true
       end
       @subject.defer(op,cb)
-      wait_for_change @proxy, 'proof' do
+      wait 0.5 do
         @proxy.proof.should == true
       end
     end
@@ -109,20 +109,55 @@ describe BubbleWrap::Dispatch do
         @proxy.proof = true
       end
       @proxy.proof.should == false
-      wait_for_change @proxy, 'proof' do
+      wait 0.5 do
         @proxy.proof.should == true
       end
     end
 
-    it 'runs the operation on the reactor queue' do
-      @proxy.proof = ''
+# I wish these specs would run, but they kill RubyMotion. *sad face*
+
+#     it 'runs the operation on the reactor queue' do
+#       @proxy.proof = false
+#       @subject.schedule do
+#         @proxy.proof = ::Dispatch::Queue.current.to_s
+#       end
+#       wait 0.75 do
+#         @proxy.proof.should == "#{NSBundle.mainBundle.bundleIdentifier}.reactor"
+#       end
+#     end
+
+#     it 'runs the callback on the main queue' do
+#       @proxy.proof = false
+#       @subject.schedule do
+#         @proxy.proof = ::Dispatch::Queue.current.to_s
+#       end
+#       wait 0.75 do
+#         @proxy.proof.should == ::Dispatch::Queue.main.to_s
+#       end
+#     end
+  end
+
+  describe '.schedule_on_main' do
+    it 'defers the operation' do
+      @proxy.proof = false
       @subject.schedule do
-        @proxy.proof = ::Dispatch::Queue.current.to_s
+        @proxy.proof = true
       end
-      wait_for_change @proxy, 'proof' do
-        @proxy.proof.should == "#{NSBundle.mainBundle.bundleIdentifier}.reactor"
+      @proxy.proof.should == false
+      wait 0.5 do
+        @proxy.proof.should == true
       end
     end
+
+#     it 'runs the operation on the main queue' do
+#       @proxy.proof = false
+#       @subject.schedule do
+#         @proxy.proof = ::Dispatch::Queue.current.to_s
+#       end
+#       wait 0.75 do
+#         @proxy.proof.should == ::Dispatch::Queue.main.to_s
+#       end
+#     end
   end
 
 end
