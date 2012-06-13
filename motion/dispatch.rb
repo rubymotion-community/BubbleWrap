@@ -28,7 +28,7 @@ module BubbleWrap
     # a timer id (as returned by `add_timer` and
     # `add_periodic_timer`).
     def cancel_timer(timer)
-      return timer.cancel if timer.respond_to(:cancel)
+      return timer.cancel if timer.respond_to?(:cancel)
       @timers ||= {}
       return @timers[timer].cancel if @timers[timer]
       false
@@ -39,7 +39,7 @@ module BubbleWrap
     # `cancel_timer`
     def add_periodic_timer(interval, callback=nil, &blk)
       @timers ||= {}
-      timer = PeriodicTimer.new(internval,callback,blk)
+      timer = PeriodicTimer.new(interval,callback,&blk)
       timer.on(:cancelled) do
         @timers.delete(timer)
       end
@@ -47,10 +47,26 @@ module BubbleWrap
       timer.object_id
     end
 
+    # Defer is for integrating blocking operations into the reactor's control
+    # flow.
+    # Call defer with one or two blocks, the second block is optional.
+    #     operator = proc do
+    #       # perform a long running operation here
+    #       "result"
+    #     end
+    #     callback = proc do |result|
+    #       # do something with the result here, such as trigger a UI change
+    #     end
+    #     BubbleWrap::Dispatch.defer(operation,callback)
+    # The action of `defer` is to take the block specified in the first
+    # parameter (the "operation") and schedule it for asynchronous execution
+    # on a GCD concurrency queue. When the operation completes the result (if any)
+    # is passed into the callback (if present) which is scheduled on the main
+    # thread queue (in case you're using it to update the UI).
     def defer(op=nil,cb=nil,&blk) 
       schedule do
         result = (op||blk).call
-        schedule(result, &cb) if cb
+        schedule_on_main(result, &cb) if cb
       end
     end
 
@@ -68,7 +84,7 @@ module BubbleWrap
     # Schedule a block for execution on your applcation's main thread.
     # This is useful as UI updates need to be executed from the main
     # thread.
-    def main(*args, &blk)
+    def schedule_on_main(*args, &blk)
       cb = proc do
         blk.call(*args)
       end

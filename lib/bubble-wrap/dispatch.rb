@@ -1,6 +1,7 @@
 require 'bubble-wrap/loader'
 
-BW.require 'motion/dispatch**/*.rb' do
+BW.require 'motion/dispatch.rb'
+BW.require 'motion/dispatch/**/*.rb' do
   file('motion/dispatch.rb').uses_framework 'GCD'
   file('motion/dispatch.rb').depends_on Dir.glob('motion/dispatch/**/*.rb')
   file('motion/dispatch/timer.rb').depends_on 'motion/dispatch/eventable.rb'
