@@ -176,8 +176,7 @@ module BubbleWrap
           @body = NSMutableData.data
           @body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding)) unless @payload.nil? || !@files.nil?
           
-          unless @files.nil?
-            
+          unless @files.nil? || @payload.nil?
             @payload.each { |key, value|
               postData = NSMutableData.data
               s = "\r\n--#{@boundary}\r\n"
@@ -187,7 +186,9 @@ module BubbleWrap
               postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @payload.keys.last
               @body.appendData(postData)
             }
-            
+          end
+          
+          unless @files.nil?
             @files.each { |key, value|
               postData = NSMutableData.data
               s = "\r\n--#{@boundary}\r\n"
@@ -198,7 +199,6 @@ module BubbleWrap
               postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @files.keys.last
               @body.appendData(postData)
             }
-          
           end
           @body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless @files.nil?
           
