@@ -110,6 +110,13 @@ module BubbleWrap
         @method = http_method.upcase.to_s
         @delegator = options.delete(:action) || self
         @payload = options.delete(:payload)
+        @files = options.delete(:files)
+        @boundary = options.delete(:boundary)
+        if @boundary.nil? && !@files.nil?
+          uuid = CFUUIDCreate(nil)
+          @boundary = CFUUIDCreateString(nil, uuid)
+          CFRelease(uuid)
+        end
         @credentials = options.delete(:credentials) || {}
         @credentials = {:username => '', :password => ''}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
@@ -147,7 +154,7 @@ module BubbleWrap
         # http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/nsrunloop_Class/Reference/Reference.html#//apple_ref/doc/constant_group/Run_Loop_Modes
         # NSConnectionReplyMode
         
-        unless @payload.nil?
+        unless @payload.nil? || !@files.nil?
           if @payload.is_a?(Hash)
             params   = generate_params(@payload)
             @payload = params.join("&")
@@ -161,12 +168,41 @@ module BubbleWrap
                                                       cachePolicy:@cache_policy,
                                                       timeoutInterval:@timeout)
         @request.setHTTPMethod @method
+        @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if !@files.nil? && @headers.nil?
         @request.setAllHTTPHeaderFields(@headers) if @headers
 
         # @payload needs to be converted to data
-        unless @method == "GET" || @payload.nil?
-          @payload = @payload.to_s.dataUsingEncoding(NSUTF8StringEncoding)
-          @request.setHTTPBody @payload
+        unless @method == "GET" || (@payload.nil? && @files.nil?)
+          @body = NSMutableData.data
+          @body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding)) unless @payload.nil? || !@files.nil?
+          
+          unless @files.nil?
+            
+            @payload.each { |key, value|
+              postData = NSMutableData.data
+              s = "\r\n--#{@boundary}\r\n"
+              s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
+              s += value
+              postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
+              postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @payload.keys.last
+              @body.appendData(postData)
+            }
+            
+            @files.each { |key, value|
+              postData = NSMutableData.data
+              s = "\r\n--#{@boundary}\r\n"
+              s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{key}\"\r\n"
+              s += "Content-Type: application/octet-stream\r\n\r\n"
+              postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
+              postData.appendData(NSData.dataWithData(value))
+              postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @files.keys.last
+              @body.appendData(postData)
+            }
+          
+          end
+          @body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless @files.nil?
+          
+          @request.setHTTPBody @body
         end
 
         # NSHTTPCookieStorage.sharedHTTPCookieStorage
