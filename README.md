@@ -295,9 +295,9 @@ BubbleWrap::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
     json = BubbleWrap::JSON.parse(response.body.to_str)
     p json['id']
   elsif response.status_code.to_s =~ /40\d/
-    alert("Login failed") # helper provided by the kernel file in this repo.
+    App.alert("Login failed") # helper provided by the kernel file in this repo.
   else
-    alert(response.error_message)
+    App.alert(response.error_message)
   end
 end
 ```
