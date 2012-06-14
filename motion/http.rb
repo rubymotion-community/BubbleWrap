@@ -181,7 +181,7 @@ module BubbleWrap
               postData = NSMutableData.data
               s = "\r\n--#{@boundary}\r\n"
               s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
-              s += value
+              s += value.to_s
               postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
               postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @payload.keys.last
               @body.appendData(postData)
