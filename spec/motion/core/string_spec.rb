@@ -64,6 +64,47 @@ describe BubbleWrap::String do
         'snake_case'.underscore.should == 'snake_case'
       end
     end
+
   end
 
+  before do
+    @blue_color = UIColor.blueColor
+    @orange_color = UIColor.colorWithRed((255.0/255.0), green:(138.0/255.0), blue:(25.0/255.0), alpha:1.0)
+  end
+
+  describe "A UIColor should be created from a String with a hex color" do
+
+    it "with 6 digits" do
+      @orange_color_from_hex= '#FF8A19'.to_color
+      @orange_color_from_hex.should == @orange_color    
+    end 
+
+    it "with 3 digits" do 
+      @blue_color_from_hex = '#00F'.to_color
+      @blue_color_from_hex.should ==  @blue_color   
+    end 
+
+    it "with no # sign" do  
+      @orange_color_from_hex= 'FF8A19'.to_color
+      @orange_color_from_hex.should == @orange_color    
+    end 
+  end 
+
+  describe "A UIColor should not be created from an invalid String wuth" do
+
+
+    it "an invalid hex color" do
+      should.raise( ArgumentError ) {
+        'XXX'.to_color
+      }     
+    end
+    
+    it "a hex color with the wrong number of digits" do
+      should.raise( ArgumentError ) {
+        'FFFF'.to_color
+      }     
+    end
+
+    
+  end 
 end
