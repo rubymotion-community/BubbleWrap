@@ -112,6 +112,7 @@ module BubbleWrap
         @payload = options.delete(:payload)
         @files = options.delete(:files)
         @boundary = options.delete(:boundary)
+        # boundary is needed to separate post data, it is randomly generated with a uuid if nil
         if @boundary.nil? && !@files.nil?
           uuid = CFUUIDCreate(nil)
           @boundary = CFUUIDCreateString(nil, uuid)
@@ -168,6 +169,7 @@ module BubbleWrap
                                                       cachePolicy:@cache_policy,
                                                       timeoutInterval:@timeout)
         @request.setHTTPMethod @method
+        # if no header is specified, set multipart/dorm-data as default header
         @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if !@files.nil? && @headers.nil?
         @request.setAllHTTPHeaderFields(@headers) if @headers
 
@@ -176,6 +178,7 @@ module BubbleWrap
           @body = NSMutableData.data
           @body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding)) unless @payload.nil? || !@files.nil?
           
+          # for each data sent with payload, data has to be surrounded by boundary
           unless @files.nil? || @payload.nil?
             @payload.each { |key, value|
               postData = NSMutableData.data
@@ -188,6 +191,7 @@ module BubbleWrap
             }
           end
           
+          # for each data sent with files, data has to be surrounded by boundary
           unless @files.nil?
             @files.each { |key, value|
               postData = NSMutableData.data
@@ -200,6 +204,7 @@ module BubbleWrap
               @body.appendData(postData)
             }
           end
+          # this closes post data
           @body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless @files.nil?
           
           @request.setHTTPBody @body
