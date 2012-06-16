@@ -20,7 +20,7 @@ require 'bubble-wrap'
 When `bubble-wrap` is required it immediately requires `bubble-wrap/loader` which sets up the infrastructure needed to manipulate the `Rakefile` build process.  Once that is done we can freely call
 
 ```ruby
-BubbleWrap.require 'motion/core**/*.rb'
+BubbleWrap.require 'motion/core/**/*.rb'
 ```
 
 `BubbleWrap.require` (or simply `BW.require`) is used to include
@@ -36,7 +36,7 @@ of `BW::Requirement` and thus has access to all it's class methods.
 The most common use cases are setting file dependencies:
 
 ```ruby
-BW.require('motion/core**/*.rb') do
+BW.require('motion/core/**/*.rb') do
   file('motion/core/device/screen.rb').depends_on 'motion/core/device.rb'
 end
 ```
