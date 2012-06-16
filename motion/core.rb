@@ -11,7 +11,7 @@ module BubbleWrap
     UIColor.colorWithRed((r/255.0), green:(g/255.0), blue:(b/255.0), alpha:a)
   end
 
-  def NSLocalizedString(key, value)
+  def localized_string(key, value)
     NSBundle.mainBundle.localizedStringForKey(key, value:value, table:nil)
   end
 
