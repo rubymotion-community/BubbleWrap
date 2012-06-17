@@ -4,7 +4,7 @@ end
 
 unless defined?(BubbleWrap::LOADER_PRESENT)
 
-  require 'bubble-wrap/version'
+  require 'bubble-wrap/version' unless defined?(VERSION)
   require 'bubble-wrap/ext'
   require 'bubble-wrap/requirement'
 
