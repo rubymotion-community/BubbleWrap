@@ -20,4 +20,4 @@ module BubbleWrap
 
 end
 
-BW = BubbleWrap
+BW = BubbleWrap unless defined?(BW)
