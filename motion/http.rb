@@ -110,13 +110,10 @@ module BubbleWrap
         @method = http_method.upcase.to_s
         @delegator = options.delete(:action) || self
         @payload = options.delete(:payload)
+        #not tested
         @files = options.delete(:files)
-        @boundary = options.delete(:boundary)
-        if @boundary.nil? && !@files.nil?
-          uuid = CFUUIDCreate(nil)
-          @boundary = CFUUIDCreateString(nil, uuid)
-          CFRelease(uuid)
-        end
+        @boundary = options.delete(:boundary) || create_uuid unless @files.nil?
+        #
         @credentials = options.delete(:credentials) || {}
         @credentials = {:username => '', :password => ''}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
@@ -300,6 +297,13 @@ module BubbleWrap
       # This is a temporary method used for mocking.
       def create_connection(request, delegate)
         NSURLConnection.connectionWithRequest(request, delegate:delegate)
+      end
+
+      def create_uuid
+        uuid = CFUUIDCreate(nil)
+        uuid_string = CFUUIDCreateString(nil, uuid)
+        CFRelease(uuid)
+        uuid_string
       end
     end
   end
