@@ -73,6 +73,8 @@ A module with useful methods related to the running application
 # creates and shows an alert message.
 > App.run_after(0.5) {  p "It's #{Time.now}"   }
 # Runs the block after 0.5 seconds.
+> App.open_url("http://matt.aimonetti.net")
+# Opens the url using the device's browser. (accepts a string url or an instance of `NSURL`.
 > App::Persistence['channels'] # application specific persistence storage
 # ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
 > App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']

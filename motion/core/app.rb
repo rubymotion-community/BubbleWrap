@@ -47,6 +47,16 @@ module BubbleWrap
                                               repeats: false)
     end
 
+    # Opens an url (string or instance of `NSURL`)
+    # in the device's web browser.
+    # Usage Example:
+    #   App.open_url("http://matt.aimonetti.net")
+    def open_url(url)
+      unless url.is_a?(NSURL)
+        url = NSURL.URLWithString(url)
+      end
+      UIApplication.sharedApplication.openURL(url)
+    end
 
     @states = {}
 
