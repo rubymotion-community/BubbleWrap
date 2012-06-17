@@ -12,6 +12,7 @@ describe BubbleWrap::Ext::BuildTask do
       end
     end
     @subject.extend BubbleWrap::Ext::BuildTask
+    @default_frameworks = ['CoreGraphics', 'Foundation', 'GCD', 'UIKit']
   end
 
   describe '.extended' do
@@ -88,48 +89,43 @@ describe BubbleWrap::Ext::BuildTask do
 
     describe 'when app.frameworks is empty' do
       it 'sets the default frameworks' do
-        defaults = ['CoreGraphics', 'Foundation', 'UIKit']
         @config.stubs(:frameworks).returns(nil)
-        @config.expects(:frameworks=).with(defaults)
+        @config.expects(:frameworks=).with(@default_frameworks)
         @subject.setup
       end
     end
 
     describe 'when app.frameworks is empty' do
       it 'sets the default frameworks' do
-        defaults = ['CoreGraphics', 'Foundation', 'UIKit']
         @config.stubs(:frameworks).returns([])
-        @config.expects(:frameworks=).with(defaults)
+        @config.expects(:frameworks=).with(@default_frameworks)
         @subject.setup
       end
     end
 
     describe 'when app.frameworks contains defaults' do
       it 'sets the default frameworks' do
-        defaults = ['CoreGraphics', 'Foundation', 'UIKit']
-        @config.stubs(:frameworks).returns(defaults)
-        @config.expects(:frameworks=).with(defaults)
+        @config.stubs(:frameworks).returns(@default_frameworks)
+        @config.expects(:frameworks=).with(@default_frameworks)
         @subject.setup
       end
     end
 
     describe 'when app.frameworks contains non-defaults' do
       it 'sets the default frameworks and the contents' do
-        defaults = ['CoreGraphics', 'Foundation', 'UIKit']
         @config.stubs(:frameworks).returns(['Addressbook'])
-        @config.expects(:frameworks=).with(defaults + ['Addressbook'])
+        @config.expects(:frameworks=).with(['Addressbook'] + @default_frameworks)
         @subject.setup
       end
     end
 
     describe 'when BW::Requirement.frameworks has contents' do
       it 'sets the default frameworks and the contents' do
-        defaults = ['CoreGraphics', 'Foundation', 'UIKit']
         BW.require('motion/core.rb') do
           file('motion/core.rb').uses_framework('Addressbook')
         end
         @config.stubs(:frameworks).returns(nil)
-        @config.expects(:frameworks=).with(['Addressbook'] + defaults)
+        @config.expects(:frameworks=).with(['Addressbook'] + @default_frameworks)
         @subject.setup
       end
     end
