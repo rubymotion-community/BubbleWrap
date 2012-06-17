@@ -111,6 +111,7 @@ describe "HTTP" do
       @cache_policy = 24234
       @leftover_option = 'trololo'
       @headers = { 'User-Agent' => "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \n Gecko/20100101 Firefox/12.0" }
+      # @files = [NSJSONSerialization.dataWithJSONObject({ fake: 'json' }, options:0, error:nil), NSMutableData.data]
       @options = {  action: @action, 
         payload: @payload, 
         credentials: @credentials, 
