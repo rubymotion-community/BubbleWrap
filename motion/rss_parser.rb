@@ -93,7 +93,7 @@ class RSSParser
   
   # as the parser finds characters, this method is being called
   def parser(parser, foundCharacters:string)
-    if @current_item && @current_item.respond_to?(@current_element)
+    if @current_element && @current_item && @current_item.respond_to?(@current_element)
       el = @current_item.send(@current_element) 
       el << string if el.respond_to?(:<<)
     end
@@ -103,6 +103,8 @@ class RSSParser
   def parser(parser, didEndElement:element, namespaceURI:uri, qualifiedName:name)
     if element == 'item'
       @block.call(@current_item) if @block
+    else 
+      @current_element = nil
     end
   end
   
