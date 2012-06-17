@@ -2,22 +2,27 @@ unless defined?(Motion::Project::Config)
   raise "This file must be required within a RubyMotion project Rakefile."
 end
 
-require 'bubble-wrap/version'
-require 'bubble-wrap/ext'
-require 'bubble-wrap/requirement'
+unless defined?(BubbleWrap::LOADER_PRESENT)
 
-module BubbleWrap
+  require 'bubble-wrap/version'
+  require 'bubble-wrap/ext'
+  require 'bubble-wrap/requirement'
 
-  module_function
+  module BubbleWrap
 
-  def root
-    File.expand_path('../../../', __FILE__)
+    LOADER_PRESENT=true
+    module_function
+
+    def root
+      File.expand_path('../../../', __FILE__)
+    end
+
+    def require(file_spec, &block)
+      Requirement.scan(caller.first, file_spec, &block)
+    end
+
   end
 
-  def require(file_spec, &block)
-    Requirement.scan(caller.first, file_spec, &block)
-  end
-
+  BW = BubbleWrap unless defined?(BW)
+  
 end
-
-BW = BubbleWrap unless defined?(BW)
