@@ -65,8 +65,10 @@ module BubbleWrap
         paths.fetch(relative)
       end
 
-      def files
-        paths.values.map(&:to_s)
+      def files(app_files=nil)
+        files = paths.values.map(&:to_s)
+        files += app_files if app_files
+        files.uniq
       end
 
       def files_dependencies
@@ -77,9 +79,10 @@ module BubbleWrap
         deps
       end
 
-      def frameworks
+      def frameworks(app_frameworks=nil)
         frameworks = ['UIKit', 'Foundation', 'CoreGraphics'] +
           paths.values.map(&:frameworks)
+        frameworks += app_frameworks if app_frameworks
         frameworks.flatten.compact.sort.uniq
       end
 
