@@ -150,8 +150,8 @@ module BubbleWrap
       def initiate_request(url_string)
         # http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/nsrunloop_Class/Reference/Reference.html#//apple_ref/doc/constant_group/Run_Loop_Modes
         # NSConnectionReplyMode
-        
-        unless @payload.nil? || !@files.nil?
+
+        unless @payload.nil?
           if @payload.is_a?(Hash)
             params   = generate_params(@payload)
             @payload = params.join("&")
@@ -230,9 +230,9 @@ module BubbleWrap
       end
 
       def connection(connection, didFailWithError: error)
+        log "HTTP Connection failed #{error.localizedDescription}"
         UIApplication.sharedApplication.networkActivityIndicatorVisible = false
         @request.done_loading!
-        log "HTTP Connection failed #{error.localizedDescription}"
         @response.error_message = error.localizedDescription
         call_delegator_with_response
       end
