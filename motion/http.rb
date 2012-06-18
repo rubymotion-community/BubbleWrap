@@ -167,13 +167,17 @@ module BubbleWrap
         @request.setHTTPMethod @method
         @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if !@files.nil? && @headers.nil?
         @request.setAllHTTPHeaderFields(@headers) if @headers
-        
+
+        # if it's an NSData, just set it
+        if @payload.is_a?(NSData)
+          @request.setHTTPBody @payload
+
         # @payload needs to be converted to data
-        unless @method == "GET" || (@payload.nil? && @files.nil?)
+        elsif @method != "GET" && (@payload || @files)
           @body = NSMutableData.data
           @body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding)) unless @payload.nil? || !@files.nil?
-          
-          unless @files.nil? || @payload.nil?
+
+          if @files && @payload
             @payload.each { |key, value|
               postData = NSMutableData.data
               s = "\r\n--#{@boundary}\r\n"
@@ -184,8 +188,8 @@ module BubbleWrap
               @body.appendData(postData)
             }
           end
-          
-          unless @files.nil?
+
+          if @files
             @files.each { |key, value|
               postData = NSMutableData.data
               s = "\r\n--#{@boundary}\r\n"
@@ -197,8 +201,8 @@ module BubbleWrap
               @body.appendData(postData)
             }
           end
-          @body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless @files.nil?
-          
+          @body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) if @files
+
           @request.setHTTPBody @body
         end
 
