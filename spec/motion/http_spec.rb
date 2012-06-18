@@ -69,19 +69,19 @@ describe "HTTP" do
     it "says OK status code 20x" do
       @response.ok?.should.equal true
       (200..209).each do |code|
-        BubbleWrap::HTTP::Response.new({status_code: code}).ok?.should.be.true
+        BubbleWrap::HTTP::Response.new(status_code: code).ok?.should.be.true
       end
       [100..101, 300..307, 400..417, 500..505].inject([]){|codes, rg| codes += rg.to_a}.each do |code|
-        BubbleWrap::HTTP::Response.new({status_code: code}).ok?.should.be.false
+        BubbleWrap::HTTP::Response.new(status_code: code).ok?.should.be.false
       end
     end
 
     it "updates ivars when calling update" do
-      @response.update( { one: 'one', two: 'two' } )
+      @response.update(one: 'one', two: 'two')
       @response.instance_variable_get(:@one).should.equal 'one'
       @response.instance_variable_get(:@two).should.equal 'two'
 
-      @response.update( { one: 'three', two: 'four' } )
+      @response.update(one: 'three', two: 'four')
       @response.instance_variable_get(:@one).should.equal 'three'
       @response.instance_variable_get(:@two).should.equal 'four'
     end
@@ -111,6 +111,7 @@ describe "HTTP" do
       @cache_policy = 24234
       @leftover_option = 'trololo'
       @headers = { 'User-Agent' => "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \n Gecko/20100101 Firefox/12.0" }
+      # @files = [NSJSONSerialization.dataWithJSONObject({ fake: 'json' }, options:0, error:nil), NSMutableData.data]
       @options = {  action: @action, 
         payload: @payload, 
         credentials: @credentials, 

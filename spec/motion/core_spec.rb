@@ -37,6 +37,18 @@ describe 'BubbleWrap' do
 
   end
   
+  describe "uuid" do
 
+    it "creates always the new UUID" do
+      previous = BW.create_uuid  
+      10.times do
+        uuid = BW.create_uuid
+        uuid.should.not.equal previous
+        uuid.size.should.equal 36
+        previous = uuid
+      end
+    end
+
+  end
 
 end

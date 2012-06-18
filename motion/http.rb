@@ -110,13 +110,10 @@ module BubbleWrap
         @method = http_method.upcase.to_s
         @delegator = options.delete(:action) || self
         @payload = options.delete(:payload)
+        #not tested
         @files = options.delete(:files)
-        @boundary = options.delete(:boundary)
-        if @boundary.nil? && !@files.nil?
-          uuid = CFUUIDCreate(nil)
-          @boundary = CFUUIDCreateString(nil, uuid)
-          CFRelease(uuid)
-        end
+        @boundary = options.delete(:boundary) || BW.create_uuid unless @files.nil?
+        #
         @credentials = options.delete(:credentials) || {}
         @credentials = {:username => '', :password => ''}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
@@ -170,7 +167,7 @@ module BubbleWrap
         @request.setHTTPMethod @method
         @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if !@files.nil? && @headers.nil?
         @request.setAllHTTPHeaderFields(@headers) if @headers
-
+        
         # @payload needs to be converted to data
         unless @method == "GET" || (@payload.nil? && @files.nil?)
           @body = NSMutableData.data
@@ -301,6 +298,7 @@ module BubbleWrap
       def create_connection(request, delegate)
         NSURLConnection.connectionWithRequest(request, delegate:delegate)
       end
+
     end
   end
 end
