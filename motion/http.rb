@@ -221,6 +221,10 @@ module BubbleWrap
       def connection(connection, didReceiveData:received_data)
         @received_data ||= NSMutableData.new
         @received_data.appendData(received_data)
+
+        if download_progress = options[:download_progress]
+          download_progress.call(@received_data.length.to_f, response_size)
+        end
       end
 
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
@@ -241,6 +245,11 @@ module BubbleWrap
         call_delegator_with_response
       end
 
+      def connection(connection, didSendBodyData:sending, totalBytesWritten:written, totalBytesExpectedToWrite:expected)
+        if upload_progress = options[:upload_progress]
+          upload_progress.call(sending, written, expected)
+        end
+      end
 
       # The transfer is done and everything went well
       def connectionDidFinishLoading(connection)
