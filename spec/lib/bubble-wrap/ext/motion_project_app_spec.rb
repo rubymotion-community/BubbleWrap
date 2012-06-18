@@ -12,7 +12,7 @@ describe BubbleWrap::Ext::BuildTask do
       end
     end
     @subject.extend BubbleWrap::Ext::BuildTask
-    @default_frameworks = ['CoreGraphics', 'Foundation', 'GCD', 'UIKit']
+    @default_frameworks = ['CoreGraphics', 'Foundation', 'UIKit']
   end
 
   describe '.extended' do
