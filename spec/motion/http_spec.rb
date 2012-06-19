@@ -198,6 +198,10 @@ describe "HTTP" do
           get.instance_variable_get(:@url).description.should.equal "#{@localhost_url}?name=marin"
         end
 
+        # it "sets the payload without conversion to-from NSString if the payload was NSData" do
+          
+        # end
+
       end
 
       it "should set default timeout to 30s or the one from hash" do

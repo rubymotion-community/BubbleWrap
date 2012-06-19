@@ -177,7 +177,6 @@ module BubbleWrap
       def connectionDidFinishLoading(connection)
         UIApplication.sharedApplication.networkActivityIndicatorVisible = false
         @request.done_loading!
-        # copy the data in a local var that we will attach to the response object
         response_body = NSData.dataWithData(@received_data) if @received_data
         @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url)
 
@@ -218,39 +217,51 @@ module BubbleWrap
         request
       end
 
+      def append_only_payload(body)
+        if @payload.is_a?(NSData)
+          body.appendData(@payload)
+        else
+          body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding))
+        end
+      end
+
+      def append_files_and_payload(body)
+        @payload.each do |key, value|
+          postData = NSMutableData.data
+          s = "\r\n--#{@boundary}\r\n"
+          s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
+          s += value.to_s
+          postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
+          postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @payload.keys.last
+          body.appendData(postData)
+        end
+        append_files(body) 
+      end
+
+      def append_files(body)
+        @files.each do |key, value|
+          postData = NSMutableData.data
+          s = "\r\n--#{@boundary}\r\n"
+          s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{key}\"\r\n"
+          s += "Content-Type: application/octet-stream\r\n\r\n"
+          postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
+          postData.appendData(NSData.dataWithData(value))
+          postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @files.keys.last
+          body.appendData(postData)
+        end
+      end
+
       def create_request_body
         return nil if @method == "GET"
         return nil unless (@payload || @files)
         body = NSMutableData.data
-        
-        if @files.nil? && @payload
-          body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding))
-        end
-
-        if @files
-          if @payload
-            @payload.each do |key, value|
-              postData = NSMutableData.data
-              s = "\r\n--#{@boundary}\r\n"
-              s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
-              s += value.to_s
-              postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
-              postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @payload.keys.last
-              body.appendData(postData)
-            end
-          end
-
-          @files.each do |key, value|
-            postData = NSMutableData.data
-            s = "\r\n--#{@boundary}\r\n"
-            s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{key}\"\r\n"
-            s += "Content-Type: application/octet-stream\r\n\r\n"
-            postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
-            postData.appendData(NSData.dataWithData(value))
-            postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @files.keys.last
-            body.appendData(postData)
-          end
-
+        #THIS IS NOT 100% CLEAR YET. ON A TOP PRIORITY TO TEST / FIX
+        if @files.nil?
+          append_only_payload(body)
+        elsif @payload.nil?
+          append_files(body)
+        else
+          append_files_and_payload(body)
         end
         body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) if @files
         body
