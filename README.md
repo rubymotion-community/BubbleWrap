@@ -323,6 +323,7 @@ end
 ```
 
 ## RSS Parser
+**Since: > version 1.0.0**
 
 The RSS Parser provides an easy interface to consume RSS feeds in an
 asynchronous (non blocking) way.
@@ -349,6 +350,7 @@ following attributes:
 The item can be converted into a hash by calling `to_hash` on it.
 
 ### Delegate
+**Since: > version 1.0.0**
 
 You can also designate a delegate to the parser and implement change
 state callbacks:
@@ -396,10 +398,153 @@ feed_parser = BW::RSSParser.new(feed, true)
 ```
 
 
-# BW::Dispatch
+## Reactor
+**Since: > version 1.0.0**
 
-TODO: Write a description and some examples
+`BubbleWrap::Reactor` is a simplified, mostly complete implementation of
+the [Event Machine](http://rubyeventmachine.com/) API.  In fact 
+`BubbleWrap::Reactor` is aliased to `EM` in the runtime environment.
 
+### Deferables
+
+BubbleWrap provides both a `Deferrable` mixin and a `DefaultDeferrable`
+class, which simply mixes in deferrable behaviour if you don't want to
+implement your own.
+
+A deferrable is an object with four states: unknown, successful, failure
+and timeout.  When you initially create a deferrable it is in an unknown
+state, however you can assign callbacks to be run when the object
+changes to either successful or failure state.
+
+#### Success
+
+```ruby
+> d = EM::DefaultDeferrable.new
+=> #<BubbleWrap::Reactor::DefaultDeferrable:0x6d859a0>
+> d.callback { |what| puts "Great #{what}!" }
+=> [#<Proc:0x6d8a1e0>]
+> d.succeed "justice"
+Great justice!
+=> nil
+```
+
+#### Failure
+
+```ruby
+> d = EM::DefaultDeferrable.new
+=> #<BubbleWrap::Reactor::DefaultDeferrable:0x8bf3ee0>
+> d.errback { |what| puts "Great #{what}!" }
+=> [#<Proc:0x8bf3ef0>]
+> d.fail "sadness"
+Great sadness!
+=> nil
+```
+
+#### Timeout
+
+```ruby
+> d = EM::DefaultDeferrable.new
+=> #<BubbleWrap::Reactor::DefaultDeferrable:0x8bf5910>
+> d.errback { puts "Great scott!" }
+=> [#<Proc:0x8bf6350>]
+> d.timeout 2
+=> #<BubbleWrap::Reactor::Timer:0x6d920a0 @timer=#<__NSCFTimer:0x6d91990>>
+# wait...
+> Great scott!
+```
+
+### Timers
+
+*All timers can be cancelled using `EM.cancel_timer`.*
+
+#### One-shot timers
+
+```ruby
+> EM.add_timer 1.0 do
+>   puts "Great scott!"
+> end
+=> 146335904
+> Great scott!
+```
+
+#### Periodic timers
+
+```ruby
+> count = 0
+=> 0
+> timer = EM.add_periodic_timer 1.0 do
+>   count = count + 1
+>   puts "Great scott!"
+>   (count < 10) || EM.cancel_timer(timer)
+> end
+=> 146046832
+> Great scott!
+Great scott!
+Great scott!
+Great scott!
+Great scott!
+Great scott!
+Great scott!
+Great scott!
+Great scott!
+Great scott!
+```
+
+### Scheduling operations
+
+You can use `EM.schedule` to schedule blocks to be executed 
+asynchronously.  BubbleWrap deviates from the EventMachine
+API here in that it also provides `EM.schedule_on_main` which
+makes sure that the task is run asynchronously, but on the 
+application's main thread - this is necessary if you are 
+updating the user interface.
+
+```ruby
+> EM.schedule { puts Thread.current.object_id }
+146027920
+=> nil
+> EM.schedule_on_main { puts Thread.current.object_id }
+112222480
+=> nil
+```
+
+### Deferrable operations
+
+You can also use `EM.defer` in much the same way as `EM.schedule`
+with one important difference, you can pass in a second `proc` 
+which will be called when the first has completed, and be passed
+it's result as an argument:
+
+```ruby
+> operation = proc { 99 }
+=> #<Proc:0x6d763c0>
+> callback = proc { |speed| puts speed >= 99 ? "Time travel!" : "Conventional travel!" }
+=> #<Proc:0x8bd3910>
+> EM.defer(operation, callback)
+=> nil
+Time travel!
+```
+
+### Events
+
+Although not part of the EventMachine API, BubbleWrap provides
+an `Eventable` mixin for use instrumenting objects with simple
+event triggering behaviour. `BubbleWrap::Reactor` uses this
+behind the scenes in several places, and as it's a very handy
+idiom it is available as a public API.
+
+```ruby
+> o = Class.new { include EM::Eventable }.new
+=> #<#<Class:0x6dc1310>:0x6dc2ec0>
+> o.on(:november_5_1955) { puts "Ow!" }
+=> [#<Proc:0x6dc6300>]
+> o.on(:november_5_1955) { puts "Flux capacitor!" }
+=> [#<Proc:0x6dc6300>, #<Proc:0x6dc1ba0>]
+> o.trigger(:november_5_1955)
+Ow!
+Flux capacitor!
+=> [nil, nil]
+```
 
 Do you have a suggestion for a specific wrapper? Feel free to open an
 issue/ticket and tell us about what you are after. If you have a
