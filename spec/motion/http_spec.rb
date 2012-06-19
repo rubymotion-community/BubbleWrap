@@ -169,7 +169,15 @@ describe "HTTP" do
         options.should.be.empty
       end
 
-      describe "PAYLOAD / FILES" do
+      describe "PAYLOAD / UPLOAD FILES" do
+
+        def create_query(payload, files)
+          BubbleWrap::HTTP::Query.new( '', :post, { payload: payload, files: files } )
+        end
+
+        def sample_data
+          NSData.dataWithBytesNoCopy(Pointer.new(:char, 'abc'), length:24)
+        end
 
         it "should set payload from options{} to @payload" do
           payload = "user[name]=marin&user[surname]=usalj&twitter=@mneorr&website=mneorr.com&values[]=apple&values[]=orange&values[]=peach&credentials[username]=mneorr&credentials[password]=123456xx!@crazy"
@@ -198,9 +206,26 @@ describe "HTTP" do
           get.instance_variable_get(:@url).description.should.equal "#{@localhost_url}?name=marin"
         end
 
-        # it "sets the payload without conversion to-from NSString if the payload was NSData" do
-          
-        # end
+        it "sets the payload without conversion to-from NSString if the payload was NSData" do
+          data = sample_data
+          query = create_query(data, nil)
+          query.request.HTTPBody.should.equal data
+        end
+
+        it "wraps the files in boundary if files were given" do
+          payload = { fake_name: 'arnold', surname: 'schwarzenegger' }
+          files = { sample_file: sample_data }
+          query = create_query(payload, files)
+          uuid = query.instance_variable_get(:@boundary)
+
+          expected_data_s = "fake_name=arnold&surname=schwarzenegger\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"sample_file\"; filename=\"sample_file\"\r\nContent-Type: application/octet-stream\r\n\r\n#{sample_data.to_str}\r\n--#{uuid}--\r\n"
+
+          query.request.HTTPBody.to_str.should.equal expected_data_s
+        end
+
+        it "should or shouldn't wrap the POST Payload in boundary?" do
+          true.should.equal true
+        end
 
       end
 
