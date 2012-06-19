@@ -106,10 +106,11 @@ module BubbleWrap
       # :headers<Hash>     - headers send with the request
       # Anything else will be available via the options attribute reader.
       #
-      def initialize(url, http_method = :get, options={})
+      def initialize(url_string, http_method = :get, options={})
         @method = http_method.upcase.to_s
         @delegator = options.delete(:action) || self
         @payload = options.delete(:payload)
+        convert_payload_to_params if @payload.is_a?(Hash)
         #not tested
         @files = options.delete(:files)
         @boundary = options.delete(:boundary) || BW.create_uuid unless @files.nil?
@@ -117,16 +118,23 @@ module BubbleWrap
         @credentials = options.delete(:credentials) || {}
         @credentials = {:username => '', :password => ''}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
+        #extract
         @headers = escape_line_feeds(options.delete :headers)
+        @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if @files && @headers.nil?
+
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @options = options
         @response = HTTP::Response.new
-        initiate_request(url)
-        connection.start
+        @url = initialize_url(url_string)
+        create_request_body
+        initiate_request
+        @connection = create_connection(request, self)
+        @connection.start
+
         UIApplication.sharedApplication.networkActivityIndicatorVisible = true
-        connection
       end
 
+      #will move to private
       def generate_params(payload, prefix=nil)
         list = []
         payload.each do |k,v|
@@ -147,67 +155,23 @@ module BubbleWrap
         return list.flatten
       end
 
-      def initiate_request(url_string)
-        # http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/nsrunloop_Class/Reference/Reference.html#//apple_ref/doc/constant_group/Run_Loop_Modes
-        # NSConnectionReplyMode
+      def initiate_request
+        log "BubbleWrap::HTTP building a NSRequest for #{@url.description}"
 
-        unless @payload.nil?
-          if @payload.is_a?(Hash)
-            params   = generate_params(@payload)
-            @payload = params.join("&")
-          end
-          url_string = "#{url_string}?#{@payload}" if @method == "GET"
-        end
-        #this method needs a refactor when the specs are done. (especially this utf8 escaping part)
-        log "BubbleWrap::HTTP building a NSRequest for #{url_string}"
-        @url = NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
         @request = NSMutableURLRequest.requestWithURL(@url,
                                                       cachePolicy:@cache_policy,
                                                       timeoutInterval:@timeout)
         @request.setHTTPMethod @method
-        @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if !@files.nil? && @headers.nil?
-        @request.setAllHTTPHeaderFields(@headers) if @headers
+        @request.setAllHTTPHeaderFields(@headers)
+        @request.setHTTPBody @body
+        # # if it's an NSData, just set it
+        # if @payload.is_a?(NSData)
+          
+        # # @payload needs to be converted to data
+        # elsif @method != "GET"
+        #   add_request_body
+        # end
 
-        # if it's an NSData, just set it
-        if @payload.is_a?(NSData)
-          @request.setHTTPBody @payload
-
-        # @payload needs to be converted to data
-        elsif @method != "GET" && (@payload || @files)
-          @body = NSMutableData.data
-          @body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding)) unless @payload.nil? || !@files.nil?
-
-          if @files && @payload
-            @payload.each { |key, value|
-              postData = NSMutableData.data
-              s = "\r\n--#{@boundary}\r\n"
-              s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
-              s += value.to_s
-              postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
-              postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @payload.keys.last
-              @body.appendData(postData)
-            }
-          end
-
-          if @files
-            @files.each { |key, value|
-              postData = NSMutableData.data
-              s = "\r\n--#{@boundary}\r\n"
-              s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{key}\"\r\n"
-              s += "Content-Type: application/octet-stream\r\n\r\n"
-              postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
-              postData.appendData(NSData.dataWithData(value))
-              postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @files.keys.last
-              @body.appendData(postData)
-            }
-          end
-          @body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) if @files
-
-          @request.setHTTPBody @body
-        end
-
-        # NSHTTPCookieStorage.sharedHTTPCookieStorage
-        @connection = create_connection(request, self)
         patch_nsurl_request
       end
 
@@ -281,6 +245,54 @@ module BubbleWrap
 
 
       private
+
+      def create_request_body
+        return nil if @method == "GET"
+        return nil unless (@payload || @files)
+        @body = NSMutableData.data
+        
+        if @files.nil? && @payload
+          @body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding))
+        end
+
+        if @files && @payload
+          @payload.each { |key, value|
+            postData = NSMutableData.data
+            s = "\r\n--#{@boundary}\r\n"
+            s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
+            s += value.to_s
+            postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
+            postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @payload.keys.last
+            @body.appendData(postData)
+          }
+        end
+
+        if @files
+          @files.each { |key, value|
+            postData = NSMutableData.data
+            s = "\r\n--#{@boundary}\r\n"
+            s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{key}\"\r\n"
+            s += "Content-Type: application/octet-stream\r\n\r\n"
+            postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
+            postData.appendData(NSData.dataWithData(value))
+            postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @files.keys.last
+            @body.appendData(postData)
+          }
+        end
+        @body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) if @files
+      end
+
+      def initialize_url(url_string)
+        if @method == "GET" && @payload
+          url_string += "?#{@payload}"
+        end
+        NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
+      end
+
+      def convert_payload_to_params
+        params   = generate_params(@payload)
+        @payload = params.join("&")
+      end
 
       def log(message)
         NSLog message if SETTINGS[:debug]

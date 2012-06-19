@@ -226,7 +226,6 @@ describe "HTTP" do
         @payload = { name: 'apple', model: 'macbook'}
         @headers = { fake: 'headers' }
         @get_query = BubbleWrap::HTTP::Query.new( @url_string , :get,  { headers: @headers, payload: @payload } )
-        @get_query.initiate_request @url_string
       end
 
       it "should check if @payload is a hash before generating params" do
@@ -237,8 +236,9 @@ describe "HTTP" do
       end
 
       it "should check if payload is nil" do
-        nil_payload = BubbleWrap::HTTP::Query.new( 'nil' , :post, {} )
-        lambda{ nil_payload.initiate_request('fake') }.should.not.raise NoMethodError        
+        lambda{ 
+          BubbleWrap::HTTP::Query.new( 'nil' , :post, {} ) 
+        }.should.not.raise NoMethodError        
       end      
 
       it "should set the payload in URL only for GET request" do
@@ -253,10 +253,12 @@ describe "HTTP" do
         [:post, :put, :delete, :head, :patch].each do |method|
           query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: @payload } )
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
-
           real_payload.should.equal 'name=apple&model=macbook'
         end
 
+        get = BubbleWrap::HTTP::Query.new( 'nil' , :get, { payload: @payload } )
+        get_payload = NSString.alloc.initWithData(get.request.HTTPBody, encoding:NSUTF8StringEncoding)
+        get_payload.should.be.empty
       end
 
       it "should add UTF8 escaping on the URL string" do
