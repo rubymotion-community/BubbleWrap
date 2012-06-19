@@ -1,0 +1,131 @@
+# Asynchronous and non blocking RSS Parser based on NSXMLParser.
+# The parser will progressively parse a feed and yield each item to the provided block.
+#
+# The parser can also trigger delegate methods, you can define the following delegate method on the receiving object:
+# def when_parser_initializes; end
+# def when_parser_parses; end
+# def when_parser_is_done; end
+#
+# @see https://developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSXMLParser_Class/Reference/Reference.html
+#
+# @usage example:
+#   feed = RSSParser.new(URL)
+#   feed.delegate = self
+#   feed.parse do |item|
+#     print item.link
+#   end
+#   def when_parser_is_done
+#     App.alert('parsing complete')
+#   end
+#
+module BubbleWrap
+  class RSSParser
+
+    attr_accessor :parser, :source, :doc, :debug, :delegate
+    attr_reader :state
+
+    # RSSItem is a simple class that holds all of RSS items.
+    # Extend this class to display/process the item differently.
+    class RSSItem
+      attr_accessor :title, :description, :link, :guid, :pubDate, :enclosure
+
+      def initialize
+        @title, @description, @link, @pubDate, @guid = '', '', '', '', ''
+      end
+
+      def to_hash
+        {
+          :title        => title,
+          :description  => description,
+          :link         => link,
+          :pubDate      => pubDate,
+          :guid         => guid,
+          :enclosure    => enclosure
+        }
+      end
+    end
+
+    def initialize(input, data=false)
+      if data
+        data_to_parse = input.respond_to?(:to_data) ? input.to_data : input
+        @source = data_to_parse
+        @parser = NSXMLParser.alloc.initWithData(@source)
+      else
+        url = input.is_a?(NSURL) ? input : NSURL.alloc.initWithString(input)
+        @source = url
+        # Delay the initialization of the underlying NSXMLParser so it
+        # doesn't load the content of the url until it's triggered.
+        @parser = Proc.new{ NSXMLParser.alloc.initWithContentsOfURL(url) }
+      end
+      self.state = :initializes
+      self
+    end
+
+    def state=(new_state)
+      callback_meth = "when_parser_#{new_state}"
+      if self.delegate && self.delegate.respond_to?(callback_meth)
+        self.delegate.send(callback_meth)
+      end
+    end
+
+    # Starts the parsing and send each parsed item through its block.
+    #
+    # Usage:
+    #   feed.parse do |item|
+    #     puts item.link
+    #   end
+    def parse(&block)
+      @block = block
+      @parser = @parser.call if @parser.respond_to?(:call)
+      @parser.shouldProcessNamespaces = true
+      @parser.delegate ||= self
+      @parser.parse
+    end
+
+    # Delegate getting called when parsing starts
+    def parserDidStartDocument(parser)
+      self.state = :parses
+      puts "starting parsing.." if debug
+    end
+
+    # Delegate being called when an element starts being processed
+    def parser(parser, didStartElement:element, namespaceURI:uri, qualifiedName:name, attributes:attrs)
+      if element == 'item'
+        @current_item = RSSItem.new
+      elsif element == 'enclosure'
+        @current_item.enclosure = attrs
+      end
+      @current_element = element
+    end
+    
+    # as the parser finds characters, this method is being called
+    def parser(parser, foundCharacters:string)
+      if @current_element && @current_item && @current_item.respond_to?(@current_element)
+        el = @current_item.send(@current_element) 
+        el << string if el.respond_to?(:<<)
+      end
+    end
+    
+    # method called when an element is done being parsed
+    def parser(parser, didEndElement:element, namespaceURI:uri, qualifiedName:name)
+      if element == 'item'
+        @block.call(@current_item) if @block
+      else 
+        @current_element = nil
+      end
+    end
+    
+    # delegate getting called when the parsing is done
+    # If a block was set, it will be called on each parsed items
+    def parserDidEndDocument(parser)
+      self.state = :is_done
+      puts "done parsing" if debug
+    end
+
+    # TODO: implement
+    # parser:parseErrorOccurred:
+    # parser:validationErrorOccurred:
+    # parser:foundCDATA:
+
+  end
+end

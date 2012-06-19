@@ -35,6 +35,11 @@ If you wish to only include the `HTTP` wrapper:
 require 'bubble-wrap/http'
 ```
 
+If you wish to only include the `RSS Parser` wrapper:
+
+```ruby
+require 'bubble-wrap/rss_parser'
+```
 
 Note: **DON'T** use `app.files =` in your Rakefile to set up your files once you've required BubbleWrap.
 Make sure to append onto the array or use `+=`.
@@ -304,16 +309,92 @@ BubbleWrap::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
 end
 ```
 
+## RSS Parser
+
+The RSS Parser provides an easy interface to consume RSS feeds in an
+asynchronous (non blocking) way.
+
+
+```ruby
+feed_parser = BW::RSSParser.new("http://feeds2.feedburner.com/sdrbpodcast")
+feed_parser.parse do |item|
+  # called asynchronously as items get parsed
+  p item.title
+end
+```
+
+The yielded RSS item is of type `RSSParser::RSSItem` and has the
+following attributes:
+
+* title
+* description
+* link
+* guid
+* pubDate
+* enclosure
+
+The item can be converted into a hash by calling `to_hash` on it.
+
+### Delegate
+
+You can also designate a delegate to the parser and implement change
+state callbacks:
+
+```ruby
+feed_parser = BW::RSSParser.new("http://feeds.feedburner.com/sdrbpodcast")
+feed_parser.delegate = self
+feed.parse do |item|
+  p item.title
+end
+
+# Delegate method
+def when_parser_initializes
+  p "The parser is ready!"
+end
+
+def when_parser_parses
+  p "The parser started parsing the document"
+end
+
+def when_parser_is_done
+  p "The feed is entirely parsed, congratulations!"
+end
+```
+
+These delegate methods are optional, however, you might find the
+`when_parser_is_done` callback useful if you collected all the items and
+want to process all at once for instance.
+
+### Parsing a remote content or actual data
+
+You have the choice to initialize a parser instance with a string
+representing an URL, an instance of `NSURL` or my specifying that the
+passed param is some data to parse directly.
+
+```ruby
+# string representing an url:
+feed_parser = BW::RSSParser.new("http://feeds2.feedburner.com/sdrbpodcast")
+# a NSURL instance:
+url =  NSURL.alloc.initWithString("http://matt.aimonetti.net/atom.xml")
+feed_parser = BW::RSSParser.new(url)
+# Some data
+feed = File.read('atom.xml')
+feed_parser = BW::RSSParser.new(feed, true)
+```
+
+
+# BW::Dispatch
+
+TODO: Write a description and some examples
 
 
 Do you have a suggestion for a specific wrapper? Feel free to open an
 issue/ticket and tell us about what you are after. If you have a
 wrapper/helper you are using and are thinking that others might enjoy,
 please send a pull request (with tests if possible).
-=======
-# BW::Dispatch
 
-TODO: Write a gem description
+=======
+
 
 ## Installation
 
