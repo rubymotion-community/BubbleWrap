@@ -13,16 +13,16 @@ gem install bubble-wrap
 
 ## Setup
 
-1. Edit the `Rakefile` of your RubyMotion project and add the following require line.
+1. Edit the `Rakefile` of your RubyMotion project and add the following require line:
 
 ```ruby
 require 'bubble-wrap'
 ```
 
 BubbleWrap is split into multiple modules so that you can easily choose which parts
-are included at compile-time. 
+are included at compile-time.
 
-The above example requires all the wrappers/helpers. If you wish to only
+The above example requires the `core` and `http` modules. If you wish to only
 include the core modules use the following line of code instead:
 
 ```ruby
@@ -40,6 +40,19 @@ If you wish to only include the `RSS Parser` wrapper:
 ```ruby
 require 'bubble-wrap/rss_parser'
 ```
+
+If you wish to only include the `Reactor` wrapper:
+
+```ruby
+require 'bubble-wrap/reactor'
+```
+
+If you want to include everything (ie kitchen sink mode) you can save time and do:
+
+```ruby
+require 'bubble-wrap/all'
+```
+
 
 Note: **DON'T** use `app.files =` in your Rakefile to set up your files once you've required BubbleWrap.
 Make sure to append onto the array or use `+=`.
