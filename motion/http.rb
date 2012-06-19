@@ -118,16 +118,15 @@ module BubbleWrap
         @credentials = options.delete(:credentials) || {}
         @credentials = {:username => '', :password => ''}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
-        #extract
         @headers = escape_line_feeds(options.delete :headers)
         @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if @files && @headers.nil?
-
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @options = options
         @response = HTTP::Response.new
-        @url = initialize_url(url_string)
-        create_request_body
-        initiate_request
+        
+        @url = create_url(url_string)
+        @body = create_request_body
+        @request = create_request
         @connection = create_connection(request, self)
         @connection.start
 
@@ -155,24 +154,18 @@ module BubbleWrap
         return list.flatten
       end
 
-      def initiate_request
+      def create_request
         log "BubbleWrap::HTTP building a NSRequest for #{@url.description}"
 
-        @request = NSMutableURLRequest.requestWithURL(@url,
+        request = NSMutableURLRequest.requestWithURL(@url,
                                                       cachePolicy:@cache_policy,
                                                       timeoutInterval:@timeout)
-        @request.setHTTPMethod @method
-        @request.setAllHTTPHeaderFields(@headers)
-        @request.setHTTPBody @body
-        # # if it's an NSData, just set it
-        # if @payload.is_a?(NSData)
-          
-        # # @payload needs to be converted to data
-        # elsif @method != "GET"
-        #   add_request_body
-        # end
+        request.setHTTPMethod(@method)
+        request.setAllHTTPHeaderFields(@headers)
+        request.setHTTPBody(@body)
+        patch_nsurl_request(request)
 
-        patch_nsurl_request
+        request
       end
 
       def connection(connection, didReceiveResponse:response)
@@ -249,10 +242,10 @@ module BubbleWrap
       def create_request_body
         return nil if @method == "GET"
         return nil unless (@payload || @files)
-        @body = NSMutableData.data
+        body = NSMutableData.data
         
         if @files.nil? && @payload
-          @body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding))
+          body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding))
         end
 
         if @files && @payload
@@ -263,7 +256,7 @@ module BubbleWrap
             s += value.to_s
             postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
             postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @payload.keys.last
-            @body.appendData(postData)
+            body.appendData(postData)
           }
         end
 
@@ -276,13 +269,14 @@ module BubbleWrap
             postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
             postData.appendData(NSData.dataWithData(value))
             postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @files.keys.last
-            @body.appendData(postData)
+            body.appendData(postData)
           }
         end
-        @body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) if @files
+        body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) if @files
+        body
       end
 
-      def initialize_url(url_string)
+      def create_url(url_string)
         if @method == "GET" && @payload
           url_string += "?#{@payload}"
         end
@@ -306,11 +300,11 @@ module BubbleWrap
         escaped_hash
       end
 
-      def patch_nsurl_request
-        @request.instance_variable_set("@done_loading", false)
+      def patch_nsurl_request(request)
+        request.instance_variable_set("@done_loading", false)
         
-        def @request.done_loading; @done_loading; end
-        def @request.done_loading!; @done_loading = true; end
+        def request.done_loading; @done_loading; end
+        def request.done_loading!; @done_loading = true; end
       end
 
       def call_delegator_with_response
