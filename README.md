@@ -546,37 +546,10 @@ Flux capacitor!
 => [nil, nil]
 ```
 
+# Suggestions?
+
 Do you have a suggestion for a specific wrapper? Feel free to open an
 issue/ticket and tell us about what you are after. If you have a
 wrapper/helper you are using and are thinking that others might enjoy,
 please send a pull request (with tests if possible).
-
-=======
-
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'bw-dispatch'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install bw-dispatch
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
 
