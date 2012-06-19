@@ -133,20 +133,6 @@ module BubbleWrap
         UIApplication.sharedApplication.networkActivityIndicatorVisible = true
       end
 
-      def create_request
-        log "BubbleWrap::HTTP building a NSRequest for #{@url.description}"
-
-        request = NSMutableURLRequest.requestWithURL(@url,
-                                                      cachePolicy:@cache_policy,
-                                                      timeoutInterval:@timeout)
-        request.setHTTPMethod(@method)
-        request.setAllHTTPHeaderFields(@headers)
-        request.setHTTPBody(@body)
-        patch_nsurl_request(request)
-
-        request
-      end
-
       def connection(connection, didReceiveResponse:response)
         @status_code = response.statusCode
         @response_headers = response.allHeaderFields
@@ -217,6 +203,20 @@ module BubbleWrap
 
 
       private
+
+      def create_request
+        log "BubbleWrap::HTTP building a NSRequest for #{@url.description}"
+
+        request = NSMutableURLRequest.requestWithURL(@url,
+                                                      cachePolicy:@cache_policy,
+                                                      timeoutInterval:@timeout)
+        request.setHTTPMethod(@method)
+        request.setAllHTTPHeaderFields(@headers)
+        request.setHTTPBody(@body)
+        patch_nsurl_request(request)
+
+        request
+      end
 
       def create_request_body
         return nil if @method == "GET"
