@@ -167,13 +167,17 @@ module BubbleWrap
         @request.setHTTPMethod @method
         @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if !@files.nil? && @headers.nil?
         @request.setAllHTTPHeaderFields(@headers) if @headers
-        
+
+        # if it's an NSData, just set it
+        if @payload.is_a?(NSData)
+          @request.setHTTPBody @payload
+
         # @payload needs to be converted to data
-        unless @method == "GET" || (@payload.nil? && @files.nil?)
+        elsif @method != "GET" && (@payload || @files)
           @body = NSMutableData.data
           @body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding)) unless @payload.nil? || !@files.nil?
-          
-          unless @files.nil? || @payload.nil?
+
+          if @files && @payload
             @payload.each { |key, value|
               postData = NSMutableData.data
               s = "\r\n--#{@boundary}\r\n"
@@ -184,8 +188,8 @@ module BubbleWrap
               @body.appendData(postData)
             }
           end
-          
-          unless @files.nil?
+
+          if @files
             @files.each { |key, value|
               postData = NSMutableData.data
               s = "\r\n--#{@boundary}\r\n"
@@ -197,8 +201,8 @@ module BubbleWrap
               @body.appendData(postData)
             }
           end
-          @body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless @files.nil?
-          
+          @body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) if @files
+
           @request.setHTTPBody @body
         end
 
@@ -217,6 +221,10 @@ module BubbleWrap
       def connection(connection, didReceiveData:received_data)
         @received_data ||= NSMutableData.new
         @received_data.appendData(received_data)
+
+        if download_progress = options[:download_progress]
+          download_progress.call(@received_data.length.to_f, response_size)
+        end
       end
 
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
@@ -237,6 +245,11 @@ module BubbleWrap
         call_delegator_with_response
       end
 
+      def connection(connection, didSendBodyData:sending, totalBytesWritten:written, totalBytesExpectedToWrite:expected)
+        if upload_progress = options[:upload_progress]
+          upload_progress.call(sending, written, expected)
+        end
+      end
 
       # The transfer is done and everything went well
       def connectionDidFinishLoading(connection)
