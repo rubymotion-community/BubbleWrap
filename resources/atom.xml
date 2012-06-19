@@ -1,0 +1,1705 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" media="screen" href="/~d/styles/rss2enclosuresfull.xsl"?><?xml-stylesheet type="text/css" media="screen" href="http://feeds.feedburner.com/~d/styles/itemcontent.css"?><rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:media="http://search.yahoo.com/mrss/" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0" version="2.0">
+  <channel>
+    <title>SD Ruby Podcast</title>
+    <link>http://sdruby.org</link>
+    <description>SD Ruby. We are San Diego's Ruby community.</description>
+    <language>en-us</language>
+    <pubDate>Wed, 18 Apr 2012 18:48:30 +0000</pubDate>
+    <lastBuildDate>Wed, 18 Apr 2012 18:48:30 +0000</lastBuildDate>
+    <itunes:author>SD Ruby</itunes:author>
+    <itunes:keywords>ruby, rails, ruby on rails, programming, web, development, agile, railscast</itunes:keywords>
+    <itunes:image href="http://sdruby.org/images/application/logo_podcast.jpg" />
+    <itunes:owner>
+      <itunes:name>SD Ruby</itunes:name>
+      <itunes:email>sandiegoruby@gmail.com</itunes:email>
+    </itunes:owner>
+    <itunes:block>no</itunes:block>
+    <itunes:category text="Technology">
+      <itunes:category text="Software How-To" />
+    </itunes:category>
+    <itunes:category text="Education">
+      <itunes:category text="Training" />
+    </itunes:category>
+    <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml" href="http://feeds.feedburner.com/sdrbpodcast" /><feedburner:info uri="sdrbpodcast" /><atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="hub" href="http://pubsubhubbub.appspot.com/" /><creativeCommons:license>http://creativecommons.org/licenses/by-nc/2.0/</creativeCommons:license><item>
+      <title>Episode 108: Fog: The Ruby Cloud Services Library</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/108.png?1334774910" alt="Episode 108: Fog: The Ruby Cloud Services Library" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://github.com/bensie"&gt;James Miller&lt;/a&gt; demonstrates how to get up and running with &lt;a href="http://fog.io"&gt;Fog&lt;/a&gt;, including practical use cases, caveats, and how to make Fog better by contributing back.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://speakerdeck.com/u/bensie/p/fog"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Wed, 18 Apr 2012 18:48:30 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/eDNb8jJM2aY/108</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/108</guid>
+      <itunes:summary>James Miller demonstrates how to get up and running with Fog, including practical use cases, caveats, and how to make Fog better by contributing back.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>20:46</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/108</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/y1u0ypWP6nY/108_fog.m4v" length="249048733" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/108_fog.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 107: Advanced Heroku with the Celadon Cedar Stack</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/107.png?1316447751" alt="Episode 107: Advanced Heroku with the Celadon Cedar Stack" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ryan Daigle and Blake Gentry explore all the new features in Heroku's Celadon Cedar stack.&lt;/p&gt;</description>
+      <pubDate>Mon, 19 Sep 2011 15:55:52 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/Og7X8w7YOVk/107</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/107</guid>
+      <itunes:summary>Ryan Daigle and Blake Gentry explore all the new features in Heroku's Celadon Cedar stack.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>48:55</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/107</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/BpeJGePeM4M/107_heroku.m4v" length="357998175" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/107_heroku.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 106: JRuby: Ruby in the JVM. Why on Earth?!?</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/106.png?1310833271" alt="Episode 106: JRuby: Ruby in the JVM. Why on Earth?!?" /&gt;&lt;/p&gt;
+
+&lt;p&gt;JRuby is a 100% pure-Java implementation of Ruby with high performance, real threading, and a vast array of libraries. Chris McCann explores how JRuby can provide real value for Rails developers.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/testflyjets/jruby-8610179"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sat, 16 Jul 2011 16:21:11 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/TodMbv_vJmA/106</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/106</guid>
+      <itunes:summary>JRuby is a 100% pure-Java implementation of Ruby with high performance, real threading, and a vast array of libraries. Chris McCann explores how JRuby can provide real value for Rails developers.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>35:20</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/106</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/AA0wzZVUthQ/106_jruby.m4v" length="212436028" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/106_jruby.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 105: Get Your Flow On: Mastering Your Development Workflow </title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/105.png?1311900690" alt="Episode 105: Get Your Flow On: Mastering Your Development Workflow " /&gt;&lt;/p&gt;
+
+&lt;p&gt;Rob Kaufman explores tools and options for improving your development process: common issues with managing tasks, starting work, committing branches, and getting completed tasks verified and deployed to production. It's all about automating the little steps because details are too easy to forget.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/notch8/developer-flow"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sat, 16 Jul 2011 16:12:09 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/Sc1mz2caJlQ/105</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/105</guid>
+      <itunes:summary>Rob Kaufman explores tools and options for improving your development process: common issues with managing tasks, starting work, committing branches, and getting completed tasks verified and deployed to production. It's all about automating the little steps because details are too easy to forget.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>32:13</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/105</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Yr7W8EiU-DE/105_tool_sharpening.m4v" length="140231987" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/105_tool_sharpening.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 104: Send SMS Messages and Make Phone Calls From Your App With Twilio</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/104.png?1311900709" alt="Episode 104: Send SMS Messages and Make Phone Calls From Your App With Twilio" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Brian Levine shows how easy it is to add phone services to your application using Twilio. Twilio wraps powerful telecom infrastructure with a simple REST API and offers pay-as-you-go pricing with cloud scalability.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/Beans0063/twilio-8696979"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 02:05:52 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/vHszYPjAw_Q/104</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/104</guid>
+      <itunes:summary>Brian Levine shows how easy it is to add phone services to your application using Twilio. Twilio wraps powerful telecom infrastructure with a simple REST API and offers pay-as-you-go pricing with cloud scalability.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>33:08</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/104</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/L_l17TIu1i4/104_twilio.m4v" length="347744448" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/104_twilio.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 103: HTML5 Quick Start with Compass-html5-boilerplate</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/103.png?1299461057" alt="Episode 103: HTML5 Quick Start with Compass-html5-boilerplate" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Peter Gumeson shows off his compass-html5-boilerplate gem, which uses Compass to make it easier to integrate the HTML5 Boilerplate template into Rails apps.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 02:05:16 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/RO4ccv-ct-4/103</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/103</guid>
+      <itunes:summary>Peter Gumeson shows off his compass-html5-boilerplate gem, which uses Compass to make it easier to integrate the HTML5 Boilerplate template into Rails apps.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>14:24</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/103</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Pbu_hNThHzg/103_compass_html5_boilerplate.m4v" length="136655850" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/103_compass_html5_boilerplate.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 102: Newick-Ruby: A Gem for Manipulating Newick Format Trees</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/102.png?1299460973" alt="Episode 102: Newick-Ruby: A Gem for Manipulating Newick Format Trees" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Jonathan Badger explores Newick format trees, and how to manipulate them using his Newick-ruby gem.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.ttaxus.com/files/Newick-Ruby.pdf"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 02:04:51 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/ppo3rCc9tX8/102</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/102</guid>
+      <itunes:summary>Jonathan Badger explores Newick format trees, and how to manipulate them using his Newick-ruby gem.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>9:39</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/102</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/wkwRYMnZgg4/102_newick.m4v" length="113821834" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/102_newick.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 101: TRegexp: Friendly Regular Expressions</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/101.png?1299460926" alt="Episode 101: TRegexp: Friendly Regular Expressions" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ian Young introduces his first gem, a human-friendly DSL for regular expressions.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://iangreenleaf.github.com/sdruby-lightningtalk-tregexp/"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 02:04:28 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/UFiITU0S0lA/101</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/101</guid>
+      <itunes:summary>Ian Young introduces his first gem, a human-friendly DSL for regular expressions.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>11:21</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/101</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/HvhOM4JzdZM/101_tregexp.m4v" length="86706659" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/101_tregexp.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 100: Getting Oriented with Compass</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/100.png?1299377041" alt="Episode 100: Getting Oriented with Compass" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Patrick Crowley shows how to turbo-charge your layouts with Compass, a lightweight stylesheet framework built on top of Haml and Sass.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/mokolabs/compass-8613728"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 02:04:01 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/TPDJP2KUOFI/100</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/100</guid>
+      <itunes:summary>Patrick Crowley shows how to turbo-charge your layouts with Compass, a lightweight stylesheet framework built on top of Haml and Sass.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>16:04</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/100</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/kt5zOvrxclo/100_compass.m4v" length="147408532" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/100_compass.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 099: Omniauth: Future Proof Your Authentication</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/99.png?1299460567" alt="Episode 099: Omniauth: Future Proof Your Authentication" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Kevin Ball shows how the traditional model of username/password authentication is dying, and how Omniauth makes it all rainbows and sunshine going forward.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="hhttp://www.slideshare.net/kbal11/omniauth"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 02:03:35 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/oLBUfJZJsvk/99</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/99</guid>
+      <itunes:summary>Kevin Ball shows how the traditional model of username/password authentication is dying, and how Omniauth makes it all rainbows and sunshine going forward.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>4:08</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/99</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/EpXCIpl8npU/099_omniauth.m4v" length="29808643" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/099_omniauth.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 098: Give Yourself Some Backbone</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/98.png?1299376972" alt="Episode 098: Give Yourself Some Backbone" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ryan Weald gives a brief overview of Backbone.js and the advantages it has for your project.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/ryanweald/sdruby-backbone-lightning-talk"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 02:02:52 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/vIT8vCIivzM/98</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/98</guid>
+      <itunes:summary>Ryan Weald gives a brief overview of Backbone.js and the advantages it has for your project.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>5:08</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/98</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/SUvE5D3QZrU/098_backbone.m4v" length="56023503" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/098_backbone.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 097: Basic Reporting with Ruby and CouchDB</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/97.png?1299376937" alt="Episode 097: Basic Reporting with Ruby and CouchDB" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Christopher Petersen shows how to create both basic reports on individual user behavior and aggregate reports across all user activity.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/cpetersen/couchdb-lightning-talk"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 02:02:17 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/K73MUAm_WN0/97</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/97</guid>
+      <itunes:summary>Christopher Petersen shows how to create both basic reports on individual user behavior and aggregate reports across all user activity.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>8:15</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/97</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/8mNyfssuxIA/097_couchdb.m4v" length="91283160" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/097_couchdb.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 096: Rounded Corners Everywhere</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/96.png?1299376892" alt="Episode 096: Rounded Corners Everywhere" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Scott Olmsted explores Javascript libraries to simulate CSS3 decorations on browsers that don't support them. (Yeah, we're talking about you Internet Explorer.)&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/sandiegoscott/rounded-corners-everywhere"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 02:01:33 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/BXoa54S9LBQ/96</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/96</guid>
+      <itunes:summary>Scott Olmsted explores Javascript libraries to simulate CSS3 decorations on browsers that don't support them. (Yeah, we're talking about you Internet Explorer.)
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>6:43</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/96</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/ji30xJWex04/096_rounded.m4v" length="48039752" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/096_rounded.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 095: The State of MacRuby</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/95.png?1299374363" alt="Episode 095: The State of MacRuby" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Matt Aimonetti discusses the latest developments with the MacRuby project, which aims to implement Ruby 1.9 directly on top of Mac OS X core technologies.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/mattetti/macruby-rubyconf-presentation-2010"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 01:19:23 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/_HITPQuH4po/95</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/95</guid>
+      <itunes:summary>Matt Aimonetti discusses the latest developments with the MacRuby project, which aims to implement Ruby 1.9 directly on top of Mac OS X core technologies.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>47:03</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/95</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Dt5nUGG_aoU/095_macruby.m4v" length="569348477" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/095_macruby.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 094: Refactoring ActiveRecord Models</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/94.png?1299373810" alt="Episode 094: Refactoring ActiveRecord Models" /&gt;&lt;/p&gt;
+
+&lt;p&gt;It's always important to keep your ActiveRecord models in tip-top shape. Ben Hughes explores several techniques for refactoring models and preventing them from getting out of hand.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.scribd.com/doc/48183030/Refactoring-ActiveRecord-Models"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sun, 06 Mar 2011 01:10:11 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/3Jx5te7bxmo/94</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/94</guid>
+      <itunes:summary>It's always important to keep your ActiveRecord models in tip-top shape. Ben Hughes explores several techniques for refactoring models and preventing them from getting out of hand.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>40:56</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/94</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/dHiKuvzwo-I/094_refactoring_models.m4v" length="376346924" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/094_refactoring_models.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 093: Are You Redis?</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/93.png?1297180702" alt="Episode 093: Are You Redis?" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Emanuele Tozzato gives a brief introduction to Redis, then demonstrates real-life database performance optimization with redis-object and how to manage background jobs using Resque.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/etozzato/are-you-redis"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:58:22 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/JX_ukhaJno4/93</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/93</guid>
+      <itunes:summary>Emanuele Tozzato gives a brief introduction to Redis, then demonstrates real-life database performance optimization with redis-object and how to manage background jobs using Resque.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>32:44</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/93</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/rtJVgqGzt1Q/093_redis.m4v" length="258217737" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/093_redis.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 092: File Uploads With S3SwfUpload</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/92.png?1297273018" alt="Episode 092: File Uploads With S3SwfUpload" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Nathan Colgate Clark gives a general overview of his &lt;a href="http://github.com/nathancolgate/s3-swf-upload-plugin"&gt;Amazon S3 upload plugin&lt;/a&gt; (past, present, and future) and shares his thoughts on how it managed to stand out on GitHub.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://ow.ly/3zEW7"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:57:56 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/lDd9GWexbQI/92</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/92</guid>
+      <itunes:summary>Nathan Colgate Clark gives a general overview of his Amazon S3 upload plugin (past, present, and future) and shares his thoughts on how it managed to stand out on GitHub.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>40:26</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/92</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/j6tI957Q-28/092_upload.m4v" length="399674085" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/092_upload.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 091: Message Block</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/91.png?1297180648" alt="Episode 091: Message Block" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ben Hughes shows off &lt;a href="https://github.com/rubiety/message_block"&gt;message_block&lt;/a&gt;, a gem which simplifies generating flash and error messages. Additionally, Ben discusses how to test gem development using Cucumber and Cukigem.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.scribd.com/doc/48397290/Message-Block"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:57:28 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/S41NSn0NN0w/91</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/91</guid>
+      <itunes:summary>Ben Hughes shows off message_block, a gem which simplifies generating flash and error messages. Additionally, Ben discusses how to test gem development using Cucumber and Cukigem.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>15:12</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/91</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/oUBbkBnKDRs/091_messageblock.m4v" length="137513207" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/091_messageblock.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 090: CoffeeScript</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/90.png?1297273134" alt="Episode 090: CoffeeScript" /&gt;&lt;/p&gt;
+
+&lt;p&gt;People are drawn to Ruby by its beautiful syntax, and CoffeeScript brings that same joie de vivre to Javascript. John Lynch shares his experience using CoffeeScript for both web and mobile app development.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/johnthethird/coffeescript-presentation"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:56:49 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/VbotFtzfkPY/90</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/90</guid>
+      <itunes:summary>People are drawn to Ruby by its beautiful syntax, and CoffeeScript brings that same joie de vivre to Javascript. John Lynch shares his experience using CoffeeScript for both web and mobile app development.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>21:05</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/90</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/axouieoJzFg/090_coffeescript.m4v" length="152040742" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/090_coffeescript.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 089: Ruleby</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/89.png?1297271650" alt="Episode 089: Ruleby" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Chris McCann demonstrates &lt;a href="https://github.com/codeaspects/ruleby"&gt;Ruleby&lt;/a&gt;, a Ruby implementation of a rules engine based on the Rete algorithm.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/testflyjets/ruleby"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:56:22 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/2_m28SeylQg/89</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/89</guid>
+      <itunes:summary>Chris McCann demonstrates Ruleby, a Ruby implementation of a rules engine based on the Rete algorithm.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>34:53</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/89</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/W3lKalQh1d0/089_ruleby.m4v" length="205555126" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/089_ruleby.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 088: Trucker</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/88.png?1297180549" alt="Episode 088: Trucker" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Patrick Crowley talks about Trucker, a new gem that makes it easier to migrate legacy data into Rails apps.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/mokolabs/trucker"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:55:50 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/An_XbuMHkfE/88</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/88</guid>
+      <itunes:summary>Patrick Crowley talks about Trucker, a new gem that makes it easier to migrate legacy data into Rails apps.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>20:01</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/88</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/yJfrfyVFCp8/088_trucker.m4v" length="136756713" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/088_trucker.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 087: Searching With Solr</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/87.png?1297287316" alt="Episode 087: Searching With Solr" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Get up and running in no time with enterprise-grade search powered by Solr. Nick Zadrozny shows you what Solr can do, how it works, and how you can make the most of it in production.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/nzadrozny/solr-powr-enterprisegrade-search-for-your-app"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:55:26 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/oYEqUWtIv5s/87</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/87</guid>
+      <itunes:summary>Get up and running in no time with enterprise-grade search powered by Solr. Nick Zadrozny shows you what Solr can do, how it works, and how you can make the most of it in production.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>32:40</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/87</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/IhPT689YexA/087_solr.m4v" length="309658295" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/087_solr.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 086: Mobile Web Apps Using jQTouch</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/86.png?1297180488" alt="Episode 086: Mobile Web Apps Using jQTouch" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Patrick Crowley dives into the world of mobile app development and shows how to use the jQTouch framework to quickly build awesome mobile-optimized web apps.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/mokolabs/mobile-web-apps-6864942"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:54:48 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/_5J1_9rUrTY/86</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/86</guid>
+      <itunes:summary>Patrick Crowley dives into the world of mobile app development and shows how to use the jQTouch framework to quickly build awesome mobile-optimized web apps.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>34:49</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/86</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/xwXKkLVKudU/086_mobile.m4v" length="189557939" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/086_mobile.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 085: Introduction to Node.js</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/85.png?1297180458" alt="Episode 085: Introduction to Node.js" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Web standards advocate Edward O'Connor gives a quick introduction to Node.js, a new event-driven networking engine for JavaScript.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://edward.oconnor.cx/2010/07/nodejs#title"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:54:18 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/s2tJukLTyHU/85</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/85</guid>
+      <itunes:summary>Web standards advocate Edward O'Connor gives a quick introduction to Node.js, a new event-driven networking engine for JavaScript.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>8:39</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/85</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/aEGexEqe8ao/085_node.m4v" length="76007515" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/085_node.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 084: Quick and Cheap Usability for Programmers</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/84.png?1297180390" alt="Episode 084: Quick and Cheap Usability for Programmers" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Megan O'Rorke introduces the general concept and goal of usability, and shares some quick and cheap usability resources for Ruby developers.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/leggomymego/intro-to-ux-for-programmers"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:53:10 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/9a_IQGjyL7o/84</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/84</guid>
+      <itunes:summary>Megan O'Rorke introduces the general concept and goal of usability, and shares some quick and cheap usability resources for Ruby developers.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>12:55</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/84</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Ixe8c1rg32M/084_usability.m4v" length="125912010" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/084_usability.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 083: Testing Philosophies</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/83.png?1297180355" alt="Episode 083: Testing Philosophies" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Rob Kaufman discusses common testing philosophies and methodologies in use by the Ruby community.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/notch8/testing-philosphies"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:52:36 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/KpL9bhFSe_8/83</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/83</guid>
+      <itunes:summary>Rob Kaufman discusses common testing philosophies and methodologies in use by the Ruby community.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>16:47</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/83</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/kEJ94uxY52o/083_testing.m4v" length="115479266" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/083_testing.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 082: Behavior Driven Development Using Ruby, Cucumber, and rSpec</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/82.png?1297367446" alt="Episode 082: Behavior Driven Development Using Ruby, Cucumber, and rSpec" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://calicowebdev.com/"&gt;Steve Ross&lt;/a&gt; gives an introduction to behavior driven development using Ruby, &lt;a href="http://cukes.info/"&gt;Cucumber&lt;/a&gt;, and &lt;a href="http://relishapp.com/rspec"&gt;rSpec&lt;/a&gt;. This is a practical how-to for developers who have not yet integrated behavior driven development into their workflow.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/sxross/sd-ruby-bdd-talk"&gt;download slides&lt;/a&gt; and &lt;a href="http://calicowebdev.com/tblog/index.html"&gt;view notes&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 08 Feb 2011 15:51:47 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/i4_Ddni6Oh4/82</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/82</guid>
+      <itunes:summary>Steve Ross gives an introduction to behavior driven development using Ruby, Cucumber, and rSpec. This is a practical how-to for developers who have not yet integrated behavior driven development into their workflow.
+
+Bonus content: download slides and view notes from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>01:07:34</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/82</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/FRO4updi7Y8/082_bdd.m4v" length="371602122" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/082_bdd.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 081: Rolling with Riak</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/81.png?1275694882" alt="Episode 081: Rolling with Riak" /&gt;&lt;/p&gt;
+
+&lt;p&gt;John Lynch from &lt;a href="http://rigelgroupllc.com/"&gt;Rigel Group&lt;/a&gt; gives an overview of &lt;a href="http://riak.basho.com/"&gt;Riak&lt;/a&gt;, the newest kid on the NoSQL block, and explains why it should power your next web-scale app.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/johnthethird/rolling-with-riak"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 04 Jun 2010 23:41:23 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/gThcPsMJUWM/81</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/81</guid>
+      <itunes:summary>John Lynch from Rigel Group gives an overview of Riak, the newest kid on the NoSQL block, and explains why it should power your next web-scale app.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>28:25</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/81</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/rvgutic3qXU/081_riak.m4v" length="221668986" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/081_riak.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 080: EventMachine, AMQP, and WebSockets: The Musical</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/80.png?1274895968" alt="Episode 080: EventMachine, AMQP, and WebSockets: The Musical" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://dansimpson.name/"&gt;Dan Simpson&lt;/a&gt; and &lt;a href="http://beyondthepath.com/"&gt;Nick Zadrozny&lt;/a&gt; give an overview of cutting-edge, real-time programming for the web; and demonstrate an interactive, web-based sequencer.&lt;/p&gt;</description>
+      <pubDate>Wed, 26 May 2010 17:46:09 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/NEwnvbVjJrw/80</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/80</guid>
+      <itunes:summary>Dan Simpson and Nick Zadrozny give an overview of cutting-edge, real-time programming for the web; and demonstrate an interactive, web-based sequencer.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>23:47</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/80</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/XEHs1oQxHGw/080_musical.m4v" length="269070177" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/080_musical.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 079: Artificial Stupidity: Adding Smarts to Yer Kode</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/79.png?1272132777" alt="Episode 079: Artificial Stupidity: Adding Smarts to Yer Kode" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Machine learning and data mining have long been "black arts" because they require access to expensive computing clusters. &lt;a href="http://evilmartini.com/blog/"&gt;Randall Thomas&lt;/a&gt; discusses machine learning and the problem spaces it can help solve.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://bit.ly/doz9El"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sat, 24 Apr 2010 18:12:57 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/PDZil8l8oTc/79</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/79</guid>
+      <itunes:summary>Machine learning and data mining have long been "black arts" because they require access to expensive computing clusters. Randall Thomas discusses machine learning and the problem spaces it can help solve.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>48:48</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/79</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/YvCUkBfKjvw/079_machine.m4v" length="320991581" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/079_machine.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 078: Scripting Android With Ruby </title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/78.png?1269011170" alt="Episode 078: Scripting Android With Ruby " /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://markranallo.com"&gt;Mark Ranallo&lt;/a&gt; will give an introduction to using &lt;a href="http://jruby.org/"&gt;JRuby&lt;/a&gt; in conjunction with the &lt;a href="http://code.google.com/p/android-scripting/"&gt;Android Scripting Environment&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://bit.ly/cCPtSi"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 19 Mar 2010 14:55:23 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/U19Hs2ybkRY/78</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/78</guid>
+      <itunes:summary>Mark Ranallo will give an introduction to using JRuby in conjunction with the Android Scripting Environment.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>33:49</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/78</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/1IBLeSaPE0c/078_android.m4v" length="234505343" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/078_android.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 077: Building Your Own Hosting Environment</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/77.png?1265049703" alt="Episode 077: Building Your Own Hosting Environment" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://nicbenders.com/"&gt;Nic Benders&lt;/a&gt; will show you what's needed for building a hosting environment for production applications. The focus will be on selecting server hardware, picking a Linux Distro, and getting your Rails app running.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/nicbenders/building-your-own-rails-hosting-environment"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Mon, 01 Feb 2010 18:41:44 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/v8UbedOMZA8/77</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/77</guid>
+      <itunes:summary>Nic Benders will show you what's needed for building a hosting environment for production applications. The focus will be on selecting server hardware, picking a Linux Distro, and getting your Rails app running.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>39:44</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/77</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/M4mE_xAyEYQ/077_building.m4v" length="140574484" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/077_building.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 076: OpenCyc</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/76.png?1264463598" alt="Episode 076: OpenCyc" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://relevantlogic.com/"&gt;Guyren Howe&lt;/a&gt; gives a way-too-brief demonstration of &lt;a href="http://www.opencyc.org/doc"&gt;OpenCyc&lt;/a&gt;, an AI technology based on the world's most comprehensive general-purpose ontology. Along the way, he reveals how to talk to OpenCyc using &lt;a href="http://jruby.org/"&gt;JRuby&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/gisborne/cyc-presentation"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Mon, 25 Jan 2010 23:50:51 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/nMzzlLJEpIw/76</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/76</guid>
+      <itunes:summary>Guyren Howe gives a way-too-brief demonstration of OpenCyc, an AI technology based on the world's most comprehensive general-purpose ontology. Along the way, he reveals how to talk to OpenCyc using JRuby.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>28:20</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/76</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/K8aaDqlwWws/076_opencyc.m4v" length="222344033" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/076_opencyc.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 075: Heroku</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/75.png?1263841546" alt="Episode 075: Heroku" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://github.com/bmizerany"&gt;Blake Mizerany&lt;/a&gt; from &lt;a href="http://heroku.com/"&gt;Heroku&lt;/a&gt; shows off the company's cloud platform for Ruby applications. The talk covers Heroku basics, &lt;a href="http://www.sinatrarb.com/"&gt;Sinatra&lt;/a&gt;, Ruby development, and scaling.&lt;/p&gt;</description>
+      <pubDate>Mon, 18 Jan 2010 19:05:46 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/MSXivVF9p_Q/75</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/75</guid>
+      <itunes:summary>Blake Mizerany from Heroku shows off the company's cloud platform for Ruby applications. The talk covers Heroku basics, Sinatra, Ruby development, and scaling.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>01:03:50</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/75</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/l21Qh7MFylQ/074_heroku.m4v" length="658653024" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/074_heroku.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 074: Moonshine: 190 Proof Deployment</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/74.png?1263230377" alt="Episode 074: Moonshine: 190 Proof Deployment" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://jarinudom.com"&gt;Jarin Udom&lt;/a&gt; shows how to set up a full Rails stack and deploy your app on a bare Ubuntu server in 10 minutes. Is he drunk? Find out!&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/jarinudom/deploying-rails-applications-with-moonshine"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Mon, 11 Jan 2010 17:19:38 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/30PSCVMk4K4/74</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/74</guid>
+      <itunes:summary>Jarin Udom shows how to set up a full Rails stack and deploy your app on a bare Ubuntu server in 10 minutes. Is he drunk? Find out!
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>13:21</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/74</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/bsbOvCwzWss/073_moonshine.m4v" length="108035682" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/073_moonshine.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 073: Cappuccino</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/73.png?1262709648" alt="Episode 073: Cappuccino" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://cappuccino.org/"&gt;Cappuccino&lt;/a&gt; is a framework for building desktop-caliber applications that run in a web browser. Brian Chapados reviews the design concepts of Cappuccino and the underlying Objective-J language, shows how to get started, and builds a simple app for searching scientific literature databases.&lt;/p&gt;
+
+&lt;p&gt;This talk was part of the &lt;a href="http://djangosd.jottit.com"&gt;DjangoSD&lt;/a&gt;/&lt;a href="http://sdruby.org"&gt;SD Ruby&lt;/a&gt; mashup meeting.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/chapados/cappuccino-sdruby-20090806"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 05 Jan 2010 16:40:49 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/23cOw1dMK7I/73</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/73</guid>
+      <itunes:summary>Cappuccino is a framework for building desktop-caliber applications that run in a web browser. Brian Chapados reviews the design concepts of Cappuccino and the underlying Objective-J language, shows how to get started, and builds a simple app for searching scientific literature databases.
+
+This talk was part of the DjangoSD/SD Ruby mashup meeting.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>19:00</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/73</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/5wrr9xGwRk4/072_cappuccino.m4v" length="226305134" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/072_cappuccino.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 072: MongoDB</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/72.png?1262027446" alt="Episode 072: MongoDB" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://spitfiresky.com"&gt;Scott Motte&lt;/a&gt; introduces us to the document-oriented database &lt;a href="http://www.mongodb.org"&gt;MongoDB&lt;/a&gt; and shows how to use MongoDB as an alternative to MySQL and ActiveRecord using the &lt;a href="http://github.com/jnunemaker/mongomapper"&gt;MongoMapper&lt;/a&gt; gem.&lt;/p&gt;
+
+&lt;p&gt;This talk was part of the &lt;a href="http://djangosd.jottit.com"&gt;DjangoSD&lt;/a&gt;/&lt;a href="http://sdruby.org"&gt;SD Ruby&lt;/a&gt; mashup meeting.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/scottmotte/mongodb-1825613"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Mon, 28 Dec 2009 19:10:46 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/Jvc4kj9WAI8/72</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/72</guid>
+      <itunes:summary>Scott Motte introduces us to the document-oriented database MongoDB and shows how to use MongoDB as an alternative to MySQL and ActiveRecord using the MongoMapper gem.
+
+This talk was part of the DjangoSD/SD Ruby mashup meeting.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>14:37</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/72</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/KWWZQrd7wxg/071_mongo.m4v" length="144456322" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/071_mongo.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 071: Mess of Protocols</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/71.png?1261156586" alt="Episode 071: Mess of Protocols" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://relevantlogic.com/"&gt;Guyren Howe&lt;/a&gt; discusses how we use different applications and protocols to govern how we communicate: with whom, how privately, how immediately, whether through text/video/whatever, and so on. He proposes we decouple these ideas, which would simplify and enrich the ways we communicate.&lt;/p&gt;
+
+&lt;p&gt;This talk was part of the &lt;a href="http://djangosd.jottit.com"&gt;DjangoSD&lt;/a&gt;/&lt;a href="http://sdruby.org"&gt;SD Ruby&lt;/a&gt; mashup meeting.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/gisborne/thoughts-on-communications-in-the-21st-century"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 18 Dec 2009 17:16:27 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/HQef7kPfY-0/71</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/71</guid>
+      <itunes:summary>Guyren Howe discusses how we use different applications and protocols to govern how we communicate: with whom, how privately, how immediately, whether through text/video/whatever, and so on. He proposes we decouple these ideas, which would simplify and enrich the ways we communicate.
+
+This talk was part of the DjangoSD/SD Ruby mashup meeting.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>16:56</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/71</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/rH5G3OrZy-c/070_messofprotocols.m4v" length="196655681" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/070_messofprotocols.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 070: Processing Real-world HTML</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/70.png?1260810099" alt="Episode 070: Processing Real-world HTML" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://edward.oconnor.cx"&gt;Edward O'Connor&lt;/a&gt; from djangosd gives an overview of &lt;a href="http://code.google.com/p/html5lib/"&gt;html5lib&lt;/a&gt;, a major-desktop-browser-compatible HTML parser and tokenizer for both Ruby and Python.&lt;/p&gt;
+
+&lt;p&gt;This talk was part of the &lt;a href="http://djangosd.jottit.com"&gt;DjangoSD&lt;/a&gt;/&lt;a href="http://sdruby.org"&gt;SD Ruby&lt;/a&gt; mashup meeting.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://edward.oconnor.cx/2009/08/djangosd-html5lib#title"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Mon, 14 Dec 2009 17:01:40 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/wpPLqIWJz24/70</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/70</guid>
+      <itunes:summary>Edward O'Connor from djangosd gives an overview of html5lib, a major-desktop-browser-compatible HTML parser and tokenizer for both Ruby and Python.
+
+This talk was part of the DjangoSD/SD Ruby mashup meeting.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>07:43</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/70</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/n3eR90Xn3dw/069_html5lib.m4v" length="65009081" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/069_html5lib.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 069: Rails 3: From Vaporware to Awesomeness in 12 Months</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/69.png?1259966961" alt="Episode 069: Rails 3: From Vaporware to Awesomeness in 12 Months" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://yehudakatz.com/"&gt;Yehuda Katz&lt;/a&gt; returns to San Diego with a report on the latest developments with the &lt;a href="http://rubyonrails.org/"&gt;Ruby on Rails&lt;/a&gt; web application framework.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://bit.ly/rails3-sdruby"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 04 Dec 2009 22:49:22 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/eZdtwd6uh8s/69</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/69</guid>
+      <itunes:summary>Yehuda Katz returns to San Diego with a report on the latest developments with the Ruby on Rails web application framework.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>01:01:47</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/69</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/DGu8xAmFjH0/075_rails3.m4v" length="391063520" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/075_rails3.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 068: Hybrid iPhone Apps with Titanium Mobile </title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/68.png?1259597435" alt="Episode 068: Hybrid iPhone Apps with Titanium Mobile " /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://spitfiresky.com"&gt;Scott Motte&lt;/a&gt; talks about iPhone development using the &lt;a href="http://www.appcelerator.com/products/titanium-mobile/"&gt;Titanium Mobile&lt;/a&gt; framework, including how to build a basic app.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/scottmotte/titanium-mobile"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Mon, 30 Nov 2009 16:10:37 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/58OMq7vy2ys/68</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/68</guid>
+      <itunes:summary>Scott Motte talks about iPhone development using the Titanium Mobile framework, including how to build a basic app.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>17:34</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/68</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/1KY_DKIucUw/068_titanium.m4v" length="189226588" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/068_titanium.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 067: Cooking up a Cloud (with Chef &amp; EC2)</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/67.png?1258745212" alt="Episode 067: Cooking up a Cloud (with Chef &amp;amp; EC2)" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://github.com/ezmobius/chef-deploy"&gt;Chef&lt;/a&gt; is a young and ambitious Ruby DSL built for easy configuration management. &lt;a href="http://beyondthepath.com/"&gt;Nick Zadrozny&lt;/a&gt; will take a look at the philosophy of configuration management, the basics of Chef, and some recipes to build out a basic Rails server.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/beyondthepath/cooking-up-a-cloud-an-intro-to-chef-sdruby-20090903"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 20 Nov 2009 16:41:45 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/EndWleaMeu4/67</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/67</guid>
+      <itunes:summary>Chef is a young and ambitious Ruby DSL built for easy configuration management. Nick Zadrozny will take a look at the philosophy of configuration management, the basics of Chef, and some recipes to build out a basic Rails server.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>49:51</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/67</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/R42x6Owie6E/067_chef.m4v" length="605513307" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/067_chef.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 066: Unit Testing: The Easy Way</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/66.png?1258137619" alt="Episode 066: Unit Testing: The Easy Way" /&gt;&lt;/p&gt;
+
+&lt;p&gt;With &lt;a href="http://rspec.info"&gt;Rspec&lt;/a&gt; and &lt;a href="http://cukes.info"&gt;Cucumber&lt;/a&gt;, Ruby has brought testing to a whole new level, but tests still require a lot of work.&lt;/p&gt;
+
+&lt;p&gt;But things just got better. &lt;a href="http://www.spunlabs.com/"&gt;Llewellyn Falco&lt;/a&gt; will show you new patterns and practices to dramatically decrease the amount of effort needed to test.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/llewellynfalco/unit-testing-the-easy-way"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 13 Nov 2009 18:40:20 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/A5d2qgTdRIw/66</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/66</guid>
+      <itunes:summary>With Rspec and Cucumber, Ruby has brought testing to a whole new level, but tests still require a lot of work.
+
+But things just got better. Llewellyn Falco will show you new patterns and practices to dramatically decrease the amount of effort needed to test.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>70:16</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/66</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/96z9KceH3lg/066_testing.m4v" length="723020053" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/066_testing.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 065: HotRuby + jQuery: Ruby in the Browser</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/65.png?1257785173" alt="Episode 065: HotRuby + jQuery: Ruby in the Browser" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://strd6.com"&gt;Daniel Moore&lt;/a&gt; will demonstrate using the &lt;a href="http://hotruby.yukoba.jp"&gt;HotRuby&lt;/a&gt; VM to execute Ruby code natively in the browser. The demonstration shows how Ruby can call native JS libraries, like &lt;a href="http://jquery.com"&gt;jQuery&lt;/a&gt;, to perform DOM manipulation.&lt;/p&gt;</description>
+      <pubDate>Mon, 09 Nov 2009 16:46:14 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/I_ae4XPmyzQ/65</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/65</guid>
+      <itunes:summary>Daniel Moore will demonstrate using the HotRuby VM to execute Ruby code natively in the browser. The demonstration shows how Ruby can call native JS libraries, like jQuery, to perform DOM manipulation.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>13:40</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/65</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Qk8nwAI4uYo/065_hotruby.m4v" length="84263833" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/065_hotruby.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 064: Ruby 1.9.1</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/64.png?1242953494" alt="Episode 064: Ruby 1.9.1" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://bradlyfeeley.com/"&gt;Bradly Feeley&lt;/a&gt; reviews the new features and syntax changes in the latest production ready Ruby release, &lt;a href="http://www.ruby-lang.org/en/news/2009/01/30/ruby-1-9-1-released/"&gt;Ruby 1.9.1&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/bradly/ruby-19-introduction"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 22 May 2009 00:51:35 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/yY4i-VMTwe4/64</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/64</guid>
+      <itunes:summary>Bradly Feeley reviews the new features and syntax changes in the latest production ready Ruby release, Ruby 1.9.1.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>27:23</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/64</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Q6kEwENf1FA/064_ruby191.m4v" length="165820179" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/064_ruby191.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 063: Earning an "A" in YSlow</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/63.png?1242953407" alt="Episode 063: Earning an &amp;quot;A&amp;quot; in YSlow" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://beyondthepath.com/"&gt;Nick Zadrozny&lt;/a&gt; takes us on a tour of basic website performance optimization, covering 13 optimizations you shouldn't deploy your site without. He'll also go over some sample implementations for a typical Rails app, including a demo of how to serve your public assets from Amazon's new &lt;a href="http://aws.amazon.com/cloudfront/"&gt;CloudFront CDN&lt;/a&gt;.&lt;/p&gt;</description>
+      <pubDate>Fri, 22 May 2009 00:50:08 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/OUhvtNS_lKU/63</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/63</guid>
+      <itunes:summary>Nick Zadrozny takes us on a tour of basic website performance optimization, covering 13 optimizations you shouldn't deploy your site without. He'll also go over some sample implementations for a typical Rails app, including a demo of how to serve your public assets from Amazon's new CloudFront CDN.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>30:16</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/63</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/92NDWsAiQTI/063_yslow.m4v" length="220394695" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/063_yslow.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 062: Track Magic</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/62.png?1242953303" alt="Episode 062: Track Magic" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Jim Rea will demonstrate &lt;a href="http://www.provue.com/trackmagic/"&gt;Track Magic&lt;/a&gt;, a  plugin for &lt;a href="http://www.provue.com/Panorama/"&gt;Panorama&lt;/a&gt; that allows Rails developers to interact directly with Rails databases on the desktop without a browser.&lt;/p&gt;</description>
+      <pubDate>Fri, 22 May 2009 00:48:24 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/hTCuQ86WOeE/62</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/62</guid>
+      <itunes:summary>Jim Rea will demonstrate Track Magic, a  plugin for Panorama that allows Rails developers to interact directly with Rails databases on the desktop without a browser.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>46:59</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/62</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/MPM3SHaBim8/062_trackmagic.m4v" length="530974981" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/062_trackmagic.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 061: Tanning Bed</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/61.png?1242952972" alt="Episode 061: Tanning Bed" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://notch8.com/"&gt;Rob Kaufman&lt;/a&gt; demonstrates &lt;a href="http://notch8.github.com/tanning_bed/"&gt;Tanning Bed&lt;/a&gt;, his new Solr search mixin for any Ruby class. Tanning Bed makes fewer assumptions about how you want to deal with the &lt;a href="http://lucene.apache.org/solr/"&gt;Solr search engine&lt;/a&gt;, while still providing easy Ruby-like interfaces.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/notch8/tanning-bed"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 22 May 2009 00:42:53 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/xoazxtH3Ytw/61</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/61</guid>
+      <itunes:summary>Rob Kaufman demonstrates Tanning Bed, his new Solr search mixin for any Ruby class. Tanning Bed makes fewer assumptions about how you want to deal with the Solr search engine, while still providing easy Ruby-like interfaces.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>19:18</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/61</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/2TmSe5x_Cfk/061_tanningbed.m4v" length="154418201" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/061_tanningbed.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 060: Migrating Legacy Data</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/60.png?1242792928" alt="Episode 060: Migrating Legacy Data" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let's face it. Migrating legacy data into a new app is a giant pain in the ass. It's slow, error prone, and a ton of work.&lt;/p&gt;
+
+&lt;p&gt;What if you could import old data into a new app before it's finished? Normalize fields? Clean up old data? And migrate often? &lt;a href="http://the.railsi.st"&gt;Patrick Crowley&lt;/a&gt; shows the way.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/mokolabs/migrating-legacy-data"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Wed, 20 May 2009 04:15:28 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/4AzeoUj4aMo/60</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/60</guid>
+      <itunes:summary>Let's face it. Migrating legacy data into a new app is a giant pain in the ass. It's slow, error prone, and a ton of work.
+
+What if you could import old data into a new app before it's finished? Normalize fields? Clean up old data? And migrate often? Patrick Crowley shows the way.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>23:29</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/60</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/5BI76qfgW0g/060_legacy.m4v" length="228305840" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/060_legacy.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 059: Rails Case Study</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/59.png?1242791813" alt="Episode 059: Rails Case Study" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Guyren Howe is doing something a little different with his current project, trying to make it more user-modifiable and user friendly than your average intraweb application, and removing some of the redundancy in regular Rails code. The current state of the project will be discussed, along with whether the interesting parts should be open sourced.&lt;/p&gt;</description>
+      <pubDate>Wed, 20 May 2009 03:56:54 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/krp3iGtGLMI/59</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/59</guid>
+      <itunes:summary>Guyren Howe is doing something a little different with his current project, trying to make it more user-modifiable and user friendly than your average intraweb application, and removing some of the redundancy in regular Rails code. The current state of the project will be discussed, along with whether the interesting parts should be open sourced.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>13:13</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/59</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/QN9YITp49-s/059_casestudy.m4v" length="112313358" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/059_casestudy.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 058: MacRuby: What's the big deal?</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/58.png?1242790820" alt="Episode 058: MacRuby: What's the big deal?" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Last year, Apple released &lt;a href="http://www.macruby.org/"&gt;MacRuby&lt;/a&gt;, an open source Ruby implementation written on top of the Objective-C runtime. Writing native MacOSX applications in Ruby without having to pay the cost of using a bridge is now a reality. This is an important milestone for Ruby, Apple and the Ruby community.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://merbist.com/"&gt;Matt Aimonetti&lt;/a&gt; will explain the implementation, show how to build desktop applications with MacRuby &amp;amp; &lt;a href="http://www.macruby.org/hotcocoa.html"&gt;HotCocoa&lt;/a&gt;, and discuss why Ruby developers should add this new tool to their utility belt. Matt will also talk about the future of MacRuby.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/mattetti/macruby-when-objectivec-and-ruby-meet"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Wed, 20 May 2009 03:40:21 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/Bk39qx7g_hE/58</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/58</guid>
+      <itunes:summary>Last year, Apple released MacRuby, an open source Ruby implementation written on top of the Objective-C runtime. Writing native MacOSX applications in Ruby without having to pay the cost of using a bridge is now a reality. This is an important milestone for Ruby, Apple and the Ruby community.
+
+Matt Aimonetti will explain the implementation, show how to build desktop applications with MacRuby &amp;amp; HotCocoa, and discuss why Ruby developers should add this new tool to their utility belt. Matt will also talk about the future of MacRuby.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>58:19</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/58</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/ERoNglpPya8/058_macruby.m4v" length="418559883" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/058_macruby.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 057: Facebooker Plugin</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/57.png?1242789673" alt="Episode 057: Facebooker Plugin" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Michael Madrid discusses Styleact (a Facebook application) and how to develop Facebook apps using Ruby on Rails and the &lt;a href="http://facebooker.rubyforge.org/"&gt;Facebooker plugin&lt;/a&gt;.&lt;/p&gt;</description>
+      <pubDate>Wed, 20 May 2009 03:21:15 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/nH2KI4KDoEU/57</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/57</guid>
+      <itunes:summary>Michael Madrid discusses Styleact (a Facebook application) and how to develop Facebook apps using Ruby on Rails and the Facebooker plugin.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>38:23</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/57</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/JxNxkYruLJ8/057_facebook.m4v" length="424887377" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/057_facebook.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 056: Ruby 1.9 or Bust!</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/56.png?1240852816" alt="Episode 056: Ruby 1.9 or Bust!" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://notch8.com/"&gt;Rob Kaufman&lt;/a&gt; talks about his new &lt;a href="http://ruby19orbust.com/"&gt;Ruby 1.9 or Bust&lt;/a&gt; project. The project is dedicated to updating popular Ruby gems to be Ruby 1.9 compatible, and is seeking donations to hire a full-time developer to work on porting gems.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/notch8/ruby-19-or-bust-presentation"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Mon, 27 Apr 2009 17:20:19 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/qx5IFHyBvOY/56</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/56</guid>
+      <itunes:summary>Rob Kaufman talks about his new Ruby 1.9 or Bust project. The project is dedicated to updating popular Ruby gems to be Ruby 1.9 compatible, and is seeking donations to hire a full-time developer to work on porting gems.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>21:45</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/56</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Tb4Kdva_rwM/056_ruby19.m4v" length="239418748" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/056_ruby19.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 055: MySQL, Postgres, and Rails</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/55.png?1236986586" alt="Episode 055: MySQL, Postgres, and Rails" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Guyren Howe has considerable experience with both &lt;a href="http://mysql.com"&gt;MySQL&lt;/a&gt; and &lt;a href="http://www.postgresql.org/"&gt;PostgreSQL&lt;/a&gt;. He discusses the myriad technical and other advantages to using PostgreSQL instead of MySQL for, well, pretty much anything.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/gisborne/postgres-presentation-presentation/"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 10 Oct 2008 15:04:53 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/yNnISnQFPpY/55</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/55</guid>
+      <itunes:summary>Guyren Howe has considerable experience with both MySQL and PostgreSQL. He discusses the myriad technical and other advantages to using PostgreSQL instead of MySQL for, well, pretty much anything.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>27:55</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/55</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/C71fEqyzlZk/055_postgres.m4v" length="215719712" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/055_postgres.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 054: Paperclip</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/54.png?1236986586" alt="Episode 054: Paperclip" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://the.railsi.st"&gt;Patrick Crowley&lt;/a&gt; talks about &lt;a href="http://www.thoughtbot.com/projects/paperclip"&gt;Paperclip&lt;/a&gt;, a lightweight plugin for handling attachments.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/mokolabs/paperclip-presentation/"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sat, 20 Sep 2008 15:31:00 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/zV5M8vii5dc/54</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/54</guid>
+      <itunes:summary>Patrick Crowley talks about Paperclip, a lightweight plugin for handling attachments.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>29:15</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/54</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/kEa6m5U8EKQ/054_paperclip.m4v" length="236034129" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/054_paperclip.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 053: Ruby Arduino Development (RAD)</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/53.png?1236986586" alt="Episode 053: Ruby Arduino Development (RAD)" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Sensors and servos in hand, &lt;a href="http://jdbarnhart.com"&gt;JD Barnhart&lt;/a&gt; shows off the current state of &lt;a href="http://rad.rubyforge.org"&gt;RAD&lt;/a&gt;, the Rails inspired framework bringing convention over configuration and Ruby sensibility to the &lt;a href="http://www.arduino.cc"&gt;Arduino Physical computing platform&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/madrona/rad-demo-at-sd-ruby-presentation/"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 12 Sep 2008 21:17:43 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/sWlI7g_mFAA/53</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/53</guid>
+      <itunes:summary>Sensors and servos in hand, JD Barnhart shows off the current state of RAD, the Rails inspired framework bringing convention over configuration and Ruby sensibility to the Arduino Physical computing platform.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>22:59</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/53</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/2q1zO2J_kXM/053_rad.m4v" length="188760803" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/053_rad.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 052: Shadow</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/52.png?1236986585" alt="Episode 052: Shadow" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://jordanfowler.com"&gt;Jordan Fowler&lt;/a&gt; reveals his new &lt;a href="http://github.com/TheBreeze/shadow/tree/master/"&gt;Shadow plugin&lt;/a&gt; that tracks attribute and association changes to ActiveRecord objects, making it easy to create activity feeds for your application.&lt;/p&gt;</description>
+      <pubDate>Sat, 30 Aug 2008 19:48:45 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/TdraNLiTRF4/52</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/52</guid>
+      <itunes:summary>Jordan Fowler reveals his new Shadow plugin that tracks attribute and association changes to ActiveRecord objects, making it easy to create activity feeds for your application.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>17:55</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/52</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/lF-pzQ1oLiE/052_shadow.m4v" length="198617810" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/052_shadow.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 051: Archaeopteryx</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/51.png?1236986585" alt="Episode 051: Archaeopteryx" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://gilesbowkett.blogspot.com"&gt;Giles Bowkett&lt;/a&gt; shows off his mega-cool MIDI scaffolding generator for creating dance music with Ruby.&lt;/p&gt;</description>
+      <pubDate>Thu, 21 Aug 2008 00:37:28 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/CXKyTQIaFTU/51</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/51</guid>
+      <itunes:summary>Giles Bowkett shows off his mega-cool MIDI scaffolding generator for creating dance music with Ruby.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>56:21</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/51</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/uk80ZkQ2BDo/051_archaeopteryx.m4v" length="671928895" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/051_archaeopteryx.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 050: One-man Lightning Talk</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/50.png?1236986584" alt="Episode 050: One-man Lightning Talk" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://glu.ttono.us"&gt;Kevin Clark&lt;/a&gt; is back again and talking about his latest work: Rubinius, grammar parsing from ruby, kqueue, and massive build systems.&lt;/p&gt;</description>
+      <pubDate>Sat, 28 Jun 2008 00:00:24 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/WjbqpySrHOU/50</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/50</guid>
+      <itunes:summary>Kevin Clark is back again and talking about his latest work: Rubinius, grammar parsing from ruby, kqueue, and massive build systems.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>56:13</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/50</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/jUtjoTrsQP0/050_kfc.m4v" length="454441938" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/050_kfc.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 049: Intro to EC2</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/49.png?1236986584" alt="Episode 049: Intro to EC2" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://blog.assaydepot.com"&gt;Chris Petersen&lt;/a&gt; gives an introduction to working with &lt;a href="http://aws.amazon.com/ec2"&gt;Amazon EC2&lt;/a&gt;, and discusses the advantages and disadvantage to hosting your Ruby applications there.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/cpetersen/ec2"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 20 Jun 2008 00:19:27 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/mA99BIJMMXk/49</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/49</guid>
+      <itunes:summary>Chris Petersen gives an introduction to working with Amazon EC2, and discusses the advantages and disadvantage to hosting your Ruby applications there.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>22:21</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/49</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/R3yuw8KtfpY/049_ec2.m4v" length="70473542" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/049_ec2.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 048: Ruby for Data Processing</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/48.png?1236986583" alt="Episode 048: Ruby for Data Processing" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://chapados.org"&gt;Brian Chapados&lt;/a&gt; talks about using ruby &amp;amp; rake to build a simple workflow to coordinate external processes.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/chapados/processing-data-with-ruby"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 13 Jun 2008 21:31:40 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/kyv0ZumVoIk/48</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/48</guid>
+      <itunes:summary>Brian Chapados talks about using ruby &amp;amp; rake to build a simple workflow to coordinate external processes.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>6:00</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/48</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/ywhIdPoJIzE/048_ruby_for_data.m4v" length="49453445" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/048_ruby_for_data.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 047: Lazy Indexing</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/47.png?1236986583" alt="Episode 047: Lazy Indexing" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://railsontherun.com/"&gt;Matt Aimonetti&lt;/a&gt; shows how to quickly get your database queries to run faster when you are not a DBA and are running out of time.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/mattetti/lazy-indexing-466697/"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Fri, 13 Jun 2008 21:31:29 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/PKlUdC319gM/47</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/47</guid>
+      <itunes:summary>Matt Aimonetti shows how to quickly get your database queries to run faster when you are not a DBA and are running out of time.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>20:51</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/47</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/ZgG8EUxI2Yo/047_indexing.m4v" length="152536980" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/047_indexing.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 046: RSpec in 15 minutes</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/46.png?1236986582" alt="Episode 046: RSpec in 15 minutes" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://workingwithrails.com/person/11918-cliff-rhyne"&gt;Cliff Rhyne&lt;/a&gt; describes in 15 minutes what it takes to get up and running with RSpec.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://docs.google.com/EmbedSlideshow?docid=dd7r668z_6f5xt2tf8"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Thu, 05 Jun 2008 16:57:23 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/UtDx7i1F-GI/46</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/46</guid>
+      <itunes:summary>Cliff Rhyne describes in 15 minutes what it takes to get up and running with RSpec.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>12:12</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/46</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/eUe94t38G3Y/046_rspec.m4v" length="93226379" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/046_rspec.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 045: Merb</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/45.png?1236986582" alt="Episode 045: Merb" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Much like Rails, Merb is a MVC web-framework written in Ruby. In this talk, &lt;a href="http://jordanfowler.com/"&gt;Jordan Fowler&lt;/a&gt; introduces Merb and presents some of the distinctions and tradeoffs between the two frameworks.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://docs.google.com/Present?docid=dfxf4brr_15cqs63pxf"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Thu, 05 Jun 2008 16:32:34 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/Mi7D1sfIkb0/45</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/45</guid>
+      <itunes:summary>Much like Rails, Merb is a MVC web-framework written in Ruby. In this talk, Jordan Fowler introduces Merb and presents some of the distinctions and tradeoffs between the two frameworks.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>38:32</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/45</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/aT5niCg-DEI/045_merb.m4v" length="358968540" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/045_merb.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 044: Ext JavaScript Library</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/44.png?1236986581" alt="Episode 044: Ext JavaScript Library" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Adam Grant talks about his experiences using Ext, a new Javascript library for creating advanced UI controls (like grids, trees, progress bars, etc).&lt;/p&gt;</description>
+      <pubDate>Sat, 24 May 2008 00:23:28 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/X7a9zreIUQY/44</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/44</guid>
+      <itunes:summary>Adam Grant talks about his experiences using Ext, a new Javascript library for creating advanced UI controls (like grids, trees, progress bars, etc).</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>46:36</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/44</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/TTMNilIsRM4/044_ext_javascript.m4v" length="393764584" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/044_ext_javascript.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 043: Facebook API</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/43.png?1236986581" alt="Episode 043: Facebook API" /&gt;&lt;/p&gt;
+
+&lt;p&gt;John Bresnik discusses the ruby library for the Facebook API, Facebooker, based on his production experience building Facebook applications. Presentation includes general overview of the Facebook API, Facebooker specifics, as well as code examples.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.rubyguerrilla.com/slides/SDRUBY-fb.pdf"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Sat, 24 May 2008 00:19:48 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/lTi_bwR2lzg/43</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/43</guid>
+      <itunes:summary>John Bresnik discusses the ruby library for the Facebook API, Facebooker, based on his production experience building Facebook applications. Presentation includes general overview of the Facebook API, Facebooker specifics, as well as code examples.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>41:15</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/43</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/tsuoLAeAQmQ/043_facebooker.m4v" length="408966339" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/043_facebooker.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 042: Deploying Rails on Slicehost</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/42.png?1236986580" alt="Episode 042: Deploying Rails on Slicehost" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://superjared.com/"&gt;Jared Kuolt&lt;/a&gt; shows how to quickly deploy your Rails application to a &lt;a href="http://www.slicehost.com/"&gt;Slicehost&lt;/a&gt; VPS. This talk covers installing MySQL, Nginx, Rails and Mongrel, as well as deployment using Capistrano.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://superjared.com/static/talk.pdf"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Mon, 28 Apr 2008 18:29:54 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/krxe4kMV8ao/42</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/42</guid>
+      <itunes:summary>Jared Kuolt shows how to quickly deploy your Rails application to a Slicehost VPS. This talk covers installing MySQL, Nginx, Rails and Mongrel, as well as deployment using Capistrano.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>26:21</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/42</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Cw3Qxc5Tv3k/042_slicehost.m4v" length="165758132" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/042_slicehost.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 041: MySQL Clustering</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/41.png?1236986578" alt="Episode 041: MySQL Clustering" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://notch8.com/"&gt;Rob Kaufman&lt;/a&gt; takes on database scaling with MySQL. This talk will walk you through setting up a Master (read write) Slave (read only) MySQL network, as well as a Master Master, or Multi-Master network. The talk will also cover the whys and when of database clustering.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/notch8/mysql-sm/"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Mon, 28 Apr 2008 18:18:02 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/20WlEg_FTZQ/41</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/41</guid>
+      <itunes:summary>Rob Kaufman takes on database scaling with MySQL. This talk will walk you through setting up a Master (read write) Slave (read only) MySQL network, as well as a Master Master, or Multi-Master network. The talk will also cover the whys and when of database clustering.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>51:15</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/41</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Djye25kiDJM/041_mysql.m4v" length="308755287" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/041_mysql.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 040: Unobtrusive Javascript</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/40.png?1236986578" alt="Episode 040: Unobtrusive Javascript" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://railsontherun.com/"&gt;Matt Aimonetti&lt;/a&gt; lays down the law on best-practice Ajax, using behavior oriented javascript with progressive enhancement.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/matta/unobtrusive-javascript-sdrb-2007"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Mon, 21 Jan 2008 20:25:15 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/7lMqEqIdO28/40</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/40</guid>
+      <itunes:summary>Matt Aimonetti lays down the law on best-practice Ajax, using behavior oriented javascript with progressive enhancement.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>22:32</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/40</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/owCHqV6olgk/040_unobtrusive.m4v" length="162975888" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/040_unobtrusive.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 039: ActionMailer in Action</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/39.png?1236986578" alt="Episode 039: ActionMailer in Action" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://notch8.com/"&gt;Rob Kaufman&lt;/a&gt; talks about using ActionMailer safely, how to keep out of the spam box and how to test your emails before your customers see them.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://www.slideshare.net/notch8/action-mailer-in-action/"&gt;download the slides&lt;/a&gt; from this talk.&lt;/p&gt;</description>
+      <pubDate>Thu, 10 Jan 2008 03:24:31 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/SzD-7NNUyEo/39</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/39</guid>
+      <itunes:summary>Rob Kaufman talks about using ActionMailer safely, how to keep out of the spam box and how to test your emails before your customers see them.
+
+Bonus content: download the slides from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>25:06</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/39</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/0Mk7tp3Bm2E/039_actionmailer.m4v" length="160561021" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/039_actionmailer.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 038: Haml and Sass in 15 minutes</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/38.png?1236986577" alt="Episode 038: Haml and Sass in 15 minutes" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://the.railsi.st/"&gt;Patrick Crowley&lt;/a&gt; gets you up to speed on using &lt;a href="http://haml.hamptoncatlin.com/docs/haml"&gt;Haml&lt;/a&gt; and &lt;a href="http://haml.hamptoncatlin.com/docs/sass"&gt;Sass&lt;/a&gt;. Haml is a drop in replacement for ERB that turns your views into beautiful code poetry. Sass does the same for CSS.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://the.railsi.st/slides/haml_and_sass.pdf"&gt;download the slides&lt;/a&gt;  from this talk.&lt;/p&gt;</description>
+      <pubDate>Tue, 20 Nov 2007 20:22:59 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/qmZKDXuAWCA/38</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/38</guid>
+      <itunes:summary>Patrick Crowley gets you up to speed on using Haml and Sass. Haml is a drop in replacement for ERB that turns your views into beautiful code poetry. Sass does the same for CSS.
+
+Bonus content: download the slides  from this talk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>31:46</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/38</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/qb6ERuCakoo/038_haml_sass.m4v" length="146337312" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/038_haml_sass.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 037: Rails Sexy Charts</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/37.png?1236986577" alt="Episode 037: Rails Sexy Charts" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://railsontherun.com/"&gt;Matt Aimonetti&lt;/a&gt; demonstrates how to create awesome, Flash-powered charts by integrating Rails with &lt;a href="http://www.amcharts.com"&gt;amCharts&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Bonus content: &lt;a href="http://railsontherun.com/assets/sexy_charts.zip"&gt;download the sample app&lt;/a&gt; shown in this talk or read Matt's original &lt;a href="http://railsontherun.com/2007/10/4/sexy-charts-in-less-than-5-minutes"&gt;Sexy charts in less than 5 minutes&lt;/a&gt; blog post.&lt;/p&gt;</description>
+      <pubDate>Tue, 13 Nov 2007 18:11:37 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/yZT9ZdgkPW8/37</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/37</guid>
+      <itunes:summary>Matt Aimonetti demonstrates how to create awesome, Flash-powered charts by integrating Rails with amCharts.
+
+Bonus content: download the sample app shown in this talk or read Matt's original Sexy charts in less than 5 minutes blog post.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>41:53</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/37</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/4LwvACpzIc8/037_sexy_charts.m4v" length="508683503" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/037_sexy_charts.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 036: The Return of Kevin Clark</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/36.png?1236986576" alt="Episode 036: The Return of Kevin Clark" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://glu.ttono.us"&gt;Kevin Clark&lt;/a&gt; takes a break from &lt;a href="http://www.powerset.com/"&gt;Powerset&lt;/a&gt; to give a full-throttle talk on using &lt;a href="http://merb.rubyforge.org/files/README.html"&gt;Merb&lt;/a&gt; as a JSON-RPC service, &lt;a href="http://god.rubyforge.org/"&gt;god&lt;/a&gt;, &lt;a href="http://fooplanet.com/projects/gem2rpm/"&gt;gem2rpm&lt;/a&gt;, and &lt;a href="http://seattlerb.rubyforge.org/heckle/"&gt;heckle&lt;/a&gt;.&lt;/p&gt;</description>
+      <pubDate>Sat, 03 Nov 2007 00:02:56 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/FF07HCKeK-k/36</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/36</guid>
+      <itunes:summary>Kevin Clark takes a break from Powerset to give a full-throttle talk on using Merb as a JSON-RPC service, god, gem2rpm, and heckle.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>47:37</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/36</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Mh6nMRiKJp4/036_god.m4v" length="578914037" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/036_god.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 035: ActiveRecord Backup &amp; MimetypeFu</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/35.png?1236986576" alt="Episode 035: ActiveRecord Backup &amp;amp; MimetypeFu" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://railsontherun.com/"&gt;Matt Aimonetti&lt;/a&gt; demonstrates his newest plugins: &lt;a href="http://code.google.com/p/ar-backup/"&gt;ActiveRecord Backup&lt;/a&gt; and &lt;a href="http://code.google.com/p/mimetype-fu/"&gt;MimetypeFu&lt;/a&gt;.&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 23:48:28 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/5DVOiqxnld4/35</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/35</guid>
+      <itunes:summary>Matt Aimonetti demonstrates his newest plugins: ActiveRecord Backup and MimetypeFu.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>16:52</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/35</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Zd-bdgj2iOc/035_railsplugins.m4v" length="185091718" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/035_railsplugins.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 034: Intro to JRuby</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/34.png?1236986575" alt="Episode 034: Intro to JRuby" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://chapados.org"&gt;Brian Chapados&lt;/a&gt; shows how to install and work with the latest &lt;a href="http://jruby.codehaus.org"&gt;JRuby&lt;/a&gt; release.&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 23:41:27 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/1va2KjO79fI/34</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/34</guid>
+      <itunes:summary>Brian Chapados shows how to install and work with the latest JRuby release.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>20:28</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/34</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/e3lwq6epP3g/034_jruby.m4v" length="237618665" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/034_jruby.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 033: Life on Edge</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/33.png?1236986575" alt="Episode 033: Life on Edge" /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you're a Rails junkie, you'll want to develop on &lt;a href="http://wiki.rubyonrails.org/rails/pages/EdgeRails"&gt;Edge Rails&lt;/a&gt;. Matt Clark explains how to get started and shares some of the challenges of working on Edge.&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 23:26:47 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/4fTReqQ34IM/33</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/33</guid>
+      <itunes:summary>If you're a Rails junkie, you'll want to develop on Edge Rails. Matt Clark explains how to get started and shares some of the challenges of working on Edge.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>22:35</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/33</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/u3PMkN1gm4I/033_edgerails.m4v" length="204581652" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/033_edgerails.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 032: Capistrano</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/32.png?1236986574" alt="Episode 032: Capistrano" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://notch8.com"&gt;Rob Kaufman&lt;/a&gt; takes on &lt;a href="http://www.capify.org/"&gt;Capistrano 2&lt;/a&gt;. What is it? How does it work? What's changed since version 1?&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 23:08:49 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/5yxK1SwKocY/32</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/32</guid>
+      <itunes:summary>Rob Kaufman takes on Capistrano 2. What is it? How does it work? What's changed since version 1?</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>42:24</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/32</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/FMK2Z2RSxfc/032_capistrano.m4v" length="382324797" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/032_capistrano.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 031: Seaside</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/31.png?1236986574" alt="Episode 031: Seaside" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Roger Whitney explores &lt;a href="http://seaside.st/"&gt;Seaside&lt;/a&gt;, the web application framework based on &lt;a href="http://en.wikipedia.org/wiki/Smalltalk"&gt;Smalltalk&lt;/a&gt;.&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 22:54:11 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/TgcnDp9VZ1o/31</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/31</guid>
+      <itunes:summary>Roger Whitney explores Seaside, the web application framework based on Smalltalk.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>35:41</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/31</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/jVEY6FxfkZU/031_seaside.m4v" length="243731718" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/031_seaside.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 030: Tuneshelf</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/30.png?1236986573" alt="Episode 030: Tuneshelf" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.19villages.com/"&gt;Dominic Damian&lt;/a&gt; talks about his experiences building &lt;a href="http://tuneshelf.com"&gt;Tuneshelf&lt;/a&gt;, a web application that allows music fans to keep track of their favorite music albums.&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 22:41:54 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/nFAAK3804M0/30</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/30</guid>
+      <itunes:summary>Dominic Damian talks about his experiences building Tuneshelf, a web application that allows music fans to keep track of their favorite music albums.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>21:13</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/30</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/7NPYGQ46nug/030_tuneshelf.m4v" length="235887349" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/030_tuneshelf.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 029: Big Stinking Piles (of data)</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/29.png?1236986572" alt="Episode 029: Big Stinking Piles (of data)" /&gt;&lt;/p&gt;
+
+&lt;p&gt;What do you do when third-party data vendors don't speak REST? &lt;a href="http://notch8.com"&gt;Rob Kaufman&lt;/a&gt; discuss real-world techniques for importing and exporting data. (This talk was also given at &lt;a href="http://conferences.oreillynet.com/rails2007/"&gt;RailsConf 2007&lt;/a&gt;.)&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 22:23:56 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/g8Fza6tLkQo/29</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/29</guid>
+      <itunes:summary>What do you do when third-party data vendors don't speak REST? Rob Kaufman discuss real-world techniques for importing and exporting data. (This talk was also given at RailsConf 2007.)</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>36:38</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/29</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/_Prlth5bqHc/029_stinking.m4v" length="281555454" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/029_stinking.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 028: Simple Sidebar Plugin</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/28.png?1236986572" alt="Episode 028: Simple Sidebar Plugin" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.aisleten.com/"&gt;Ryan Felton&lt;/a&gt; shows how to use &lt;a href="http://mabs29.googlecode.com/svn/trunk/plugins/simple_sidebar/"&gt;Simple Sidebar&lt;/a&gt; plugin to DRY up sidebar content in applications.&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 22:11:08 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/le7z5jw32k0/28</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/28</guid>
+      <itunes:summary>Ryan Felton shows how to use Simple Sidebar plugin to DRY up sidebar content in applications.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>24:25</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/28</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/lYk0aDIBOig/028_sidebars.m4v" length="252290265" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/028_sidebars.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 027: Headliner and Styler</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/27.png?1236986571" alt="Episode 027: Headliner and Styler" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://the.railsi.st"&gt;Patrick Crowley&lt;/a&gt; talks about his newest plugins: &lt;a href="http://the.railsi.st/2007/5/3/headliner-dry-up-your-page-titles"&gt;Headliner&lt;/a&gt; and &lt;a href="http://the.railsi.st/2007/5/3/styler-stylesheets-made-easy"&gt;Styler&lt;/a&gt;.&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 20:22:36 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/NhWlFMmh6eM/27</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/27</guid>
+      <itunes:summary>Patrick Crowley talks about his newest plugins: Headliner and Styler.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>20:30</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/27</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/REEJCkNMddM/027_headliner_styler.m4v" length="179633129" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/027_headliner_styler.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 026: ActsAsSolr</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/26.png?1236986571" alt="Episode 026: ActsAsSolr" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://notch8.com"&gt;Rob Kaufman&lt;/a&gt; shows how easy it is to integrate &lt;a href="http://lucene.apache.org/solr/"&gt;Solr&lt;/a&gt; powered search into your Rails application using the &lt;a href="http://acts-as-solr.rubyforge.org/"&gt;ActsAsSolr&lt;/a&gt; plugin.&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 20:22:04 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/X2a-F9gdZHA/26</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/26</guid>
+      <itunes:summary>Rob Kaufman shows how easy it is to integrate Solr powered search into your Rails application using the ActsAsSolr plugin.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>29:14</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/26</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/OhDGzoU6Z5U/026_acts_as_solr.m4v" length="319626810" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/026_acts_as_solr.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 025: Ajax CSS Star Rating with ActsAsRateable</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/25.png?1236986570" alt="Episode 025: Ajax CSS Star Rating with ActsAsRateable" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.aisleten.com/"&gt;Ryan Felton&lt;/a&gt; shows off how to build an Ajax-powered, CSS star rater using the &lt;a href="http://juixe.com/svn/acts_as_rateable/"&gt;ActsAsRateable&lt;/a&gt; plugin and Komodo Media's &lt;a href="http://komodomedia.com/blog/index.php/2007/01/20/css-star-rating-redux/"&gt;CSS Star Rating Redux&lt;/a&gt; technique.&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 20:10:25 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/ItmTTNb1WwA/25</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/25</guid>
+      <itunes:summary>Ryan Felton shows off how to build an Ajax-powered, CSS star rater using the ActsAsRateable plugin and Komodo Media's CSS Star Rating Redux technique.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>20:23</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/25</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/P4FiPNtU1-c/025_ajax_rating.m4v" length="229588670" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/025_ajax_rating.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 024: Using Ruby + Amazon SQS to build backdoors</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/24.png?1236986570" alt="Episode 024: Using Ruby + Amazon SQS to build backdoors" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://chapados.org/"&gt;Brian Chapados&lt;/a&gt; talks about using Ruby and Amazon's &lt;a href="http://www.amazon.com/Simple-Queue-Service-home-page/b?ie=UTF8&amp;amp;node=13584001"&gt;Simple Que Service&lt;/a&gt; web service to build backdoors into systems.&lt;/p&gt;</description>
+      <pubDate>Fri, 02 Nov 2007 19:57:43 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/JueEHJRf2UQ/24</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/24</guid>
+      <itunes:summary>Brian Chapados talks about using Ruby and Amazon's Simple Que Service web service to build backdoors into systems.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>18:09</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/24</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/oqEfmvxsREI/024_amazon_sqs.m4v" length="204460968" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/024_amazon_sqs.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 023: RubyInline</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/23.png?1236986569" alt="Episode 023: RubyInline" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://beyondthepath.com/"&gt;Nick Zadrozny&lt;/a&gt; shows us how to use C in Ruby with &lt;a href="http://www.zenspider.com/ZSS/Products/RubyInline/"&gt;RubyInline&lt;/a&gt;. As an example, Nick walks us through writing a password-generating application with the help of &lt;a href="http://www.diceware.com/"&gt;Diceware&lt;/a&gt;.&lt;/p&gt;</description>
+      <pubDate>Fri, 15 Jun 2007 19:57:11 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/V8jZy7Let4U/23</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/23</guid>
+      <itunes:summary>Nick Zadrozny shows us how to use C in Ruby with RubyInline. As an example, Nick walks us through writing a password-generating application with the help of Diceware.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>13:10</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/23</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/B0Cv0JJxm6A/023_ruby_inline.m4v" length="81696531" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/023_ruby_inline.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 022: DRP</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/22.png?1236986568" alt="Episode 022: DRP" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://drp.rubyforge.org/"&gt;DRP&lt;/a&gt; stands for Directed Ruby Programming. In this episode, Warren Henning explains exactly what that means and why you might be interested in it.&lt;/p&gt;</description>
+      <pubDate>Thu, 31 May 2007 07:08:50 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/jkeztWIisZg/22</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/22</guid>
+      <itunes:summary>DRP stands for Directed Ruby Programming. In this episode, Warren Henning explains exactly what that means and why you might be interested in it.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>30:52</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/22</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/scXCWxPqbX8/022_drp.m4v" length="70364812" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/022_drp.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 021: Merb</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/21.png?1236986567" alt="Episode 021: Merb" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://vandev.com/"&gt;Chris Van Pelt&lt;/a&gt; gives us an introduction to &lt;a href="http://merb.devjavu.com/"&gt;Merb&lt;/a&gt;. Merb is a Ruby framework built by &lt;a href="http://brainspl.at/"&gt;Ezra Zygmuntowicz&lt;/a&gt;.&lt;/p&gt;</description>
+      <pubDate>Mon, 23 Apr 2007 04:13:15 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/3Piw3qWMVVM/21</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/21</guid>
+      <itunes:summary>Chris Van Pelt gives us an introduction to Merb. Merb is a Ruby framework built by Ezra Zygmuntowicz.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>15:03</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/21</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/dibAMdj5emk/021_merb.m4v" length="89568394" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/021_merb.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 020: ImageScience</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/20.png?1236986566" alt="Episode 020: ImageScience" /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this episode, Tom Werner covers some of the basics of the ruby image library &lt;a href="http://seattlerb.rubyforge.org/ImageScience.html"&gt;ImageScience&lt;/a&gt;. ImageScience is a wrapper for the &lt;a href="http://sourceforge.net/projects/freeimage"&gt;FreeImage&lt;/a&gt; graphics library, and is a lightweight alternative to &lt;a href="http://rmagick.rubyforge.org/"&gt;RMagick&lt;/a&gt;.&lt;/p&gt;</description>
+      <pubDate>Sun, 25 Mar 2007 01:25:33 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/oIjleEQAyc4/20</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/20</guid>
+      <itunes:summary>In this episode, Tom Werner covers some of the basics of the ruby image library ImageScience. ImageScience is a wrapper for the FreeImage graphics library, and is a lightweight alternative to RMagick.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>19:43</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/20</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/2h0a34JIBVU/020_imagescience.mp4" length="38338291" type="video/mp4" /><feedburner:origEnclosureLink>http://sdruby.org/video/020_imagescience.mp4</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 019: AWS S3</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/19.png?1236986565" alt="Episode 019: AWS S3" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.jordanfowler.com/"&gt;Jordan Fowler&lt;/a&gt; gives a presentation on Amazon's &lt;a href="http://www.amazon.com/gp/browse.html?node=16427261"&gt;S3&lt;/a&gt; service. He also covers the &lt;a href="http://amazon.rubyforge.org/"&gt;AWS::S3&lt;/a&gt; gem written by &lt;a href="http://www.vernix.org/marcel/"&gt;Marcel Molina Jr.&lt;/a&gt;&lt;/p&gt;</description>
+      <pubDate>Sat, 03 Mar 2007 20:31:05 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/C22Zd5Y9egU/19</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/19</guid>
+      <itunes:summary>Jordan Fowler gives a presentation on Amazon's S3 service. He also covers the AWS::S3 gem written by Marcel Molina Jr.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>22:34</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/19</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/sz2o4LYQ-Ik/019_aws_s3.m4v" length="112326427" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/019_aws_s3.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 018: StaffTool</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/18.png?1236986565" alt="Episode 018: StaffTool" /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this episode, &lt;a href="http://120db.com/"&gt;Toby Sterrett&lt;/a&gt; gives us an update on his soon-to-be-released project StaffTool. StaffTool is a web-based church management application build with Ruby on Rails.&lt;/p&gt;</description>
+      <pubDate>Wed, 21 Feb 2007 23:24:41 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/JA6eggOlEr8/18</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/18</guid>
+      <itunes:summary>In this episode, Toby Sterrett gives us an update on his soon-to-be-released project StaffTool. StaffTool is a web-based church management application build with Ruby on Rails.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>12:52</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/18</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/rzteQL6xLT4/018_stafftool.m4v" length="52593617" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/018_stafftool.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 017: ActsNaked</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/17.png?1236986563" alt="Episode 017: ActsNaked" /&gt;&lt;/p&gt;
+
+&lt;p&gt;In today's episode, &lt;a href="http://mokolabs.com/"&gt;Patrick Crowley&lt;/a&gt; introduces his first Rails plugin titled ActsNaked. It's an easy way to strip your models and keep them DRY.&lt;/p&gt;</description>
+      <pubDate>Thu, 15 Feb 2007 23:35:02 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/JsEylsDLYFc/17</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/17</guid>
+      <itunes:summary>In today's episode, Patrick Crowley introduces his first Rails plugin titled ActsNaked. It's an easy way to strip your models and keep them DRY.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>10:21</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/17</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/UAsX49_0GX8/017_actsnaked.m4v" length="37218079" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/017_actsnaked.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 016: MasterView Templates</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/16.png?1236986563" alt="Episode 016: MasterView Templates" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Deb Lewis showcases her project MasterView. MasterView is a template language for Rails.&lt;/p&gt;</description>
+      <pubDate>Tue, 16 Jan 2007 21:43:14 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/_wGEUxiViRE/16</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/16</guid>
+      <itunes:summary>Deb Lewis showcases her project MasterView. MasterView is a template language for Rails.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>25:53</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/16</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/px-iDPGss88/016_master_view.mp4" length="102038568" type="video/mp4" /><feedburner:origEnclosureLink>http://sdruby.org/video/016_master_view.mp4</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 015: Rails for Legacy Applications</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/15.png?1236986562" alt="Episode 015: Rails for Legacy Applications" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://mokolabs.com/"&gt;Patrick Crowley&lt;/a&gt; covers some of the finer point of using Rails with legacy applications.&lt;/p&gt;</description>
+      <pubDate>Tue, 16 Jan 2007 21:43:08 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/PWRzhPafcHk/15</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/15</guid>
+      <itunes:summary>Patrick Crowley covers some of the finer point of using Rails with legacy applications.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>31:58</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/15</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/HVpiWqlXC_w/015_rails_for_legacy_apps.mp4" length="109948536" type="video/mp4" /><feedburner:origEnclosureLink>http://sdruby.org/video/015_rails_for_legacy_apps.mp4</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 014: Ruby Idioms - Part 1</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/14.png?1236986562" alt="Episode 014: Ruby Idioms - Part 1" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.cube6media.com"&gt;Tom Werner&lt;/a&gt; gives us part 1 of his series on Ruby idoms.&lt;/p&gt;</description>
+      <pubDate>Tue, 16 Jan 2007 21:42:56 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/UXZ4J7fdkg8/14</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/14</guid>
+      <itunes:summary>Tom Werner gives us part 1 of his series on Ruby idoms.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>38:12</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/14</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/-_k1JDt5A4Y/014_ruby_idioms_1.mp4" length="112940686" type="video/mp4" /><feedburner:origEnclosureLink>http://sdruby.org/video/014_ruby_idioms_1.mp4</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 013: Mocha and Stubba</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/13.png?1236986561" alt="Episode 013: Mocha and Stubba" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://glu.ttono.us"&gt;Kevin Clark&lt;/a&gt; shows us how to use mocks and stubs in your Ruby tests using &lt;a href="http://mocha.rubyforge.org"&gt;Mocha and Stubba&lt;/a&gt;&lt;/p&gt;</description>
+      <pubDate>Mon, 06 Nov 2006 08:43:46 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/rvy5WXkSuKo/13</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/13</guid>
+      <itunes:summary>Kevin Clark shows us how to use mocks and stubs in your Ruby tests using Mocha and Stubba</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>27:20</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/13</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/VzsYDTosNb8/013_mocha_stubba.m4v" length="141459556" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/013_mocha_stubba.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 012: Deployment</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/12.png?1236986560" alt="Episode 012: Deployment" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://acorsys.com"&gt;Dominic Damian&lt;/a&gt; talks about the different options available to you when deploying a Rails application. He covers areas such as servers, caching, database, and hosting.&lt;/p&gt;</description>
+      <pubDate>Mon, 06 Nov 2006 08:43:33 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/Xij2lUu2pb4/12</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/12</guid>
+      <itunes:summary>Dominic Damian talks about the different options available to you when deploying a Rails application. He covers areas such as servers, caching, database, and hosting.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>22:23</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/12</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/ydB2iMI93_U/012_deployment.m4v" length="74318006" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/012_deployment.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 011: ActsAsTaggable Plugin</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/11.png?1236986560" alt="Episode 011: ActsAsTaggable Plugin" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://mokolabs.com/"&gt;Patrick Crowley&lt;/a&gt; discusses his experiences with acts&lt;em&gt;as&lt;/em&gt;taggable. He starts off outlining some of the differences between the &lt;a href="http://rubyforge.org/projects/taggable"&gt;gem&lt;/a&gt; and the &lt;a href="http://dev.rubyonrails.com/svn/rails/plugins/acts_as_taggable"&gt;plugin&lt;/a&gt;. Patrick then creates a simple app to show off some of the capabilities of the plugin.&lt;/p&gt;</description>
+      <pubDate>Mon, 06 Nov 2006 08:42:37 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/y7gGQHL1dO4/11</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/11</guid>
+      <itunes:summary>Patrick Crowley discusses his experiences with actsastaggable. He starts off outlining some of the differences between the gem and the plugin. Patrick then creates a simple app to show off some of the capabilities of the plugin.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>32:26</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/11</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Mwej3cKfA_s/011_acts_as_taggable.m4v" length="179779859" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/011_acts_as_taggable.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 010: REST Web Services with Rails</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/10.png?1236986559" alt="Episode 010: REST Web Services with Rails" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://blog.integralimpressions.com"&gt;Chris Abad&lt;/a&gt; talks a little bit about providing web services to your Rails application using some of the new REST features found in Edge Rails. At the end, he also throws in a bonus tip on using &lt;a href="http://techno-weenie.net"&gt;Rick Olson's&lt;/a&gt; authentication plugin &lt;a href="http://svn.techno-weenie.net/projects/plugins/restful_authentication/"&gt;restful_authentication&lt;/a&gt; to add authentication to your REST API.&lt;/p&gt;
+
+&lt;p&gt;Here are the &lt;a href="/pdfs/010_rest_2.pdf"&gt;slides&lt;/a&gt;&lt;/p&gt;</description>
+      <pubDate>Tue, 03 Oct 2006 16:37:55 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/-GuJSbTOP_8/10</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/10</guid>
+      <itunes:summary>Chris Abad talks a little bit about providing web services to your Rails application using some of the new REST features found in Edge Rails. At the end, he also throws in a bonus tip on using Rick Olson's authentication plugin restful_authentication to add authentication to your REST API.
+
+Here are the slides</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>17:10</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/10</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/yBHgM0okP5c/010_rest_2.m4v" length="50161545" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/010_rest_2.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 009: REST with Rails</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/9.png?1236986559" alt="Episode 009: REST with Rails" /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this episode, &lt;a href="http://glu.ttono.us"&gt;Kevin Clark&lt;/a&gt; shows us some of the new REST features found in Edge Rails. He covers some basic concepts such as HTTP verbs, and also takes a look at using RESTful routes.&lt;/p&gt;
+
+&lt;p&gt;Here are the &lt;a href="/pdfs/009_rest.pdf"&gt;slides&lt;/a&gt;&lt;/p&gt;</description>
+      <pubDate>Tue, 03 Oct 2006 16:34:31 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/lhXw4hZYGOg/9</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/9</guid>
+      <itunes:summary>In this episode, Kevin Clark shows us some of the new REST features found in Edge Rails. He covers some basic concepts such as HTTP verbs, and also takes a look at using RESTful routes.
+
+Here are the slides</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>15:56</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/9</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/9ecIaCTcTxA/009_rest.m4v" length="68726923" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/009_rest.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 008: Chronic</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/8.png?1236986558" alt="Episode 008: Chronic" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.cube6media.com/"&gt;Tom Werner&lt;/a&gt; has released the ruby gem Chronic, a natural language date and time parser. In this episode he gives us a quick run through of some of the cool points.&lt;/p&gt;</description>
+      <pubDate>Tue, 03 Oct 2006 16:32:29 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/eJo5pHsijdQ/8</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/8</guid>
+      <itunes:summary>Tom Werner has released the ruby gem Chronic, a natural language date and time parser. In this episode he gives us a quick run through of some of the cool points.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>40:26</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/8</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/Ib00sPKdwGA/008_chronic.m4v" length="161923972" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/008_chronic.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 007: Rails Authentication</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/7.png?1236986557" alt="Episode 007: Rails Authentication" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://glu.ttono.us"&gt;Kevin Clark&lt;/a&gt; gives us a brief overview of two of &lt;a href="http://techno-weenie.net"&gt;Rick Olson's&lt;/a&gt; authentication plugins: &lt;a href="http://svn.techno-weenie.net/projects/plugins/acts_as_authenticated/"&gt;acts&lt;em&gt;as&lt;/em&gt;authenticated&lt;/a&gt; and &lt;a href="http://svn.techno-weenie.net/projects/plugins/restful_authentication/"&gt;restful_authentication&lt;/a&gt;.&lt;/p&gt;</description>
+      <pubDate>Fri, 08 Sep 2006 17:24:08 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/91Scoai82nc/7</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/7</guid>
+      <itunes:summary>Kevin Clark gives us a brief overview of two of Rick Olson's authentication plugins: actsasauthenticated and restful_authentication.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>12:01</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/7</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/hXjZzA8fONQ/007_authentication.m4v" length="29531997" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/007_authentication.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 006: Dynamic Domains</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/6.png?1236986556" alt="Episode 006: Dynamic Domains" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://blog.integralimpressions.com"&gt;Chris Abad&lt;/a&gt; introduces the new web service, &lt;a href="http://out.landi.sh"&gt;Outlandish&lt;/a&gt;. He also shows us how they handle dynamic domains within Outlandish.&lt;/p&gt;
+
+&lt;p&gt;Here are the &lt;a href="/pdfs/006_dynamic_domains.pdf"&gt;slides&lt;/a&gt;&lt;/p&gt;</description>
+      <pubDate>Fri, 08 Sep 2006 17:20:17 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/NmpU6EnpBbU/6</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/6</guid>
+      <itunes:summary>Chris Abad introduces the new web service, Outlandish. He also shows us how they handle dynamic domains within Outlandish.
+
+Here are the slides</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>38:29</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/6</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/uQfyx3cgIro/006_dynamic_domains.m4v" length="56565951" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/006_dynamic_domains.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 005: ARTS Plugin</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/5.png?1236986556" alt="Episode 005: ARTS Plugin" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Kevin Clark demos his new Rails plugin, &lt;a href="http://glu.ttono.us/articles/2006/05/29/guide-test-driven-rjs-with-arts"&gt;ARTS&lt;/a&gt;, which allows you to test your RJS templates.&lt;/p&gt;</description>
+      <pubDate>Fri, 08 Sep 2006 17:17:13 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/mfBR0Xxq4M4/5</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/5</guid>
+      <itunes:summary>Kevin Clark demos his new Rails plugin, ARTS, which allows you to test your RJS templates.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>47:32</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/5</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/3yzKNNWBPxM/005_arts.m4v" length="131703235" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/005_arts.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 004: Numbers</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/4.png?1236986556" alt="Episode 004: Numbers" /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.cube6media.com/"&gt;Tom Werner&lt;/a&gt; wows us with the power of numbers in Ruby.&lt;/p&gt;</description>
+      <pubDate>Fri, 08 Sep 2006 17:14:30 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/gS7fvB1_Fow/4</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/4</guid>
+      <itunes:summary>Tom Werner wows us with the power of numbers in Ruby.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>35:48</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/4</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/eJ_G4P6su7k/004_numbers.m4v" length="71755714" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/004_numbers.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 003: mkmf</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/3.png?1236986555" alt="Episode 003: mkmf" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Kevin Clark takes us through some of the work he's doing on mkmf for his Summer of Rails project. We also get a quick preview of Kevin's RailsDay app, Advisr.&lt;/p&gt;</description>
+      <pubDate>Mon, 24 Jul 2006 20:54:52 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/BgLxy9HeHc0/3</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/3</guid>
+      <itunes:summary>Kevin Clark takes us through some of the work he's doing on mkmf for his Summer of Rails project. We also get a quick preview of Kevin's RailsDay app, Advisr.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>11:48</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/3</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/dbI2LVNIuSo/003_mkmf.m4v" length="40705751" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/003_mkmf.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 002: Camping</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/2.png?1236986555" alt="Episode 002: Camping" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Chris Van Pelt discussing Camping, a microframework built by Why the Lucky Stiff. Chris also gives us a preview of a cool little Camping app he built title Croppr.&lt;/p&gt;</description>
+      <pubDate>Mon, 24 Jul 2006 20:53:32 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/-3PX6sJ81kQ/2</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/2</guid>
+      <itunes:summary>Chris Van Pelt discussing Camping, a microframework built by Why the Lucky Stiff. Chris also gives us a preview of a cool little Camping app he built title Croppr.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>34:34</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/2</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/dXlEvP4DY-0/002_camping.m4v" length="100531015" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/002_camping.m4v</feedburner:origEnclosureLink></item>
+    <item>
+      <title>Episode 001: Summer of Rails</title>
+      <description type="html">&lt;p&gt;&lt;img src="http://sdruby.org/images/screenshots/large/1.png?1236986551" alt="Episode 001: Summer of Rails" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Patrick Crowley discusses Summer of Rails. He also introduces his first Summer of Rails project, Graffletopia.&lt;/p&gt;</description>
+      <pubDate>Mon, 17 Jul 2006 23:32:03 +0000</pubDate>
+      
+      <link>http://feedproxy.google.com/~r/sdrbpodcast/~3/cKNXCGZBnBw/1</link>
+      <guid isPermaLink="false">http://sdruby.org/podcast/1</guid>
+      <itunes:summary>Patrick Crowley discusses Summer of Rails. He also introduces his first Summer of Rails project, Graffletopia.</itunes:summary>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:duration>28:02</itunes:duration>
+    <feedburner:origLink>http://sdruby.org/podcast/1</feedburner:origLink><enclosure url="http://feedproxy.google.com/~r/sdrbpodcast/~5/1WGfYV2q-1o/001_summer_of_rails.m4v" length="69675832" type="video/x-m4v" /><feedburner:origEnclosureLink>http://sdruby.org/video/001_summer_of_rails.m4v</feedburner:origEnclosureLink></item>
+  </channel>
+</rss>
