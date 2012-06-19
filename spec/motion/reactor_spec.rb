@@ -1,6 +1,6 @@
-describe BubbleWrap::Dispatch do
+describe BubbleWrap::Reactor do
   before do
-    @subject = ::BubbleWrap::Dispatch
+    @subject = ::BubbleWrap::Reactor
     @proxy = Class.new do
       attr_accessor :proof
     end.new
@@ -119,7 +119,7 @@ describe BubbleWrap::Dispatch do
 #     it 'runs the operation on the reactor queue' do
 #       @proxy.proof = false
 #       @subject.schedule do
-#         @proxy.proof = ::Dispatch::Queue.current.to_s
+#         @proxy.proof = ::Reactor::Queue.current.to_s
 #       end
 #       wait 0.75 do
 #         @proxy.proof.should == "#{NSBundle.mainBundle.bundleIdentifier}.reactor"
@@ -129,10 +129,10 @@ describe BubbleWrap::Dispatch do
 #     it 'runs the callback on the main queue' do
 #       @proxy.proof = false
 #       @subject.schedule do
-#         @proxy.proof = ::Dispatch::Queue.current.to_s
+#         @proxy.proof = ::Reactor::Queue.current.to_s
 #       end
 #       wait 0.75 do
-#         @proxy.proof.should == ::Dispatch::Queue.main.to_s
+#         @proxy.proof.should == ::Reactor::Queue.main.to_s
 #       end
 #     end
   end
@@ -152,10 +152,10 @@ describe BubbleWrap::Dispatch do
 #     it 'runs the operation on the main queue' do
 #       @proxy.proof = false
 #       @subject.schedule do
-#         @proxy.proof = ::Dispatch::Queue.current.to_s
+#         @proxy.proof = ::Reactor::Queue.current.to_s
 #       end
 #       wait 0.75 do
-#         @proxy.proof.should == ::Dispatch::Queue.main.to_s
+#         @proxy.proof.should == ::Reactor::Queue.main.to_s
 #       end
 #     end
   end

@@ -1,25 +1,23 @@
 module BubbleWrap
-  module Dispatch
-    # Creates a repeating timer.
-    class PeriodicTimer
+  module Reactor
+    # Creates a one-time timer.
+    class Timer
       include Eventable
-
-      attr_accessor :interval
 
       # Create a new timer that fires after a given number of seconds
       def initialize(interval, callback=nil, &blk)
-        self.interval = interval
         fire = proc {
           (callback || blk).call
           trigger(:fired)
         }
-        @timer = NSTimer.scheduledTimerWithTimeInterval(interval,target: fire, selector: 'call:', userInfo: nil, repeats: true)
+        @timer = NSTimer.scheduledTimerWithTimeInterval(interval,target: fire, selector: 'call:', userInfo: nil, repeats: false)
       end
 
       # Cancel the timer
       def cancel
         @timer.invalidate
         trigger(:cancelled)
+        true
       end
 
     end

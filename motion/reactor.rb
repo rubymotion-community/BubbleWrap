@@ -1,5 +1,5 @@
 module BubbleWrap
-  module Dispatch
+  module Reactor
     module_function
 
     # Always returns true - for compatibility with EM
@@ -57,7 +57,7 @@ module BubbleWrap
     #     callback = proc do |result|
     #       # do something with the result here, such as trigger a UI change
     #     end
-    #     BubbleWrap::Dispatch.defer(operation,callback)
+    #     BubbleWrap::Reactor.defer(operation,callback)
     # The action of `defer` is to take the block specified in the first
     # parameter (the "operation") and schedule it for asynchronous execution
     # on a GCD concurrency queue. When the operation completes the result (if any)
@@ -81,7 +81,7 @@ module BubbleWrap
       nil
     end
 
-    # Schedule a block for execution on your applcation's main thread.
+    # Schedule a block for execution on your application's main thread.
     # This is useful as UI updates need to be executed from the main
     # thread.
     def schedule_on_main(*args, &blk)
@@ -94,4 +94,4 @@ module BubbleWrap
   end
 end
 
-::EM = ::BubbleWrap::Dispatch # Yes I dare!
+::EM = ::BubbleWrap::Reactor # Yes I dare!

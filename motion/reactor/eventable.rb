@@ -1,5 +1,5 @@
 module BubbleWrap
-  module Dispatch
+  module Reactor
     # A simple mixin that adds events to your object.
     module Eventable
 

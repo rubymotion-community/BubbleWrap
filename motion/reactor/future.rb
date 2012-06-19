@@ -1,5 +1,5 @@
 module BubbleWrap
-  module Dispatch
+  module Reactor
     module Future
 
       # A future is a sugaring of a typical deferrable usage.

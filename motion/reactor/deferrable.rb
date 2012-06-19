@@ -1,10 +1,10 @@
 module BubbleWrap
-  module Dispatch
+  module Reactor
     # Provides a mixin for deferrable jobs.
     module Deferrable
 
       # def self.included(base)
-      #   base.extend ::BubbleWrap::Dispatch::Future
+      #   base.extend ::BubbleWrap::Reactor::Future
       # end
 
       # Specify a block to be executed if and when the Deferrable object 

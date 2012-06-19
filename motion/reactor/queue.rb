@@ -1,5 +1,5 @@
 module BubbleWrap
-  module Dispatch
+  module Reactor
     # A GCD scheduled, linear queue.
     #
     # This class provides a simple “Queue” like abstraction on top of the 
@@ -7,7 +7,7 @@ module BubbleWrap
     #
     # Useful as an API sugar for stateful protocols
     #
-    #  q = BubbleWrap::Dispatch::Queue.new
+    #  q = BubbleWrap::Reactor::Queue.new
     #  q.push('one', 'two', 'three')
     #  3.times do
     #    q.pop{ |msg| puts(msg) }
@@ -32,7 +32,7 @@ module BubbleWrap
       # Push items onto the work queue. The items will not appear in the queue 
       # immediately, but will be scheduled for addition.
       def push(*items)
-        ::BubbleWrap::Dispatch.schedule do 
+        ::BubbleWrap::Reactor.schedule do 
           @items.push(*items)
           @popq.shift.call @items.shift until @items.empty? || @popq.empty?
         end
@@ -45,7 +45,7 @@ module BubbleWrap
         cb = proc do
           blk.call(*args)
         end
-        ::BubbleWrap::Dispatch.schedule do
+        ::BubbleWrap::Reactor.schedule do
           if @items.empty?
             @popq << cb
           else

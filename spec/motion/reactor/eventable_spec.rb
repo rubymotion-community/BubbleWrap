@@ -1,7 +1,7 @@
-describe BubbleWrap::Dispatch::Eventable do
+describe BubbleWrap::Reactor::Eventable do
   before do
     @subject = Class.new do
-      include BubbleWrap::Dispatch::Eventable
+      include BubbleWrap::Reactor::Eventable
     end.new
     @proxy = Class.new do 
       attr_accessor :proof
