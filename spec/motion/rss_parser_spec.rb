@@ -20,7 +20,7 @@ describe "RSSParser" do
       parser.source.absoluteString.should.equal @feed_url
     end
 
-    it "works with some data" do
+    # it "works with some data" do
       # feed_data_string = File.read(@local_feed)
       # parser = BW::RSSParser.new(feed_data_string, true)
       # parser.source.class.should.equal NSData
@@ -29,7 +29,7 @@ describe "RSSParser" do
       # parser.source.class.should.equal NSURL
       # parser.source.class.should.equal NSData
       # parser.source.to_str.should.equal @feed_data_string
-    end
+    # end
   end
 
 end
