@@ -35,6 +35,11 @@ If you wish to only include the `HTTP` wrapper:
 require 'bubble-wrap/http'
 ```
 
+If you wish to only include the `RSS Parser` wrapper:
+
+```ruby
+require 'bubble-wrap/rss_parser'
+```
 
 Note: **DON'T** use `app.files =` in your Rakefile to set up your files once you've required BubbleWrap.
 Make sure to append onto the array or use `+=`.
@@ -304,7 +309,9 @@ BubbleWrap::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
 end
 ```
 
+## RSS Parser
 
+TODO
 
 Do you have a suggestion for a specific wrapper? Feel free to open an
 issue/ticket and tell us about what you are after. If you have a

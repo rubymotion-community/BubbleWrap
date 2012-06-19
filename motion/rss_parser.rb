@@ -21,32 +21,14 @@
 class RSSParser
   include BW::KVO
 
-  attr_accessor :parser, :xml_url, :doc, :debug, :state, :delegate
-
-  def initialize(input, data=false)
-    if data
-      data_to_parse = input.respond_to?(:to_data) ? input.to_data : input
-      @parser = NSXMLParser.alloc.initWithData(data_to_parse)
-    else
-      url = NSURL.alloc.initWithString(input)
-      @parser = NSXMLParser.alloc.initWithContentsOfURL(url)
-    end
-    observe(self, 'state') do |old_state, new_state|
-      meth = "when_parser_#{new_state}"
-      if self.delegate && self.delegate.respond_to?(meth)
-        self.delegate.send(meth)
-      end
-    end
-    self.state = :initializes
-    @parser.shouldProcessNamespaces = true
-    @parser.delegate = self
-    self
-  end
+  attr_accessor :parser, :xml_url, :doc, :debug, :delegate
+  attr_reader :state
 
   # RSSItem is a simple class that holds all of RSS items.
   # Extend this class to display/process the item differently.
   class RSSItem
     attr_accessor :title, :description, :link, :guid, :pubDate, :enclosure
+
     def initialize
       @title, @description, @link, @pubDate, @guid = '', '', '', '', ''
     end
@@ -60,6 +42,27 @@ class RSSParser
         :guid         => guid,
         :enclosure    => enclosure
       }
+    end
+  end
+
+  def initialize(input, data=false)
+    if data
+      data_to_parse = input.respond_to?(:to_data) ? input.to_data : input
+      @parser = NSXMLParser.alloc.initWithData(data_to_parse)
+    else
+      url = NSURL.alloc.initWithString(input)
+      @parser = NSXMLParser.alloc.initWithContentsOfURL(url)
+    end
+    self.state = :initializes
+    @parser.shouldProcessNamespaces = true
+    @parser.delegate = self
+    self
+  end
+
+  def state=(new_state)
+    callback_meth = "when_parser_#{new_state}"
+    if self.delegate && self.delegate.respond_to?(callback_meth)
+      self.delegate.send(callback_meth)
     end
   end
 
