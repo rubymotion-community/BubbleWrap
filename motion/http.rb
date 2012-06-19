@@ -133,27 +133,6 @@ module BubbleWrap
         UIApplication.sharedApplication.networkActivityIndicatorVisible = true
       end
 
-      #will move to private
-      def generate_params(payload, prefix=nil)
-        list = []
-        payload.each do |k,v|
-          if v.is_a?(Hash)
-            new_prefix = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
-            param = generate_params(v, new_prefix)
-            list << param
-          elsif v.is_a?(Array)
-            v.each do |val|
-              param = prefix ? "#{prefix}[#{k}][]=#{val}" : "#{k}[]=#{val}"
-              list << param
-            end
-          else
-            param = prefix ? "#{prefix}[#{k}]=#{v}" : "#{k}=#{v}"
-            list << param
-          end
-        end
-        return list.flatten
-      end
-
       def create_request
         log "BubbleWrap::HTTP building a NSRequest for #{@url.description}"
 
@@ -248,20 +227,20 @@ module BubbleWrap
           body.appendData(@payload.to_s.dataUsingEncoding(NSUTF8StringEncoding))
         end
 
-        if @files && @payload
-          @payload.each { |key, value|
-            postData = NSMutableData.data
-            s = "\r\n--#{@boundary}\r\n"
-            s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
-            s += value.to_s
-            postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
-            postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @payload.keys.last
-            body.appendData(postData)
-          }
-        end
-
         if @files
-          @files.each { |key, value|
+          if @payload
+            @payload.each do |key, value|
+              postData = NSMutableData.data
+              s = "\r\n--#{@boundary}\r\n"
+              s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
+              s += value.to_s
+              postData.appendData(s.dataUsingEncoding(NSUTF8StringEncoding))
+              postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @payload.keys.last
+              body.appendData(postData)
+            end
+          end
+
+          @files.each do |key, value|
             postData = NSMutableData.data
             s = "\r\n--#{@boundary}\r\n"
             s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{key}\"\r\n"
@@ -270,7 +249,8 @@ module BubbleWrap
             postData.appendData(NSData.dataWithData(value))
             postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding(NSUTF8StringEncoding)) unless key == @files.keys.last
             body.appendData(postData)
-          }
+          end
+
         end
         body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding(NSUTF8StringEncoding)) if @files
         body
@@ -286,6 +266,26 @@ module BubbleWrap
       def convert_payload_to_params
         params   = generate_params(@payload)
         @payload = params.join("&")
+      end
+
+      def generate_params(payload, prefix=nil)
+        list = []
+        payload.each do |k,v|
+          if v.is_a?(Hash)
+            new_prefix = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
+            param = generate_params(v, new_prefix)
+            list << param
+          elsif v.is_a?(Array)
+            v.each do |val|
+              param = prefix ? "#{prefix}[#{k}][]=#{val}" : "#{k}[]=#{val}"
+              list << param
+            end
+          else
+            param = prefix ? "#{prefix}[#{k}]=#{v}" : "#{k}=#{v}"
+            list << param
+          end
+        end
+        return list.flatten
       end
 
       def log(message)

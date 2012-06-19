@@ -113,7 +113,7 @@ describe "HTTP" do
       @headers = { 'User-Agent' => "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \n Gecko/20100101 Firefox/12.0" }
       @files = {
         fake_file: NSJSONSerialization.dataWithJSONObject({ fake: 'json' }, options:0, error:nil), 
-        empty_file: NSMutableData.data] 
+        empty_file: NSMutableData.data
       }
       @options = {  
         action: @action, 
@@ -169,10 +169,35 @@ describe "HTTP" do
         options.should.be.empty
       end
 
-      it "should set payload from options{} to @payload" do
-        payload = "user[name]=marin&user[surname]=usalj&twitter=@mneorr&website=mneorr.com&values[]=apple&values[]=orange&values[]=peach&credentials[username]=mneorr&credentials[password]=123456xx!@crazy"
-        @query.instance_variable_get(:@payload).should.equal payload
-        @options.should.not.has_key? :payload
+      describe "PAYLOAD / FILES" do
+
+        it "should set payload from options{} to @payload" do
+          payload = "user[name]=marin&user[surname]=usalj&twitter=@mneorr&website=mneorr.com&values[]=apple&values[]=orange&values[]=peach&credentials[username]=mneorr&credentials[password]=123456xx!@crazy"
+          @query.instance_variable_get(:@payload).should.equal payload
+          @options.should.not.has_key? :payload
+        end
+        
+        it "should check if @payload is a hash before generating params" do
+          query_string_payload = BubbleWrap::HTTP::Query.new( 'nil' , :get,  { payload: "name=apple&model=macbook"} )
+          query_string_payload.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
+        end
+
+        it "should check if payload is nil" do
+          lambda{ 
+            BubbleWrap::HTTP::Query.new( 'nil' , :post, {} ) 
+          }.should.not.raise NoMethodError        
+        end      
+
+        it "should set the payload in URL only for GET request" do
+          [:post, :put, :delete, :head, :patch].each do |method|
+            query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: @payload } )
+            query.instance_variable_get(:@url).description.should.equal @localhost_url
+          end  
+
+          get = BubbleWrap::HTTP::Query.new( @localhost_url , :get, { payload: 'name=marin' } )
+          get.instance_variable_get(:@url).description.should.equal "#{@localhost_url}?name=marin"
+        end
+
       end
 
       it "should set default timeout to 30s or the one from hash" do
@@ -212,6 +237,10 @@ describe "HTTP" do
         @query.instance_variable_get(:@url).description.should.equal processed_url
       end
 
+      it "should pass the new request in the new connection" do
+        @query.connection.request.URL.description.should.equal @query.request.URL.description
+      end
+
       it "should start the connection" do
         @query.connection.was_started.should.equal true
       end
@@ -222,50 +251,26 @@ describe "HTTP" do
 
     end
 
-    describe "initiate request" do
+    describe "create request" do
 
       before do
         @url_string = 'http://initiated-request.dev/to convert'
-        @payload = { name: 'apple', model: 'macbook'}
         @headers = { fake: 'headers' }
-        @get_query = BubbleWrap::HTTP::Query.new( @url_string , :get,  { headers: @headers, payload: @payload } )
+        @get_query = BubbleWrap::HTTP::Query.new( @url_string , :get,  { headers: @headers } )
       end
 
-      it "should check if @payload is a hash before generating params" do
-        @get_query.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
-
-        query_string_payload = BubbleWrap::HTTP::Query.new( 'nil' , :get,  { payload: "name=apple&model=macbook"} )
-        query_string_payload.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
-      end
-
-      it "should check if payload is nil" do
-        lambda{ 
-          BubbleWrap::HTTP::Query.new( 'nil' , :post, {} ) 
-        }.should.not.raise NoMethodError        
-      end      
-
-      it "should set the payload in URL only for GET request" do
-        [:post, :put, :delete, :head, :patch].each do |method|
-          query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: @payload } )
-          query.instance_variable_get(:@url).description.should.equal @localhost_url
-        end  
-      end
-
+   
       it "sets the HTTPBody DATA to @request for all methods except GET" do
-
+        payload = { name: 'apple', model: 'macbook'}
         [:post, :put, :delete, :head, :patch].each do |method|
-          query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: @payload } )
+          query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload } )
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
           real_payload.should.equal 'name=apple&model=macbook'
         end
 
-        get = BubbleWrap::HTTP::Query.new( 'nil' , :get, { payload: @payload } )
+        get = BubbleWrap::HTTP::Query.new( 'nil' , :get, { payload: payload } )
         get_payload = NSString.alloc.initWithData(get.request.HTTPBody, encoding:NSUTF8StringEncoding)
         get_payload.should.be.empty
-      end
-
-      it "should add UTF8 escaping on the URL string" do
-        @get_query.instance_variable_get(:@url).description.should.equal 'http://initiated-request.dev/to%20convert?name=apple&model=macbook'
       end
 
       it "should create a new request with HTTP method & header fields" do
@@ -275,10 +280,6 @@ describe "HTTP" do
 
       it "creates a new NSURLConnection and sets itself as a delegate" do
         @query.connection.delegate.should.equal @query
-      end
-
-      it "should pass the new request in the new connection" do
-        @query.connection.request.URL.description.should.equal @query.request.URL.description
       end
 
       it "should patch the NSURLRequest with done_loading and done_loading!" do
@@ -311,7 +312,7 @@ describe "HTTP" do
           "credentials[username]=mneorr", 
           "credentials[password]=123456xx!@crazy"
         ]
-        @query.generate_params(@payload).should.equal expected_params
+        @query.send(:generate_params, @payload).should.equal expected_params
       end
 
     end
