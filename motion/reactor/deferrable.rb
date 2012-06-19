@@ -30,7 +30,7 @@ module BubbleWrap
       def cancel_timeout
         @deferred_timeout ||= nil
         if @deferred_timeout
-          @deferred_timeout.cancal
+          @deferred_timeout.cancel
           @deferred_timeout = nil
         end
       end
@@ -51,7 +51,7 @@ module BubbleWrap
 
       # Sugar for set_deferred_status(:failed, …)
       def fail(*args)
-        set_deferred_status :fail, *args
+        set_deferred_status :failed, *args
       end
       alias set_deferred_failure fail
 
