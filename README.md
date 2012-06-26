@@ -283,6 +283,15 @@ end
 A custom method was added to `UIViewController` to return the content
 frame of a view controller.
 
+### Camera
+
+Added interface for better camera access:
+
+```ruby
+BW::Camera.picture(source_type: :camera, media_types: [:movie, :image]) do |result|
+  image_view = UIImageView.alloc.initWithImage(result[:original_image])
+end
+```
 
 ## HTTP
 
