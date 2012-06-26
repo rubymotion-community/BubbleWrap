@@ -153,10 +153,7 @@ module BubbleWrap
     # to Kernel and const_int_get crashes.
     def load_constants_hack
       [UIImagePickerControllerSourceTypePhotoLibrary, UIImagePickerControllerSourceTypeCamera, 
-        UIImagePickerControllerSourceTypeSavedPhotosAlbum, UIImagePickerControllerMediaType,
-        UIImagePickerControllerOriginalImage, UIImagePickerControllerEditedImage, 
-        UIImagePickerControllerCropRect, UIImagePickerControllerMediaURL,
-        UIImagePickerControllerReferenceURL, UIImagePickerControllerMediaMetadata
+        UIImagePickerControllerSourceTypeSavedPhotosAlbum
       ]
     end
   end
