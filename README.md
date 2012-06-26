@@ -47,6 +47,12 @@ If you wish to only include the `Reactor` wrapper:
 require 'bubble-wrap/reactor'
 ```
 
+If you wish to only include the UI-related wrappers:
+
+```ruby
+require 'bubble-wrap/ui'
+```
+
 If you want to include everything (ie kitchen sink mode) you can save time and do:
 
 ```ruby
@@ -138,24 +144,6 @@ Examples:
 > Device.screen.height_for_orientation(:landscape_left)
 # 320
 ```
-
-### Gestures
-
-Extra methods on `UIView` for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:
-
-```ruby
-    view.whenTapped do
-      UIView.animateWithDuration(1,
-        animations:lambda {
-          # animate
-          # @view.transform = ...
-        })
-    end
-```
-
-There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
-
-
 
 ### JSON
 
@@ -268,21 +256,6 @@ iso8601 formatted string into a Time instance.
 => 2012-05-31 21:41:33 +0200
 ```
 
-### UIControl / UIButton
-
-Helper methods to give `UIButton` a Ruby-like interface. Ex:
-
-```ruby
-button.when(UIControlEventTouchUpInside) do
-  self.view.backgroundColor = UIColor.redColor
-end
-```
-
-### UIViewController
-
-A custom method was added to `UIViewController` to return the content
-frame of a view controller.
-
 ### Camera
 
 Added interface for better camera access:
@@ -290,6 +263,39 @@ Added interface for better camera access:
 ```ruby
 BW::Camera.picture(source_type: :camera, media_types: [:movie, :image]) do |result|
   image_view = UIImageView.alloc.initWithImage(result[:original_image])
+end
+```
+
+## UI
+
+### Gestures
+
+Extra methods on `UIView` for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:
+
+```ruby
+    view.whenTapped do
+      UIView.animateWithDuration(1,
+        animations:lambda {
+          # animate
+          # @view.transform = ...
+        })
+    end
+```
+
+There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
+
+### UIViewController
+
+A custom method was added to `UIViewController` to return the content
+frame of a view controller.
+
+### UIControl / UIButton
+
+Helper methods to give `UIButton` a Ruby-like interface. Ex:
+
+```ruby
+button.when(UIControlEventTouchUpInside) do
+  self.view.backgroundColor = UIColor.redColor
 end
 ```
 
