@@ -75,6 +75,10 @@ module BubbleWrap
       dismiss
     end
 
+    # Takes the default didFinishPickingMediaWithInfo hash,
+    # transforms the keys to be nicer symbols of :this_form
+    # instead of UIImagePickerControllerThisForm, and then sends it
+    # to the callback
     def imagePickerController(picker, didFinishPickingMediaWithInfo: info)
       delete_keys = []
       callback_info = {}
