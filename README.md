@@ -120,6 +120,7 @@ Other available methods:
 A collection of useful methods about the current device:
 
 Examples:
+
 ```ruby
 > Device.iphone?
 # true
