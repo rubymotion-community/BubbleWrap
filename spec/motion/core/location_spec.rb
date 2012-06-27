@@ -112,6 +112,18 @@ describe BubbleWrap::Location do
 
       location_manager.instance_variable_get("@startMonitoringSignificantLocationChanges").should == true
     end
+
+    it "should have correct location when succeeding" do
+      to = CLLocation.alloc.initWithLatitude(100, longitude: 50)
+      from = CLLocation.alloc.initWithLatitude(100, longitude: 49)
+
+      BW::Location.get_significant do |result|
+        result[:to].longitude.should == 50
+        result[:from].longitude.should == 49
+      end
+
+      BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+    end
   end
 
   describe ".stop" do
