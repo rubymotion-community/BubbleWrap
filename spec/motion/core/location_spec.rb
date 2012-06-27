@@ -148,14 +148,5 @@ describe BubbleWrap::Location do
 
       location_manager.instance_variable_get("@stopMonitoringSignificantLocationChanges").should == true
     end
-
-    it "should use significant update functions with :significant param" do
-      BW::Location.get(significant: true) do |result|
-      end
-
-      BW::Location.stop
-
-      location_manager.instance_variable_get("@stopMonitoringSignificantLocationChanges").should == true
-    end
   end
 end
