@@ -142,7 +142,7 @@ module BubbleWrap
     # const_int_get("UIReturnKey", "done") => UIReturnKeyDone == 9
     # const_int_get("UIReturnKey", 9) => 9
     def const_int_get(base, value)
-      return value if value.is_a? Integer
+      return value if value.is_a? Numeric
       value = value.to_s.camelize
       Kernel.const_get("#{base}#{value}")
     end

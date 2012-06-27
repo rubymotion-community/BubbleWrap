@@ -267,6 +267,19 @@ BW::Camera.picture(source_type: :camera, media_types: [:movie, :image]) do |resu
 end
 ```
 
+### Location
+
+Added interface for Ruby-like GPS access:
+
+```ruby
+BW::Location.get do |result|
+  p "From Lat #{result[:from].latitude}, Long #{result[:from].longitude}"
+  p "To Lat #{result[:to].latitude}, Long #{result[:to].longitude}"
+end
+```
+
+Also available is `BW::Location.get_significant`, for monitoring significant location changes.
+
 ## UI
 
 ### Gestures
