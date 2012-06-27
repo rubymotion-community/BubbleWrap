@@ -522,7 +522,8 @@ updating the user interface.
 You can also use `EM.defer` in much the same way as `EM.schedule`
 with one important difference, you can pass in a second `proc` 
 which will be called when the first has completed, and be passed
-it's result as an argument:
+it's result as an argument. Just like `EM.schedule`, `EM.defer`
+also has an `EM.defer_on_main` version.
 
 ```ruby
 > operation = proc { 99 }

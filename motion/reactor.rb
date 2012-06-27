@@ -61,10 +61,18 @@ module BubbleWrap
     # The action of `defer` is to take the block specified in the first
     # parameter (the "operation") and schedule it for asynchronous execution
     # on a GCD concurrency queue. When the operation completes the result (if any)
-    # is passed into the callback (if present) which is scheduled on the main
-    # thread queue (in case you're using it to update the UI).
+    # is passed into the callback (if present).
     def defer(op=nil,cb=nil,&blk) 
       schedule do
+        result = (op||blk).call
+        schedule(result, &cb) if cb
+      end
+    end
+
+    # A version of `defer` which schedules both the operator
+    # and callback operations on the application's main thread.
+    def defer_on_main(op=nil,cb=nil,&blk) 
+      schedule_on_main do
         result = (op||blk).call
         schedule_on_main(result, &cb) if cb
       end
