@@ -25,19 +25,18 @@ module BubbleWrap
     # Start getting locations
     # @param [Hash] options = {
     #   significant: true/false; whether to listen for significant location changes or
-    #     all location changes (see Apple docs for info)
+    #     all location changes (see Apple docs for info); default == false
     #   distance_filter:  minimum change in distance to be updated about, in meters;
-    #     if nil, then uses KCLDistanceFilterNone,
+    #     default == uses KCLDistanceFilterNone,
     #   desired_accuracy: minimum accuracy for updates to arrive; 
     #     any of :best_for_navigation, :best, :nearest_ten_meters,
-    #     :hundred_meters, :kilometer, or :three_kilometers,
+    #     :hundred_meters, :kilometer, or :three_kilometers; default == :best
     #   purpose: string to display when the system asks user for location,
-    #   retries: how many errors do we wait; default == 5
+    #   retries: if location cant be found. how many errors do we retry; default == 5
     # }
     # @block for callback. takes one argument, `result`.
     #   - On error or cancelled, is called with a hash {error: BW::Location::Error::<Type>}
-    #   - On success, is called with a hash with keys [:to, :from], whose values are
-    #     CLLocations
+    #   - On success, is called with a hash {to: #<CLLocation>, from: #<CLLocation>}
     # 
     # Example
     # BW::Location.get(distance_filter: 10, desired_accuracy: :nearest_ten_meters) do |result|
