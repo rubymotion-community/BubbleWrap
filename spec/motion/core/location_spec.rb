@@ -115,6 +115,10 @@ describe BubbleWrap::Location do
   end
 
   describe ".stop" do
+    before do
+      reset
+    end
+
     it "should use normal update functions" do
       BW::Location.get do |result|
       end
