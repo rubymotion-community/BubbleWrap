@@ -36,23 +36,25 @@ module BubbleWrap
     #   image_view = UIImageView.alloc.initWithImage(result[:original_image])
     # end
     def picture(options = {}, presenting_controller = nil, &block)
+      @callback = block
+
       @options = options
       @options[:allows_editing] = false if not @options.has_key? :allows_editing
       @options[:animated] = true if not @options.has_key? :animated
 
       source_type = const_int_get("UIImagePickerControllerSourceType", @options[:source_type])
       if not source_type_available?(source_type)
-        block.call(error(Error::SOURCE_TYPE_NOT_AVAILABLE)) and return
+        error(Error::SOURCE_TYPE_NOT_AVAILABLE) and return
       end
 
       media_types = @options[:media_types].collect { |mt| symbol_to_media_type(mt) }
       if media_types.member? nil
-        block.call(error(Error::INVALID_MEDIA_TYPE)) and return
+        error(Error::INVALID_MEDIA_TYPE) and return
       end
 
       media_types.each { |media_type|
         if not media_type_available?(media_type, for_source_type: source_type)
-          block.call(error(Error::MEDIA_TYPE_NOT_AVAILABLE)) and return
+          error(Error::MEDIA_TYPE_NOT_AVAILABLE) and return
         end
       }
 
@@ -62,8 +64,6 @@ module BubbleWrap
       @picker.mediaTypes = media_types
       @picker.allowsEditing = @options[:allows_editing]
 
-      @callback = block
-
       presenting_controller ||= UIApplication.sharedApplication.keyWindow.rootViewController
       presenting_controller.presentViewController(@picker, animated:@options[:animated], completion: lambda {})
     end
@@ -71,7 +71,7 @@ module BubbleWrap
     ##########
     # UIImagePickerControllerDelegate Methods
     def imagePickerControllerDidCancel(picker)
-      @callback.call(error(Error::CANCELED))
+      error(Error::CANCELED)
       dismiss
     end
 
@@ -131,7 +131,7 @@ module BubbleWrap
     end
 
     def error(type)
-      { error: type }
+      @callback.call({ error: type })
     end
 
     # @param [String] base of the constant 
