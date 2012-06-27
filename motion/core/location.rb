@@ -1,5 +1,5 @@
 # Provides a nice DSL for interacting with the standard
-# UIImagePickerController
+# CLLocationManager
 #
 module BubbleWrap
   module CLLocationWrap
