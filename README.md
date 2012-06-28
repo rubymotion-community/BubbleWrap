@@ -267,7 +267,7 @@ BW::Camera.picture(source_type: :camera, media_types: [:movie, :image]) do |resu
 end
 ```
 
-### Location
+## Location
 
 Added interface for Ruby-like GPS access:
 

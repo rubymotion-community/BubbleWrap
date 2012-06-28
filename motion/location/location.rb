@@ -59,7 +59,7 @@ module BubbleWrap
       end
 
       self.location_manager.distanceFilter = @options[:distance_filter]
-      self.location_manager.desiredAccuracy = BW::Camera.const_int_get("KCLLocationAccuracy", @options[:desired_accuracy])
+      self.location_manager.desiredAccuracy = const_int_get("KCLLocationAccuracy", @options[:desired_accuracy])
       self.location_manager.purpose = @options[:purpose] if @options[:purpose]
 
       if @options[:significant]
@@ -135,7 +135,12 @@ module BubbleWrap
       end
     end
 
-    # For BW::Camera.const_int_get; see that documentation for info.
+    def const_int_get(base, value)
+      return value if value.is_a? Numeric
+      value = value.to_s.camelize
+      Kernel.const_get("#{base}#{value}")
+    end
+
     def load_constants_hack
       [KCLLocationAccuracyBestForNavigation, KCLLocationAccuracyBest,
         KCLLocationAccuracyNearestTenMeters, KCLLocationAccuracyHundredMeters,
