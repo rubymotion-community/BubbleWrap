@@ -53,6 +53,12 @@ If you wish to only include the UI-related wrappers:
 require 'bubble-wrap/ui'
 ```
 
+If you wish to only include the `Location` wrapper:
+
+```ruby
+require 'bubble-wrap/location'
+```
+
 If you want to include everything (ie kitchen sink mode) you can save time and do:
 
 ```ruby
