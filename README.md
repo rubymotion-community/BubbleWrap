@@ -53,6 +53,12 @@ If you wish to only include the UI-related wrappers:
 require 'bubble-wrap/ui'
 ```
 
+If you wish to only include the `Location` wrapper:
+
+```ruby
+require 'bubble-wrap/location'
+```
+
 If you want to include everything (ie kitchen sink mode) you can save time and do:
 
 ```ruby
@@ -266,6 +272,19 @@ BW::Camera.picture(source_type: :camera, media_types: [:movie, :image]) do |resu
   image_view = UIImageView.alloc.initWithImage(result[:original_image])
 end
 ```
+
+## Location
+
+Added interface for Ruby-like GPS access:
+
+```ruby
+BW::Location.get do |result|
+  p "From Lat #{result[:from].latitude}, Long #{result[:from].longitude}"
+  p "To Lat #{result[:to].latitude}, Long #{result[:to].longitude}"
+end
+```
+
+Also available is `BW::Location.get_significant`, for monitoring significant location changes.
 
 ## UI
 
