@@ -16,13 +16,13 @@ describe BubbleWrap do
     end
 
     it 'finds files with relative paths' do
-      BW::Requirement.paths = {}
+      BW::Requirement.clear!
       BW.require '../motion/core.rb'
       BW::Requirement.files.member?(File.expand_path('../../../motion/core.rb', __FILE__)).should == true
     end 
 
     it 'finds files with absolute paths' do
-      BW::Requirement.paths = {}
+      BW::Requirement.clear!
       BW.require File.expand_path('../../../motion/core.rb', __FILE__)
       BW::Requirement.files.member?(File.expand_path('../../../motion/core.rb', __FILE__)).should == true
     end
