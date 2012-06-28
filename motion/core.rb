@@ -28,4 +28,3 @@ module BubbleWrap
   end
   
 end
-BW = BubbleWrap
