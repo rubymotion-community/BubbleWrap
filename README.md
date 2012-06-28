@@ -59,6 +59,12 @@ If you wish to only include the `Location` wrapper:
 require 'bubble-wrap/location'
 ```
 
+If you wish to only include the `Camera` wrapper:
+
+```ruby
+require 'bubble-wrap/camera'
+```
+
 If you want to include everything (ie kitchen sink mode) you can save time and do:
 
 ```ruby
@@ -263,7 +269,7 @@ iso8601 formatted string into a Time instance.
 => 2012-05-31 21:41:33 +0200
 ```
 
-### Camera
+## Camera
 
 Added interface for better camera access:
 

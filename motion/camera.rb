@@ -16,10 +16,10 @@ module BubbleWrap
 
     # @param [Hash] options to open the UIImagePickerController with 
     # the form {
-    #   source_type: :photo_library, :camera, or :saved_photos_album,
-    #   media_types: [] containing :image and/or :movie,
-    #   allows_editing: true/false,
-    #   animated: true/false
+    #   source_type: :photo_library, :camera, or :saved_photos_album; default :photo_library
+    #   media_types: [] containing :image and/or :movie; default [:image]
+    #   allows_editing: true/false; default false
+    #   animated: true/false; default true
     # }
     # 
     # @param [UIViewController] view controller from which to present the image picker;
@@ -41,6 +41,8 @@ module BubbleWrap
       @options = options
       @options[:allows_editing] = false if not @options.has_key? :allows_editing
       @options[:animated] = true if not @options.has_key? :animated
+      @options[:media_types] = [:image] if not @options.has_key? :media_types
+      @options[:source_type] = :photo_library if not @options.has_key? :source_type
 
       source_type = const_int_get("UIImagePickerControllerSourceType", @options[:source_type])
       if not source_type_available?(source_type)
