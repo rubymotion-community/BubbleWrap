@@ -57,6 +57,7 @@ module BubbleWrap
         Dir.glob(File.expand_path(file_spec, root)).each do |file|
           p = new(file,root)
           self.paths[p.relative] = p
+          p.depends_on('motion/shortcut.rb') unless p.relative == 'motion/shortcut.rb'
         end
         self.class_eval(&block) if block
       end
@@ -69,6 +70,10 @@ module BubbleWrap
         files = paths.values.map(&:to_s)
         files += app_files if app_files
         files.uniq
+      end
+
+      def clear!
+        paths.select! { |k,v| v.relative == 'motion/shortcut.rb' }
       end
 
       def files_dependencies

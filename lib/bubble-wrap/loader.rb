@@ -24,5 +24,7 @@ unless defined?(BubbleWrap::LOADER_PRESENT)
   end
 
   BW = BubbleWrap unless defined?(BW)
+
+  BW.require 'motion/shortcut.rb'
   
 end
