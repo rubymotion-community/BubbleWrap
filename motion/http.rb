@@ -21,38 +21,38 @@ module BubbleWrap
     #   end
     #
     def self.get(url, options={}, &block)
-      create_query url, :get, options, block
+      options[:action] = block
+      HTTP::Query.new(url, :get, options)
     end
     
     # Make a POST request
     def self.post(url, options={}, &block)
-      create_query url, :post, options, block
+      options[:action] = block
+      HTTP::Query.new(url, :post, options)
     end
     
     # Make a PUT request
     def self.put(url, options={}, &block)
-      create_query url, :put, options, block
+      options[:action] = block
+      HTTP::Query.new(url, :put, options)
     end
     
     # Make a DELETE request
     def self.delete(url, options={}, &block)
-      create_query url, :delete, options, block
+      options[:action] = block
+      HTTP::Query.new(url, :delete, options)
     end
 
     # Make a HEAD request
     def self.head(url, options={}, &block)
-      create_query url, :head, options, block
+      options[:action] = block
+      HTTP::Query.new(url, :head, options)
     end
 
     # Make a PATCH request
     def self.patch(url, options={}, &block)
-      create_query url, :patch, options, block
-    end
-
-    private
-    def self.create_query(url, method, options, passed_block)
-      options[:action] = passed_block if passed_block
-      HTTP::Query.new( url, method, options )
+      options[:action] = block
+      HTTP::Query.new(url, :patch, options)
     end
 
     # Response class wrapping the results of a Query's response
