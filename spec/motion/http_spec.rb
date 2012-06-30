@@ -196,14 +196,17 @@ describe "HTTP" do
           }.should.not.raise NoMethodError        
         end      
 
-        it "should set the payload in URL only for GET request" do
-          [:post, :put, :delete, :head, :patch].each do |method|
+        it "should set the payload in URL only for GET and HEAD requests" do
+          [:post, :put, :delete, :patch].each do |method|
             query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: @payload } )
             query.instance_variable_get(:@url).description.should.equal @localhost_url
           end  
 
-          get = BubbleWrap::HTTP::Query.new( @localhost_url , :get, { payload: 'name=marin' } )
-          get.instance_variable_get(:@url).description.should.equal "#{@localhost_url}?name=marin"
+          payload = {name: 'marin'}
+          [:get, :head].each do |method|
+            query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: payload } )
+            query.instance_variable_get(:@url).description.should.equal "#{@localhost_url}?name=marin"
+          end 
         end
 
         it "sets the payload without conversion to-from NSString if the payload was NSData" do
@@ -289,17 +292,19 @@ describe "HTTP" do
       end
 
    
-      it "sets the HTTPBody DATA to @request for all methods except GET" do
+      it "sets the HTTPBody DATA to @request for all methods except GET and HEAD" do
         payload = { name: 'apple', model: 'macbook'}
-        [:post, :put, :delete, :head, :patch].each do |method|
+        [:post, :put, :delete, :patch].each do |method|
           query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload } )
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
           real_payload.should.equal 'name=apple&model=macbook'
         end
 
-        get = BubbleWrap::HTTP::Query.new( 'nil' , :get, { payload: payload } )
-        get_payload = NSString.alloc.initWithData(get.request.HTTPBody, encoding:NSUTF8StringEncoding)
-        get_payload.should.be.empty
+        [:get, :head].each do |method|
+          query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload } )
+          real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
+          real_payload.should.be.empty
+        end
       end
 
       it "should create a new request with HTTP method & header fields" do

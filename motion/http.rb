@@ -173,7 +173,6 @@ module BubbleWrap
         end
       end
 
-      # The transfer is done and everything went well
       def connectionDidFinishLoading(connection)
         UIApplication.sharedApplication.networkActivityIndicatorVisible = false
         @request.done_loading!
@@ -184,16 +183,10 @@ module BubbleWrap
       end
 
       def connection(connection, didReceiveAuthenticationChallenge:challenge)
-
         if (challenge.previousFailureCount == 0)
-          # by default we are keeping the credential for the entire session
-          # Eventually, it would be good to let the user pick one of the 3 possible credential persistence options:
-          # NSURLCredentialPersistenceNone,
-          # NSURLCredentialPersistenceForSession,
-          # NSURLCredentialPersistencePermanent
-          log "auth challenged, answered with credentials: #{credentials.inspect}"
           new_credential = NSURLCredential.credentialWithUser(credentials[:username], password:credentials[:password], persistence:NSURLCredentialPersistenceForSession)
           challenge.sender.useCredential(new_credential, forAuthenticationChallenge:challenge)
+          log "auth challenged, answered with credentials: #{credentials.inspect}"
         else
           challenge.sender.cancelAuthenticationChallenge(challenge)
           log 'Auth Failed :('
@@ -218,7 +211,7 @@ module BubbleWrap
       end
 
       def create_request_body
-        return nil if @method == "GET"
+        return nil if (@method == "GET" || @method == "HEAD")
         return nil unless (@payload || @files)
         body = NSMutableData.data
 
@@ -251,7 +244,7 @@ module BubbleWrap
       end
 
       def create_url(url_string)
-        if @method == "GET" && @payload
+        if (@method == "GET" || @method == "HEAD") && @payload
           url_string += "?#{@payload}"
         end
         NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
