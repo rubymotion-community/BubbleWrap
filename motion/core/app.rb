@@ -1,4 +1,4 @@
-# Provides a module to store global states 
+# Provides a module to store global states
 #
 module BubbleWrap
   module App
@@ -26,12 +26,30 @@ module BubbleWrap
       NSUserDefaults.standardUserDefaults
     end
 
-    def alert(msg,cancelButtonTitle='OK')
-      alert = UIAlertView.alloc.initWithTitle msg, 
-        message: nil,
-        delegate: nil, 
-        cancelButtonTitle: cancelButtonTitle,
+    # Displays a UIAlertView.
+    #
+    # title - The title as a String.
+    # args  - The title of the cancel button as a String, or a Hash of options.
+    #         (Default: { cancel_button_title: 'OK' })
+    #         cancel_button_title - The title of the cancel button as a String.
+    #         message             - The main message as a String.
+    # block - Yields the alert object if a block is given, and does so before the alert is shown.
+    def alert(title, *args, &block)
+      options = { cancel_button_title: 'OK' }
+      options.merge!(args.pop) if args.last.is_a?(Hash)
+
+      if args.size > 0 && args.first.is_a?(String)
+        options[:cancel_button_title] = args.shift
+      end
+
+      alert = UIAlertView.alloc.initWithTitle title,
+        message: options[:message],
+        delegate: nil,
+        cancelButtonTitle: options[:cancel_button_title],
         otherButtonTitles: nil
+
+      yield(alert) if block_given?
+
       alert.show
       alert
     end
