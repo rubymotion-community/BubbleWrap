@@ -21,37 +21,37 @@ module BubbleWrap
     #   end
     #
     def self.get(url, options={}, &block)
-      options[:action] = block
+      options[:action] = block if block_given?
       HTTP::Query.new(url, :get, options)
     end
     
     # Make a POST request
     def self.post(url, options={}, &block)
-      options[:action] = block
+      options[:action] = block if block_given?
       HTTP::Query.new(url, :post, options)
     end
     
     # Make a PUT request
     def self.put(url, options={}, &block)
-      options[:action] = block
+      options[:action] = block if block_given?
       HTTP::Query.new(url, :put, options)
     end
     
     # Make a DELETE request
     def self.delete(url, options={}, &block)
-      options[:action] = block
+      options[:action] = block if block_given?
       HTTP::Query.new(url, :delete, options)
     end
 
     # Make a HEAD request
     def self.head(url, options={}, &block)
-      options[:action] = block
+      options[:action] = block if block_given?
       HTTP::Query.new(url, :head, options)
     end
 
     # Make a PATCH request
     def self.patch(url, options={}, &block)
-      options[:action] = block
+      options[:action] = block if block_given?
       HTTP::Query.new(url, :patch, options)
     end
 
@@ -110,7 +110,7 @@ module BubbleWrap
         @method = http_method.upcase.to_s
         @delegator = options.delete(:action) || self
         @payload = options.delete(:payload)
-        convert_payload_to_params if @payload.is_a?(Hash)
+        convert_payload_to_url if @payload.is_a?(Hash)
         #not tested
         @files = options.delete(:files)
         @boundary = options.delete(:boundary) || BW.create_uuid unless @files.nil?
@@ -250,17 +250,17 @@ module BubbleWrap
         NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
       end
 
-      def convert_payload_to_params
-        params_array = generate_params(@payload)
+      def convert_payload_to_url
+        params_array = generate_get_params(@payload)
         @payload = params_array.join("&")
       end
 
-      def generate_params(payload, prefix=nil)
+      def generate_get_params(payload, prefix=nil)
         list = []
         payload.each do |k,v|
           if v.is_a?(Hash)
             new_prefix = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
-            param = generate_params(v, new_prefix)
+            param = generate_get_params(v, new_prefix)
             list << param
           elsif v.is_a?(Array)
             v.each do |val|

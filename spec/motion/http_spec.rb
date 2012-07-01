@@ -346,7 +346,7 @@ describe "HTTP" do
           "credentials[username]=mneorr", 
           "credentials[password]=123456xx!@crazy"
         ]
-        @query.send(:generate_params, @payload).should.equal expected_params
+        @query.send(:generate_get_params, @payload).should.equal expected_params
       end
 
     end
