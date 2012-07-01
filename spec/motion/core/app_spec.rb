@@ -5,7 +5,7 @@ describe BubbleWrap::App do
     end
   end
 
-  describe '.resources_path' do 
+  describe '.resources_path' do
     it 'should end in "/testSuite.app"' do
       BW::App.resources_path.should =~ /\/testSuite(_spec)?.app$/
     end
@@ -24,29 +24,114 @@ describe BubbleWrap::App do
   end
 
   describe '.alert' do
-    before do
-      @alert = BW::App.alert('1.21 Gigawatts!', 'Great Scott!')
-    end
-
     after do
       @alert.removeFromSuperview
     end
 
-    it 'returns an alert' do
-      @alert.class.should == UIAlertView
-    end
-
-    it 'is displaying the correct title' do
-      @alert.title.should == '1.21 Gigawatts!'
-    end
-
-    describe 'cancelButton' do
-      it 'is present' do
-        @alert.cancelButtonIndex.should == 0
+    describe "with only one string argument" do
+      before do
+        @alert = BW::App.alert('1.21 Gigawatts!')
       end
 
-      it 'has the correct title' do
-        @alert.buttonTitleAtIndex(@alert.cancelButtonIndex).should == 'Great Scott!'
+      it 'returns an alert' do
+        @alert.class.should == UIAlertView
+      end
+
+      it 'is displaying the correct title' do
+        @alert.title.should == '1.21 Gigawatts!'
+      end
+
+      describe 'cancelButton' do
+        it 'is present' do
+          @alert.cancelButtonIndex.should == 0
+        end
+
+        it 'has the correct title' do
+          @alert.buttonTitleAtIndex(@alert.cancelButtonIndex).should == 'OK'
+        end
+      end
+    end
+
+    describe "with only two string arguments" do
+      before do
+        @alert = BW::App.alert('1.21 Gigawatts!', 'Great Scott!')
+      end
+
+      it 'returns an alert' do
+        @alert.class.should == UIAlertView
+      end
+
+      it 'is displaying the correct title' do
+        @alert.title.should == '1.21 Gigawatts!'
+      end
+
+      describe 'cancelButton' do
+        it 'is present' do
+          @alert.cancelButtonIndex.should == 0
+        end
+
+        it 'has the correct title' do
+          @alert.buttonTitleAtIndex(@alert.cancelButtonIndex).should == 'Great Scott!'
+        end
+      end
+    end
+
+    describe "with variable args" do
+      before do
+        @alert = BW::App.alert('1.21 Gigawatts!', cancel_button_title: 'Great Scott!',
+                                                  message: 'Some random message')
+      end
+
+      it 'returns an alert' do
+        @alert.class.should == UIAlertView
+      end
+
+      it 'is displaying the correct title' do
+        @alert.title.should == '1.21 Gigawatts!'
+      end
+
+      it 'is displaying the correct message' do
+        @alert.message.should == 'Some random message'
+      end
+
+      describe 'cancelButton' do
+        it 'is present' do
+          @alert.cancelButtonIndex.should == 0
+        end
+
+        it 'has the correct title' do
+          @alert.buttonTitleAtIndex(@alert.cancelButtonIndex).should == 'Great Scott!'
+        end
+      end
+    end
+
+    describe "with a block" do
+      before do
+        @alert = BW::App.alert('1.21 Gigawatts!') do |alert|
+          alert.message = 'My message!!'
+        end
+      end
+
+      it 'returns an alert' do
+        @alert.class.should == UIAlertView
+      end
+
+      it 'is displaying the correct title' do
+        @alert.title.should == '1.21 Gigawatts!'
+      end
+
+      it 'is displaying the correct message' do
+        @alert.message.should == 'My message!!'
+      end
+
+      describe 'cancelButton' do
+        it 'is present' do
+          @alert.cancelButtonIndex.should == 0
+        end
+
+        it 'has the correct title' do
+          @alert.buttonTitleAtIndex(@alert.cancelButtonIndex).should == 'OK'
+        end
       end
     end
   end
@@ -121,7 +206,7 @@ describe BubbleWrap::App do
       application.url.class.should.equal NSURL
       application.url.description.should.equal url
     end
-    
+
   end
 
 end
