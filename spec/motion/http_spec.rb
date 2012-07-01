@@ -152,6 +152,11 @@ describe "HTTP" do
         @query.instance_variable_get(:@delegator).should.equal @action
         @options.should.not.has_key? :action
       end
+      
+      it "sets the files to instance variable" do
+        @query.instance_variable_get(:@files).should.equal @files
+        @options.should.not.has_key? :files
+      end
 
       it "should set self as the delegator if action was not passed in" do
         new_query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, {})
@@ -169,6 +174,7 @@ describe "HTTP" do
         options.should.be.empty
       end
 
+
       describe "PAYLOAD / UPLOAD FILES" do
 
         def create_query(payload, files)
@@ -176,7 +182,7 @@ describe "HTTP" do
         end
 
         def sample_data
-          NSData.dataWithBytesNoCopy(Pointer.new(:char, 'abc'), length:24)
+          "twitter:@mneorr".dataUsingEncoding NSUTF8StringEncoding
         end
 
         it "should set payload from options{} to @payload" do
@@ -185,7 +191,7 @@ describe "HTTP" do
           @options.should.not.has_key? :payload
         end
         
-        it "should check if @payload is a hash before generating params" do
+        it "should check if @payload is a hash before generating GET params" do
           query_string_payload = BubbleWrap::HTTP::Query.new( 'nil' , :get,  { payload: "name=apple&model=macbook"} )
           query_string_payload.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
         end
@@ -209,25 +215,27 @@ describe "HTTP" do
           end 
         end
 
+        it "sets the HTTPBody DATA to @request for all methods except GET and HEAD" do
+          payload = { name: 'apple', model: 'macbook'}
+          files = { twitter: sample_data, site: "mneorr.com".dataUsingEncoding(NSUTF8StringEncoding) }
+
+          [:post, :put, :delete, :patch].each do |method|
+            query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload, files: files } )
+            uuid = query.instance_variable_get(:@boundary)
+            real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
+            real_payload.should.equal "\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"model\"\r\n\r\nmacbook\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"twitter\"; filename=\"twitter\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"site\"; filename=\"site\"\r\nContent-Type: application/octet-stream\r\n\r\nmneorr.com\r\n--#{uuid}--\r\n"
+          end
+
+          [:get, :head].each do |method|
+            query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload } )
+            real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
+            real_payload.should.be.empty
+          end
+        end
+
         it "sets the payload without conversion to-from NSString if the payload was NSData" do
           data = sample_data
-          query = create_query(data, nil)
-          query.request.HTTPBody.should.equal data
-        end
-
-        it "wraps the files in boundary if files were given" do
-          payload = { fake_name: 'arnold', surname: 'schwarzenegger' }
-          files = { sample_file: sample_data }
-          query = create_query(payload, files)
-          uuid = query.instance_variable_get(:@boundary)
-
-          expected_data_s = "fake_name=arnold&surname=schwarzenegger\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"sample_file\"; filename=\"sample_file\"\r\nContent-Type: application/octet-stream\r\n\r\n#{sample_data.to_str}\r\n--#{uuid}--\r\n"
-
-          query.request.HTTPBody.to_str.should.equal expected_data_s
-        end
-
-        it "should or shouldn't wrap the POST Payload in boundary?" do
-          true.should.equal true
+          lambda { query = create_query(data, nil) }.should.not.raise NoMethodError
         end
 
       end
@@ -289,22 +297,6 @@ describe "HTTP" do
         @url_string = 'http://initiated-request.dev/to convert'
         @headers = { fake: 'headers' }
         @get_query = BubbleWrap::HTTP::Query.new( @url_string , :get,  { headers: @headers } )
-      end
-
-   
-      it "sets the HTTPBody DATA to @request for all methods except GET and HEAD" do
-        payload = { name: 'apple', model: 'macbook'}
-        [:post, :put, :delete, :patch].each do |method|
-          query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload } )
-          real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
-          real_payload.should.equal 'name=apple&model=macbook'
-        end
-
-        [:get, :head].each do |method|
-          query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload } )
-          real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
-          real_payload.should.be.empty
-        end
       end
 
       it "should create a new request with HTTP method & header fields" do

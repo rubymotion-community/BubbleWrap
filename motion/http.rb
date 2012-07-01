@@ -110,16 +110,12 @@ module BubbleWrap
         @method = http_method.upcase.to_s
         @delegator = options.delete(:action) || self
         @payload = options.delete(:payload)
-        convert_payload_to_url if @payload.is_a?(Hash)
-        #not tested
         @files = options.delete(:files)
-        @boundary = options.delete(:boundary) || BW.create_uuid unless @files.nil?
-        #
+        @boundary = options.delete(:boundary) || BW.create_uuid
         @credentials = options.delete(:credentials) || {}
         @credentials = {:username => '', :password => ''}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
         @headers = escape_line_feeds(options.delete :headers)
-        @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if @files && @headers.nil?
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @options = options
         @response = HTTP::Response.new
@@ -213,12 +209,15 @@ module BubbleWrap
       def create_request_body
         return nil if (@method == "GET" || @method == "HEAD")
         return nil unless (@payload || @files)
+        @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if @headers.nil?
+
         body = NSMutableData.data
 
         append_payload(body) if @payload
         append_files(body) if @files
+        body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding NSUTF8StringEncoding)
         
-        body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding NSUTF8StringEncoding) if @files
+        log "Built HTTP body: \n #{body.to_str}"
         body
       end
 
@@ -226,25 +225,36 @@ module BubbleWrap
         if @payload.is_a?(NSData)
           body.appendData(@payload)
         else
-          body.appendData(@payload.to_s.dataUsingEncoding NSUTF8StringEncoding)
+          append_form_params(body)
+        end
+      end
+
+      def append_form_params(body)
+        @payload.each do |key, value|
+          form_data = NSMutableData.new
+          s = "\r\n--#{@boundary}\r\n"
+          s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
+          s += value.to_s
+          form_data.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
+          body.appendData(form_data)
         end
       end
 
       def append_files(body)
         @files.each do |key, value|
-          postData = NSMutableData.data
+          file_data = NSMutableData.new
           s = "\r\n--#{@boundary}\r\n"
           s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{key}\"\r\n"
           s += "Content-Type: application/octet-stream\r\n\r\n"
-          postData.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
-          postData.appendData(NSData.dataWithData(value))
-          postData.appendData("\r\n--#{@boundary}\r\n".dataUsingEncoding NSUTF8StringEncoding) unless key == @files.keys.last
-          body.appendData(postData)
+          file_data.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
+          file_data.appendData(value)
+          body.appendData(file_data)
         end
       end
 
       def create_url(url_string)
         if (@method == "GET" || @method == "HEAD") && @payload
+          convert_payload_to_url if @payload.is_a?(Hash)
           url_string += "?#{@payload}"
         end
         NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
