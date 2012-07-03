@@ -3,27 +3,33 @@
 class UIView
 
   def whenTapped(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UITapGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+    addGestureRecognizerHelper(proc, enableInteraction, UITapGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
   end
 
   def whenPinched(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UIPinchGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+    addGestureRecognizerHelper(proc, enableInteraction, UIPinchGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
   end
 
   def whenRotated(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UIRotationGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+    addGestureRecognizerHelper(proc, enableInteraction, UIRotationGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
   end
 
   def whenSwiped(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UISwipeGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+    addGestureRecognizerHelper(proc, enableInteraction, UISwipeGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
   end
 
   def whenPanned(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UIPanGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+    addGestureRecognizerHelper(proc, enableInteraction, UIPanGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
   end
 
   def whenPressed(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UILongPressGestureRecognizer.alloc.initWithTarget(proc, action:'call'))
+    addGestureRecognizerHelper(proc, enableInteraction, UILongPressGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
+  end
+
+  protected
+
+  def motionHandleGesture(recognizer)
+    @recognizers[recognizer].call(recognizer)
   end
 
   private
@@ -32,8 +38,9 @@ class UIView
   def addGestureRecognizerHelper(proc, enableInteraction, recognizer)
     setUserInteractionEnabled true if enableInteraction && !isUserInteractionEnabled
     self.addGestureRecognizer(recognizer)
+
     @recognizers = {} unless @recognizers
-    @recognizers["#{proc}"] = proc
+    @recognizers[recognizer] = proc
   end
 
 end
