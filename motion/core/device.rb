@@ -25,6 +25,18 @@ module BubbleWrap
     def rear_camera?(picker=UIImagePickerController)
       picker.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceRear)
     end
+    
+    # Verifies that the device running has a front facing flash.
+    # @return [TrueClass, FalseClass] true will be returned if the device has a front facing flash, false otherwise
+    def front_camera_flash?(picker=UIImagePickerController)
+      picker.isFlashAvailableForCameraDevice(UIImagePickerControllerCameraDeviceFront)
+    end
+    
+    # Verifies that the device running has a rear facing flash.
+    # @return [TrueClass, FalseClass] true will be returned if the device has a rear facing flash, false otherwise
+    def rear_camera_flash?(picker=UIImagePickerController)
+      picker.isFlashAvailableForCameraDevice(UIImagePickerControllerCameraDeviceRear)
+    end
 
     def simulator?
       @simulator_state ||= !(UIDevice.currentDevice.model =~ /simulator/i).nil?
