@@ -59,12 +59,6 @@ If you wish to only include the `Location` wrapper:
 require 'bubble-wrap/location'
 ```
 
-If you wish to only include the `Camera` wrapper:
-
-```ruby
-require 'bubble-wrap/camera'
-```
-
 If you want to include everything (ie kitchen sink mode) you can save time and do:
 
 ```ruby
@@ -156,6 +150,27 @@ Examples:
 # 480
 > Device.screen.height_for_orientation(:landscape_left)
 # 320
+```
+
+## Camera
+
+Added interface for better camera access:
+
+```ruby
+# Uses the front camera
+BW::Device.front_camera.picture(media_types: [:movie, :image]) do |result|
+  image_view = UIImageView.alloc.initWithImage(result[:original_image])
+end
+
+# Uses the rear camera
+BW::Device.rear_camera.picture(media_types: [:movie, :image]) do |result|
+  image_view = UIImageView.alloc.initWithImage(result[:original_image])
+end
+
+# Uses the photo library
+BW::Device::Camera.any.picture(media_types: [:movie, :image]) do |result|
+  image_view = UIImageView.alloc.initWithImage(result[:original_image])
+end
 ```
 
 ### JSON
@@ -267,16 +282,6 @@ iso8601 formatted string into a Time instance.
 ```ruby
 > Time.iso8601("2012-05-31T19:41:33Z")
 => 2012-05-31 21:41:33 +0200
-```
-
-## Camera
-
-Added interface for better camera access:
-
-```ruby
-BW::Camera.picture(source_type: :camera, media_types: [:movie, :image]) do |result|
-  image_view = UIImageView.alloc.initWithImage(result[:original_image])
-end
 ```
 
 ## Location

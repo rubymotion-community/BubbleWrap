@@ -14,16 +14,28 @@ module BubbleWrap
       idiom == UIUserInterfaceIdiomPad
     end
 
+    # A camera used to capture media
+    # @return [Device::Camera, NilClass] a Camera will be returned if there is a front camera, nil otherwise
+    def front_camera
+      BubbleWrap::Device::Camera.front
+    end
+
     # Verifies that the device running has a front facing camera.
     # @return [TrueClass, FalseClass] true will be returned if the device has a front facing camera, false otherwise.
-    def front_camera?(picker=UIImagePickerController)
-      picker.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceFront)
+    def front_camera?
+      !!self.front_camera
+    end
+
+    # A camera used to capture media
+    # @return [Device::Camera, NilClass] a Camera will be returned if there is a rear camera, nil otherwise
+    def rear_camera
+      BubbleWrap::Device::Camera.rear
     end
 
     # Verifies that the device running has a rear facing camera.
     # @return [TrueClass, FalseClass] true will be returned if the device has a rear facing camera, false otherwise.
-    def rear_camera?(picker=UIImagePickerController)
-      picker.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceRear)
+    def rear_camera?
+      !!self.rear_camera
     end
 
     def simulator?

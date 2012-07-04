@@ -3,15 +3,47 @@
 #
 module BubbleWrap
   module Device
-    module Camera
+    class Camera
       module Error
         SOURCE_TYPE_NOT_AVAILABLE=0
         INVALID_MEDIA_TYPE=1
         MEDIA_TYPE_NOT_AVAILABLE=2
+        INVALID_CAMERA_LOCATION=3
         CANCELED=1000
       end
 
       MEDIA_TYPE_HASH = {movie: KUTTypeMovie, image: KUTTypeImage}
+
+      # The camera location; if :none, then we can't use source_type: :camera
+      # in #picture
+      # [:front, :rear, :none]
+      attr_accessor :location
+
+      def self.front
+        return nil if not UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceFront)
+        Camera.new(:front)
+      end
+
+      def self.rear
+        return nil if not UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceRear)
+        Camera.new(:rear)
+      end
+
+      # For uploading photos from the library.
+      def self.any
+        Camera.new
+      end
+
+      def initialize(location = :none)
+        self.location = location
+      end
+
+      def location=(location)
+        if not [:front, :rear, :none].member? location
+          raise Error::INVALID_CAMERA_LOCATION, "#{location} is not a valid camera location"
+        end
+        @location = location
+      end
 
       # @param [Hash] options to open the UIImagePickerController with 
       # the form {
@@ -41,10 +73,17 @@ module BubbleWrap
         @options[:allows_editing] = false if not @options.has_key? :allows_editing
         @options[:animated] = true if not @options.has_key? :animated
         @options[:media_types] = [:image] if not @options.has_key? :media_types
-        @options[:source_type] = :photo_library if not @options.has_key? :source_type
+
+        # If we're using Camera.any, by default use photo library
+        if not @options.has_key?(:source_type) && self.location == :none
+          @options[:source_type] = :photo_library
+        # If we're using a real Camera, by default use the camera.
+        elsif not @options.has_key?(:source_type)
+          @options[:source_type] = :camera
+        end
 
         source_type = const_int_get("UIImagePickerControllerSourceType", @options[:source_type])
-        if not source_type_available?(source_type)
+        if not Camera.source_type_available?(source_type)
           error(Error::SOURCE_TYPE_NOT_AVAILABLE) and return
         end
 
@@ -54,7 +93,7 @@ module BubbleWrap
         end
 
         media_types.each { |media_type|
-          if not media_type_available?(media_type, for_source_type: source_type)
+          if not Camera.media_type_available?(media_type, for_source_type: source_type)
             error(Error::MEDIA_TYPE_NOT_AVAILABLE) and return
           end
         }
@@ -64,6 +103,14 @@ module BubbleWrap
         @picker.sourceType = source_type
         @picker.mediaTypes = media_types
         @picker.allowsEditing = @options[:allows_editing]
+
+        if source_type == :camera && ![:front, :rear].member?(self.location)
+          raise Error::INVALID_CAMERA_LOCATION, "Can't use camera location #{self.location} with source type :camera"
+        end
+
+        if source_type == :camera
+          @picker.cameraDevice = const_int_get("UIImagePickerControllerCameraDevice", self.location)
+        end
 
         presenting_controller ||= UIApplication.sharedApplication.keyWindow.rootViewController
         presenting_controller.presentViewController(@picker, animated:@options[:animated], completion: lambda {})
@@ -101,18 +148,6 @@ module BubbleWrap
 
       ##########
       # Short Helper Methods
-
-      # @param [UIImagePickerControllerSourceType] source_type to check
-      def source_type_available?(source_type)
-        UIImagePickerController.isSourceTypeAvailable(source_type)
-      end
-
-      # @param [String] (either KUTTypeMovie or KUTTypeImage)
-      # @param [UIImagePickerControllerSourceType]
-      def media_type_available?(media_type, for_source_type: source_type)
-        UIImagePickerController.availableMediaTypesForSourceType(source_type).member? media_type
-      end
-
       def picker
         @picker
       end
@@ -121,6 +156,18 @@ module BubbleWrap
         @picker.dismissViewControllerAnimated(@options[:animated], completion: lambda {})
       end
 
+      # @param [UIImagePickerControllerSourceType] source_type to check
+      def self.source_type_available?(source_type)
+        UIImagePickerController.isSourceTypeAvailable(source_type)
+      end
+
+      # @param [String] (either KUTTypeMovie or KUTTypeImage)
+      # @param [UIImagePickerControllerSourceType]
+      def self.media_type_available?(media_type, for_source_type: source_type)
+        UIImagePickerController.availableMediaTypesForSourceType(source_type).member? media_type
+      end
+
+      private
       # ex media_type_to_symbol(KUTTypeMovie) => :movie
       def media_type_to_symbol(media_type)
         MEDIA_TYPE_HASH.invert[media_type]
