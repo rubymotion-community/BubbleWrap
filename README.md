@@ -152,7 +152,7 @@ Examples:
 # 320
 ```
 
-## Camera
+### Camera
 
 Added interface for better camera access:
 
