@@ -39,6 +39,8 @@ class UIView
 
     @recognizers = {} unless @recognizers
     @recognizers[recognizer] = proc
+
+    recognizer
   end
 
 end
