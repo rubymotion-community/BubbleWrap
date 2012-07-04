@@ -80,10 +80,10 @@ module BubbleWrap
         @options[:media_types] = [:image] if not @options.has_key? :media_types
 
         # If we're using Camera.any, by default use photo library
-        if not @options.has_key?(:source_type) && self.location == :none
+        if !@options.has_key?(:source_type) and self.location == :none
           @options[:source_type] = :photo_library
         # If we're using a real Camera, by default use the camera.
-        elsif not @options.has_key?(:source_type)
+        elsif !@options.has_key?(:source_type)
           @options[:source_type] = :camera
         end
 
