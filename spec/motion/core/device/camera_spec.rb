@@ -8,6 +8,28 @@ describe BubbleWrap::Device::Camera do
     @camera = BW::Device::Camera.new
   end
 
+  describe '.flash?' do
+    before do
+      UIImagePickerController.instance_eval do
+        def self.isCameraDeviceAvailable(c)
+          return true
+        end
+
+        def self.isFlashAvailableForCameraDevice(c)
+          return c == UIImagePickerControllerCameraDeviceFront
+        end
+      end
+    end
+
+    it 'should be true for front cameras' do
+      BW::Device::Camera.front.flash?.should == true
+    end
+
+    it 'should be false for rear cameras' do
+      BW::Device::Camera.rear.flash?.should == false
+    end
+  end
+
   describe '.picture' do
     it 'should have correct error for source_type camera' do
       @camera.picture({source_type: :camera, media_types: [:image]}, @controller) do |result|

@@ -45,6 +45,11 @@ module BubbleWrap
         @location = location
       end
 
+      def flash?
+        return false if self.location == :none
+        UIImagePickerController.isFlashAvailableForCameraDevice(camera_device)
+      end
+
       # @param [Hash] options to open the UIImagePickerController with 
       # the form {
       #   source_type: :photo_library, :camera, or :saved_photos_album; default :photo_library
@@ -109,7 +114,7 @@ module BubbleWrap
         end
 
         if source_type == :camera
-          @picker.cameraDevice = const_int_get("UIImagePickerControllerCameraDevice", self.location)
+          @picker.cameraDevice = camera_device
         end
 
         presenting_controller ||= UIApplication.sharedApplication.keyWindow.rootViewController
@@ -168,6 +173,10 @@ module BubbleWrap
       end
 
       private
+      def camera_device
+        const_int_get("UIImagePickerControllerCameraDevice", self.location)
+      end
+
       # ex media_type_to_symbol(KUTTypeMovie) => :movie
       def media_type_to_symbol(media_type)
         MEDIA_TYPE_HASH.invert[media_type]
