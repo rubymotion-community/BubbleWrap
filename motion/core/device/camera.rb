@@ -103,22 +103,21 @@ module BubbleWrap
           end
         }
 
-        @picker = UIImagePickerController.alloc.init
-        @picker.delegate = self
-        @picker.sourceType = source_type
-        @picker.mediaTypes = media_types
-        @picker.allowsEditing = @options[:allows_editing]
+        self.picker.delegate = self
+        self.picker.sourceType = source_type
+        self.picker.mediaTypes = media_types
+        self.picker.allowsEditing = @options[:allows_editing]
 
         if source_type == :camera && ![:front, :rear].member?(self.location)
           raise Error::INVALID_CAMERA_LOCATION, "Can't use camera location #{self.location} with source type :camera"
         end
 
         if source_type == :camera
-          @picker.cameraDevice = camera_device
+          self.picker.cameraDevice = camera_device
         end
 
         presenting_controller ||= UIApplication.sharedApplication.keyWindow.rootViewController
-        presenting_controller.presentViewController(@picker, animated:@options[:animated], completion: lambda {})
+        presenting_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
       end
 
       ##########
@@ -154,11 +153,12 @@ module BubbleWrap
       ##########
       # Short Helper Methods
       def picker
-        @picker
+        @picker_klass ||= UIImagePickerController
+        @picker ||= @picker_klass.alloc.init
       end
 
       def dismiss
-        @picker.dismissViewControllerAnimated(@options[:animated], completion: lambda {})
+        self.picker.dismissViewControllerAnimated(@options[:animated], completion: lambda {})
       end
 
       # @param [UIImagePickerControllerSourceType] source_type to check
