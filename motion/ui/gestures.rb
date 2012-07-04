@@ -26,13 +26,11 @@ class UIView
     addGestureRecognizerHelper(proc, enableInteraction, UILongPressGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
   end
 
-  protected
+  private
 
   def motionHandleGesture(recognizer)
     @recognizers[recognizer].call(recognizer)
   end
-
-  private
 
   # Adds the recognizer and keeps a strong reference to the Proc object.
   def addGestureRecognizerHelper(proc, enableInteraction, recognizer)
@@ -44,4 +42,3 @@ class UIView
   end
 
 end
-
