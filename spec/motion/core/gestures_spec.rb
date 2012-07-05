@@ -11,6 +11,11 @@ describe UIView do
   end
 
   testMethod = proc do |method|
+    it "returns a gesture recognizer" do
+      recognizer = @view.send(method, false, &:nil)
+      recognizer.is_a?(UIGestureRecognizer).should == true
+    end
+
     it 'enables interaction when called' do
       @view.send(method, &:nil)
       @view.isUserInteractionEnabled.should == true
