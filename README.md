@@ -53,6 +53,12 @@ If you wish to only include the UI-related wrappers:
 require 'bubble-wrap/ui'
 ```
 
+If you wish to only include the `Camera` wrapper:
+
+```ruby
+require 'bubble-wrap/camera'
+```
+
 If you wish to only include the `Location` wrapper:
 
 ```ruby
@@ -158,17 +164,17 @@ Added interface for better camera access:
 
 ```ruby
 # Uses the front camera
-BW::Device.front_camera.picture(media_types: [:movie, :image]) do |result|
+BW::Device.camera.front.picture(media_types: [:movie, :image]) do |result|
   image_view = UIImageView.alloc.initWithImage(result[:original_image])
 end
 
 # Uses the rear camera
-BW::Device.rear_camera.picture(media_types: [:movie, :image]) do |result|
+BW::Device.camera.rear.picture(media_types: [:movie, :image]) do |result|
   image_view = UIImageView.alloc.initWithImage(result[:original_image])
 end
 
 # Uses the photo library
-BW::Device::Camera.any.picture(media_types: [:movie, :image]) do |result|
+BW::Device.camera.any.picture(media_types: [:movie, :image]) do |result|
   image_view = UIImageView.alloc.initWithImage(result[:original_image])
 end
 ```
