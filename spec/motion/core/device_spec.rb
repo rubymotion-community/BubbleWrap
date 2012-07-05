@@ -36,50 +36,6 @@ describe BubbleWrap::Device do
     end
   end
 
-  describe 'on device with only front facing camera' do
-    before do 
-      UIImagePickerController.instance_eval do
-        def isCameraDeviceAvailable(c)
-          c == UIImagePickerControllerCameraDeviceFront
-        end
-      end
-    end
-
-    describe '.front_camera?' do
-      it 'returns true' do
-        BW::Device.front_camera?.should == true
-      end
-    end
-
-    describe '.rear_camera?' do
-      it 'returns false' do
-        BW::Device.rear_camera?.should == false
-      end
-    end
-  end
-
-  describe 'on device with only rear facing camera' do
-    before do
-      UIImagePickerController.instance_eval do
-        def isCameraDeviceAvailable(c)
-          c == UIImagePickerControllerCameraDeviceRear
-        end
-      end
-    end
-
-    describe '.front_camera?' do
-      it 'returns false' do
-        BW::Device.front_camera?.should == false
-      end
-    end
-
-    describe '.rear_camera?' do
-      it 'returns true' do
-        BW::Device.rear_camera?.should == true
-      end
-    end
-  end
-
   describe '.simulator?' do
     it 'returns true' do
       BW::Device.simulator?.should == true
