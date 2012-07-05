@@ -38,7 +38,7 @@ describe BubbleWrap::Device::CameraWrapper do
 
     describe '.rear?' do
       it 'returns true' do
-        BW::Device.rear?.should == true
+        BW::Device.camera.rear?.should == true
       end
     end
   end
