@@ -80,7 +80,7 @@ describe BubbleWrap::Device::Camera do
       end
 
       it 'should work' do
-        camera = BW::Device.front_camera
+        camera = BW::Device.camera.front
         camera.instance_variable_set("@picker_klass", @picker_klass)
         image_view = nil
         info = example_info
