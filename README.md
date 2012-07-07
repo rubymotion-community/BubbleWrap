@@ -227,6 +227,19 @@ end
 Helper methods added to the class repsonsible for user preferences used
 by the `App::Persistence` module shown below.
 
+### Object
+
+RubyMotion already converts `Class.new` to `Class.alloc.init`. Now, you
+can use this everywhere to initialize objects with arguments:
+
+```ruby
+UIWindow.alloc.initWithFrame UIScreen.mainScreen.bounds # Before
+UIWindow.newWithFrame UIScreen.mainScreen.bounds # After
+
+UIColor.alloc.initWithRed 1.0, green: 1.0, blue: 1.0, alpha: 1.0 # Before
+UIColor.newWithRed 1.0, green: 1.0, blue: 1.0, alpha: 1.0 # After
+```
+
 ### Persistence
 
 Offers a way to persist application specific information using a very
