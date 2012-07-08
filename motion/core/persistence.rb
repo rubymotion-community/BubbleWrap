@@ -17,8 +17,9 @@ module BubbleWrap
     end
 
     def merge(values)
-      values = Hash[values.map{|key, value| [storage_key(key.to_s), value]}]
-      storage.registerDefaults values
+      values.each do |key, value|
+        storage.setObject(value, forKey: storage_key(key.to_s))
+      end
       storage.synchronize
     end
 
