@@ -16,6 +16,12 @@ module BubbleWrap
       storage.objectForKey storage_key(key.to_s)
     end
 
+    def merge(values)
+      values = Hash[values.map{|key, value| [storage_key(key.to_s), value]}]
+      storage.registerDefaults values
+      storage.synchronize
+    end
+
     def storage
       NSUserDefaults.standardUserDefaults
     end
