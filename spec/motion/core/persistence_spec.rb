@@ -30,13 +30,35 @@ describe BubbleWrap::Persistence do
       BubbleWrap::Persistence['arbitraryNumber'] = 42
       storage.instance_variable_get(:@sync_was_called).should.equal true
     end 
+  end
 
+  describe "storing multiple objects" do
+    it 'can persist multiple objects' do
+      lambda do
+        BubbleWrap::Persistence.merge({
+          :anotherArbitraryNumber => 9001,
+          :arbitraryString => 'test string'
+        })
+      end.
+        should.not.raise(Exception)
+    end
+
+    it 'must call synchronize' do
+      storage = NSUserDefaults.standardUserDefaults
+      def storage.synchronize; @sync_was_called = true; end
+
+      BubbleWrap::Persistence.merge({
+        :anotherArbitraryNumber => 9001,
+        :arbitraryString => 'test string'
+      })
+      storage.instance_variable_get(:@sync_was_called).should.equal true
+    end
   end
 
   describe "retrieving objects" do
     it 'can retrieve persisted objects' do
       BubbleWrap::Persistence['arbitraryNumber'].should == 42
-    end  
+      BubbleWrap::Persistence[:arbitraryString].should == 'test string'
+    end
   end
-
 end
