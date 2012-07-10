@@ -34,6 +34,11 @@ module BubbleWrap
     end
 
     def to_color
+      # First check if it is a color keyword
+      keyword_selector = "#{self.camelize(false)}Color"
+      return UIColor.send(keyword_selector) if UIColor.respond_to? keyword_selector
+
+      # Next attempt to convert from hex
       hex_color = self.gsub("#", "")   
       case hex_color.size 
         when 3

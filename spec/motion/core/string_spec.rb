@@ -90,6 +90,20 @@ describe BubbleWrap::String do
     end 
   end 
 
+  describe "a string with a color keyword (blue, red, lightText)" do
+    it "should return the corresponding color" do
+      'blue'.to_color.should == UIColor.blueColor
+    end
+
+    it "should accept camelCase" do
+      'lightText'.to_color.should == UIColor.lightTextColor
+    end
+
+    it "should accept snake_case" do
+      'dark_gray'.to_color.should == UIColor.darkGrayColor
+    end
+  end
+
   describe "A UIColor should not be created from an invalid String wuth" do
 
 
