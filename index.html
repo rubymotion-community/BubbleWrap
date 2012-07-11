@@ -63,7 +63,7 @@
 <h2>Setup</h2>
 
 <ol>
-<li>Edit the <code>Rakefile</code> of your RubyMotion project and add the following require line.</li>
+<li>Edit the <code>Rakefile</code> of your RubyMotion project and add the following require line:</li>
 </ol>
 <div class="highlight">
 <pre><span class="nb">require</span> <span class="s1">'bubble-wrap'</span>
@@ -72,9 +72,9 @@
 
 
 <p>BubbleWrap is split into multiple modules so that you can easily choose which parts
-are included at compile-time. </p>
+are included at compile-time.</p>
 
-<p>The above example requires all the wrappers/helpers. If you wish to only
+<p>The above example requires the <code>core</code> and <code>http</code> modules. If you wish to only
 include the core modules use the following line of code instead:</p>
 
 <div class="highlight">
@@ -87,6 +87,54 @@ include the core modules use the following line of code instead:</p>
 
 <div class="highlight">
 <pre><span class="nb">require</span> <span class="s1">'bubble-wrap/http'</span>
+</pre>
+</div>
+
+
+<p>If you wish to only include the <code>RSS Parser</code> wrapper:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/rss_parser'</span>
+</pre>
+</div>
+
+
+<p>If you wish to only include the <code>Reactor</code> wrapper:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/reactor'</span>
+</pre>
+</div>
+
+
+<p>If you wish to only include the UI-related wrappers:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/ui'</span>
+</pre>
+</div>
+
+
+<p>If you wish to only include the <code>Camera</code> wrapper:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/camera'</span>
+</pre>
+</div>
+
+
+<p>If you wish to only include the <code>Location</code> wrapper:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/location'</span>
+</pre>
+</div>
+
+
+<p>If you want to include everything (ie kitchen sink mode) you can save time and do:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/all'</span>
 </pre>
 </div>
 
@@ -113,6 +161,56 @@ use the versioned gem.</p>
 
 <h2>Core</h2>
 
+<h3>Misc</h3>
+
+<p>UUID generator:</p>
+
+<div class="highlight">
+<pre><span class="no">BubbleWrap</span><span class="o">.</span><span class="n">create_uuid</span>
+<span class="o">=&gt;</span> <span class="s2">"68ED21DB-82E5-4A56-ABEB-73650C0DB701"</span>
+</pre>
+</div>
+
+
+<p>Localization (using <code>NSBundle.mainBundle.localizedStringForKey</code>):</p>
+
+<div class="highlight">
+<pre><span class="no">BubbleWrap</span><span class="o">.</span><span class="n">localized_string</span><span class="p">(</span><span class="ss">:foo</span><span class="p">,</span> <span class="s1">'fallback'</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="s2">"fallback"</span>
+</pre>
+</div>
+
+
+<p>Color conversion:</p>
+
+<div class="highlight">
+<pre><span class="no">BubbleWrap</span><span class="o">.</span><span class="n">rgba_color</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">4</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;UIDeviceRGBColor:0x6db6ed0&gt;</span>
+<span class="no">BubbleWrap</span><span class="o">.</span><span class="n">rgb_color</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;UIDeviceRGBColor:0x8ca88b0&gt;</span>
+<span class="s1">'blue'</span><span class="o">.</span><span class="n">to_color</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;UICachedDeviceRGBColor:0xda535c0&gt;</span>
+<span class="s1">'dark_gray'</span><span class="o">.</span><span class="n">to_color</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;UICachedDeviceWhiteColor:0x8bb5be0&gt;</span>
+<span class="s1">'#FF8A19'</span><span class="o">.</span><span class="n">to_color</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;UIDeviceRGBColor:0x8d54110&gt;</span>
+</pre>
+</div>
+
+
+<p>Debug flag:</p>
+
+<div class="highlight">
+<pre><span class="no">BubbleWrap</span><span class="o">.</span><span class="n">debug?</span>
+<span class="o">=&gt;</span> <span class="kp">false</span>
+<span class="no">BubbleWrap</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="o">=&gt;</span> <span class="kp">true</span>
+<span class="no">BubbleWrap</span><span class="o">.</span><span class="n">debug?</span>
+<span class="o">=&gt;</span> <span class="kp">true</span>
+</pre>
+</div>
+
+
 <h3>App</h3>
 
 <p>A module with useful methods related to the running application</p>
@@ -130,6 +228,8 @@ use the versioned gem.</p>
 <span class="c1"># creates and shows an alert message.</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">run_after</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span>  <span class="nb">p</span> <span class="s2">"It's </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="si">}</span><span class="s2">"</span>   <span class="p">}</span>
 <span class="c1"># Runs the block after 0.5 seconds.</span>
+<span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">open_url</span><span class="p">(</span><span class="s2">"http://matt.aimonetti.net"</span><span class="p">)</span>
+<span class="c1"># Opens the url using the device's browser. (accepts a string url or an instance of `NSURL`.</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">::</span><span class="no">Persistence</span><span class="o">[</span><span class="s1">'channels'</span><span class="o">]</span> <span class="c1"># application specific persistence storage</span>
 <span class="c1"># ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">::</span><span class="no">Persistence</span><span class="o">[</span><span class="s1">'channels'</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'TF1'</span><span class="p">,</span> <span class="s1">'France 2'</span><span class="p">,</span> <span class="s1">'France 3'</span><span class="o">]</span>
@@ -181,23 +281,28 @@ use the versioned gem.</p>
 </div>
 
 
-<h3>Gestures</h3>
+<h3>Camera</h3>
 
-<p>Extra methods on <code>UIView</code> for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:</p>
+<p>Added interface for better camera access:</p>
 
 <div class="highlight">
-<pre>    <span class="n">view</span><span class="o">.</span><span class="n">whenTapped</span> <span class="k">do</span>
-      <span class="no">UIView</span><span class="o">.</span><span class="n">animateWithDuration</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">animations</span><span class="ss">:lambda</span> <span class="p">{</span>
-          <span class="c1"># animate</span>
-          <span class="c1"># @view.transform = ...</span>
-        <span class="p">})</span>
-    <span class="k">end</span>
+<pre><span class="c1"># Uses the front camera</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">front</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="n">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="p">,</span> <span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="n">image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:original_image</span><span class="o">]</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Uses the rear camera</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">rear</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="n">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="p">,</span> <span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="n">image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:original_image</span><span class="o">]</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Uses the photo library</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">any</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="n">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="p">,</span> <span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="n">image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:original_image</span><span class="o">]</span><span class="p">)</span>
+<span class="k">end</span>
 </pre>
 </div>
 
-
-<p>There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.</p>
 
 <h3>JSON</h3>
 
@@ -320,6 +425,46 @@ iso8601 formatted string into a Time instance.</p>
 </div>
 
 
+<h2>Location</h2>
+
+<p>Added interface for Ruby-like GPS access:</p>
+
+<div class="highlight">
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="nb">p</span> <span class="s2">"From Lat </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:from</span><span class="o">].</span><span class="n">latitude</span><span class="si">}</span><span class="s2">, Long </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:from</span><span class="o">].</span><span class="n">longitude</span><span class="si">}</span><span class="s2">"</span>
+  <span class="nb">p</span> <span class="s2">"To Lat </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:to</span><span class="o">].</span><span class="n">latitude</span><span class="si">}</span><span class="s2">, Long </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:to</span><span class="o">].</span><span class="n">longitude</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Also available is <code>BW::Location.get_significant</code>, for monitoring significant location changes.</p>
+
+<h2>UI</h2>
+
+<h3>Gestures</h3>
+
+<p>Extra methods on <code>UIView</code> for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:</p>
+
+<div class="highlight">
+<pre>    <span class="n">view</span><span class="o">.</span><span class="n">whenTapped</span> <span class="k">do</span>
+      <span class="no">UIView</span><span class="o">.</span><span class="n">animateWithDuration</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">animations</span><span class="ss">:lambda</span> <span class="p">{</span>
+          <span class="c1"># animate</span>
+          <span class="c1"># @view.transform = ...</span>
+        <span class="p">})</span>
+    <span class="k">end</span>
+</pre>
+</div>
+
+
+<p>There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.</p>
+
+<h3>UIViewController</h3>
+
+<p>A custom method was added to <code>UIViewController</code> to return the content
+frame of a view controller.</p>
+
 <h3>UIControl / UIButton</h3>
 
 <p>Helper methods to give <code>UIButton</code> a Ruby-like interface. Ex:</p>
@@ -331,11 +476,6 @@ iso8601 formatted string into a Time instance.</p>
 </pre>
 </div>
 
-
-<h3>UIViewController</h3>
-
-<p>A custom method was added to <code>UIViewController</code> to return the content
-frame of a view controller.</p>
 
 <h2>HTTP</h2>
 
@@ -375,14 +515,270 @@ The API uses async calls and blocks to stay as simple as possible.</p>
     <span class="n">json</span> <span class="o">=</span> <span class="no">BubbleWrap</span><span class="o">::</span><span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">to_str</span><span class="p">)</span>
     <span class="nb">p</span> <span class="n">json</span><span class="o">[</span><span class="s1">'id'</span><span class="o">]</span>
   <span class="k">elsif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="o">.</span><span class="n">to_s</span> <span class="o">=~</span> <span class="sr">/40\d/</span>
-    <span class="n">alert</span><span class="p">(</span><span class="s2">"Login failed"</span><span class="p">)</span> <span class="c1"># helper provided by the kernel file in this repo.</span>
+    <span class="no">App</span><span class="o">.</span><span class="n">alert</span><span class="p">(</span><span class="s2">"Login failed"</span><span class="p">)</span>
   <span class="k">else</span>
-    <span class="n">alert</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">)</span>
+    <span class="no">App</span><span class="o">.</span><span class="n">alert</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </pre>
 </div>
 
+
+<p>A <code>:download_progress</code> option can also be passed. The expected object
+would be a Proc that takes two arguments: a float representing the
+amount of data currently received and another float representing the
+total amount of data expected.</p>
+
+<h2>RSS Parser</h2>
+
+<p><strong>Since: &gt; version 1.0.0</strong></p>
+
+<p>The RSS Parser provides an easy interface to consume RSS feeds in an
+asynchronous (non blocking) way.</p>
+
+<div class="highlight">
+<pre><span class="n">feed_parser</span> <span class="o">=</span> <span class="no">BW</span><span class="o">::</span><span class="no">RSSParser</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"http://feeds2.feedburner.com/sdrbpodcast"</span><span class="p">)</span>
+<span class="n">feed_parser</span><span class="o">.</span><span class="n">parse</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+  <span class="c1"># called asynchronously as items get parsed</span>
+  <span class="nb">p</span> <span class="n">item</span><span class="o">.</span><span class="n">title</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>The yielded RSS item is of type <code>RSSParser::RSSItem</code> and has the
+following attributes:</p>
+
+<ul>
+<li>title</li>
+<li>description</li>
+<li>link</li>
+<li>guid</li>
+<li>pubDate</li>
+<li>enclosure</li>
+</ul>
+<p>The item can be converted into a hash by calling <code>to_hash</code> on it.</p>
+
+<h3>Delegate</h3>
+
+<p><strong>Since: &gt; version 1.0.0</strong></p>
+
+<p>You can also designate a delegate to the parser and implement change
+state callbacks:</p>
+
+<div class="highlight">
+<pre><span class="n">feed_parser</span> <span class="o">=</span> <span class="no">BW</span><span class="o">::</span><span class="no">RSSParser</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"http://feeds.feedburner.com/sdrbpodcast"</span><span class="p">)</span>
+<span class="n">feed_parser</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+<span class="n">feed</span><span class="o">.</span><span class="n">parse</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+  <span class="nb">p</span> <span class="n">item</span><span class="o">.</span><span class="n">title</span>
+<span class="k">end</span>
+
+<span class="c1"># Delegate method</span>
+<span class="k">def</span> <span class="nf">when_parser_initializes</span>
+  <span class="nb">p</span> <span class="s2">"The parser is ready!"</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">when_parser_parses</span>
+  <span class="nb">p</span> <span class="s2">"The parser started parsing the document"</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">when_parser_is_done</span>
+  <span class="nb">p</span> <span class="s2">"The feed is entirely parsed, congratulations!"</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>These delegate methods are optional, however, you might find the
+<code>when_parser_is_done</code> callback useful if you collected all the items and
+want to process all at once for instance.</p>
+
+<h3>Parsing a remote content or actual data</h3>
+
+<p>You have the choice to initialize a parser instance with a string
+representing an URL, an instance of <code>NSURL</code> or my specifying that the
+passed param is some data to parse directly.</p>
+
+<div class="highlight">
+<pre><span class="c1"># string representing an url:</span>
+<span class="n">feed_parser</span> <span class="o">=</span> <span class="no">BW</span><span class="o">::</span><span class="no">RSSParser</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"http://feeds2.feedburner.com/sdrbpodcast"</span><span class="p">)</span>
+<span class="c1"># a NSURL instance:</span>
+<span class="n">url</span> <span class="o">=</span>  <span class="no">NSURL</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithString</span><span class="p">(</span><span class="s2">"http://matt.aimonetti.net/atom.xml"</span><span class="p">)</span>
+<span class="n">feed_parser</span> <span class="o">=</span> <span class="no">BW</span><span class="o">::</span><span class="no">RSSParser</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="c1"># Some data</span>
+<span class="n">feed</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">'atom.xml'</span><span class="p">)</span>
+<span class="n">feed_parser</span> <span class="o">=</span> <span class="no">BW</span><span class="o">::</span><span class="no">RSSParser</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">feed</span><span class="p">,</span> <span class="kp">true</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h2>Reactor</h2>
+
+<p><strong>Since: &gt; version 1.0.0</strong></p>
+
+<p><code>BubbleWrap::Reactor</code> is a simplified, mostly complete implementation of
+the <a href="http://rubyeventmachine.com/">Event Machine</a> API.  In fact 
+<code>BubbleWrap::Reactor</code> is aliased to <code>EM</code> in the runtime environment.</p>
+
+<h3>Deferables</h3>
+
+<p>BubbleWrap provides both a <code>Deferrable</code> mixin and a <code>DefaultDeferrable</code>
+class, which simply mixes in deferrable behaviour if you don't want to
+implement your own.</p>
+
+<p>A deferrable is an object with four states: unknown, successful, failure
+and timeout.  When you initially create a deferrable it is in an unknown
+state, however you can assign callbacks to be run when the object
+changes to either successful or failure state.</p>
+
+<h4>Success</h4>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="no">EM</span><span class="o">::</span><span class="no">DefaultDeferrable</span><span class="o">.</span><span class="n">new</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BubbleWrap::Reactor::DefaultDeferrable:0x6d859a0&gt;</span>
+<span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">callback</span> <span class="p">{</span> <span class="o">|</span><span class="n">what</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">"Great </span><span class="si">#{</span><span class="n">what</span><span class="si">}</span><span class="s2">!"</span> <span class="p">}</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0x6d8a1e0&gt;]</span>
+<span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">succeed</span> <span class="s2">"justice"</span>
+<span class="no">Great</span> <span class="n">justice!</span>
+<span class="o">=&gt;</span> <span class="kp">nil</span>
+</pre>
+</div>
+
+
+<h4>Failure</h4>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="no">EM</span><span class="o">::</span><span class="no">DefaultDeferrable</span><span class="o">.</span><span class="n">new</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BubbleWrap::Reactor::DefaultDeferrable:0x8bf3ee0&gt;</span>
+<span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">errback</span> <span class="p">{</span> <span class="o">|</span><span class="n">what</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">"Great </span><span class="si">#{</span><span class="n">what</span><span class="si">}</span><span class="s2">!"</span> <span class="p">}</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0x8bf3ef0&gt;]</span>
+<span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">fail</span> <span class="s2">"sadness"</span>
+<span class="no">Great</span> <span class="n">sadness!</span>
+<span class="o">=&gt;</span> <span class="kp">nil</span>
+</pre>
+</div>
+
+
+<h4>Timeout</h4>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="no">EM</span><span class="o">::</span><span class="no">DefaultDeferrable</span><span class="o">.</span><span class="n">new</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BubbleWrap::Reactor::DefaultDeferrable:0x8bf5910&gt;</span>
+<span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">errback</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"Great scott!"</span> <span class="p">}</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0x8bf6350&gt;]</span>
+<span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">timeout</span> <span class="mi">2</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BubbleWrap::Reactor::Timer:0x6d920a0 @timer=#&lt;__NSCFTimer:0x6d91990&gt;&gt;</span>
+<span class="c1"># wait...</span>
+<span class="o">&gt;</span> <span class="no">Great</span> <span class="n">scott!</span>
+</pre>
+</div>
+
+
+<h3>Timers</h3>
+
+<p><em>All timers can be cancelled using <code>EM.cancel_timer</code>.</em></p>
+
+<h4>One-shot timers</h4>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="no">EM</span><span class="o">.</span><span class="n">add_timer</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="k">do</span>
+<span class="o">&gt;</span>   <span class="nb">puts</span> <span class="s2">"Great scott!"</span>
+<span class="o">&gt;</span> <span class="k">end</span>
+<span class="o">=&gt;</span> <span class="mi">146335904</span>
+<span class="o">&gt;</span> <span class="no">Great</span> <span class="n">scott!</span>
+</pre>
+</div>
+
+
+<h4>Periodic timers</h4>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">=&gt;</span> <span class="mi">0</span>
+<span class="o">&gt;</span> <span class="n">timer</span> <span class="o">=</span> <span class="no">EM</span><span class="o">.</span><span class="n">add_periodic_timer</span> <span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="k">do</span>
+<span class="o">&gt;</span>   <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="o">&gt;</span>   <span class="nb">puts</span> <span class="s2">"Great scott!"</span>
+<span class="o">&gt;</span>   <span class="p">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">||</span> <span class="no">EM</span><span class="o">.</span><span class="n">cancel_timer</span><span class="p">(</span><span class="n">timer</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="k">end</span>
+<span class="o">=&gt;</span> <span class="mi">146046832</span>
+<span class="o">&gt;</span> <span class="no">Great</span> <span class="n">scott!</span>
+<span class="no">Great</span> <span class="n">scott!</span>
+<span class="no">Great</span> <span class="n">scott!</span>
+<span class="no">Great</span> <span class="n">scott!</span>
+<span class="no">Great</span> <span class="n">scott!</span>
+<span class="no">Great</span> <span class="n">scott!</span>
+<span class="no">Great</span> <span class="n">scott!</span>
+<span class="no">Great</span> <span class="n">scott!</span>
+<span class="no">Great</span> <span class="n">scott!</span>
+<span class="no">Great</span> <span class="n">scott!</span>
+</pre>
+</div>
+
+
+<h3>Scheduling operations</h3>
+
+<p>You can use <code>EM.schedule</code> to schedule blocks to be executed 
+asynchronously.  BubbleWrap deviates from the EventMachine
+API here in that it also provides <code>EM.schedule_on_main</code> which
+makes sure that the task is run asynchronously, but on the 
+application's main thread - this is necessary if you are 
+updating the user interface.</p>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="no">EM</span><span class="o">.</span><span class="n">schedule</span> <span class="p">{</span> <span class="nb">puts</span> <span class="no">Thread</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">object_id</span> <span class="p">}</span>
+<span class="mi">146027920</span>
+<span class="o">=&gt;</span> <span class="kp">nil</span>
+<span class="o">&gt;</span> <span class="no">EM</span><span class="o">.</span><span class="n">schedule_on_main</span> <span class="p">{</span> <span class="nb">puts</span> <span class="no">Thread</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">object_id</span> <span class="p">}</span>
+<span class="mi">112222480</span>
+<span class="o">=&gt;</span> <span class="kp">nil</span>
+</pre>
+</div>
+
+
+<h3>Deferrable operations</h3>
+
+<p>You can also use <code>EM.defer</code> in much the same way as <code>EM.schedule</code>
+with one important difference, you can pass in a second <code>proc</code> 
+which will be called when the first has completed, and be passed
+it's result as an argument. Just like <code>EM.schedule</code>, <code>EM.defer</code>
+also has an <code>EM.defer_on_main</code> version.</p>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="n">operation</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="mi">99</span> <span class="p">}</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;Proc:0x6d763c0&gt;</span>
+<span class="o">&gt;</span> <span class="n">callback</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span><span class="n">speed</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">speed</span> <span class="o">&gt;=</span> <span class="mi">99</span> <span class="o">?</span> <span class="s2">"Time travel!"</span> <span class="p">:</span> <span class="s2">"Conventional travel!"</span> <span class="p">}</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;Proc:0x8bd3910&gt;</span>
+<span class="o">&gt;</span> <span class="no">EM</span><span class="o">.</span><span class="n">defer</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="kp">nil</span>
+<span class="no">Time</span> <span class="n">travel!</span>
+</pre>
+</div>
+
+
+<h3>Events</h3>
+
+<p>Although not part of the EventMachine API, BubbleWrap provides
+an <code>Eventable</code> mixin for use instrumenting objects with simple
+event triggering behaviour. <code>BubbleWrap::Reactor</code> uses this
+behind the scenes in several places, and as it's a very handy
+idiom it is available as a public API.</p>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="n">o</span> <span class="o">=</span> <span class="no">Class</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="kp">include</span> <span class="no">EM</span><span class="o">::</span><span class="no">Eventable</span> <span class="p">}</span><span class="o">.</span><span class="n">new</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;#&lt;Class:0x6dc1310&gt;:0x6dc2ec0&gt;</span>
+<span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"Ow!"</span> <span class="p">}</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0x6dc6300&gt;]</span>
+<span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"Flux capacitor!"</span> <span class="p">}</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0x6dc6300&gt;, #&lt;Proc:0x6dc1ba0&gt;]</span>
+<span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">trigger</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span>
+<span class="no">Ow</span><span class="o">!</span>
+<span class="no">Flux</span> <span class="n">capacitor!</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="kp">nil</span><span class="p">,</span> <span class="kp">nil</span><span class="o">]</span>
+</pre>
+</div>
+
+
+<h1>Suggestions?</h1>
 
 <p>Do you have a suggestion for a specific wrapper? Feel free to open an
 issue/ticket and tell us about what you are after. If you have a
@@ -399,6 +795,7 @@ please send a pull request (with tests if possible).</p>
          <li><a href="https://github.com/mneorr"><img src="https://secure.gravatar.com/avatar/9ee164729035736549e4ae6e6e2d7cfc?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">Marin Usalj</a><a href="http://twitter.com/mneorr"><small>@mneorr</small></a></li>
          <li><a href="https://github.com/jamesotron"><img src="https://secure.gravatar.com/avatar/d468b182b11cdee834dd1f9777645b79?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">James Harton</a><a href="http://twitter.com/jamesotron"><small>@jamesotron</small></a></li>
          <li><a href="https://github.com/janweinkauff"><img src="https://secure.gravatar.com/avatar/89a1b3da3c51c9028598e4c703c6acbf?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">Jan Weinkauff</a><a href="http://twitter.com/janweinkauff"><small>@janweinkauff</small></a></li>
+         <li><a href="https://github.com/clayallsopp"><img src=https://secure.gravatar.com/avatar/f6c4ef1904591e41f767ba68268971cf?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">Clay Allsopp</a><a href="http://twitter.com/clayallsopp"><small>@clayallsopp</small></a></li>
        </ul>
        </footer>
      </div>
