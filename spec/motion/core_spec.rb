@@ -13,7 +13,7 @@ describe 'BubbleWrap' do
     end
 
     it "can be unset" do
-      BubbleWrap.debug = true
+      BubbleWrap.debug = false
       BubbleWrap.debug?.should.equal false
     end
 
