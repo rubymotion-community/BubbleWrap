@@ -76,6 +76,11 @@ module BubbleWrap
         status_code.to_s =~ /20\d/ ? true : false
       end
 
+      def to_s
+        "#<#{self.class}:#{self.object_id} - url: #{self.url}, body: #{self.body}, headers: #{self.headers}, status code: #{self.status_code}, error message: #{self.error_message} >"
+      end
+      alias description to_s
+
     end
 
     # Class wrapping NSConnection and often used indirectly by the BubbleWrap::HTTP module methods.
@@ -119,7 +124,7 @@ module BubbleWrap
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @options = options
         @response = HTTP::Response.new
-        
+
         @url = create_url(url_string)
         @body = create_request_body
         @request = create_request
@@ -128,6 +133,12 @@ module BubbleWrap
 
         UIApplication.sharedApplication.networkActivityIndicatorVisible = true
       end
+
+      def to_s
+        "#<#{self.class}:#{self.object_id} - Method: #{@method}, url: #{@url.description}, body: #{@body.description}, Payload: #{@payload}, Headers: #{@headers} Credentials: #{@credentials}, Timeout: #{@timeout}, \
+Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
+      end
+      alias description to_s
 
       def connection(connection, didReceiveResponse:response)
         @status_code = response.statusCode
@@ -146,7 +157,7 @@ module BubbleWrap
       end
 
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
-        log "HTTP redirected #{request.description}"
+        log "HTTP redirected info: #{request} - #{self.description}"
         new_request = request.mutableCopy
         # new_request.setValue(@credentials.inspect, forHTTPHeaderField:'Authorization') # disabled while we figure this one out
         new_request.setAllHTTPHeaderFields(@headers) if @headers
