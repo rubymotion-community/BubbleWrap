@@ -1,6 +1,25 @@
 describe 'BubbleWrap' do
 
-  describe "RGB color"do
+
+  describe "debug flag" do
+
+    after do
+       BubbleWrap.debug = false
+    end
+
+    it "can be set" do
+      BubbleWrap.debug = true
+      BubbleWrap.debug?.should.equal true
+    end
+
+    it "can be unset" do
+      BubbleWrap.debug = true
+      BubbleWrap.debug?.should.equal false
+    end
+
+  end
+
+  describe "RGB color" do
 
     before do
       @red = 23

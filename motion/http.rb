@@ -1,7 +1,5 @@
 module BubbleWrap
 
-  SETTINGS = {}
-
   # The HTTP module provides a simple interface to make HTTP requests.
   #
   # TODO: preflight support, easier/better cookie support, better error handling
@@ -297,7 +295,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def log(message)
-        NSLog message if SETTINGS[:debug]
+        NSLog message if BubbleWrap.debug?
       end
 
       def escape_line_feeds(hash)
