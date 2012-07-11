@@ -1,3 +1,18 @@
+## 1.1.0
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/1.0...1.1])
+* Added `BubbleWrap::Reactor`,  a simplified implementation of the Event Machine API on top of GCD.
+* Added upload support to the HTTP wrapper.
+* Added `BubbleWrap.create_uuid` to generate a uuid string.
+* Added a program progress proc option to the HTTP wrapper.
+* Added a RSS parser.
+* Added a camera wrapper.
+* Split the various wrappers in self contained and requirable libraries.
+* Added a wrapper around the location/gps APIs.
+* Added a merge method to the persistence layer so multiple values can
+  be saved at once.
+* Added a way to create `UIColor` instances using a hex string: `'#FF8A19'.to_color` or color keyword: `'blue'.to_color`, `'dark_gray'.to_color`.
+
 ## 1.0.0
 
 * Improved the integration with RubyMotion build system.

@@ -92,6 +92,44 @@ use the versioned gem.
 
 ## Core
 
+### Misc
+
+UUID generator:
+```ruby
+BubbleWrap.create_uuid
+=> "68ED21DB-82E5-4A56-ABEB-73650C0DB701"
+```
+
+Localization (using `NSBundle.mainBundle.localizedStringForKey`):
+```ruby
+BubbleWrap.localized_string(:foo, 'fallback')
+=> "fallback"
+```
+
+Color conversion:
+```ruby
+BubbleWrap.rgba_color(23, 45, 12, 0.4)
+=> #<UIDeviceRGBColor:0x6db6ed0>
+BubbleWrap.rgb_color(23, 45, 12)
+=> #<UIDeviceRGBColor:0x8ca88b0>
+'blue'.to_color
+=> #<UICachedDeviceRGBColor:0xda535c0>
+'dark_gray'.to_color
+=> #<UICachedDeviceWhiteColor:0x8bb5be0>
+'#FF8A19'.to_color
+=> #<UIDeviceRGBColor:0x8d54110>
+```
+
+Debug flag:
+```ruby
+BubbleWrap.debug?
+=> false
+BubbleWrap.debug = true
+=> true
+BubbleWrap.debug?
+=> true
+```
+
 ### App
 
 A module with useful methods related to the running application
@@ -373,6 +411,12 @@ BubbleWrap::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
   end
 end
 ```
+
+A `:download_progress` option can also be passed. The expected object
+would be a Proc that takes two arguments: a float representing the
+amount of data currently received and another float representing the
+total amount of data expected.
+
 
 ## RSS Parser
 **Since: > version 1.0.0**
