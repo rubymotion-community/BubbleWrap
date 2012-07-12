@@ -104,8 +104,7 @@ describe BubbleWrap::String do
     end
   end
 
-  describe "A UIColor should not be created from an invalid String wuth" do
-
+  describe "A UIColor should not be created from an invalid String" do
 
     it "an invalid hex color" do
       should.raise( ArgumentError ) {
@@ -118,7 +117,6 @@ describe BubbleWrap::String do
         'FFFF'.to_color
       }     
     end
-
     
   end 
 end

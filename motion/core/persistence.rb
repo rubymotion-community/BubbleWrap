@@ -8,17 +8,17 @@ module BubbleWrap
     end
 
     def []=(key, value)
-      storage.setObject(value, forKey: storage_key(key.to_s))
+      storage.setObject(value, forKey: storage_key(key))
       storage.synchronize
     end
 
     def [](key)
-      storage.objectForKey storage_key(key.to_s)
+      storage.objectForKey storage_key(key)
     end
 
     def merge(values)
       values.each do |key, value|
-        storage.setObject(value, forKey: storage_key(key.to_s))
+        storage.setObject(value, forKey: storage_key(key))
       end
       storage.synchronize
     end
