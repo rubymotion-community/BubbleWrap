@@ -1,7 +1,7 @@
-describe "KVOHelper" do
+describe BubbleWrap::KVO do
 
   class KvoExample
-    include BW::KVO
+    include BubbleWrap::KVO
 
     attr_accessor :label
     attr_accessor :items
@@ -33,7 +33,6 @@ describe "KVOHelper" do
     #end
 
   end
-
 
   describe "Callbacks" do
     before do
