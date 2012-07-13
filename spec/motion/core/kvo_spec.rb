@@ -16,15 +16,15 @@ describe BubbleWrap::KVO do
     # Test helper
 
     def observe_label(&block)
-      observe(@label, "text", &block)
+      observe(@label, :text, &block)
     end
 
     def observe_collection(&block)
-      observe(self, "items", &block)
+      observe(self, :items, &block)
     end
 
     def unobserve_label
-      unobserve(@label, "text")
+      unobserve(@label, :text)
     end
 
     #  def unobserve_all

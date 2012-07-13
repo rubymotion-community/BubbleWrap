@@ -1,14 +1,14 @@
 # Usage example:
 #
 # class ExampleViewController < UIViewController
-#     include BW::KVO
+#     include BubbleWrap::KVO
 #
 #     def viewDidLoad
 #         @label = UILabel.alloc.initWithFrame [[20,20],[280,44]]
 #         @label.text = ""
 #         view.addSubview @label
 #
-#         observe(@label, "text") do |old_value, new_value|
+#         observe(@label, :text) do |old_value, new_value|
 #             puts "Changed #{old_value} to #{new_value}"
 #         end
 #     end
@@ -48,7 +48,7 @@ module BubbleWrap
 
     private
     def registered?(target, key_path)
-      !@targets.nil? && !@targets[target].nil? && @targets[target].has_key?(key_path)
+      !@targets.nil? && !@targets[target].nil? && @targets[target].has_key?(key_path.to_s)
     end
 
     def add_observer_block(target, key_path, &block)
@@ -56,16 +56,16 @@ module BubbleWrap
 
       @targets ||= {}
       @targets[target] ||= {}
-      @targets[target][key_path] ||= []
-      @targets[target][key_path] << block
+      @targets[target][key_path.to_s] ||= []
+      @targets[target][key_path.to_s] << block
     end
 
     def remove_observer_block(target, key_path)
       return if @targets.nil? || target.nil? || key_path.nil?
 
       key_paths = @targets[target]
-      if !key_paths.nil? && key_paths.has_key?(key_path)
-        key_paths.delete(key_path)
+      if !key_paths.nil? && key_paths.has_key?(key_path.to_s)
+        key_paths.delete(key_path.to_s)
       end
     end
 

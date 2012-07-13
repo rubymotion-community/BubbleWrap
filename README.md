@@ -291,13 +291,13 @@ class ExampleViewController < UIViewController
 	@label.text = ""
 	view.addSubview @label
 	
-    observe(@label, "text") do |old_value, new_value|
+    observe(@label, :text) do |old_value, new_value|
       puts "Hello from viewDidLoad!"
     end
   end
 
   def viewDidAppear(animated)
-    observe(@label, "text") do |old_value, new_value|
+    observe(@label, :text) do |old_value, new_value|
       puts "Hello from viewDidAppear!"
     end
   end
