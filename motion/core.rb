@@ -22,9 +22,7 @@ module BubbleWrap
 
   def create_uuid
     uuid = CFUUIDCreate(nil)
-    uuid_string = CFUUIDCreateString(nil, uuid)
-    CFRelease(uuid)
-    uuid_string
+    CFUUIDCreateString(nil, uuid)
   end
-  
+
 end
