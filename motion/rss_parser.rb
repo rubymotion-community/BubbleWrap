@@ -85,8 +85,8 @@ module BubbleWrap
 
     # Delegate getting called when parsing starts
     def parserDidStartDocument(parser)
-      self.state = :parses
       puts "starting parsing.." if debug
+      self.state = :parses
     end
 
     # Delegate being called when an element starts being processed
@@ -128,8 +128,8 @@ module BubbleWrap
     # delegate getting called when the parsing is done
     # If a block was set, it will be called on each parsed items
     def parserDidEndDocument(parser)
-      self.state = :is_done
       puts "done parsing" if debug
+      self.state = :is_done
     end
 
     def parserError
