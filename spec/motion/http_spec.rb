@@ -219,7 +219,9 @@ describe "HTTP" do
           payload = { name: 'apple', model: 'macbook'}
           files = { twitter: sample_data, site: "mneorr.com".dataUsingEncoding(NSUTF8StringEncoding) }
 
+          puts "\n"
           [:post, :put, :delete, :patch].each do |method|
+            puts "    - #{method}\n"
             query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload, files: files } )
             uuid = query.instance_variable_get(:@boundary)
             real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
@@ -227,6 +229,7 @@ describe "HTTP" do
           end
 
           [:get, :head].each do |method|
+            puts "    - #{method}\n"
             query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload } )
             real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
             real_payload.should.be.empty
@@ -236,6 +239,17 @@ describe "HTTP" do
         it "sets the payload without conversion to-from NSString if the payload was NSData" do
           data = sample_data
           lambda { query = create_query(data, nil) }.should.not.raise NoMethodError
+        end
+
+        it "sets the payload as a string if JSON" do 
+          json = BW::JSON.generate({foo:42, bar:'BubbleWrap'})
+           puts "\n"
+          [:put, :post, :delete, :patch].each do |method|
+            puts "    - #{method}\n"
+            query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: json } )
+            set_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
+            set_payload.should.equal json
+          end
         end
 
       end
