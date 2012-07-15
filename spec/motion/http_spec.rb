@@ -22,13 +22,13 @@ describe "HTTP" do
     end
 
     it ".get .post .put .delete .head .patch should properly generate the HTTP::Query" do
-      [:get, :post, :put, :delete, :head, :patch].each do |method|  
+      [:get, :post, :put, :delete, :head, :patch].each do |method|
         test_http_method method
       end
     end
 
     it "uses the block instead of action passed in " do
-      [:get, :post, :put, :delete, :head, :patch].each do |method|  
+      [:get, :post, :put, :delete, :head, :patch].each do |method|
         called = false
         expected_delegator = Proc.new {|response| called = true }
 
@@ -36,7 +36,7 @@ describe "HTTP" do
         query.instance_variable_get(:@delegator).should.equal expected_delegator
         query.connectionDidFinishLoading(query.connection)
         called.should.equal true
-      end 
+      end
     end
 
     # [:get, :post, :put, :delete, :head, :patch].each do |verb|
@@ -100,8 +100,8 @@ describe "HTTP" do
 
     before do
       @credentials = { username: 'mneorr', password: '123456xx!@crazy' }
-      @payload = { 
-        user: { name: 'marin', surname: 'usalj' }, 
+      @payload = {
+        user: { name: 'marin', surname: 'usalj' },
         twitter: '@mneorr',
         website: 'mneorr.com',
         values: ['apple', 'orange', 'peach'],
@@ -112,15 +112,15 @@ describe "HTTP" do
       @leftover_option = 'trololo'
       @headers = { 'User-Agent' => "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \n Gecko/20100101 Firefox/12.0" }
       @files = {
-        fake_file: NSJSONSerialization.dataWithJSONObject({ fake: 'json' }, options:0, error:nil), 
+        fake_file: NSJSONSerialization.dataWithJSONObject({ fake: 'json' }, options:0, error:nil),
         empty_file: NSMutableData.data
       }
-      @options = {  
-        action: @action, 
+      @options = {
+        action: @action,
         files: @files,
-        payload: @payload, 
-        credentials: @credentials, 
-        headers: @headers, 
+        payload: @payload,
+        credentials: @credentials,
+        headers: @headers,
         cache_policy: @cache_policy,
         leftover_option: @leftover_option
       }
@@ -152,7 +152,7 @@ describe "HTTP" do
         @query.instance_variable_get(:@delegator).should.equal @action
         @options.should.not.has_key? :action
       end
-      
+
       it "sets the files to instance variable" do
         @query.instance_variable_get(:@files).should.equal @files
         @options.should.not.has_key? :files
@@ -190,29 +190,29 @@ describe "HTTP" do
           @query.instance_variable_get(:@payload).should.equal payload
           @options.should.not.has_key? :payload
         end
-        
+
         it "should check if @payload is a hash before generating GET params" do
           query_string_payload = BubbleWrap::HTTP::Query.new( 'nil' , :get,  { payload: "name=apple&model=macbook"} )
           query_string_payload.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
         end
 
         it "should check if payload is nil" do
-          lambda{ 
-            BubbleWrap::HTTP::Query.new( 'nil' , :post, {} ) 
-          }.should.not.raise NoMethodError        
-        end      
+          lambda{
+            BubbleWrap::HTTP::Query.new( 'nil' , :post, {} )
+          }.should.not.raise NoMethodError
+        end
 
         it "should set the payload in URL only for GET and HEAD requests" do
           [:post, :put, :delete, :patch].each do |method|
             query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: @payload } )
             query.instance_variable_get(:@url).description.should.equal @localhost_url
-          end  
+          end
 
           payload = {name: 'marin'}
           [:get, :head].each do |method|
             query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: payload } )
             query.instance_variable_get(:@url).description.should.equal "#{@localhost_url}?name=marin"
-          end 
+          end
         end
 
         it "sets the HTTPBody DATA to @request for all methods except GET and HEAD" do
@@ -301,7 +301,7 @@ describe "HTTP" do
 
       it "should turn on the network indicator" do
         UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal true
-      end    
+      end
 
     end
 
@@ -324,7 +324,7 @@ describe "HTTP" do
 
       it "should patch the NSURLRequest with done_loading and done_loading!" do
         @query.request.done_loading.should.equal @query.request.instance_variable_get(:@done_loading)
-        
+
         @query.request.instance_variable_set(:@done_loading, false)
         @query.request.done_loading.should.equal false
         @query.request.done_loading!
@@ -338,18 +338,45 @@ describe "HTTP" do
 
     end
 
+    describe "create POST request" do
+
+      before do
+        @url_string = 'http://initiated-request.dev/post'
+        @headers = { fake: 'headers' }
+        @payload = { key:'abc1234' }
+        @post_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, payload: @payload})
+      end
+
+      it "should automatically provide Content-Type if a payload is provided" do
+        @post_query.request.allHTTPHeaderFields.should.include?('Content-Type')
+      end
+
+      it "should not add Content-Type if you provide one yourself" do
+        # also ensures check is case insenstive
+        @headers = { fake: 'headers', 'CONTENT-TYPE' => 'x-banana' }
+        @post_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, payload: @payload})
+        @post_query.request.allHTTPHeaderFields['CONTENT-TYPE'].should.equal @headers['CONTENT-TYPE']
+      end
+
+      it "should not add additional headers if no payload is given" do
+        @post_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers})
+        @post_query.request.allHTTPHeaderFields.should.equal @headers
+      end
+
+    end
+
     describe "Generating GET params" do
 
       it "should create params with nested hashes with prefix[key]=value" do
         expected_params = [
-          'user[name]=marin', 
-          'user[surname]=usalj', 
+          'user[name]=marin',
+          'user[surname]=usalj',
           'twitter=@mneorr',
           'website=mneorr.com',
           'values[]=apple',
           'values[]=orange',
           'values[]=peach',
-          "credentials[username]=mneorr", 
+          "credentials[username]=mneorr",
           "credentials[password]=123456xx!@crazy"
         ]
         @query.send(:generate_get_params, @payload).should.equal expected_params
@@ -392,7 +419,7 @@ describe "HTTP" do
 
         @query.connection(nil, didReceiveData:data)
         query_received_data.length.should.equal 48
-      end  
+      end
 
     end
 
@@ -406,7 +433,7 @@ describe "HTTP" do
       it "should turn off network indicator" do
         UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
         @query.connection(nil, didFailWithError:@fake_error)
-        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false    
+        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
       end
 
       it "should set request_done to true" do
@@ -558,7 +585,7 @@ describe "HTTP" do
     end
 
     class BubbleWrap::HTTP::Query
-      def create_connection(request, delegate); FakeURLConnection.new(request, delegate); end      
+      def create_connection(request, delegate); FakeURLConnection.new(request, delegate); end
     end
 
     class FakeURLConnection < NSURLConnection
