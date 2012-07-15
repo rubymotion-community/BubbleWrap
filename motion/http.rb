@@ -22,19 +22,19 @@ module BubbleWrap
       options[:action] = block if block_given?
       HTTP::Query.new(url, :get, options)
     end
-    
+
     # Make a POST request
     def self.post(url, options={}, &block)
       options[:action] = block if block_given?
       HTTP::Query.new(url, :post, options)
     end
-    
+
     # Make a PUT request
     def self.put(url, options={}, &block)
       options[:action] = block if block_given?
       HTTP::Query.new(url, :put, options)
     end
-    
+
     # Make a DELETE request
     def self.delete(url, options={}, &block)
       options[:action] = block if block_given?
@@ -218,7 +218,16 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       def create_request_body
         return nil if (@method == "GET" || @method == "HEAD")
         return nil unless (@payload || @files)
-        @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"} if @headers.nil?
+
+        # if no headers provided, set content-type automatically
+        if @headers.nil?
+          @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"}
+        # else set content type unless it is specified
+        # if content-type is specified, you should probably also specify
+        # the :boundary key
+        else
+          @headers['Content-Type'] = "multipart/form-data; boundary=#{@boundary}" unless @headers.keys.find {|k| k.downcase == 'content-type'}
+        end
 
         body = NSMutableData.data
 
@@ -315,14 +324,14 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       def escape_line_feeds(hash)
         return nil if hash.nil?
         escaped_hash = {}
-        
+
         hash.each{|k,v| escaped_hash[k] = v.gsub("\n", '\\n') }
         escaped_hash
       end
 
       def patch_nsurl_request(request)
         request.instance_variable_set("@done_loading", false)
-        
+
         def request.done_loading; @done_loading; end
         def request.done_loading!; @done_loading = true; end
       end
