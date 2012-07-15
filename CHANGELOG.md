@@ -1,3 +1,12 @@
+## 1.1.1
+
+* Fixed a bug with the way JSON payloads were handled in the HTTP
+  wrapper.
+* Improved the RSSParser by providing a delegate to handle errors.
+* Added support for symbols as selectors to the KVO module.
+* Fixed a bug with the way the headers and content types were handled in
+  the HTTP wrapper.
+
 ## 1.1.0
 
 [Commit history](https://github.com/rubymotion/BubbleWrap/compare/1.0...1.1])
