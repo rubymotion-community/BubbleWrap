@@ -5,6 +5,7 @@
 # def when_parser_initializes; end
 # def when_parser_parses; end
 # def when_parser_is_done; end
+# def when_parser_errors; end
 #
 # @see https://developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSXMLParser_Class/Reference/Reference.html
 #
@@ -21,7 +22,7 @@
 module BubbleWrap
   class RSSParser
 
-    attr_accessor :parser, :source, :doc, :debug, :delegate
+    attr_accessor :parser, :source, :doc, :debug, :delegate, :parser_error
     attr_reader :state
 
     # RSSItem is a simple class that holds all of RSS items.
@@ -84,8 +85,8 @@ module BubbleWrap
 
     # Delegate getting called when parsing starts
     def parserDidStartDocument(parser)
-      self.state = :parses
       puts "starting parsing.." if debug
+      self.state = :parses
     end
 
     # Delegate being called when an element starts being processed
@@ -97,33 +98,45 @@ module BubbleWrap
       end
       @current_element = element
     end
-    
+
     # as the parser finds characters, this method is being called
     def parser(parser, foundCharacters:string)
       if @current_element && @current_item && @current_item.respond_to?(@current_element)
-        el = @current_item.send(@current_element) 
+        el = @current_item.send(@current_element)
         el << string if el.respond_to?(:<<)
       end
     end
-    
+
     # method called when an element is done being parsed
     def parser(parser, didEndElement:element, namespaceURI:uri, qualifiedName:name)
       if element == 'item'
         @block.call(@current_item) if @block
-      else 
+      else
         @current_element = nil
       end
     end
-    
+
+    # method called when the parser encounters an error
+    # error can be retrieved with parserError
+    def parser(parser, parseErrorOccurred:parse_error)
+      puts "parseErrorOccurred" if debug
+      @parse_error = parse_error
+
+      self.state = :errors
+    end
+
     # delegate getting called when the parsing is done
     # If a block was set, it will be called on each parsed items
     def parserDidEndDocument(parser)
-      self.state = :is_done
       puts "done parsing" if debug
+      self.state = :is_done
+    end
+
+    def parserError
+      @parser_error || @parser.parserError
     end
 
     # TODO: implement
-    # parser:parseErrorOccurred:
     # parser:validationErrorOccurred:
     # parser:foundCDATA:
 
