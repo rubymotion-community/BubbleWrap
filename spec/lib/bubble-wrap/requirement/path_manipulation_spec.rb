@@ -1,7 +1,7 @@
 require File.expand_path('../../../../../lib/bubble-wrap/requirement/path_manipulation', __FILE__)
 
 describe BubbleWrap::Requirement::PathManipulation do
-  
+
   before do
     @subject = Object.new
     @subject.extend BubbleWrap::Requirement::PathManipulation
@@ -32,6 +32,11 @@ describe BubbleWrap::Requirement::PathManipulation do
   describe '#strip_up_to_last_lib' do
     it 'strips off from the last lib' do
       @subject.strip_up_to_last_lib('/fake/lib/dir/lib/foo').
+        should == '/fake/lib/dir'
+    end
+
+    it "strips off only a trailing lib" do
+      @subject.strip_up_to_last_lib('/fake/lib/dir/lib').
         should == '/fake/lib/dir'
     end
 
