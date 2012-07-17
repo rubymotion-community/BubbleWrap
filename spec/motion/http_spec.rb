@@ -373,21 +373,21 @@ describe "HTTP" do
 
     end
 
-    describe "Generating GET params" do
+    describe "Generating payloads" do
 
-      it "should create params with nested hashes with prefix[key]=value" do
+      it "should create payload key/value pairs from nested hashes with prefix[key]=value" do
         expected_params = [
-          'user[name]=marin',
-          'user[surname]=usalj',
-          'twitter=@mneorr',
-          'website=mneorr.com',
-          'values[]=apple',
-          'values[]=orange',
-          'values[]=peach',
-          "credentials[username]=mneorr",
-          "credentials[password]=123456xx!@crazy"
+          ['user[name]', 'marin'],
+          ['user[surname]', 'usalj'],
+          ['twitter', '@mneorr'],
+          ['website', 'mneorr.com'],
+          ['values[]', 'apple'],
+          ['values[]', 'orange'],
+          ['values[]', 'peach'],
+          ['credentials[username]', 'mneorr'],
+          ['credentials[password]', '123456xx!@crazy']
         ]
-        @query.send(:generate_get_params, @payload).should.equal expected_params
+        @query.send(:process_payload_hash, @payload).should.equal expected_params
       end
 
     end

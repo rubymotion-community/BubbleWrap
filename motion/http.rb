@@ -296,7 +296,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def convert_payload_to_url
-        params_array = generate_get_params(@payload)
+        params_array = process_payload_hash(@payload)
+        params_array.map! { |key, value| "#{key}=#{value}" }
         @payload = params_array.join("&")
       end
 
@@ -309,20 +310,15 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
             list += param
           elsif v.is_a?(Array)
             v.each do |val|
-              param = prefix ? "#{prefix}[#{k}][]" : "#{k}[]"
+              param = prefix ? "#{prefix}[#{k.to_s}][]" : "#{k.to_s}[]"
               list << [param, val]
             end
           else
-            param = prefix ? "#{prefix}[#{k}]" : k
+            param = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
             list << [param, v]
           end
         end
         list
-      end
-
-      def generate_get_params(payload)
-        list = process_payload_hash(payload)
-        list.map { |key, value| "#{key}=#{value}" }
       end
 
       def log(message)
