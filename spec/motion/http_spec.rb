@@ -241,7 +241,7 @@ describe "HTTP" do
           lambda { query = create_query(data, nil) }.should.not.raise NoMethodError
         end
 
-        it "sets the payload as a string if JSON" do 
+        it "sets the payload as a string if JSON" do
           json = BW::JSON.generate({foo:42, bar:'BubbleWrap'})
            puts "\n"
           [:put, :post, :delete, :patch].each do |method|
@@ -250,6 +250,14 @@ describe "HTTP" do
             set_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
             set_payload.should.equal json
           end
+        end
+
+        it "sets the payload for a nested hash to multiple form-data parts" do
+          payload = { computer: { name: 'apple', model: 'macbook'} }
+          query = BubbleWrap::HTTP::Query.new( 'nil', :post, { payload: payload } )
+          uuid = query.instance_variable_get(:@boundary)
+          real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
+          real_payload.should.equal "\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[name]\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[model]\"\r\n\r\nmacbook\r\n--#{uuid}--\r\n"
         end
 
       end

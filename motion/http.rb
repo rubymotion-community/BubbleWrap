@@ -255,7 +255,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         if @payload.is_a?(String)
           body.appendData(@payload.dataUsingEncoding NSUTF8StringEncoding)
         else
-          @payload.each do |key, value|
+          list = generate_get_params(@payload)
+          list.each do |pair|
+            key, value = pair.split('=', 2)
             form_data = NSMutableData.new
             s = "\r\n--#{@boundary}\r\n"
             s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
