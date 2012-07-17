@@ -22,13 +22,17 @@ module BubbleWrap
       end
 
       def strip_up_to_last_lib(path)
-        path = path.split('lib')
-        path = if path.size > 1
-                 path[0..-2].join('lib')
-               else
-                 path[0]
-               end
-        path = path[0..-2] if path[-1] == '/'
+        if path =~ /\/lib$/
+          path = path.gsub(/\/lib$/, "")
+        else
+          path = path.split('lib')
+          path = if path.size > 1
+                   path[0..-2].join('lib')
+                 else
+                   path[0]
+                 end
+          path = path[0..-2] if path[-1] == '/'
+        end
         path
       end
 
