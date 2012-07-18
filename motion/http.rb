@@ -255,7 +255,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         if @payload.is_a?(String)
           body.appendData(@payload.dataUsingEncoding NSUTF8StringEncoding)
         else
-          @payload.each do |key, value|
+          list = process_payload_hash(@payload)
+          list.each do |key, value|
             form_data = NSMutableData.new
             s = "\r\n--#{@boundary}\r\n"
             s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
@@ -295,28 +296,29 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def convert_payload_to_url
-        params_array = generate_get_params(@payload)
+        params_array = process_payload_hash(@payload)
+        params_array.map! { |key, value| "#{key}=#{value}" }
         @payload = params_array.join("&")
       end
 
-      def generate_get_params(payload, prefix=nil)
+      def process_payload_hash(payload, prefix=nil)
         list = []
         payload.each do |k,v|
           if v.is_a?(Hash)
             new_prefix = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
-            param = generate_get_params(v, new_prefix)
-            list << param
+            param = process_payload_hash(v, new_prefix)
+            list += param
           elsif v.is_a?(Array)
             v.each do |val|
-              param = prefix ? "#{prefix}[#{k}][]=#{val}" : "#{k}[]=#{val}"
-              list << param
+              param = prefix ? "#{prefix}[#{k.to_s}][]" : "#{k.to_s}[]"
+              list << [param, val]
             end
           else
-            param = prefix ? "#{prefix}[#{k}]=#{v}" : "#{k}=#{v}"
-            list << param
+            param = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
+            list << [param, v]
           end
         end
-        return list.flatten
+        list
       end
 
       def log(message)
