@@ -222,13 +222,13 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         return nil if (@method == "GET" || @method == "HEAD")
         return nil unless (@payload || @files)
 
-        set_content_type
-
         body = NSMutableData.data
 
         append_payload(body) if @payload
         append_files(body) if @files
         append_body_boundary(body) if @set_body_to_close_boundary
+
+        set_content_type
 
         log "Built HTTP body: \n #{body.to_str}"
         body
@@ -239,12 +239,19 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         if @headers.nil? || !@headers.keys.find {|k| k.downcase == 'content-type'}
           @headers ||= {}
           @headers["Content-Type"] = case @format
-                                     when :json then "application/json"
-                                     when :xml then "application/xml"
-                                     when :form_encoded then "application/x-www-form-urlencoded"
-                                     when :text then "text/plain"
-                                     else "multipart/form-data; boundary=#{@boundary}"
-                                     end
+          when :json
+            "application/json"
+          when :xml
+            "application/xml"
+          when :text
+            "text/plain"
+          else
+            if @format == :form_data || @set_body_to_close_boundary
+              "multipart/form-data; boundary=#{@boundary}"
+            else
+             "application/x-www-form-urlencoded"
+            end
+          end
         end
       end
 

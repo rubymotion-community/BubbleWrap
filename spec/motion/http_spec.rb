@@ -108,6 +108,7 @@ describe "HTTP" do
         credentials: @credentials
       }
       @action = lambda{|fa, ke|}
+      @format = "application/x-www-form-urlencoded"
       @cache_policy = 24234
       @leftover_option = 'trololo'
       @headers = { 'User-Agent' => "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \n Gecko/20100101 Firefox/12.0" }
@@ -122,7 +123,8 @@ describe "HTTP" do
         credentials: @credentials,
         headers: @headers,
         cache_policy: @cache_policy,
-        leftover_option: @leftover_option
+        leftover_option: @leftover_option,
+        format: @format
       }
       @query = BubbleWrap::HTTP::Query.new( @localhost_url , :get, @options )
     end
@@ -156,6 +158,11 @@ describe "HTTP" do
       it "sets the files to instance variable" do
         @query.instance_variable_get(:@files).should.equal @files
         @options.should.not.has_key? :files
+      end
+
+      it "sets the format from options" do
+        @query.instance_variable_get(:@format).should.equal @format
+        @options.should.not.has_key? :format
       end
 
       it "should set self as the delegator if action was not passed in" do
@@ -357,6 +364,21 @@ describe "HTTP" do
 
       it "should automatically provide Content-Type if a payload is provided" do
         @post_query.request.allHTTPHeaderFields.should.include?('Content-Type')
+      end
+
+      it "should use the format parameter to decide the Content-Type" do
+        json_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, format: :json, payload: "{\"key\":\"abc1234\"}"})
+        json_query.request.allHTTPHeaderFields['Content-Type'].should.equal "application/json"
+      end
+
+      it "should default to multipart/form-data for payloads with a hash" do
+        uuid = @post_query.instance_variable_get(:@boundary)
+        @post_query.request.allHTTPHeaderFields['Content-Type'].should.equal "multipart/form-data; boundary=#{uuid}"
+      end
+
+      it "should default to application/x-www-form-urlencoded for non-hash payloads" do
+        string_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, payload: "{\"key\":\"abc1234\"}"})
+        string_query.request.allHTTPHeaderFields['Content-Type'].should.equal "application/x-www-form-urlencoded"
       end
 
       it "should not add Content-Type if you provide one yourself" do
