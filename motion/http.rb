@@ -119,6 +119,7 @@ module BubbleWrap
         @credentials = {:username => '', :password => ''}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
         @headers = escape_line_feeds(options.delete :headers)
+        @format = options.delete(:format)
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @options = options
         @response = HTTP::Response.new
@@ -221,24 +222,37 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         return nil if (@method == "GET" || @method == "HEAD")
         return nil unless (@payload || @files)
 
-        # if no headers provided, set content-type automatically
-        if @headers.nil?
-          @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"}
-        # else set content type unless it is specified
-        # if content-type is specified, you should probably also specify
-        # the :boundary key
-        else
-          @headers['Content-Type'] = "multipart/form-data; boundary=#{@boundary}" unless @headers.keys.find {|k| k.downcase == 'content-type'}
-        end
-
         body = NSMutableData.data
 
         append_payload(body) if @payload
         append_files(body) if @files
         append_body_boundary(body) if @set_body_to_close_boundary
 
+        set_content_type
+
         log "Built HTTP body: \n #{body.to_str}"
         body
+      end
+
+      def set_content_type
+        # if no headers provided, set content-type automatically
+        if @headers.nil? || !@headers.keys.find {|k| k.downcase == 'content-type'}
+          @headers ||= {}
+          @headers["Content-Type"] = case @format
+          when :json
+            "application/json"
+          when :xml
+            "application/xml"
+          when :text
+            "text/plain"
+          else
+            if @format == :form_data || @set_body_to_close_boundary
+              "multipart/form-data; boundary=#{@boundary}"
+            else
+             "application/x-www-form-urlencoded"
+            end
+          end
+        end
       end
 
       def append_payload(body)
