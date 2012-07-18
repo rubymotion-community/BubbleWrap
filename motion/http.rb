@@ -119,6 +119,7 @@ module BubbleWrap
         @credentials = {:username => '', :password => ''}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
         @headers = escape_line_feeds(options.delete :headers)
+        @format = options.delete(:format)
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @options = options
         @response = HTTP::Response.new
@@ -221,15 +222,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         return nil if (@method == "GET" || @method == "HEAD")
         return nil unless (@payload || @files)
 
-        # if no headers provided, set content-type automatically
-        if @headers.nil?
-          @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"}
-        # else set content type unless it is specified
-        # if content-type is specified, you should probably also specify
-        # the :boundary key
-        else
-          @headers['Content-Type'] = "multipart/form-data; boundary=#{@boundary}" unless @headers.keys.find {|k| k.downcase == 'content-type'}
-        end
+        set_content_type
 
         body = NSMutableData.data
 
@@ -239,6 +232,20 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
         log "Built HTTP body: \n #{body.to_str}"
         body
+      end
+
+      def set_content_type
+        # if no headers provided, set content-type automatically
+        if @headers.nil? || !@headers.keys.find {|k| k.downcase == 'content-type'}
+          @headers ||= {}
+          @headers["Content-Type"] = case @format
+                                     when :json then "application/json"
+                                     when :xml then "application/xml"
+                                     when :form_encoded then "application/x-www-form-urlencoded"
+                                     when :text then "text/plain"
+                                     else "multipart/form-data; boundary=#{@boundary}"
+                                     end
+        end
       end
 
       def append_payload(body)
