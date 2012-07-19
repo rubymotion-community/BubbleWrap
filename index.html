@@ -328,22 +328,22 @@ interface.</p>
 
 <div class="highlight">
 <pre><span class="k">def</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
-  <span class="vi">@foreground_observer</span> <span class="o">=</span> <span class="n">notification_center</span><span class="o">.</span><span class="n">observe</span> <span class="no">UIApplicationWillEnterForegroundNotification</span> <span class="k">do</span> <span class="o">|</span><span class="n">notification</span><span class="o">|</span>
+  <span class="vi">@foreground_observer</span> <span class="o">=</span> <span class="no">App</span><span class="o">.</span><span class="n">notification_center</span><span class="o">.</span><span class="n">observe</span> <span class="no">UIApplicationWillEnterForegroundNotification</span> <span class="k">do</span> <span class="o">|</span><span class="n">notification</span><span class="o">|</span>
     <span class="n">loadAndRefresh</span>
   <span class="k">end</span>
 
-  <span class="vi">@reload_observer</span> <span class="o">=</span> <span class="n">notification_center</span><span class="o">.</span><span class="n">observe</span> <span class="no">ReloadNotification</span> <span class="k">do</span> <span class="o">|</span><span class="n">notification</span><span class="o">|</span>
+  <span class="vi">@reload_observer</span> <span class="o">=</span> <span class="no">App</span><span class="o">.</span><span class="n">notification_center</span><span class="o">.</span><span class="n">observe</span> <span class="no">ReloadNotification</span> <span class="k">do</span> <span class="o">|</span><span class="n">notification</span><span class="o">|</span>
     <span class="n">loadAndRefresh</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="k">def</span> <span class="nf">viewWillDisappear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
-  <span class="n">notification_center</span><span class="o">.</span><span class="n">unobserve</span> <span class="vi">@foreground_observer</span>
-  <span class="n">notification_center</span><span class="o">.</span><span class="n">unobserve</span> <span class="vi">@reload_observer</span>
+  <span class="no">App</span><span class="o">.</span><span class="n">notification_center</span><span class="o">.</span><span class="n">unobserve</span> <span class="vi">@foreground_observer</span>
+  <span class="no">App</span><span class="o">.</span><span class="n">notification_center</span><span class="o">.</span><span class="n">unobserve</span> <span class="vi">@reload_observer</span>
 <span class="k">end</span>
 
 <span class="k">def</span> <span class="nf">reload</span>
-  <span class="n">notification_center</span><span class="o">.</span><span class="n">post</span> <span class="no">ReloadNotification</span>
+  <span class="no">App</span><span class="o">.</span><span class="n">notification_center</span><span class="o">.</span><span class="n">post</span> <span class="no">ReloadNotification</span>
 <span class="k">end</span>
 </pre>
 </div>
@@ -383,13 +383,13 @@ simple interface:</p>
     <span class="vi">@label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span> <span class="vi">@label</span>
 
-    <span class="n">observe</span><span class="p">(</span><span class="vi">@label</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">old_value</span><span class="p">,</span> <span class="n">new_value</span><span class="o">|</span>
+    <span class="n">observe</span><span class="p">(</span><span class="vi">@label</span><span class="p">,</span> <span class="ss">:text</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">old_value</span><span class="p">,</span> <span class="n">new_value</span><span class="o">|</span>
       <span class="nb">puts</span> <span class="s2">"Hello from viewDidLoad!"</span>
     <span class="k">end</span>
   <span class="k">end</span>
 
   <span class="k">def</span> <span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
-    <span class="n">observe</span><span class="p">(</span><span class="vi">@label</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">old_value</span><span class="p">,</span> <span class="n">new_value</span><span class="o">|</span>
+    <span class="n">observe</span><span class="p">(</span><span class="vi">@label</span><span class="p">,</span> <span class="ss">:text</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">old_value</span><span class="p">,</span> <span class="n">new_value</span><span class="o">|</span>
       <span class="nb">puts</span> <span class="s2">"Hello from viewDidAppear!"</span>
     <span class="k">end</span>
   <span class="k">end</span>
