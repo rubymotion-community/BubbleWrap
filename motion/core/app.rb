@@ -105,6 +105,11 @@ module BubbleWrap
       UIApplication.sharedApplication.delegate
     end
 
+    # the Application object.
+    def app
+      UIApplication.sharedApplication
+    end
+
     # @return [NSLocale] locale of user settings
     def current_locale
       languages = NSLocale.preferredLanguages
