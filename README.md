@@ -162,6 +162,7 @@ Other available methods:
 * `App.states`
 * `App.frame`
 * `App.delegate`
+* `App.app`
 * `App.current_locale`
 
 
@@ -243,7 +244,7 @@ def viewWillAppear(animated)
   @foreground_observer = App.notification_center.observe UIApplicationWillEnterForegroundNotification do |notification|
     loadAndRefresh
   end
-  
+
   @reload_observer = App.notification_center.observe ReloadNotification do |notification|
     loadAndRefresh
   end
@@ -290,7 +291,7 @@ class ExampleViewController < UIViewController
 	@label = UILabel.alloc.initWithFrame [[20,20],[280,44]]
 	@label.text = ""
 	view.addSubview @label
-	
+
     observe(@label, :text) do |old_value, new_value|
       puts "Hello from viewDidLoad!"
     end
@@ -498,7 +499,7 @@ feed_parser = BW::RSSParser.new(feed, true)
 **Since: > version 1.0.0**
 
 `BubbleWrap::Reactor` is a simplified, mostly complete implementation of
-the [Event Machine](http://rubyeventmachine.com/) API.  In fact 
+the [Event Machine](http://rubyeventmachine.com/) API.  In fact
 `BubbleWrap::Reactor` is aliased to `EM` in the runtime environment.
 
 ### Deferables
@@ -588,11 +589,11 @@ Great scott!
 
 ### Scheduling operations
 
-You can use `EM.schedule` to schedule blocks to be executed 
+You can use `EM.schedule` to schedule blocks to be executed
 asynchronously.  BubbleWrap deviates from the EventMachine
 API here in that it also provides `EM.schedule_on_main` which
-makes sure that the task is run asynchronously, but on the 
-application's main thread - this is necessary if you are 
+makes sure that the task is run asynchronously, but on the
+application's main thread - this is necessary if you are
 updating the user interface.
 
 ```ruby
@@ -607,7 +608,7 @@ updating the user interface.
 ### Deferrable operations
 
 You can also use `EM.defer` in much the same way as `EM.schedule`
-with one important difference, you can pass in a second `proc` 
+with one important difference, you can pass in a second `proc`
 which will be called when the first has completed, and be passed
 it's result as an argument. Just like `EM.schedule`, `EM.defer`
 also has an `EM.defer_on_main` version.

@@ -176,6 +176,12 @@ describe BubbleWrap::App do
     end
   end
 
+  describe '.app' do
+    it 'returns UIApplication.sharedApplication' do
+      BW::App.app.should == UIApplication.sharedApplication
+    end
+  end
+
   describe '.run_after' do
     class DelayedRunAfterTest; attr_accessor :test_value end
 
