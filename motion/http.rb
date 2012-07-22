@@ -119,6 +119,7 @@ module BubbleWrap
         @credentials = {:username => '', :password => ''}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
         @headers = escape_line_feeds(options.delete :headers)
+        @format = options.delete(:format)
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @options = options
         @response = HTTP::Response.new
@@ -126,6 +127,7 @@ module BubbleWrap
         @url = create_url(url_string)
         @body = create_request_body
         @request = create_request
+        set_content_type
         @connection = create_connection(request, self)
         @connection.start
 
@@ -221,16 +223,6 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         return nil if (@method == "GET" || @method == "HEAD")
         return nil unless (@payload || @files)
 
-        # if no headers provided, set content-type automatically
-        if @headers.nil?
-          @headers = {"Content-Type" => "multipart/form-data; boundary=#{@boundary}"}
-        # else set content type unless it is specified
-        # if content-type is specified, you should probably also specify
-        # the :boundary key
-        else
-          @headers['Content-Type'] = "multipart/form-data; boundary=#{@boundary}" unless @headers.keys.find {|k| k.downcase == 'content-type'}
-        end
-
         body = NSMutableData.data
 
         append_payload(body) if @payload
@@ -239,6 +231,27 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
         log "Built HTTP body: \n #{body.to_str}"
         body
+      end
+
+      def set_content_type
+        # if no headers provided, set content-type automatically
+        if @headers.nil? || !@headers.keys.find {|k| k.downcase == 'content-type'}
+          @headers ||= {}
+          @headers["Content-Type"] = case @format
+          when :json
+            "application/json"
+          when :xml
+            "application/xml"
+          when :text
+            "text/plain"
+          else
+            if @format == :form_data || @set_body_to_close_boundary
+              "multipart/form-data; boundary=#{@boundary}"
+            else
+             "application/x-www-form-urlencoded"
+            end
+          end
+        end
       end
 
       def append_payload(body)
@@ -255,7 +268,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         if @payload.is_a?(String)
           body.appendData(@payload.dataUsingEncoding NSUTF8StringEncoding)
         else
-          @payload.each do |key, value|
+          list = process_payload_hash(@payload)
+          list.each do |key, value|
             form_data = NSMutableData.new
             s = "\r\n--#{@boundary}\r\n"
             s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
@@ -295,28 +309,29 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def convert_payload_to_url
-        params_array = generate_get_params(@payload)
+        params_array = process_payload_hash(@payload)
+        params_array.map! { |key, value| "#{key}=#{value}" }
         @payload = params_array.join("&")
       end
 
-      def generate_get_params(payload, prefix=nil)
+      def process_payload_hash(payload, prefix=nil)
         list = []
         payload.each do |k,v|
           if v.is_a?(Hash)
             new_prefix = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
-            param = generate_get_params(v, new_prefix)
-            list << param
+            param = process_payload_hash(v, new_prefix)
+            list += param
           elsif v.is_a?(Array)
             v.each do |val|
-              param = prefix ? "#{prefix}[#{k}][]=#{val}" : "#{k}[]=#{val}"
-              list << param
+              param = prefix ? "#{prefix}[#{k.to_s}][]" : "#{k.to_s}[]"
+              list << [param, val]
             end
           else
-            param = prefix ? "#{prefix}[#{k}]=#{v}" : "#{k}=#{v}"
-            list << param
+            param = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
+            list << [param, v]
           end
         end
-        return list.flatten
+        list
       end
 
       def log(message)

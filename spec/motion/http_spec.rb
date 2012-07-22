@@ -108,6 +108,7 @@ describe "HTTP" do
         credentials: @credentials
       }
       @action = lambda{|fa, ke|}
+      @format = "application/x-www-form-urlencoded"
       @cache_policy = 24234
       @leftover_option = 'trololo'
       @headers = { 'User-Agent' => "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \n Gecko/20100101 Firefox/12.0" }
@@ -122,7 +123,8 @@ describe "HTTP" do
         credentials: @credentials,
         headers: @headers,
         cache_policy: @cache_policy,
-        leftover_option: @leftover_option
+        leftover_option: @leftover_option,
+        format: @format
       }
       @query = BubbleWrap::HTTP::Query.new( @localhost_url , :get, @options )
     end
@@ -156,6 +158,11 @@ describe "HTTP" do
       it "sets the files to instance variable" do
         @query.instance_variable_get(:@files).should.equal @files
         @options.should.not.has_key? :files
+      end
+
+      it "sets the format from options" do
+        @query.instance_variable_get(:@format).should.equal @format
+        @options.should.not.has_key? :format
       end
 
       it "should set self as the delegator if action was not passed in" do
@@ -241,7 +248,7 @@ describe "HTTP" do
           lambda { query = create_query(data, nil) }.should.not.raise NoMethodError
         end
 
-        it "sets the payload as a string if JSON" do 
+        it "sets the payload as a string if JSON" do
           json = BW::JSON.generate({foo:42, bar:'BubbleWrap'})
            puts "\n"
           [:put, :post, :delete, :patch].each do |method|
@@ -250,6 +257,14 @@ describe "HTTP" do
             set_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
             set_payload.should.equal json
           end
+        end
+
+        it "sets the payload for a nested hash to multiple form-data parts" do
+          payload = { computer: { name: 'apple', model: 'macbook'} }
+          query = BubbleWrap::HTTP::Query.new( 'nil', :post, { payload: payload } )
+          uuid = query.instance_variable_get(:@boundary)
+          real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
+          real_payload.should.equal "\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[name]\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[model]\"\r\n\r\nmacbook\r\n--#{uuid}--\r\n"
         end
 
       end
@@ -351,6 +366,21 @@ describe "HTTP" do
         @post_query.request.allHTTPHeaderFields.should.include?('Content-Type')
       end
 
+      it "should use the format parameter to decide the Content-Type" do
+        json_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, format: :json, payload: "{\"key\":\"abc1234\"}"})
+        json_query.request.allHTTPHeaderFields['Content-Type'].should.equal "application/json"
+      end
+
+      it "should default to multipart/form-data for payloads with a hash" do
+        uuid = @post_query.instance_variable_get(:@boundary)
+        @post_query.request.allHTTPHeaderFields['Content-Type'].should.equal "multipart/form-data; boundary=#{uuid}"
+      end
+
+      it "should default to application/x-www-form-urlencoded for non-hash payloads" do
+        string_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, payload: "{\"key\":\"abc1234\"}"})
+        string_query.request.allHTTPHeaderFields['Content-Type'].should.equal "application/x-www-form-urlencoded"
+      end
+
       it "should not add Content-Type if you provide one yourself" do
         # also ensures check is case insenstive
         @headers = { fake: 'headers', 'CONTENT-TYPE' => 'x-banana' }
@@ -365,21 +395,21 @@ describe "HTTP" do
 
     end
 
-    describe "Generating GET params" do
+    describe "Generating payloads" do
 
-      it "should create params with nested hashes with prefix[key]=value" do
+      it "should create payload key/value pairs from nested hashes with prefix[key]=value" do
         expected_params = [
-          'user[name]=marin',
-          'user[surname]=usalj',
-          'twitter=@mneorr',
-          'website=mneorr.com',
-          'values[]=apple',
-          'values[]=orange',
-          'values[]=peach',
-          "credentials[username]=mneorr",
-          "credentials[password]=123456xx!@crazy"
+          ['user[name]', 'marin'],
+          ['user[surname]', 'usalj'],
+          ['twitter', '@mneorr'],
+          ['website', 'mneorr.com'],
+          ['values[]', 'apple'],
+          ['values[]', 'orange'],
+          ['values[]', 'peach'],
+          ['credentials[username]', 'mneorr'],
+          ['credentials[password]', '123456xx!@crazy']
         ]
-        @query.send(:generate_get_params, @payload).should.equal expected_params
+        @query.send(:process_payload_hash, @payload).should.equal expected_params
       end
 
     end

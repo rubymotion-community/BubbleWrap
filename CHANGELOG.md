@@ -1,13 +1,22 @@
+## 1.1.2
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.0...v1.1.1)
+
+* Fixed a problem with the load path.
+* Added `format:` to the HTTP wrapper with [5 supported formats supported](https://github.com/rubymotion/BubbleWrap/pull/109) that sets the content type accordingly.
+* Default HTTP Content-Type for `POST` like requests is back to being
+  form url encoded.
+
 ## 1.1.1
 
 [Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.0...v1.1.1)
 
-### Feature
+### Enhancements
 
 * Added support for symbols as selectors to the KVO module.
 * Improved the RSSParser by providing a delegate to handle errors.
 
-### Bug Fix
+### Bug Fixes
 
 * Fixed a bug with the way JSON payloads were handled in the HTTP
   wrapper.

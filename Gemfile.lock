@@ -1,14 +1,14 @@
 PATH
   remote: .
   specs:
-    bubble-wrap (1.1.1)
+    bubble-wrap (1.1.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
     bacon (1.1.0)
     metaclass (0.0.1)
-    mocha (0.12.0)
+    mocha (0.11.4)
       metaclass (~> 0.0.1)
     mocha-on-bacon (0.2.0)
       mocha (>= 0.9.8)
@@ -20,5 +20,6 @@ PLATFORMS
 DEPENDENCIES
   bacon
   bubble-wrap!
+  mocha (= 0.11.4)
   mocha-on-bacon
   rake

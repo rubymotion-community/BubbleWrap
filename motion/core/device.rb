@@ -23,7 +23,7 @@ module BubbleWrap
 
     # Verifies that the device running has a front facing camera.
     # @return [TrueClass, FalseClass] true will be returned if the device has a front facing camera, false otherwise.
-    def front_camera?
+    def front_camera?(picker=UIImagePickerController)
       p "This method (front_camera?) is DEPRECATED. Transition to using Device.camera.front?"
       picker.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceFront)
     end
