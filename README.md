@@ -162,7 +162,7 @@ Other available methods:
 * `App.states`
 * `App.frame`
 * `App.delegate`
-* `App.app`
+* `App.shared`
 * `App.current_locale`
 
 

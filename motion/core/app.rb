@@ -106,7 +106,7 @@ module BubbleWrap
     end
 
     # the Application object.
-    def app
+    def shared
       UIApplication.sharedApplication
     end
 
