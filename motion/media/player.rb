@@ -117,6 +117,13 @@ module BubbleWrap
         end
         @media_player = nil
       end
+
+      def media_player
+        if @media_player.is_a? MPMoviePlayerViewController
+          return @media_player.moviePlayer
+        end
+        @media_player
+      end
     end
   end
 end
