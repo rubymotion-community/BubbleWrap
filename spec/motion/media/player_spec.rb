@@ -20,6 +20,13 @@ describe BubbleWrap::Media::Player do
       @did_yield.should == true
       @player.stop
     end
+
+    it "should use the MPMoviePlayerController option overrides" do
+      @player.play(@local_file, allows_air_play: true) do |_player|
+        @did_yield = true
+      end
+      @player.media_player.allowsAirPlay.should == true
+    end
   end
 
   describe ".play_modal" do

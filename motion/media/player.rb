@@ -26,7 +26,7 @@ module BubbleWrap
       # @param [Hash] options to open the MPMoviePlayerController with
       # the form {
       #   ### These are properties of MPMoviePlayerController
-      #   allow_air_play: true/false; default false,
+      #   allows_air_play: true/false; default false,
       #   control_style: [MPMovieControlStyle]; default MPMovieControlStyleDefault,
       #   end_playback_time: [Integer] end time (in seconds) for media; default is -1,
       #   initial_playback_time: [Integer] start time (in seconds) for media; default is -1,
@@ -71,15 +71,10 @@ module BubbleWrap
         content_url = content_url.is_a?(NSURL) ? content_url : NSURL.URLWithString(content_url)
         @media_player = klass.alloc.initWithContentURL(content_url)
 
-        @media_player.prepareToPlay if not display_modal
+        self.media_player.prepareToPlay if not display_modal
 
         options[:delay_play] = false if not options.has_key? :delay_play
-        options.each { |key, value|
-          setter = "#{key.to_s.camelize}="
-          if @media_player.respond_to? setter
-            @media_player.send(setter, value)
-          end
-        }
+        set_player_options(options)
 
         NSNotificationCenter.defaultCenter.observe MPMoviePlayerPlaybackDidFinishNotification do |notification|
           h = notification.userInfo
@@ -123,6 +118,21 @@ module BubbleWrap
           return @media_player.moviePlayer
         end
         @media_player
+      end
+
+      private
+      # RubyMotion has a problem calling some objective-c methods at runtime, so we can't
+      # do any cool `camelize` tricks.
+      def set_player_options(options)
+        self.media_player.allowsAirPlay = options[:allows_air_play] if options.has_key? :allows_air_play
+        self.media_player.controlStyle = options[:control_style] if options.has_key? :control_style
+        self.media_player.endPlaybackTime = options[:end_playback_time] if options.has_key? :end_playback_time
+        self.media_player.initialPlaybackTime = options[:initial_playback_time] if options.has_key? :initial_playback_time
+        self.media_player.movieSourceType = options[:movie_source_type] if options.has_key? :movie_source_type
+        self.media_player.repeatMode = options[:repeat_mode] if options.has_key? :repeat_mode
+        self.media_player.scalingMode = options[:scaling_mode] if options.has_key? :scaling_mode
+        self.media_player.shouldAutoplay = options[:should_autoplay] if options.has_key? :should_autoplay
+        self.media_player.useApplicationAudioSession = options[:use_application_audio_session] if options.has_key? :use_application_audio_session
       end
     end
   end
