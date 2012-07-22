@@ -81,7 +81,7 @@ module BubbleWrap
           end
         }
 
-        App.notification_center.observe MPMoviePlayerPlaybackDidFinishNotification do |notification|
+        NSNotificationCenter.defaultCenter.observe MPMoviePlayerPlaybackDidFinishNotification do |notification|
           h = notification.userInfo
           error = h["error"]
           if error

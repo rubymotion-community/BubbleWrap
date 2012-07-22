@@ -354,7 +354,7 @@ Added wrapper for playing remote and local media. Available are `modal` and cust
 
 ```ruby
 # Plays in your custom frame
-local_file = File.join(App.resources_path, 'test.mp3')
+local_file = File.join(NSBundle.mainBundle.resourcePath, 'test.mp3')
 BW::Media.play(NSURL.fileURLWithPath(local_file)) do |media_player|
   media_player.view.frame = [[10, 100], [100, 100]]
   self.view.addSubview media_player.view
