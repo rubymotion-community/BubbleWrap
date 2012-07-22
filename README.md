@@ -65,6 +65,12 @@ If you wish to only include the `Location` wrapper:
 require 'bubble-wrap/location'
 ```
 
+If you wish to only include the `Media` wrapper:
+
+```ruby
+require 'bubble-wrap/media'
+```
+
 If you want to include everything (ie kitchen sink mode) you can save time and do:
 
 ```ruby
@@ -341,6 +347,22 @@ end
 ```
 
 Also available is `BW::Location.get_significant`, for monitoring significant location changes.
+
+## Media
+
+Added wrapper for playing remote and local media. Available are `modal` and custom presentation styles:
+
+```ruby
+# Plays in your custom frame
+local_file = NSURL.fileURLWithPath(File.join(NSBundle.mainBundle.resourcePath, 'test.mp3'))
+BW::Media.play(local_file) do |media_player|
+  media_player.view.frame = [[10, 100], [100, 100]]
+  self.view.addSubview media_player.view
+end
+
+# Plays in an independent modal controller
+BW::Media.play_modal("http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3")
+```
 
 ## UI
 
