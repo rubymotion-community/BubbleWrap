@@ -25,7 +25,7 @@ describe BubbleWrap::App do
 
   describe '.alert' do
     after do
-      @alert.removeFromSuperview
+      @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
     end
 
     describe "with only one string argument" do
