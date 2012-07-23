@@ -265,18 +265,16 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def append_form_params(body)
-        # puts "*** append_form #{@payload}"
         if @payload.is_a?(String)
           body.appendData(@payload.dataUsingEncoding NSUTF8StringEncoding)
         else
           list = process_payload_hash(@payload)
           list.each do |key, value|
             form_data = NSMutableData.new
-            s = ""
-            s += "\r\n" unless body.length == 0
-            s += "--#{@boundary}\r\n"
+            s = "--#{@boundary}\r\n"
             s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
             s += value.to_s
+            s += "\r\n"
             form_data.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
             body.appendData(form_data)
           end
@@ -288,13 +286,12 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       def append_files(body)
         @files.each do |key, value|
           file_data = NSMutableData.new
-          s = ""
-          s += "\r\n" unless body.length == 0
-          s += "--#{@boundary}\r\n"
+          s = "--#{@boundary}\r\n"
           s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{key}\"\r\n"
           s += "Content-Type: application/octet-stream\r\n\r\n"
           file_data.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
           file_data.appendData(value)
+          file_data.appendData("\r\n".dataUsingEncoding NSUTF8StringEncoding)
           body.appendData(file_data)
         end
         @set_body_to_close_boundary = true
@@ -302,7 +299,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def append_body_boundary(body)
-        body.appendData("\r\n--#{@boundary}--\r\n".dataUsingEncoding NSUTF8StringEncoding)
+        body.appendData("--#{@boundary}--\r\n".dataUsingEncoding NSUTF8StringEncoding)
       end
 
       def create_url(url_string)
