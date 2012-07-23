@@ -127,7 +127,7 @@ module BubbleWrap
         @url = create_url(url_string)
         @body = create_request_body
         @request = create_request
-        set_content_type
+
         @connection = create_connection(request, self)
         @connection.start
 
@@ -228,6 +228,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         append_payload(body) if @payload
         append_files(body) if @files
         append_body_boundary(body) if @set_body_to_close_boundary
+        set_content_type
 
         log "Built HTTP body: \n #{body.to_str}"
         body
