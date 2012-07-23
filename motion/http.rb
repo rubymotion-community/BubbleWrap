@@ -272,7 +272,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
           list = process_payload_hash(@payload)
           list.each do |key, value|
             form_data = NSMutableData.new
-            s = "\r\n--#{@boundary}\r\n"
+            s = ""
+            s += "\r\n" unless body.length == 0
+            s += "--#{@boundary}\r\n"
             s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
             s += value.to_s
             form_data.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
@@ -286,7 +288,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       def append_files(body)
         @files.each do |key, value|
           file_data = NSMutableData.new
-          s = "\r\n--#{@boundary}\r\n"
+          s = ""
+          s += "\r\n" unless body.length == 0
+          s += "--#{@boundary}\r\n"
           s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{key}\"\r\n"
           s += "Content-Type: application/octet-stream\r\n\r\n"
           file_data.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
