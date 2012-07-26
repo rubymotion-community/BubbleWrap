@@ -159,13 +159,16 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
         @redirection ||= 0
         @redirection += 1
-        log "##{@redirection} HTTP redirection: #{request} - #{self.description}"
-        new_request = request.mutableCopy
-        # new_request.setValue(@credentials.inspect, forHTTPHeaderField:'Authorization') # disabled while we figure this one out
-        new_request.setAllHTTPHeaderFields(@headers) if @headers
-        @connection.cancel
-        @connection = create_connection(new_request, self)
-        new_request
+        log "##{@redirection} HTTP redirection: #{request.inspect} - #{self.description}"
+        if @redirection >= 30
+          log "Too many redirections"
+          @response.error_message = "Too many redirections"
+          @request.done_loading!
+          call_delegator_with_response
+          nil
+        else
+          request
+        end
       end
 
       def connection(connection, didFailWithError: error)
