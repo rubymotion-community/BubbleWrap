@@ -249,8 +249,8 @@ describe "HTTP" do
         end
 
         it "sets the payload as a string if JSON" do
-          json = BW::JSON.generate({foo:42, bar:'BubbleWrap'})
-           puts "\n"
+          json = "{\"foo\":42,\"bar\":\"BubbleWrap\"}"
+          puts "\n"
           [:put, :post, :delete, :patch].each do |method|
             puts "    - #{method}\n"
             query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: json } )
