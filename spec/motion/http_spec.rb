@@ -39,20 +39,6 @@ describe "HTTP" do
       end
     end
 
-    # [:get, :post, :put, :delete, :head, :patch].each do |verb|
-    #   it "has access to the proper response scope for #{verb} request" do
-    #     class WatchedObj; attr_accessor :test_value end
-    #     @watched_object = WatchedObj.new
-    #     @name = 'Matt'
-    #     query = BubbleWrap::HTTP.send(verb, @localhost_url) do |response|
-    #       @watched_object.test_value = @name
-    #     end
-    #     wait_for_change(@watched_object, 'test_value') do
-    #       @watched_object.test_value.should == 'Matt'
-    #     end
-    #   end
-    # end
-
   end
 
 
@@ -338,12 +324,12 @@ describe "HTTP" do
       end
 
       it "should patch the NSURLRequest with done_loading and done_loading!" do
-        @query.request.done_loading.should.equal @query.request.instance_variable_get(:@done_loading)
+        @query.request.done_loading?.should.equal @query.request.instance_variable_get(:@done_loading)
 
         @query.request.instance_variable_set(:@done_loading, false)
-        @query.request.done_loading.should.equal false
+        @query.request.done_loading?.should.equal false
         @query.request.done_loading!
-        @query.request.done_loading.should.equal true
+        @query.request.done_loading?.should.equal true
       end
 
       it "should pass the right arguments when creating new request" do
@@ -467,9 +453,9 @@ describe "HTTP" do
       end
 
       it "should set request_done to true" do
-        @query.request.done_loading.should == false
+        @query.request.done_loading?.should == false
         @query.connection(nil, didFailWithError:@fake_error)
-        @query.request.done_loading.should == true
+        @query.request.done_loading?.should == true
       end
 
       it "should set the error message to response object" do
@@ -502,10 +488,10 @@ describe "HTTP" do
       end
 
       it "should set request_done to true" do
-        @query.request.done_loading.should == false
+        @query.request.done_loading?.should == false
 
         @query.connectionDidFinishLoading(nil)
-        @query.request.done_loading.should == true
+        @query.request.done_loading?.should == true
       end
 
       it "should set response_body to @received data if not nil" do
@@ -539,28 +525,36 @@ describe "HTTP" do
 
     describe "when connection:willSendRequest:redirectResponse:" do
       before do
-        @request = NSURLRequest.requestWithURL NSURL.URLWithString('http://fakehost.local/')
-        @returned_request = @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+        @request = NSMutableURLRequest.requestWithURL NSURL.URLWithString('http://fakehost.local/')
       end
 
-      it "the new request should keep the old @headers" do
-        @returned_request.URL.description.should.equal @request.URL.description
-        @returned_request.allHTTPHeaderFields.should.equal @headers
+      it "should forward the new request for 30 times/redirections" do
+        1.upto(35) do |numbah|
+          request = @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+          request.should.equal numbah < 30 ? @request : nil
+        end
       end
 
-      it "should create a new Connection with the request passed in" do
-        old_connection = @query.connection
-        @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
-        old_connection.should.not.equal @query.connection
+      describe "after 30 redirects" do
+          before do
+            31.times do
+              @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+            end
+        end
+
+        it "sets the error message on response" do
+          @query.response.error_message.should.equal "Too many redirections"
+        end
+
+        it "sets the request.done_loading" do
+          @query.request.done_loading?.should.equal true
+        end
+
+        it "calls the delegator block" do
+          # having troubles with block execution
+        end
       end
 
-      it "should set itself as a delegate of new NSURLConnection" do
-        @query.connection.delegate.should.equal @query
-      end
-
-      it "should pass the new request in the new connection" do
-        @returned_request.URL.description.should.equal @request.URL.description
-      end
     end
 
     describe "didReceiveAuthenticationChallenge" do

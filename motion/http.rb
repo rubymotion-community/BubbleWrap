@@ -157,11 +157,11 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
-        @redirection ||= 0
-        @redirection += 1
-        log "##{@redirection} HTTP redirection: #{request.inspect} - #{self.description}"
-        if @redirection >= 30
-          log "Too many redirections"
+        @redirect_count ||= 0
+        @redirect_count += 1
+        log "##{@redirect_count} HTTP redirect_count: #{request.inspect} - #{self.description}"
+        
+        if @redirect_count >= 30
           @response.error_message = "Too many redirections"
           @request.done_loading!
           call_delegator_with_response
@@ -354,7 +354,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       def patch_nsurl_request(request)
         request.instance_variable_set("@done_loading", false)
 
-        def request.done_loading; @done_loading; end
+        def request.done_loading?; @done_loading; end
         def request.done_loading!; @done_loading = true; end
       end
 
