@@ -540,17 +540,12 @@ describe "HTTP" do
     describe "when connection:willSendRequest:redirectResponse:" do
       before do
         @request = NSURLRequest.requestWithURL NSURL.URLWithString('http://fakehost.local/')
+        @returned_request = @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
       end
 
-      it "should make a mutableCopy of passed in request and set headers from @headers" do
-        expected_headers = { new_header: 'should_be_here' }
-        @query.instance_variable_set(:@headers, expected_headers)
-
-        new_request = @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
-
-        @query.request.should.not.be.equal @request
-        new_request.URL.description.should.equal @request.URL.description
-        new_request.allHTTPHeaderFields.should.equal expected_headers
+      it "the new request should keep the old @headers" do
+        @returned_request.URL.description.should.equal @request.URL.description
+        @returned_request.allHTTPHeaderFields.should.equal @headers
       end
 
       it "should create a new Connection with the request passed in" do
@@ -560,13 +555,11 @@ describe "HTTP" do
       end
 
       it "should set itself as a delegate of new NSURLConnection" do
-        @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
         @query.connection.delegate.should.equal @query
       end
 
       it "should pass the new request in the new connection" do
-        @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
-        @query.connection.request.URL.description.should.equal @request.URL.description
+        @returned_request.URL.description.should.equal @request.URL.description
       end
     end
 
