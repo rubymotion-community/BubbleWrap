@@ -1,7 +1,7 @@
 describe BubbleWrap::Persistence do
 
   describe '.app_key' do
-    
+
     it "caches the @app_key" do
       BubbleWrap::Persistence.instance_variable_get(:@app_key).should.equal nil
       BubbleWrap::Persistence.app_key
@@ -21,7 +21,7 @@ describe BubbleWrap::Persistence do
         BubbleWrap::Persistence['arbitraryNumber'] = 42
       end.
         should.not.raise(Exception)
-    end 
+    end
 
     it "must call synchronize" do
       storage = NSUserDefaults.standardUserDefaults
@@ -29,7 +29,7 @@ describe BubbleWrap::Persistence do
 
       BubbleWrap::Persistence['arbitraryNumber'] = 42
       storage.instance_variable_get(:@sync_was_called).should.equal true
-    end 
+    end
   end
 
   describe "storing multiple objects" do
@@ -59,6 +59,10 @@ describe BubbleWrap::Persistence do
     it 'can retrieve persisted objects' do
       BubbleWrap::Persistence['arbitraryNumber'].should == 42
       BubbleWrap::Persistence[:arbitraryString].should == 'test string'
+    end
+
+    it 'returns fully functional strings' do
+      BubbleWrap::Persistence[:arbitraryString].methods.should == 'test string'.methods
     end
   end
 end
