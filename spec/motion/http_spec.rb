@@ -27,13 +27,25 @@ describe "HTTP" do
       end
     end
 
-    it "uses the block instead of action passed in " do
+    it "uses the block instead of :action if both were given" do
       [:get, :post, :put, :delete, :head, :patch].each do |method|
         called = false
         expected_delegator = Proc.new {|response| called = true }
-
+        
         query = BubbleWrap::HTTP.send(method, @localhost_url, { action: 'not_valid' }, &expected_delegator)
+        query.connectionDidFinishLoading(query.connection)
+
         query.instance_variable_get(:@delegator).should.equal expected_delegator
+        called.should.equal true
+      end
+    end
+
+    it "works with classic blocks as well" do
+      [:get, :post, :put, :delete, :head, :patch].each do |method|
+        called = false
+        query = BubbleWrap::HTTP.send(method, @localhost_url, { action: 'not_valid' } ) do |response|
+          called = true
+        end
         query.connectionDidFinishLoading(query.connection)
         called.should.equal true
       end
@@ -93,7 +105,7 @@ describe "HTTP" do
         values: ['apple', 'orange', 'peach'],
         credentials: @credentials
       }
-      @action = lambda{|fa, ke|}
+      @action = Proc.new { |response| @real_response = response; @delegator_was_called = true }
       @format = "application/x-www-form-urlencoded"
       @cache_policy = 24234
       @leftover_option = 'trololo'
@@ -536,14 +548,14 @@ describe "HTTP" do
       end
 
       describe "after 30 redirects" do
-          before do
-            31.times do
-              @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
-            end
+        before do
+          31.times do
+            @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+          end
         end
 
         it "sets the error message on response" do
-          @query.response.error_message.should.equal "Too many redirections"
+          @real_response.error_message.should.equal "Too many redirections"
         end
 
         it "sets the request.done_loading" do
@@ -551,7 +563,7 @@ describe "HTTP" do
         end
 
         it "calls the delegator block" do
-          # having troubles with block execution
+          @delegator_was_called.should.equal true
         end
       end
 
