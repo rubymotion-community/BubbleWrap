@@ -278,7 +278,7 @@ describe "HTTP" do
       end
 
       it "should delete :headers from options and escape Line Feeds" do
-        escaped_lf = {"User-Agent"=>"Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \\n Gecko/20100101 Firefox/12.0"}
+        escaped_lf = {"User-Agent"=>"Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \r\n Gecko/20100101 Firefox/12.0"}
         @query.instance_variable_get(:@headers).should.equal escaped_lf
       end
 
@@ -360,6 +360,11 @@ describe "HTTP" do
         @post_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, payload: @payload})
       end
 
+      it "should add default Content Type if no payload is given" do
+        query_without_payload = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers})
+        query_without_payload.request.allHTTPHeaderFields.should.include? 'Content-Type'
+      end
+
       it "should automatically provide Content-Type if a payload is provided" do
         @post_query.request.allHTTPHeaderFields.should.include?('Content-Type')
       end
@@ -384,11 +389,6 @@ describe "HTTP" do
         @headers = { fake: 'headers', 'CONTENT-TYPE' => 'x-banana' }
         @post_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, payload: @payload})
         @post_query.request.allHTTPHeaderFields['CONTENT-TYPE'].should.equal @headers['CONTENT-TYPE']
-      end
-
-      it "should not add additional headers if no payload is given" do
-        @post_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers})
-        @post_query.request.allHTTPHeaderFields.should.equal @headers
       end
 
     end
