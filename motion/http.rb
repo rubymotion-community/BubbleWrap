@@ -306,11 +306,20 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def create_url(url_string)
+        uri = handle_http_prefix(url_string)
         if (@method == "GET" || @method == "HEAD") && @payload
           convert_payload_to_url if @payload.is_a?(Hash)
-          url_string += "?#{@payload}"
+          uri += "?#{@payload}"
         end
-        NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
+        NSURL.URLWithString(uri.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
+      end
+
+      def handle_http_prefix(url_string)
+        if url_string =~ /^http[s]?:\/\//
+          url_string
+        else
+          "http://#{url_string}"
+        end
       end
 
       def convert_payload_to_url

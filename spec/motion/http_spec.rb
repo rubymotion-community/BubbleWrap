@@ -148,6 +148,11 @@ describe "HTTP" do
         @query.method.should.equal "GET"
       end
 
+      it "should handle requests with or without the http(s):// prefix" do
+        short_query = BW::HTTP::Query.new( 'fakeh.ost' , :post )
+        short_query.request.URL.description.should.equal 'http://fakeh.ost'
+      end
+
       it "should set the deleted delegator from options" do
         @query.instance_variable_get(:@delegator).should.equal @action
         @options.should.not.has_key? :action
