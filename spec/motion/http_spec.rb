@@ -2,6 +2,7 @@ describe "HTTP" do
 
   before do
     @localhost_url = 'http://localhost'
+    @fake_url = 'http://fake.url'
   end
 
   describe "Core HTTP method calls" do
@@ -148,6 +149,12 @@ describe "HTTP" do
         @query.method.should.equal "GET"
       end
 
+      it "should check for the http:// or similar scheme and throw an error" do
+        lambda {
+            BW::HTTP::Query.new( 'arest.us' , :get ) { |r| p r.body.to_str }
+          }.should.raise URLPrefixError
+      end
+
       it "should set the deleted delegator from options" do
         @query.instance_variable_get(:@delegator).should.equal @action
         @options.should.not.has_key? :action
@@ -183,7 +190,7 @@ describe "HTTP" do
       describe "PAYLOAD / UPLOAD FILES" do
 
         def create_query(payload, files)
-          BubbleWrap::HTTP::Query.new( '', :post, { payload: payload, files: files } )
+          BubbleWrap::HTTP::Query.new( 'http://haha', :post, { payload: payload, files: files } )
         end
 
         def sample_data
@@ -197,13 +204,13 @@ describe "HTTP" do
         end
 
         it "should check if @payload is a hash before generating GET params" do
-          query_string_payload = BubbleWrap::HTTP::Query.new( 'nil' , :get,  { payload: "name=apple&model=macbook"} )
+          query_string_payload = BubbleWrap::HTTP::Query.new( @fake_url , :get,  { payload: "name=apple&model=macbook"} )
           query_string_payload.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
         end
 
         it "should check if payload is nil" do
           lambda{
-            BubbleWrap::HTTP::Query.new( 'nil' , :post, {} )
+            BubbleWrap::HTTP::Query.new( @fake_url , :post, {} )
           }.should.not.raise NoMethodError
         end
 
@@ -227,7 +234,7 @@ describe "HTTP" do
           puts "\n"
           [:post, :put, :delete, :patch].each do |method|
             puts "    - #{method}\n"
-            query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload, files: files } )
+            query = BubbleWrap::HTTP::Query.new( @fake_url , method, { payload: payload, files: files } )
             uuid = query.instance_variable_get(:@boundary)
             real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
             real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"model\"\r\n\r\nmacbook\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"twitter\"; filename=\"twitter\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"site\"; filename=\"site\"\r\nContent-Type: application/octet-stream\r\n\r\nmneorr.com\r\n--#{uuid}--\r\n"
@@ -235,7 +242,7 @@ describe "HTTP" do
 
           [:get, :head].each do |method|
             puts "    - #{method}\n"
-            query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: payload } )
+            query = BubbleWrap::HTTP::Query.new( @fake_url , method, { payload: payload } )
             real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
             real_payload.should.be.empty
           end
@@ -251,7 +258,7 @@ describe "HTTP" do
           puts "\n"
           [:put, :post, :delete, :patch].each do |method|
             puts "    - #{method}\n"
-            query = BubbleWrap::HTTP::Query.new( 'nil' , method, { payload: json } )
+            query = BubbleWrap::HTTP::Query.new( @fake_url , method, { payload: json } )
             set_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
             set_payload.should.equal json
           end
@@ -259,7 +266,7 @@ describe "HTTP" do
 
         it "sets the payload for a nested hash to multiple form-data parts" do
           payload = { computer: { name: 'apple', model: 'macbook'} }
-          query = BubbleWrap::HTTP::Query.new( 'nil', :post, { payload: payload } )
+          query = BubbleWrap::HTTP::Query.new( @fake_url, :post, { payload: payload } )
           uuid = query.instance_variable_get(:@boundary)
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
           real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[name]\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[model]\"\r\n\r\nmacbook\r\n--#{uuid}--\r\n"
