@@ -117,8 +117,8 @@ module BubbleWrap
           if @retries > @options[:retries]
             error(Error::LOCATION_UNKNOWN)
           else
-            self.locationManager.stopUpdatingLocation
-            self.locationManager.startUpdatingLocation
+            self.location_manager.stopUpdatingLocation
+            self.location_manager.startUpdatingLocation
           end
         when KCLErrorNetwork
           error(Error::NETWORK_FAILURE)
