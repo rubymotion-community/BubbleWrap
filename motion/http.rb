@@ -315,7 +315,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def validate_url_prefix(url_string)
-        if (url_string =~ /^\w{3,4}:\/\//).nil?
+        if (url_string =~ /^\w{4,5}:\/\//).nil?
           raise URLPrefixError, "No URL scheme provided (http://, https:// or similar)."
         end
       end

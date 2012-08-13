@@ -154,6 +154,12 @@ describe "HTTP" do
             BW::HTTP::Query.new( 'arest.us' , :get ) { |r| p r.body.to_str }
           }.should.raise URLPrefixError
       end
+      
+      it "should identify https:// as a valid URL similar scheme" do
+        lambda {
+            BW::HTTP::Query.new( 'https://foo.bar' , :get ) { |r| p r.body.to_str }
+          }.should.not.raise URLPrefixError
+      end
 
       it "should set the deleted delegator from options" do
         @query.instance_variable_get(:@delegator).should.equal @action
