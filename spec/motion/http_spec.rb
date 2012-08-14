@@ -32,7 +32,7 @@ describe "HTTP" do
       [:get, :post, :put, :delete, :head, :patch].each do |method|
         called = false
         expected_delegator = Proc.new {|response| called = true }
-        
+
         query = BubbleWrap::HTTP.send(method, @localhost_url, { action: 'not_valid' }, &expected_delegator)
         query.connectionDidFinishLoading(query.connection)
 
@@ -149,10 +149,16 @@ describe "HTTP" do
         @query.method.should.equal "GET"
       end
 
-      it "should check for the http:// or similar scheme and throw an error" do
+      it "throws an error for invalid/missing URL schemes" do
+        %w(http https file ftp).each do |scheme|
+          lambda {
+            BW::HTTP::Query.new("#{scheme}://example.com", :get) { |r| p r.body.to_str }
+          }.should.not.raise URLPrefixError
+        end
+
         lambda {
-            BW::HTTP::Query.new( 'arest.us' , :get ) { |r| p r.body.to_str }
-          }.should.raise URLPrefixError
+          BW::HTTP::Query.new("bad://example.com", :get) { |r| p r.body.to_str }
+        }.should.raise URLPrefixError
       end
 
       it "should set the deleted delegator from options" do

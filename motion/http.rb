@@ -159,7 +159,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         @redirect_count ||= 0
         @redirect_count += 1
         log "##{@redirect_count} HTTP redirect_count: #{request.inspect} - #{self.description}"
-        
+
         if @redirect_count >= 30
           @response.error_message = "Too many redirections"
           @request.done_loading!
@@ -306,17 +306,19 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def create_url(url_string)
-        validate_url_prefix(url_string)
         if (@method == "GET" || @method == "HEAD") && @payload
           convert_payload_to_url if @payload.is_a?(Hash)
           url_string += "?#{@payload}"
         end
-        NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
+        url = NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
+
+        validate_url_prefix(url)
+        url
       end
 
-      def validate_url_prefix(url_string)
-        if (url_string =~ /^\w{3,4}:\/\//).nil?
-          raise URLPrefixError, "No URL scheme provided (http://, https:// or similar)."
+      def validate_url_prefix(url)
+        if !NSURLConnection.canHandleRequest(NSURLRequest.requestWithURL(url))
+          raise URLPrefixError, "No valid URL scheme provided (http://, https:// or similar)."
         end
       end
 
