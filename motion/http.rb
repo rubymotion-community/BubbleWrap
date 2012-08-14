@@ -312,13 +312,13 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         end
         url = NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
 
-        validate_url_prefix(url)
+        validate_url(url)
         url
       end
 
-      def validate_url_prefix(url)
+      def validate_url(url)
         if !NSURLConnection.canHandleRequest(NSURLRequest.requestWithURL(url))
-          raise URLPrefixError, "No valid URL scheme provided (http://, https:// or similar)."
+          raise InvalidURLError, "Invalid URL provided (Make sure you include a valid URL scheme, e.g. http:// or similar)."
         end
       end
 
@@ -382,4 +382,4 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 end
 
-class URLPrefixError < StandardError; end
+class InvalidURLError < StandardError; end

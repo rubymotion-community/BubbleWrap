@@ -153,12 +153,12 @@ describe "HTTP" do
         %w(http https file ftp).each do |scheme|
           lambda {
             BW::HTTP::Query.new("#{scheme}://example.com", :get) { |r| p r.body.to_str }
-          }.should.not.raise URLPrefixError
+          }.should.not.raise InvalidURLError
         end
 
         lambda {
           BW::HTTP::Query.new("bad://example.com", :get) { |r| p r.body.to_str }
-        }.should.raise URLPrefixError
+        }.should.raise InvalidURLError
       end
 
       it "should set the deleted delegator from options" do
