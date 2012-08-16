@@ -19,38 +19,37 @@ module BubbleWrap
     #   end
     #
     def self.get(url, options={}, &block)
-      options[:action] = block if block_given?
-      HTTP::Query.new(url, :get, options)
+      create_query(url, :get, options, block)
     end
 
     # Make a POST request
     def self.post(url, options={}, &block)
-      options[:action] = block if block_given?
-      HTTP::Query.new(url, :post, options)
+      create_query(url, :post, options, block)
     end
 
     # Make a PUT request
     def self.put(url, options={}, &block)
-      options[:action] = block if block_given?
-      HTTP::Query.new(url, :put, options)
+      create_query(url, :put, options, block)
     end
 
     # Make a DELETE request
     def self.delete(url, options={}, &block)
-      options[:action] = block if block_given?
-      HTTP::Query.new(url, :delete, options)
+      create_query(url, :delete, options, block)
     end
 
     # Make a HEAD request
     def self.head(url, options={}, &block)
-      options[:action] = block if block_given?
-      HTTP::Query.new(url, :head, options)
+      create_query(url, :head, options, block)
     end
 
     # Make a PATCH request
     def self.patch(url, options={}, &block)
-      options[:action] = block if block_given?
-      HTTP::Query.new(url, :patch, options)
+      create_query(url, :patch, options, block)
+    end
+
+    def self.create_query(url, method, options, block)
+      options[:action] = block if block
+      HTTP::Query.new(url, method, options)
     end
 
     # Response class wrapping the results of a Query's response
@@ -95,7 +94,7 @@ module BubbleWrap
       attr_reader :response_headers
       attr_reader :response_size
       attr_reader :options
-
+      CLRF = "\r\n"
       # ==== Parameters
       # url<String>:: url of the resource to download
       # http_method<Symbol>:: Value representing the HTTP method to use
@@ -157,15 +156,18 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
-        @redirection ||= 0
-        @redirection += 1
-        log "##{@redirection} HTTP redirection: #{request} - #{self.description}"
-        new_request = request.mutableCopy
-        # new_request.setValue(@credentials.inspect, forHTTPHeaderField:'Authorization') # disabled while we figure this one out
-        new_request.setAllHTTPHeaderFields(@headers) if @headers
-        @connection.cancel
-        @connection = create_connection(new_request, self)
-        new_request
+        @redirect_count ||= 0
+        @redirect_count += 1
+        log "##{@redirect_count} HTTP redirect_count: #{request.inspect} - #{self.description}"
+
+        if @redirect_count >= 30
+          @response.error_message = "Too many redirections"
+          @request.done_loading!
+          call_delegator_with_response
+          nil
+        else
+          request
+        end
       end
 
       def connection(connection, didFailWithError: error)
@@ -212,11 +214,36 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
                                                       cachePolicy:@cache_policy,
                                                       timeoutInterval:@timeout)
         request.setHTTPMethod(@method)
+        set_content_type
         request.setAllHTTPHeaderFields(@headers)
         request.setHTTPBody(@body)
         patch_nsurl_request(request)
 
         request
+      end
+
+      def set_content_type
+        return if headers_provided?
+        return if (@method == "GET" || @method == "HEAD")
+        @headers ||= {}
+        @headers["Content-Type"] = case @format
+        when :json
+          "application/json"
+        when :xml
+          "application/xml"
+        when :text
+          "text/plain"
+        else
+          if @format == :form_data || @payload_or_files_were_appended
+            "multipart/form-data; boundary=#{@boundary}"
+          else
+            "application/x-www-form-urlencoded"
+          end
+        end
+      end
+
+      def headers_provided?
+        @headers && @headers.keys.find {|k| k.downcase == 'content-type'}
       end
 
       def create_request_body
@@ -227,37 +254,17 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
         append_payload(body) if @payload
         append_files(body) if @files
-        append_body_boundary(body) if @set_body_to_close_boundary
-        set_content_type
+        append_body_boundary(body) if @payload_or_files_were_appended
 
         log "Built HTTP body: \n #{body.to_str}"
         body
       end
 
-      def set_content_type
-        # if no headers provided, set content-type automatically
-        if @headers.nil? || !@headers.keys.find {|k| k.downcase == 'content-type'}
-          @headers ||= {}
-          @headers["Content-Type"] = case @format
-          when :json
-            "application/json"
-          when :xml
-            "application/xml"
-          when :text
-            "text/plain"
-          else
-            if @format == :form_data || @set_body_to_close_boundary
-              "multipart/form-data; boundary=#{@boundary}"
-            else
-             "application/x-www-form-urlencoded"
-            end
-          end
-        end
-      end
-
       def append_payload(body)
         if @payload.is_a?(NSData)
           body.appendData(@payload)
+        elsif @payload.is_a?(String)
+          body.appendData(@payload.dataUsingEncoding NSUTF8StringEncoding)
         else
           append_form_params(body)
         end
@@ -265,21 +272,17 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def append_form_params(body)
-        if @payload.is_a?(String)
-          body.appendData(@payload.dataUsingEncoding NSUTF8StringEncoding)
-        else
-          list = process_payload_hash(@payload)
-          list.each do |key, value|
-            form_data = NSMutableData.new
-            s = "--#{@boundary}\r\n"
-            s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
-            s += value.to_s
-            s += "\r\n"
-            form_data.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
-            body.appendData(form_data)
-          end
-          @set_body_to_close_boundary = true
+        list = process_payload_hash(@payload)
+        list.each do |key, value|
+          form_data = NSMutableData.new
+          s = "--#{@boundary}\r\n"
+          s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
+          s += value.to_s
+          s += "\r\n"
+          form_data.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
+          body.appendData(form_data)
         end
+        @payload_or_files_were_appended = true
         body
       end
 
@@ -294,7 +297,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
           file_data.appendData("\r\n".dataUsingEncoding NSUTF8StringEncoding)
           body.appendData(file_data)
         end
-        @set_body_to_close_boundary = true
+        @payload_or_files_were_appended = true
         body
       end
 
@@ -307,7 +310,16 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
           convert_payload_to_url if @payload.is_a?(Hash)
           url_string += "?#{@payload}"
         end
-        NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
+        url = NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
+
+        validate_url(url)
+        url
+      end
+
+      def validate_url(url)
+        if !NSURLConnection.canHandleRequest(NSURLRequest.requestWithURL(url))
+          raise InvalidURLError, "Invalid URL provided (Make sure you include a valid URL scheme, e.g. http:// or similar)."
+        end
       end
 
       def convert_payload_to_url
@@ -344,14 +356,14 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         return nil if hash.nil?
         escaped_hash = {}
 
-        hash.each{|k,v| escaped_hash[k] = v.gsub("\n", '\\n') }
+        hash.each{|k,v| escaped_hash[k] = v.gsub("\n", CLRF) }
         escaped_hash
       end
 
       def patch_nsurl_request(request)
         request.instance_variable_set("@done_loading", false)
 
-        def request.done_loading; @done_loading; end
+        def request.done_loading?; @done_loading; end
         def request.done_loading!; @done_loading = true; end
       end
 
@@ -369,3 +381,5 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     end
   end
 end
+
+class InvalidURLError < StandardError; end
