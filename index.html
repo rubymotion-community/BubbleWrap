@@ -131,6 +131,14 @@ include the core modules use the following line of code instead:</p>
 </div>
 
 
+<p>If you wish to only include the <code>Media</code> wrapper:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/media'</span>
+</pre>
+</div>
+
+
 <p>If you want to include everything (ie kitchen sink mode) you can save time and do:</p>
 
 <div class="highlight">
@@ -246,6 +254,7 @@ use the versioned gem.</p>
 <li><code>App.states</code></li>
 <li><code>App.frame</code></li>
 <li><code>App.delegate</code></li>
+<li><code>App.shared</code></li>
 <li><code>App.current_locale</code></li>
 </ul>
 <h3>Device</h3>
@@ -440,6 +449,24 @@ iso8601 formatted string into a Time instance.</p>
 
 <p>Also available is <code>BW::Location.get_significant</code>, for monitoring significant location changes.</p>
 
+<h2>Media</h2>
+
+<p>Added wrapper for playing remote and local media. Available are <code>modal</code> and custom presentation styles:</p>
+
+<div class="highlight">
+<pre><span class="c1"># Plays in your custom frame</span>
+<span class="n">local_file</span> <span class="o">=</span> <span class="no">NSURL</span><span class="o">.</span><span class="n">fileURLWithPath</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">NSBundle</span><span class="o">.</span><span class="n">mainBundle</span><span class="o">.</span><span class="n">resourcePath</span><span class="p">,</span> <span class="s1">'test.mp3'</span><span class="p">))</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Media</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">local_file</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">media_player</span><span class="o">|</span>
+  <span class="n">media_player</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="o">]]</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">addSubview</span> <span class="n">media_player</span><span class="o">.</span><span class="n">view</span>
+<span class="k">end</span>
+
+<span class="c1"># Plays in an independent modal controller</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Media</span><span class="o">.</span><span class="n">play_modal</span><span class="p">(</span><span class="s2">"http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3"</span><span class="p">)</span>
+</pre>
+</div>
+
+
 <h2>UI</h2>
 
 <h3>Gestures</h3>
@@ -617,7 +644,7 @@ passed param is some data to parse directly.</p>
 <p><strong>Since: &gt; version 1.0.0</strong></p>
 
 <p><code>BubbleWrap::Reactor</code> is a simplified, mostly complete implementation of
-the <a href="http://rubyeventmachine.com/">Event Machine</a> API.  In fact 
+the <a href="http://rubyeventmachine.com/">Event Machine</a> API.  In fact
 <code>BubbleWrap::Reactor</code> is aliased to <code>EM</code> in the runtime environment.</p>
 
 <h3>Deferables</h3>
@@ -717,11 +744,11 @@ changes to either successful or failure state.</p>
 
 <h3>Scheduling operations</h3>
 
-<p>You can use <code>EM.schedule</code> to schedule blocks to be executed 
+<p>You can use <code>EM.schedule</code> to schedule blocks to be executed
 asynchronously.  BubbleWrap deviates from the EventMachine
 API here in that it also provides <code>EM.schedule_on_main</code> which
-makes sure that the task is run asynchronously, but on the 
-application's main thread - this is necessary if you are 
+makes sure that the task is run asynchronously, but on the
+application's main thread - this is necessary if you are
 updating the user interface.</p>
 
 <div class="highlight">
@@ -738,15 +765,15 @@ updating the user interface.</p>
 <h3>Deferrable operations</h3>
 
 <p>You can also use <code>EM.defer</code> in much the same way as <code>EM.schedule</code>
-with one important difference, you can pass in a second <code>proc</code> 
+with one important difference, you can pass in a second <code>proc</code>
 which will be called when the first has completed, and be passed
 it's result as an argument. Just like <code>EM.schedule</code>, <code>EM.defer</code>
 also has an <code>EM.defer_on_main</code> version.</p>
 
 <div class="highlight">
-<pre><span class="o">&gt;</span> <span class="n">operation</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="mi">99</span> <span class="p">}</span>
+<pre><span class="o">&gt;</span> <span class="n">operation</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="mi">88</span> <span class="p">}</span>
 <span class="o">=&gt;</span> <span class="c1">#&lt;Proc:0x6d763c0&gt;</span>
-<span class="o">&gt;</span> <span class="n">callback</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span><span class="n">speed</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">speed</span> <span class="o">&gt;=</span> <span class="mi">99</span> <span class="o">?</span> <span class="s2">"Time travel!"</span> <span class="p">:</span> <span class="s2">"Conventional travel!"</span> <span class="p">}</span>
+<span class="o">&gt;</span> <span class="n">callback</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span><span class="n">speed</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">speed</span> <span class="o">&gt;=</span> <span class="mi">88</span> <span class="o">?</span> <span class="s2">"Time travel!"</span> <span class="p">:</span> <span class="s2">"Conventional travel!"</span> <span class="p">}</span>
 <span class="o">=&gt;</span> <span class="c1">#&lt;Proc:0x8bd3910&gt;</span>
 <span class="o">&gt;</span> <span class="no">EM</span><span class="o">.</span><span class="n">defer</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span>
 <span class="o">=&gt;</span> <span class="kp">nil</span>
