@@ -636,9 +636,9 @@ it's result as an argument. Just like `EM.schedule`, `EM.defer`
 also has an `EM.defer_on_main` version.
 
 ```ruby
-> operation = proc { 99 }
+> operation = proc { 88 }
 => #<Proc:0x6d763c0>
-> callback = proc { |speed| puts speed >= 99 ? "Time travel!" : "Conventional travel!" }
+> callback = proc { |speed| puts speed >= 88 ? "Time travel!" : "Conventional travel!" }
 => #<Proc:0x8bd3910>
 > EM.defer(operation, callback)
 => nil
