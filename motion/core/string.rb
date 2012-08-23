@@ -13,7 +13,7 @@ module BubbleWrap
         new_word = "/#{new_word}" if $1 == '/'
         new_word
       end
-      if uppercase_first_letter
+      if uppercase_first_letter && uppercase_first_letter != :lower
         string[0] = string[0].upcase
       else
         string[0] = string[0].downcase
@@ -35,7 +35,7 @@ module BubbleWrap
 
     def to_color
       # First check if it is a color keyword
-      keyword_selector = "#{self.camelize(false)}Color"
+      keyword_selector = "#{self.camelize(:lower)}Color"
       return UIColor.send(keyword_selector) if UIColor.respond_to? keyword_selector
 
       # Next attempt to convert from hex
