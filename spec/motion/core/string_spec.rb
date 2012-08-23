@@ -19,6 +19,18 @@ describe BubbleWrap::String do
       end
     end
 
+    describe '.camelize(:upper)' do
+      it "doesn't change the value" do
+        'CamelCase'.camelize(:upper).should == 'CamelCase'
+      end
+    end
+
+    describe '.camelize(:lower)' do
+      it 'lower cases the first character' do
+        'CamelCase'.camelize(:lower).should == 'camelCase'
+      end
+    end
+
     describe '.underscore' do
       it 'converts it to underscores' do
         'CamelCase'.underscore.should == 'camel_case'
@@ -36,6 +48,18 @@ describe BubbleWrap::String do
     describe '.camelize(false)' do
       it "doesn't change the value" do
         'camelCase'.camelize(false).should == 'camelCase'
+      end
+    end
+
+    describe '.camelize(:upper)' do
+      it "upper cases the first character" do
+        'camelCase'.camelize(:upper).should == 'CamelCase'
+      end
+    end
+
+    describe '.camelize(:lower)' do
+      it "doesn't change the value" do
+        'camelCase'.camelize(:lower).should == 'camelCase'
       end
     end
 
