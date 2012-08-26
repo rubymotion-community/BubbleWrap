@@ -32,6 +32,10 @@ EOS
       @parsed = BubbleWrap::JSON.parse(@json_string)
     end
 
+    it "doesn't crash when data is nil" do
+      Proc.new { BW::JSON.parse(nil) }.should.not.raise Exception
+    end
+
     it "should convert a top object into a Ruby hash" do
       obj = @parsed
       obj.class.should == Hash

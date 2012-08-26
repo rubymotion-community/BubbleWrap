@@ -13,6 +13,7 @@ module BubbleWrap
     #
     # TODO: support options like the C Ruby module does
     def self.parse(str_data, &block)
+      return nil unless str_data
       data = str_data.respond_to?(:to_data) ? str_data.to_data : str_data
       opts = NSJSONReadingMutableContainers & NSJSONReadingMutableLeaves & NSJSONReadingAllowFragments
       error = Pointer.new(:id)
