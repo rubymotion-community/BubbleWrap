@@ -226,7 +226,7 @@ end
 
 ### JSON
 
-`BubbleWrap::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
+`BW::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
 
 ```ruby
 BW::JSON.generate({'foo => 1, 'bar' => [1,2,3], 'baz => 'awesome'})
@@ -399,7 +399,7 @@ end
 
 ## HTTP
 
-`BubbleWrap::HTTP` wraps `NSURLRequest`, `NSURLConnection` and friends to provide Ruby developers with a more familiar and easier to use API.
+`BW::HTTP` wraps `NSURLRequest`, `NSURLConnection` and friends to provide Ruby developers with a more familiar and easier to use API.
 The API uses async calls and blocks to stay as simple as possible.
 
 To enable it add the following require line to your `Rakefile`:
@@ -410,22 +410,22 @@ require 'bubble-wrap/http'
 Usage example:
 
 ```ruby
-BubbleWrap::HTTP.get("https://api.github.com/users/mattetti") do |response|
+BW::HTTP.get("https://api.github.com/users/mattetti") do |response|
   p response.body.to_str
 end
 ```
 
 ```ruby
-BubbleWrap::HTTP.get("https://api.github.com/users/mattetti", {credentials: {username: 'matt', password: 'aimonetti'}}) do |response|
+BW::HTTP.get("https://api.github.com/users/mattetti", {credentials: {username: 'matt', password: 'aimonetti'}}) do |response|
   p response.body.to_str # prints the response's body
 end
 ```
 
 ```ruby
 data = {first_name: 'Matt', last_name: 'Aimonetti'}
-BubbleWrap::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
+BW::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
   if response.ok?
-    json = BubbleWrap::JSON.parse(response.body.to_str)
+    json = BW::JSON.parse(response.body.to_str)
     p json['id']
   elsif response.status_code.to_s =~ /40\d/
     App.alert("Login failed")
@@ -520,9 +520,9 @@ feed_parser = BW::RSSParser.new(feed, true)
 ## Reactor
 **Since: > version 1.0.0**
 
-`BubbleWrap::Reactor` is a simplified, mostly complete implementation of
+`BW::Reactor` is a simplified, mostly complete implementation of
 the [Event Machine](http://rubyeventmachine.com/) API.  In fact
-`BubbleWrap::Reactor` is aliased to `EM` in the runtime environment.
+`BW::Reactor` is aliased to `EM` in the runtime environment.
 
 ### Deferables
 
@@ -539,7 +539,7 @@ changes to either successful or failure state.
 
 ```ruby
 > d = EM::DefaultDeferrable.new
-=> #<BubbleWrap::Reactor::DefaultDeferrable:0x6d859a0>
+=> #<BW::Reactor::DefaultDeferrable:0x6d859a0>
 > d.callback { |what| puts "Great #{what}!" }
 => [#<Proc:0x6d8a1e0>]
 > d.succeed "justice"
@@ -551,7 +551,7 @@ Great justice!
 
 ```ruby
 > d = EM::DefaultDeferrable.new
-=> #<BubbleWrap::Reactor::DefaultDeferrable:0x8bf3ee0>
+=> #<BW::Reactor::DefaultDeferrable:0x8bf3ee0>
 > d.errback { |what| puts "Great #{what}!" }
 => [#<Proc:0x8bf3ef0>]
 > d.fail "sadness"
@@ -563,11 +563,11 @@ Great sadness!
 
 ```ruby
 > d = EM::DefaultDeferrable.new
-=> #<BubbleWrap::Reactor::DefaultDeferrable:0x8bf5910>
+=> #<BW::Reactor::DefaultDeferrable:0x8bf5910>
 > d.errback { puts "Great scott!" }
 => [#<Proc:0x8bf6350>]
 > d.timeout 2
-=> #<BubbleWrap::Reactor::Timer:0x6d920a0 @timer=#<__NSCFTimer:0x6d91990>>
+=> #<BW::Reactor::Timer:0x6d920a0 @timer=#<__NSCFTimer:0x6d91990>>
 # wait...
 > Great scott!
 ```
@@ -649,7 +649,7 @@ Time travel!
 
 Although not part of the EventMachine API, BubbleWrap provides
 an `Eventable` mixin for use instrumenting objects with simple
-event triggering behaviour. `BubbleWrap::Reactor` uses this
+event triggering behaviour. `BW::Reactor` uses this
 behind the scenes in several places, and as it's a very handy
 idiom it is available as a public API.
 
