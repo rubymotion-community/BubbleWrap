@@ -122,4 +122,4 @@ module BubbleWrap
 
   end
 end
-::App = BubbleWrap::App unless defined?(:App)
+::App = BubbleWrap::App unless defined?(::App)
