@@ -216,4 +216,4 @@ module BubbleWrap
     end
   end
 end
-::Camera = BubbleWrap::Device::Camera
+::Camera = BubbleWrap::Device::Camera unless defined?(::Camera)

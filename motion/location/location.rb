@@ -149,4 +149,4 @@ module BubbleWrap
     end
   end
 end
-::Location = BubbleWrap::Location
+::Location = BubbleWrap::Location unless defined?(::Location)

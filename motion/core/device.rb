@@ -56,4 +56,4 @@ module BubbleWrap
 
   end
 end
-::Device = BubbleWrap::Device
+::Device = BubbleWrap::Device unless defined?(::Device)

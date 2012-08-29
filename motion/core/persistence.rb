@@ -39,4 +39,4 @@ module BubbleWrap
   end
 
 end
-::Persistence = BubbleWrap::Persistence
+::Persistence = BubbleWrap::Persistence unless defined?(::Persistence)

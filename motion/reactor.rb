@@ -102,4 +102,4 @@ module BubbleWrap
   end
 end
 
-::EM = ::BubbleWrap::Reactor # Yes I dare!
+::EM = ::BubbleWrap::Reactor unless defined?(::EM) # Yes I dare!

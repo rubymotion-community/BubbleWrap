@@ -12,4 +12,4 @@ module BubbleWrap
   end
 end
 
-::Media = BubbleWrap::Media
+::Media = BubbleWrap::Media unless defined?(::Media)
