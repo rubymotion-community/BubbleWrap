@@ -45,9 +45,9 @@ describe BubbleWrap::Reactor do
   describe '.add_periodic_timer' do
     it 'runs callbacks repeatedly' do
       @proxy.proof = 0
-      timer = @subject.add_periodic_timer 0.5 do
+      @timer = @subject.add_periodic_timer 0.5 do
         @proxy.proof = @proxy.proof + 1
-        @subject.cancel_timer(timer) if @proxy.proof > 2
+        @subject.cancel_timer(@timer) if @proxy.proof > 2
       end
       wait 1.1 do
         @proxy.proof.should >= 2
