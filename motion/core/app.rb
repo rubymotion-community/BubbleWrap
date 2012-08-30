@@ -90,6 +90,10 @@ module BubbleWrap
       NSBundle.mainBundle.bundleIdentifier
     end
 
+    def version
+      NSBundle.mainBundle.infoDictionary['CFBundleVersion']
+    end
+
     # Return application frame
     def frame
       UIScreen.mainScreen.applicationFrame
