@@ -11,6 +11,7 @@ Motion::Project::App.setup do |app|
   app.name = 'testSuite'
   app.identifier = 'io.bubblewrap.testSuite'
   app.specs_dir = './spec/motion'
+  app.version = '1.2.3'
 end
 
 namespace :spec do

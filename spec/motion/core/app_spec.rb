@@ -157,6 +157,12 @@ describe BubbleWrap::App do
     end
   end
 
+  describe '.version' do
+    it 'returns the application version' do
+      BW::App.version.should == '1.2.3'
+    end
+  end
+
   describe '.frame' do
     it 'returns Application Frame' do
       App.frame.should == UIScreen.mainScreen.applicationFrame
