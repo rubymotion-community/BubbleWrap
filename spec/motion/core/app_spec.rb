@@ -1,25 +1,25 @@
 describe BubbleWrap::App do
   describe '.documents_path' do
     it 'should end in "/Documents"' do
-      BW::App.documents_path[-10..-1].should == '/Documents'
+      App.documents_path[-10..-1].should == '/Documents'
     end
   end
 
   describe '.resources_path' do
     it 'should end in "/testSuite.app"' do
-      BW::App.resources_path.should =~ /\/testSuite(_spec)?.app$/
+      App.resources_path.should =~ /\/testSuite(_spec)?.app$/
     end
   end
 
   describe '.notification_center' do
     it 'should be a NSNotificationCenter' do
-      BW::App.notification_center.should == NSNotificationCenter.defaultCenter
+      App.notification_center.should == NSNotificationCenter.defaultCenter
     end
   end
 
   describe '.user_cache' do
     it 'should be a NSUserDefaults' do
-      BW::App.user_cache.should == NSUserDefaults.standardUserDefaults
+      App.user_cache.should == NSUserDefaults.standardUserDefaults
     end
   end
 
@@ -30,7 +30,7 @@ describe BubbleWrap::App do
 
     describe "with only one string argument" do
       before do
-        @alert = BW::App.alert('1.21 Gigawatts!')
+        @alert = App.alert('1.21 Gigawatts!')
       end
 
       it 'returns an alert' do
@@ -54,7 +54,7 @@ describe BubbleWrap::App do
 
     describe "with only two string arguments" do
       before do
-        @alert = BW::App.alert('1.21 Gigawatts!', 'Great Scott!')
+        @alert = App.alert('1.21 Gigawatts!', 'Great Scott!')
       end
 
       it 'returns an alert' do
@@ -78,7 +78,7 @@ describe BubbleWrap::App do
 
     describe "with variable args" do
       before do
-        @alert = BW::App.alert('1.21 Gigawatts!', cancel_button_title: 'Great Scott!',
+        @alert = App.alert('1.21 Gigawatts!', cancel_button_title: 'Great Scott!',
                                                   message: 'Some random message')
       end
 
@@ -107,7 +107,7 @@ describe BubbleWrap::App do
 
     describe "with a block" do
       before do
-        @alert = BW::App.alert('1.21 Gigawatts!') do |alert|
+        @alert = App.alert('1.21 Gigawatts!') do |alert|
           alert.message = 'My message!!'
         end
       end
@@ -138,47 +138,47 @@ describe BubbleWrap::App do
 
   describe '.states' do
     it 'returns a hash' do
-      BW::App.states.class.should == Hash
+      App.states.class.should == Hash
     end
     it "returns the real instance variable" do
-      BW::App.states.should == BW::App.instance_variable_get(:@states)
+      App.states.should == App.instance_variable_get(:@states)
     end
   end
 
   describe '.name' do
     it 'returns the application name' do
-      BW::App.name.should == 'testSuite'
+      App.name.should == 'testSuite'
     end
   end
 
   describe '.identifier' do
     it 'returns the application identifier' do
-      BW::App.identifier.should == 'io.bubblewrap.testSuite'
+      App.identifier.should == 'io.bubblewrap.testSuite'
     end
   end
 
   describe '.frame' do
     it 'returns Application Frame' do
-      BW::App.frame.should == UIScreen.mainScreen.applicationFrame
+      App.frame.should == UIScreen.mainScreen.applicationFrame
     end
   end
 
   describe '.bounds' do
     it 'returns Main Screen bounds' do
-      BW::App.bounds.should == UIScreen.mainScreen.bounds
+      App.bounds.should == UIScreen.mainScreen.bounds
     end
   end
 
 
   describe '.delegate' do
     it 'returns a TestSuiteDelegate' do
-      BW::App.delegate.should == UIApplication.sharedApplication.delegate
+      App.delegate.should == UIApplication.sharedApplication.delegate
     end
   end
 
   describe '.app' do
     it 'returns UIApplication.sharedApplication' do
-      BW::App.shared.should == UIApplication.sharedApplication
+      App.shared.should == UIApplication.sharedApplication
     end
   end
 
