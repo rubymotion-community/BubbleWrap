@@ -159,7 +159,7 @@ describe BubbleWrap::App do
 
   describe '.version' do
     it 'returns the application version' do
-      BW::App.version.should == '1.2.3'
+      App.version.should == '1.2.3'
     end
   end
 
