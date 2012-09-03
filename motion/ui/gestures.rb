@@ -2,38 +2,38 @@
 
 class UIView
 
-  def whenTapped(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UITapGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
+  def when_tapped(enableInteraction=true, &proc)
+    add_gesture_recognizer_helper(UITapGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
   end
 
-  def whenPinched(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UIPinchGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
+  def when_pinched(enableInteraction=true, &proc)
+    add_gesture_recognizer_helper(UIPinchGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
   end
 
-  def whenRotated(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UIRotationGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
+  def when_rotated(enableInteraction=true, &proc)
+    add_gesture_recognizer_helper(UIRotationGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
   end
 
-  def whenSwiped(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UISwipeGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
+  def when_swiped(enableInteraction=true, &proc)
+    add_gesture_recognizer_helper(UISwipeGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
   end
 
-  def whenPanned(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UIPanGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
+  def when_panned(enableInteraction=true, &proc)
+    add_gesture_recognizer_helper(UIPanGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
   end
 
-  def whenPressed(enableInteraction=true, &proc)
-    addGestureRecognizerHelper(proc, enableInteraction, UILongPressGestureRecognizer.alloc.initWithTarget(self, action:'motionHandleGesture:'))
+  def when_pressed(enableInteraction=true, &proc)
+    add_gesture_recognizer_helper(UILongPressGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
   end
 
   private
 
-  def motionHandleGesture(recognizer)
+  def handle_gesture(recognizer)
     @recognizers[recognizer].call(recognizer)
   end
 
   # Adds the recognizer and keeps a strong reference to the Proc object.
-  def addGestureRecognizerHelper(proc, enableInteraction, recognizer)
+  def add_gesture_recognizer_helper(recognizer, enableInteraction, proc)
     setUserInteractionEnabled true if enableInteraction && !isUserInteractionEnabled
     self.addGestureRecognizer(recognizer)
 
