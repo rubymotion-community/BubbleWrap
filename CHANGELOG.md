@@ -1,6 +1,17 @@
+## 1.1.4 (Unreleased)
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.3...master)
+
+* Fixed a problem with `when` events not properly handling multiple targets per event. Now defaults to one target per event with an option to append multiple targets.
+
+## 1.1.3
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.2...v1.1.3)
+
+
 ## 1.1.2
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.0...v1.1.1)
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.1...v1.1.2)
 
 * Fixed a problem with the load path.
 * Added `format:` to the HTTP wrapper with [5 supported formats supported](https://github.com/rubymotion/BubbleWrap/pull/109) that sets the content type accordingly.
