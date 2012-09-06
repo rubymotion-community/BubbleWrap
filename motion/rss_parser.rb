@@ -59,6 +59,7 @@ module BubbleWrap
     end
 
     def state=(new_state)
+      @state = new_state
       callback_meth = "when_parser_#{new_state}"
       if self.delegate && self.delegate.respond_to?(callback_meth)
         self.delegate.send(callback_meth)
