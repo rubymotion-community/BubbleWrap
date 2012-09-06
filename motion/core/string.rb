@@ -33,6 +33,14 @@ module BubbleWrap
       word
     end
 
+    def utf8_encoded
+      stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
+    end
+
+    def utf8_decoded
+      stringByReplacingPercentEscapesUsingEncoding NSUTF8StringEncoding
+    end
+
     def to_color
       # First check if it is a color keyword
       keyword_selector = "#{self.camelize(:lower)}Color"

@@ -143,4 +143,23 @@ describe BubbleWrap::String do
     end
     
   end 
+
+  describe "stringByAddingPercentEscapesUsingEncoding and reverse" do
+
+    it "utf8_encoded" do
+      string = "hey ho let's {go}"
+      real_encoded = string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
+
+      string.utf8_encoded.should.equal real_encoded
+    end
+
+    it "utf8_decoded" do
+      string = "hey%20ho%20let's%20%7Bgo%7D"
+      real_decoded = string.stringByReplacingPercentEscapesUsingEncoding NSUTF8StringEncoding
+      
+      string.utf8_decoded.should.equal real_decoded
+    end
+
+  end
+
 end
