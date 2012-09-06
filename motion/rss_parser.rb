@@ -145,7 +145,11 @@ module BubbleWrap
     def fetch_source_data(&blk)
       if @source.is_a?(NSURL)
         HTTP.get(@source.absoluteString) do |response|
-          blk.call(response.body) if response.ok?
+          if response.ok?
+            blk.call(response.body)
+          else
+            parser(parser, parseErrorOccured:"HTTP request failed (#{response})")
+          end
         end
       else
         yield @source
