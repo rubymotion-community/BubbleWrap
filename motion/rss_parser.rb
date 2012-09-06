@@ -119,7 +119,7 @@ module BubbleWrap
     # error can be retrieved with parserError
     def parser(parser, parseErrorOccurred:parse_error)
       puts "parseErrorOccurred" if debug
-      @parse_error = parse_error
+      @parser_error = parse_error
 
       self.state = :errors
     end
