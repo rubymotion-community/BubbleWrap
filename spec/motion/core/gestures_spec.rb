@@ -31,26 +31,32 @@ describe UIView do
 
   describe '#when_tapped' do
     testMethod.call :when_tapped
+    testMethod.call :whenTapped
   end
 
   describe '#when_pinched' do
     testMethod.call :when_pinched
+    testMethod.call :whenPinched
   end
 
   describe '#when_rotated' do
     testMethod.call :when_rotated
+    testMethod.call :whenRotated
   end
   
   describe '#when_swiped' do
     testMethod.call :when_swiped
+    testMethod.call :whenSwiped
   end
 
   describe '#when_panned' do
     testMethod.call :when_panned
+    testMethod.call :whenPanned
   end
 
   describe '#when_pressed' do
     testMethod.call :when_pressed
+    testMethod.call :whenPressed
   end
 
 end
