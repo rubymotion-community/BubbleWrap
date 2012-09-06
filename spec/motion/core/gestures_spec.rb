@@ -29,27 +29,33 @@ describe UIView do
     # it 'responds to interaction'
   end
 
-  describe '#whenTapped' do
+  describe '#when_tapped' do
+    testMethod.call :when_tapped
     testMethod.call :whenTapped
   end
 
-  describe '#whenPinched' do
+  describe '#when_pinched' do
+    testMethod.call :when_pinched
     testMethod.call :whenPinched
   end
 
-  describe '#whenRotated' do
+  describe '#when_rotated' do
+    testMethod.call :when_rotated
     testMethod.call :whenRotated
   end
   
-  describe '#whenSwiped' do
+  describe '#when_swiped' do
+    testMethod.call :when_swiped
     testMethod.call :whenSwiped
   end
 
-  describe '#whenPanned' do
+  describe '#when_panned' do
+    testMethod.call :when_panned
     testMethod.call :whenPanned
   end
 
-  describe '#whenPressed' do
+  describe '#when_pressed' do
+    testMethod.call :when_pressed
     testMethod.call :whenPressed
   end
 
