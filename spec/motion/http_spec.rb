@@ -75,6 +75,10 @@ describe "HTTP" do
       end
     end
 
+    it "updates the status description" do
+      @response.status_description.should.equal 'no error'
+    end
+
     it "updates ivars when calling update" do
       @response.update(one: 'one', two: 'two')
       @response.instance_variable_get(:@one).should.equal 'one'

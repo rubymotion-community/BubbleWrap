@@ -56,7 +56,7 @@ module BubbleWrap
     class Response
       attr_reader :body
       attr_reader :headers
-      attr_accessor :status_code, :error_message
+      attr_accessor :status_code, :status_description, :error_message
       attr_reader :url
 
       def initialize(values={})
@@ -67,6 +67,7 @@ module BubbleWrap
         values.each do |k,v|
           self.instance_variable_set("@#{k}", v)
         end
+        update_status_description
       end
 
       def ok?
@@ -78,6 +79,9 @@ module BubbleWrap
       end
       alias description to_s
 
+      def update_status_description
+        @status_description = status_code.nil? ? nil : NSHTTPURLResponse.localizedStringForStatusCode(status_code)
+      end
     end
 
     # Class wrapping NSConnection and often used indirectly by the BubbleWrap::HTTP module methods.
