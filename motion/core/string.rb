@@ -33,12 +33,12 @@ module BubbleWrap
       word
     end
 
-    def utf8_encoded
-      stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
+    def to_url_encoded(encoding = NSUTF8StringEncoding)
+      stringByAddingPercentEscapesUsingEncoding encoding
     end
 
-    def utf8_decoded
-      stringByReplacingPercentEscapesUsingEncoding NSUTF8StringEncoding
+    def to_url_decoded(encoding = NSUTF8StringEncoding)
+      stringByReplacingPercentEscapesUsingEncoding encoding
     end
 
     def to_color

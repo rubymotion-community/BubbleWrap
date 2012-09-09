@@ -146,18 +146,25 @@ describe BubbleWrap::String do
 
   describe "stringByAddingPercentEscapesUsingEncoding and reverse" do
 
-    it "utf8_encoded" do
+    it "to_url_encoded" do
       string = "hey ho let's {go}"
       real_encoded = string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
 
-      string.utf8_encoded.should.equal real_encoded
+      string.to_url_encoded.should.equal real_encoded
     end
 
-    it "utf8_decoded" do
+    it "to_url_decoded" do
       string = "hey%20ho%20let's%20%7Bgo%7D"
       real_decoded = string.stringByReplacingPercentEscapesUsingEncoding NSUTF8StringEncoding
       
-      string.utf8_decoded.should.equal real_decoded
+      string.to_url_decoded.should.equal real_decoded
+    end
+
+    it "handles other encodings" do
+      string = "hey ho let's {go}"
+      utf16 = string.stringByAddingPercentEscapesUsingEncoding NSUTF16StringEncoding
+      
+      string.to_url_encoded(NSUTF16StringEncoding).should.equal utf16
     end
 
   end
