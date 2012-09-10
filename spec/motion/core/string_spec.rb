@@ -144,28 +144,44 @@ describe BubbleWrap::String do
     
   end 
 
-  describe "stringByAddingPercentEscapesUsingEncoding and reverse" do
+  describe "encoding" do
 
-    it "to_url_encoded" do
-      string = "hey ho let's {go}"
-      real_encoded = string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
-
-      string.to_url_encoded.should.equal real_encoded
+    before do
+      @raw_string = "hey ho let's {go}"
     end
 
-    it "to_url_decoded" do
-      string = "hey%20ho%20let's%20%7Bgo%7D"
-      real_decoded = string.stringByReplacingPercentEscapesUsingEncoding NSUTF8StringEncoding
-      
-      string.to_url_decoded.should.equal real_decoded
+    it "to_url_encoded" do
+      real_encoded = @raw_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
+      @raw_string.to_url_encoded.should.equal real_encoded
     end
 
     it "handles other encodings" do
-      string = "hey ho let's {go}"
-      utf16 = string.stringByAddingPercentEscapesUsingEncoding NSUTF16StringEncoding
-      
-      string.to_url_encoded(NSUTF16StringEncoding).should.equal utf16
+      utf16 = @raw_string.stringByAddingPercentEscapesUsingEncoding NSUTF16StringEncoding
+      @raw_string.to_url_encoded(NSUTF16StringEncoding).should.equal utf16
     end
+
+    it "to_url_decoded" do
+      encoded_string = "hey%20ho%20let's%20%7Bgo%7D"
+      real_decoded = encoded_string.stringByReplacingPercentEscapesUsingEncoding NSUTF8StringEncoding
+      
+      encoded_string.to_url_decoded.should.equal real_decoded
+    end
+
+
+    describe "dataUsingEncoding" do
+
+      it "#to_url_encoded_data - utf8" do
+        utf8 = @raw_string.dataUsingEncoding NSUTF8StringEncoding
+        @raw_string.to_encoded_data.should.equal utf8
+      end
+      
+      it "handles multiple encodings" do
+        utf16 = @raw_string.dataUsingEncoding NSUTF16StringEncoding
+        @raw_string.to_encoded_data(NSUTF16StringEncoding).should.equal utf16
+      end
+
+    end
+
 
   end
 

@@ -41,6 +41,10 @@ module BubbleWrap
       stringByReplacingPercentEscapesUsingEncoding encoding
     end
 
+    def to_encoded_data(encoding = NSUTF8StringEncoding)
+      dataUsingEncoding encoding
+    end
+
     def to_color
       # First check if it is a color keyword
       keyword_selector = "#{self.camelize(:lower)}Color"
