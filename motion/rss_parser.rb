@@ -50,19 +50,16 @@ module BubbleWrap
       if data
         data_to_parse = input.respond_to?(:to_data) ? input.to_data : input
         @source = data_to_parse
-        @parser = NSXMLParser.alloc.initWithData(@source)
       else
         url = input.is_a?(NSURL) ? input : NSURL.alloc.initWithString(input)
         @source = url
-        # Delay the initialization of the underlying NSXMLParser so it
-        # doesn't load the content of the url until it's triggered.
-        @parser = Proc.new{ NSXMLParser.alloc.initWithContentsOfURL(url) }
       end
       self.state = :initializes
       self
     end
 
     def state=(new_state)
+      @state = new_state
       callback_meth = "when_parser_#{new_state}"
       if self.delegate && self.delegate.respond_to?(callback_meth)
         self.delegate.send(callback_meth)
@@ -77,10 +74,13 @@ module BubbleWrap
     #   end
     def parse(&block)
       @block = block
-      @parser = @parser.call if @parser.respond_to?(:call)
-      @parser.shouldProcessNamespaces = true
-      @parser.delegate ||= self
-      @parser.parse
+
+      fetch_source_data do |data|
+        @parser = NSXMLParser.alloc.initWithData(data)
+        @parser.shouldProcessNamespaces = true
+        @parser.delegate ||= self
+        @parser.parse
+      end
     end
 
     # Delegate getting called when parsing starts
@@ -120,7 +120,7 @@ module BubbleWrap
     # error can be retrieved with parserError
     def parser(parser, parseErrorOccurred:parse_error)
       puts "parseErrorOccurred" if debug
-      @parse_error = parse_error
+      @parser_error = parse_error
 
       self.state = :errors
     end
@@ -140,5 +140,20 @@ module BubbleWrap
     # parser:validationErrorOccurred:
     # parser:foundCDATA:
 
+    protected
+
+    def fetch_source_data(&blk)
+      if @source.is_a?(NSURL)
+        HTTP.get(@source.absoluteString) do |response|
+          if response.ok?
+            blk.call(response.body)
+          else
+            parser(parser, parseErrorOccured:"HTTP request failed (#{response})")
+          end
+        end
+      else
+        yield @source
+      end
+    end
   end
 end
