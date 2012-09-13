@@ -360,7 +360,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         return nil if hash.nil?
         escaped_hash = {}
 
-        hash.each{|k,v| escaped_hash[k] = v.gsub("\n", CLRF) }
+        hash.each{|k,v| escaped_hash[k] = v.gsub("\n", CLRF) if v }
         escaped_hash
       end
 

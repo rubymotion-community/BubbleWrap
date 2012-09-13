@@ -147,6 +147,15 @@ describe "HTTP" do
       @query.should.respond_to :options
     end
 
+    it "should accept nil header value" do
+      @headers = { 'Authorization' => nil, 'User-Agent' => "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \n Gecko/20100101 Firefox/12.0" }
+      @options = {
+        headers: @headers,
+      }
+      @query = BubbleWrap::HTTP::Query.new( @localhost_url , :get, @options )
+      @query.should.not.be.nil
+    end
+
     describe "When initialized" do
 
       it "should upcase the HTTP method" do
