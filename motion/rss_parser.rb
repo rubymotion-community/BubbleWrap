@@ -146,7 +146,7 @@ module BubbleWrap
       if @source.is_a?(NSURL)
         HTTP.get(@source.absoluteString) do |response|
           if response.ok?
-            blk.call(response.body)
+            blk.call(response.body.to_data)
           else
             parser(parser, parseErrorOccured:"HTTP request failed (#{response})")
           end
