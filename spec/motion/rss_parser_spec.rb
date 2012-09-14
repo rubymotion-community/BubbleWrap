@@ -19,6 +19,9 @@ describe "RSSParser" do
       parser.source.class.should.equal NSURL
       parser.source.absoluteString.should.equal @feed_url
     end
+  end
+
+  describe "parsing" do
 
     it "parses local file data" do
       parser = BW::RSSParser.new(File.read(@local_feed).to_data, true)
@@ -36,6 +39,12 @@ describe "RSSParser" do
       episodes.last.title.should.equal 'Episode 001: Summer of Rails'
     end
 
+    it "handles errors" do
+      parser = BW::RSSParser.new("http://doesnotexist.com")
+      parser.parse
+      parser.state.should.equal :errors
+    end
+
     module BW
       module HTTP
         class << self
@@ -45,7 +54,9 @@ describe "RSSParser" do
           def get(url, options={}, &block)
             if url == 'https://raw.github.com/gist/2952427/9f1522cbe5d77a72c7c96c4fdb4b77bd58d7681e/atom.xml'
               string = File.read(File.join(App.resources_path, 'atom.xml'))
-              yield BW::HTTP::Response.new(body: string, status_code: 200)
+              yield BW::HTTP::Response.new(body: string.to_data, status_code: 200)
+            elsif url == 'http://doesnotexist.com'
+              yield BW::HTTP::Response.new(status_code: nil)
             else
               original_get(url, options, &block)
             end
