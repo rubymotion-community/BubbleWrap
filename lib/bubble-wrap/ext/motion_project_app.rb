@@ -11,8 +11,7 @@ module BubbleWrap
               app.frameworks = ::BubbleWrap::Requirement.frameworks(app.frameworks)
               block.call(app) unless block.nil?
             end
-            configs.each_value &bw_config
-            config.validate
+            config.setup_blocks << bw_config
           end
           alias :setup_without_bubblewrap :setup
           alias :setup :setup_with_bubblewrap
