@@ -153,7 +153,7 @@ describe BubbleWrap::App do
 
   describe '.identifier' do
     it 'returns the application identifier' do
-      App.identifier.should == 'io.bubblewrap.testSuite'
+      App.identifier.should == 'io.bubblewrap.testSuite_spec'
     end
   end
 
