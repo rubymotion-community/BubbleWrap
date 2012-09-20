@@ -87,6 +87,7 @@ module BubbleWrap
           @options[:source_type] = :camera
         end
 
+        source_type_readable = options[:source_type]
         source_type = const_int_get("UIImagePickerControllerSourceType", @options[:source_type])
         if not Camera.source_type_available?(source_type)
           error(Error::SOURCE_TYPE_NOT_AVAILABLE) and return
@@ -108,11 +109,11 @@ module BubbleWrap
         self.picker.mediaTypes = media_types
         self.picker.allowsEditing = @options[:allows_editing]
 
-        if source_type == :camera && ![:front, :rear].member?(self.location)
+        if source_type_readable == :camera && ![:front, :rear].member?(self.location)
           raise Error::INVALID_CAMERA_LOCATION, "Can't use camera location #{self.location} with source type :camera"
         end
 
-        if source_type == :camera
+        if source_type_readable == :camera
           self.picker.cameraDevice = camera_device
         end
 
