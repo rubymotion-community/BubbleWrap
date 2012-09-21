@@ -3,8 +3,11 @@ unless defined?(Motion::Project::Config)
 end
 
 unless defined?(BubbleWrap::LOADER_PRESENT)
-
   require 'bubble-wrap/version' unless defined?(VERSION)
+q  if BubbleWrap::minor_version(Motion::Version) < BubbleWrap::minor_version(BubbleWrap::MIN_MOTION_VERSION)
+    raise "BubbleWrap #{BubbleWrap::VERSION} requires at least rubymotion #{BubbleWrap::MIN_MOTION_VERSION}"
+  end
+
   require 'bubble-wrap/ext'
   require 'bubble-wrap/requirement'
 
