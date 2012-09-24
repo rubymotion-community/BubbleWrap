@@ -11,4 +11,5 @@ module Motion
       end
     end
   end
+  Version = "1.24"
 end
