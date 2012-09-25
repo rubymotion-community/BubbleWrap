@@ -18,38 +18,14 @@ module BubbleWrap
     #     p response.body.to_str # prints the response's body
     #   end
     #
-    def self.get(url, options={}, &block)
-      create_query(url, :get, options, block)
-    end
 
-    # Make a POST request
-    def self.post(url, options={}, &block)
-      create_query(url, :post, options, block)
-    end
+    [:get, :post, :put, :delete, :head, :patch].each do |http_verb|
 
-    # Make a PUT request
-    def self.put(url, options={}, &block)
-      create_query(url, :put, options, block)
-    end
+      define_singleton_method(http_verb) do |url, options = {}, &block|
+        options[:action] = block if block
+        HTTP::Query.new(url, http_verb, options)
+      end
 
-    # Make a DELETE request
-    def self.delete(url, options={}, &block)
-      create_query(url, :delete, options, block)
-    end
-
-    # Make a HEAD request
-    def self.head(url, options={}, &block)
-      create_query(url, :head, options, block)
-    end
-
-    # Make a PATCH request
-    def self.patch(url, options={}, &block)
-      create_query(url, :patch, options, block)
-    end
-
-    def self.create_query(url, method, options, block)
-      options[:action] = block if block
-      HTTP::Query.new(url, method, options)
     end
 
     # Response class wrapping the results of a Query's response
