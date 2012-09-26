@@ -1,7 +1,12 @@
+## Unreleased
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.4...master)
+
 ## 1.1.4 (Unreleased)
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.3...master)
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.3...v1.1.4)
 
+* Support RubyMotion 1.24 or above (https://github.com/rubymotion/BubbleWrap/pull/143)
 * Fixed a problem with `when` events not properly handling multiple targets per event. Now defaults to one target per event with an option to append multiple targets.
 
 ## 1.1.3
