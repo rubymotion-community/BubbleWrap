@@ -2,7 +2,7 @@
 
 [Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.4...master)
 
-## 1.1.4 (Unreleased)
+## 1.1.4
 
 [Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.3...v1.1.4)
 
