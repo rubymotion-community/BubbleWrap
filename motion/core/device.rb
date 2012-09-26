@@ -41,7 +41,7 @@ module BubbleWrap
 
     # Returns the IOS SDK version currently running (i.e. "5.1" or "6.0" etc)
     # @return [String] the IOS SDK version currently running
-    def sdk_version
+    def ios_version
       UIDevice.currentDevice.systemVersion
     end
 

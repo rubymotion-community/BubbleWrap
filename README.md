@@ -192,7 +192,7 @@ Examples:
 # :portrait
 > Device.simulator?
 # true
-> Device.sdk_version
+> Device.ios_version
 # "6.0"
 > Device.retina?
 # false

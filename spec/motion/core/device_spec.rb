@@ -42,10 +42,10 @@ describe BubbleWrap::Device do
     end
   end
 
-  describe '.sdk_version?' do
+  describe '.ios_version' do
     it 'returns true' do
       # exact value depends on system where specs run. 4.0 seems like a safe guess
-      BW::Device.sdk_version.should > '4.0'
+      BW::Device.ios_version.should > '4.0'
     end
   end
 
