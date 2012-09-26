@@ -182,9 +182,15 @@ describe BubbleWrap::App do
     end
   end
 
-  describe '.app' do
+  describe '.shared' do
     it 'returns UIApplication.sharedApplication' do
       App.shared.should == UIApplication.sharedApplication
+    end
+  end
+
+  describe '.window' do
+    it 'returns UIApplication.sharedApplication.keyWindow' do
+      App.window.should == UIApplication.sharedApplication.keyWindow
     end
   end
 
