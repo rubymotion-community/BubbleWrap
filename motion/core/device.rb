@@ -39,6 +39,12 @@ module BubbleWrap
       @simulator_state ||= !(UIDevice.currentDevice.model =~ /simulator/i).nil?
     end
 
+    # Returns the IOS SDK version currently running (i.e. "5.1" or "6.0" etc)
+    # @return [String] the IOS SDK version currently running
+    def sdk_version
+      UIDevice.currentDevice.systemVersion
+    end
+
     # Shameless shorthand for accessing BubbleWrap::Screen
     def screen
       BubbleWrap::Device::Screen
