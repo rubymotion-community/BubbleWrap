@@ -36,7 +36,7 @@ describe BubbleWrap::Media::Player do
     end
 
     it "should present a modalViewController on root if no controller given" do
-      @controller = UIApplication.sharedApplication.keyWindow.rootViewController
+      @controller = App.window.rootViewController
 
       @player.play_modal(@local_file)
 
@@ -58,7 +58,7 @@ describe BubbleWrap::Media::Player do
       # .presentMoviePlayerViewControllerAnimated detects whether or not
       # @controller.view is part of a hierarchy, I guess. if you remove this
       # then the test fails.
-      UIApplication.sharedApplication.keyWindow.rootViewController.view.addSubview(@controller.view)
+      App.window.rootViewController.view.addSubview(@controller.view)
 
       @player.play_modal(@local_file, controller: @controller)
 

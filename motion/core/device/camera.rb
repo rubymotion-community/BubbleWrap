@@ -117,7 +117,7 @@ module BubbleWrap
           self.picker.cameraDevice = camera_device
         end
 
-        presenting_controller ||= UIApplication.sharedApplication.keyWindow.rootViewController
+        presenting_controller ||= App.window.rootViewController
         presenting_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
       end
 
