@@ -42,6 +42,13 @@ describe BubbleWrap::Device do
     end
   end
 
+  describe '.sdk_version?' do
+    it 'returns true' do
+      # exact value depends on system where specs run. 4.0 seems like a safe guess
+      BW::Device.sdk_version.should > '4.0'
+    end
+  end
+
   describe '.screen' do
     it 'return BubbleWrap::Screen' do
       BW::Device.screen.should == BW::Device::Screen

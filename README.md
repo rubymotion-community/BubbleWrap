@@ -192,6 +192,8 @@ Examples:
 # :portrait
 > Device.simulator?
 # true
+> Device.sdk_version
+# "6.0"
 > Device.retina?
 # false
 > Device.screen.width
