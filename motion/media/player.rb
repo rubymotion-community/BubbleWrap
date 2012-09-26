@@ -87,7 +87,7 @@ module BubbleWrap
 
         if display_modal
           @presenting_controller = options[:controller]
-          @presenting_controller ||= UIApplication.sharedApplication.keyWindow.rootViewController
+          @presenting_controller ||= App.window.rootViewController
           @presenting_controller.presentMoviePlayerViewControllerAnimated(@media_player)
         else
           if block.nil?

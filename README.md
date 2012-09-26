@@ -169,6 +169,7 @@ Other available methods:
 * `App.frame`
 * `App.delegate`
 * `App.shared`
+* `App.window`
 * `App.current_locale`
 
 
