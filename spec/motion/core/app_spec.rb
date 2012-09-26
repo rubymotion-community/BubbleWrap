@@ -188,6 +188,12 @@ describe BubbleWrap::App do
     end
   end
 
+  describe '.window' do
+    it 'returns UIApplication.sharedApplication.keyWindow' do
+      App.window.should == UIApplication.sharedApplication.keyWindow
+    end
+  end
+
   describe '.run_after' do
     class DelayedRunAfterTest; attr_accessor :test_value end
 
