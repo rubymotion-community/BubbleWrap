@@ -182,7 +182,7 @@ describe BubbleWrap::App do
     end
   end
 
-  describe '.app' do
+  describe '.shared' do
     it 'returns UIApplication.sharedApplication' do
       App.shared.should == UIApplication.sharedApplication
     end
