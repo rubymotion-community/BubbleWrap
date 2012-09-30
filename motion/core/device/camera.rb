@@ -21,17 +21,17 @@ module BubbleWrap
 
       def self.front
         return nil if not UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceFront)
-        Camera.new(:front).retain
+        @front ||= Camera.new(:front)
       end
 
       def self.rear
         return nil if not UIImagePickerController.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceRear)
-        Camera.new(:rear).retain
+        @rear ||= Camera.new(:rear)
       end
 
       # For uploading photos from the library.
       def self.any
-        Camera.new.retain
+        @any ||= Camera.new
       end
 
       def initialize(location = :none)

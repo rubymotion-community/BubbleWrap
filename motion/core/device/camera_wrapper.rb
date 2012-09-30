@@ -7,7 +7,7 @@ module BubbleWrap
       # The front-facing camera used to capture media
       # @return [Device::Camera, NilClass] a Camera will be returned if there is a front camera, nil otherwise
       def front
-        BubbleWrap::Device::Camera.front
+        @front ||= BubbleWrap::Device::Camera.front
       end
 
       # Verifies that the device running has a front facing camera.
@@ -19,7 +19,7 @@ module BubbleWrap
       # The rear-facing camera used to capture media
       # @return [Device::Camera, NilClass] a Camera will be returned if there is a rear camera, nil otherwise
       def rear
-        BubbleWrap::Device::Camera.rear
+        @rear ||= BubbleWrap::Device::Camera.rear
       end
 
       # Verifies that the device running has a rear facing camera.
@@ -32,7 +32,7 @@ module BubbleWrap
       # See Device::Camera docs for more source type options.
       # @return [Device::Camera] a Camera will always be returned.
       def any
-        BubbleWrap::Device::Camera.any
+        @any ||= BubbleWrap::Device::Camera.any
       end
 
       # Should always return true, since picking images from *some* source is always possible
