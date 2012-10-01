@@ -50,7 +50,7 @@ module BubbleWrap
     # Defer is for integrating blocking operations into the reactor's control
     # flow.
     # Call defer with one or two blocks, the second block is optional.
-    #     operator = proc do
+    #     operation = proc do
     #       # perform a long running operation here
     #       "result"
     #     end
