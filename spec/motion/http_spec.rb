@@ -620,6 +620,21 @@ describe "HTTP" do
 
     end
 
+    describe "properly format payload to url get query string" do
+
+      before do
+        @payload = {"we love" => '#==Rock&Roll==#', "radio" => "Ga Ga"}
+        @url_string = 'http://fake.url/method'
+        @get_query = BubbleWrap::HTTP::Query.new( @url_string, :get, :payload => @payload)
+        @escaped_url = "http://fake.url/method?we%20love=%23%3D%3DRock%26Roll%3D%3D%23&radio=Ga%20Ga"
+      end
+
+      it "should escape \#=& characters only in keys and values" do
+        @get_query.instance_variable_get(:@url).description.should.equal @escaped_url
+      end
+
+    end
+
     class FakeSender
       attr_reader :challenge, :credential, :was_cancelled
       def cancelAuthenticationChallenge(challenge)

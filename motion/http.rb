@@ -286,11 +286,12 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def create_url(url_string)
+        url_string = url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
         if (@method == "GET" || @method == "HEAD") && @payload
           convert_payload_to_url if @payload.is_a?(Hash)
           url_string += "?#{@payload}"
         end
-        url = NSURL.URLWithString(url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding)
+        url = NSURL.URLWithString(url_string)
 
         validate_url(url)
         url
@@ -302,9 +303,15 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         end
       end
 
+      def escape(string)
+        if string
+          CFURLCreateStringByAddingPercentEscapes nil, string, "[]", ";=&,", KCFStringEncodingUTF8
+        end
+      end
+
       def convert_payload_to_url
         params_array = process_payload_hash(@payload)
-        params_array.map! { |key, value| "#{key}=#{value}" }
+        params_array.map! { |key, value| "#{escape key}=#{escape value}" }
         @payload = params_array.join("&")
       end
 
