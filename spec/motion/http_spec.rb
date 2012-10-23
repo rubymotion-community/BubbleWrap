@@ -623,10 +623,10 @@ describe "HTTP" do
     describe "properly format payload to url get query string" do
 
       before do
-        @payload = {"we love" => '#==Rock&Roll==#', "radio" => "Ga Ga"}
+        @payload = {"we love" => '#==Rock&Roll==#', "radio" => "Ga Ga", "qual" => 3.0, "incr" => -1}
         @url_string = 'http://fake.url/method'
         @get_query = BubbleWrap::HTTP::Query.new( @url_string, :get, :payload => @payload)
-        @escaped_url = "http://fake.url/method?we%20love=%23%3D%3DRock%26Roll%3D%3D%23&radio=Ga%20Ga"
+        @escaped_url = "http://fake.url/method?we%20love=%23%3D%3DRock%26Roll%3D%3D%23&radio=Ga%20Ga&qual=3.0&incr=-1"
       end
 
       it "should escape \#=& characters only in keys and values" do
