@@ -82,7 +82,7 @@ module BubbleWrap
       #
       # ==== Options
       # :payload<String>   - data to pass to a POST, PUT, DELETE query.
-      # :delegator         - Proc, class or object to call when the file is downloaded.
+      # :action            - Proc, class or object to call when the file is downloaded.
       # a proc will receive a Response object while the passed object
       # will receive the handle_query_response method
       # :headers<Hash>     - headers send with the request
