@@ -216,15 +216,31 @@ describe "HTTP" do
           "twitter:@mneorr".dataUsingEncoding NSUTF8StringEncoding
         end
 
-        it "should set payload from options{} to @payload" do
+        it "should set payload from options{} to @query on GET request" do
           payload = "user[name]=marin&user[surname]=usalj&twitter=@mneorr&website=mneorr.com&values[]=apple&values[]=orange&values[]=peach&credentials[username]=mneorr&credentials[password]=123456xx!@crazy"
-          @query.instance_variable_get(:@payload).should.equal payload
+          @query.instance_variable_get(:@query).should.equal payload
           @options.should.not.has_key? :payload
+        end
+
+        it "should set query from options{} to @query on GET request" do
+          query_string_query = BubbleWrap::HTTP::Query.new( @fake_url , :get,  { query: {name: "apple", model: "macbook"}} )
+          query_string_query.instance_variable_get(:@query).should.equal 'name=apple&model=macbook'
+          query_string_query.instance_variable_get(:@options).should.not.has_key? :query
+          query_string_query.instance_variable_get(:@url).description.should.equal "#{@fake_url}?name=apple&model=macbook"
+        end
+
+        it "should set query and payload from options{} to @query and @pyaload on POST" do
+          query_string_query = BubbleWrap::HTTP::Query.new( @fake_url , :post,  { query: {name: "apple", model: "macbook"}, payload: "data"} )
+          query_string_query.instance_variable_get(:@query).should.equal 'name=apple&model=macbook'
+          query_string_query.instance_variable_get(:@payload).should.equal 'data'
+          query_string_query.instance_variable_get(:@options).should.not.has_key? :query
+          query_string_query.instance_variable_get(:@options).should.not.has_key? :payload
+          query_string_query.instance_variable_get(:@url).description.should.equal "#{@fake_url}?name=apple&model=macbook"
         end
 
         it "should check if @payload is a hash before generating GET params" do
           query_string_payload = BubbleWrap::HTTP::Query.new( @fake_url , :get,  { payload: "name=apple&model=macbook"} )
-          query_string_payload.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
+          query_string_payload.instance_variable_get(:@query).should.equal 'name=apple&model=macbook'
         end
 
         it "should check if payload is nil" do
