@@ -16,7 +16,7 @@ module BubbleWrap
 
       # Figure out the current physical orientation of the device
       # @return [:portrait, :portrait_upside_down, :landscape_left, :landscape_right, :face_up, :face_down, :unknown]
-      def orientation(device_orientation=UIDevice.currentDevice.orientation)
+      def orientation(device_orientation=UIDevice.currentDevice.orientation, fallback=true)
         case device_orientation
         when UIDeviceOrientationPortrait then :portrait
         when UIDeviceOrientationPortraitUpsideDown then :portrait_upside_down
@@ -25,7 +25,13 @@ module BubbleWrap
         when UIDeviceOrientationFaceUp then :face_up
         when UIDeviceOrientationFaceDown then :face_down
         else
-          :unknown
+          # In some cases, the accelerometer can't get an accurate read of orientation so we fall back on the orientation of
+          # the status bar.
+          if fallback && (device_orientation != UIApplication.sharedApplication.statusBarOrientation)
+            orientation(UIApplication.sharedApplication.statusBarOrientation)
+          else
+            :unknown
+          end
         end
       end
 
