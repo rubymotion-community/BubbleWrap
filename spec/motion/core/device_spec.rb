@@ -17,13 +17,13 @@ describe BubbleWrap::Device do
       end
     end
 
-    describe '.wide_screen?' do
+    describe '.long_screen?' do
       it 'returns true if screen is wide' do
-        BW::Device.wide_screen?(@idiom, 568.0).should == true
+        BW::Device.long_screen?(@idiom, 568.0).should == true
       end
 
       it 'returns false if screen is not wide' do
-        BW::Device.wide_screen?(@idiom, 480.0).should == false
+        BW::Device.long_screen?(@idiom, 480.0).should == false
       end
     end
   end
@@ -45,9 +45,9 @@ describe BubbleWrap::Device do
       end
     end
 
-    describe '.wide_screen?' do
+    describe '.long_screen?' do
       it 'always not a widescreen' do
-        BW::Device.wide_screen?(@idiom, 1024.0).should == false
+        BW::Device.long_screen?(@idiom, 1024.0).should == false
       end
     end
   end
