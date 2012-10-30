@@ -13,6 +13,12 @@ module BubbleWrap
     def ipad?(idiom=UIDevice.currentDevice.userInterfaceIdiom)
       idiom == UIUserInterfaceIdiomPad
     end
+    
+    # Verifies that the device having a long screen (4 inch iPhone/iPod)
+    # @return [TrueClass, FalseClass] true will be returned if the device is an iPhone/iPod with 4 inche screen, false otherwise.
+    def long_screen?(idiom=UIDevice.currentDevice.userInterfaceIdiom, screen_height=UIScreen.mainScreen.bounds.size.height)
+      iphone?(idiom) && screen_height == 568.0
+    end
 
     # Use this to make a DSL-style call for picking images
     # @example Device.camera.front
