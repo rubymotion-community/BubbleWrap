@@ -16,6 +16,16 @@ describe BubbleWrap::Device do
         BW::Device.ipad?(@idiom).should == false
       end
     end
+
+    describe '.long_screen?' do
+      it 'returns true if screen is wide' do
+        BW::Device.long_screen?(@idiom, 568.0).should == true
+      end
+
+      it 'returns false if screen is not wide' do
+        BW::Device.long_screen?(@idiom, 480.0).should == false
+      end
+    end
   end
 
   describe 'on iPad' do
@@ -32,6 +42,12 @@ describe BubbleWrap::Device do
     describe '.ipad?' do
       it 'returns true' do
         BW::Device.ipad?(@idiom).should == true
+      end
+    end
+
+    describe '.long_screen?' do
+      it 'always not a widescreen' do
+        BW::Device.long_screen?(@idiom, 1024.0).should == false
       end
     end
   end
