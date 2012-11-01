@@ -1,8 +1,10 @@
 describe BubbleWrap::Device::CameraWrapper do
+  
   before do
     BW::Device.camera.instance_variable_set(:@front, nil)
     BW::Device.camera.instance_variable_set(:@rear, nil)
   end
+  
   describe 'on device with only front facing camera' do
     before do
       UIImagePickerController.instance_eval do
