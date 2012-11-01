@@ -85,14 +85,20 @@ describe BubbleWrap::Device::Screen do
     end
 
     describe 'unknown' do
-      it 'returns :unknown' do
-        BW::Device::Screen.orientation(UIDeviceOrientationUnknown).should == :unknown
+      it 'returns :unknown if fallback is false' do
+        BW::Device::Screen.orientation(UIDeviceOrientationUnknown, false).should == :unknown
+      end
+      it 'returns Status bar orientation if fallback not specified' do
+        BW::Device::Screen.orientation(UIDeviceOrientationUnknown).should == BW::Device::Screen.orientation(UIApplication.sharedApplication.statusBarOrientation)
       end
     end
 
     describe 'any other input' do
-      it 'returns :unknown' do
-        BW::Device::Screen.orientation('twiggy twiggy twiggy').should == :unknown
+      it 'returns :unknown  if fallback is false' do
+        BW::Device::Screen.orientation('twiggy twiggy twiggy', false).should == :unknown
+      end
+      it 'returns Status bar orientation if fallback not specified' do
+        BW::Device::Screen.orientation('twiggy twiggy twiggy').should == BW::Device::Screen.orientation(UIApplication.sharedApplication.statusBarOrientation)
       end
     end
   end
