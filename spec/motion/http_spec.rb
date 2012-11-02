@@ -618,6 +618,12 @@ describe "HTTP" do
         @challenge.sender.credential.persistence.should.equal NSURLCredentialPersistenceForSession
       end
 
+      it 'should continue without credentials when no credentials provided' do
+        @options.delete :credentials
+        @query = BubbleWrap::HTTP::Query.new( @localhost_url , :get, @options )
+        @query.connection(nil, didReceiveAuthenticationChallenge:@challenge)
+        @challenge.sender.continue_without_credential.should.equal true
+      end
     end
 
     describe "properly format payload to url get query string" do
@@ -636,13 +642,19 @@ describe "HTTP" do
     end
 
     class FakeSender
-      attr_reader :challenge, :credential, :was_cancelled
+      attr_reader :challenge, :credential, :was_cancelled, :continue_without_credential
+
       def cancelAuthenticationChallenge(challenge)
         @was_cancelled = true
       end
+
       def useCredential(credential, forAuthenticationChallenge:challenge)
         @challenge = challenge
         @credential = credential
+      end
+
+      def continueWithoutCredentialForAuthenticationChallenge(challenge)
+        @continue_without_credential = true
       end
     end
 
