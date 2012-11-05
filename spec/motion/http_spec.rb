@@ -103,6 +103,7 @@ describe "HTTP" do
 
     before do
       @credentials = { username: 'mneorr', password: '123456xx!@crazy' }
+      @credential_persistence = 0
       @payload = {
         user: { name: 'marin', surname: 'usalj' },
         twitter: '@mneorr',
@@ -124,6 +125,7 @@ describe "HTTP" do
         files: @files,
         payload: @payload,
         credentials: @credentials,
+        credential_persistence: @credential_persistence,
         headers: @headers,
         cache_policy: @cache_policy,
         leftover_option: @leftover_option,
@@ -314,6 +316,14 @@ describe "HTTP" do
 
         new_query = BubbleWrap::HTTP::Query.new( @localhost_url, :get, {})
         new_query.instance_variable_get(:@cache_policy).should.equal NSURLRequestUseProtocolCachePolicy
+      end
+
+      it "should delete :credential_persistence or set NSURLCredentialPersistenceForSession" do
+        @query.instance_variable_get(:@credential_persistence).should.equal @credential_persistence
+        @options.should.not.has_key? :credential_persistence
+
+        new_query = BubbleWrap::HTTP::Query.new( @localhost_url, :get, {})
+        new_query.instance_variable_get(:@credential_persistence).should.equal NSURLCredentialPersistenceForSession
       end
 
       it "should set the rest of options{} to ivar @options" do
@@ -614,8 +624,8 @@ describe "HTTP" do
         @challenge.sender.credential.password.should.equal @credentials[:password]
       end
 
-      it "always uses NSURLCredentialPersistenceForSession" do
-        @challenge.sender.credential.persistence.should.equal NSURLCredentialPersistenceForSession
+      it "should use Credential Persistence set in options" do
+        @challenge.sender.credential.persistence.should.equal @credential_persistence
       end
 
     end
