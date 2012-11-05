@@ -100,6 +100,7 @@ module BubbleWrap
         @headers = escape_line_feeds(options.delete :headers)
         @format = options.delete(:format)
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
+        @credential_persistence = options.delete(:credential_persistence) || NSURLCredentialPersistenceForSession
         @options = options
         @response = HTTP::Response.new
 
@@ -175,7 +176,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
       def connection(connection, didReceiveAuthenticationChallenge:challenge)
         if (challenge.previousFailureCount == 0)
-          new_credential = NSURLCredential.credentialWithUser(credentials[:username], password:credentials[:password], persistence:NSURLCredentialPersistenceForSession)
+          new_credential = NSURLCredential.credentialWithUser(credentials[:username], password:credentials[:password], persistence:@credential_persistence)
           challenge.sender.useCredential(new_credential, forAuthenticationChallenge:challenge)
           log "auth challenged, answered with credentials: #{credentials.inspect}"
         else
