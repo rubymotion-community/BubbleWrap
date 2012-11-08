@@ -235,6 +235,14 @@ footer img {
   }
 }
 
+@media print, screen and (max-height: 780px) {
+  footer {
+    top: 400px;
+    float:none;
+    bottom:inherit;
+  }
+}
+
 @media print, screen and (max-width: 720px) {
   body {
     word-wrap:break-word;
