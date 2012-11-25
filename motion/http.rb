@@ -176,9 +176,14 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
       def connection(connection, didReceiveAuthenticationChallenge:challenge)
         if (challenge.previousFailureCount == 0)
-          new_credential = NSURLCredential.credentialWithUser(credentials[:username], password:credentials[:password], persistence:@credential_persistence)
-          challenge.sender.useCredential(new_credential, forAuthenticationChallenge:challenge)
-          log "auth challenged, answered with credentials: #{credentials.inspect}"
+          if credentials[:username].to_s.empty? && credentials[:password].to_s.empty?
+            challenge.sender.continueWithoutCredentialForAuthenticationChallenge(challenge)
+            log 'Continue without credentials to get 401 status in response'
+          else
+            new_credential = NSURLCredential.credentialWithUser(credentials[:username], password:credentials[:password], persistence:@credential_persistence)
+            challenge.sender.useCredential(new_credential, forAuthenticationChallenge:challenge)
+            log "auth challenged, answered with credentials: #{credentials.inspect}"
+          end
         else
           challenge.sender.cancelAuthenticationChallenge(challenge)
           log 'Auth Failed :('
