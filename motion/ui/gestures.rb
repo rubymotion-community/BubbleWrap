@@ -25,39 +25,17 @@ class UIView
   def when_pressed(enableInteraction=true, &proc)
     add_gesture_recognizer_helper(UILongPressGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
   end
-
-
-  def whenTapped(enableInteraction=true, &proc)
-    NSLog "[DEPRECATED - whenTapped] please use when_tapped instead."
-    when_tapped(enableInteraction, &proc)
+  
+  def self.deprecated_methods
+    %w(whenTapped whenPinched whenRotated whenSwiped whenPanned whenPressed)
   end
 
-  def whenPinched(enableInteraction=true, &proc)
-    NSLog "[DEPRECATED - whenPinched] please use when_pinched instead."
-    when_pinched(enableInteraction, &proc)
+  deprecated_methods.each do |method|
+    define_method(method) do |enableInteraction = true, &proc|
+      NSLog "[DEPRECATED - #{method}] please use #{method.underscore} instead."
+      send(method.underscore, enableInteraction, &proc)
+    end
   end
-
-  def whenRotated(enableInteraction=true, &proc)
-    NSLog "[DEPRECATED - whenRotated] please use when_rotated instead."
-    when_rotated(enableInteraction, &proc)
-  end
-
-  def whenSwiped(enableInteraction=true, &proc)
-    NSLog "[DEPRECATED - whenSwiped] please use when_swiped instead."
-    when_swiped(enableInteraction, &proc)
-  end
-
-  def whenPanned(enableInteraction=true, &proc)
-    NSLog "[DEPRECATED - whenPanned] please use when_panned instead."
-    when_panned(enableInteraction, &proc)
-  end
-
-  def whenPressed(enableInteraction=true, &proc)
-    NSLog "[DEPRECATED - whenPressed] please use when_pressed instead."
-    when_pressed(enableInteraction, &proc)
-  end
-
-
 
   private
 
