@@ -49,6 +49,11 @@ describe UIView do
     testMethod.call :whenSwiped
   end
 
+  describe '#when_swiped_left' do
+    testMethod.call :when_swiped_left
+    testMethod.call :whenSwipedLeft
+  end  
+
   describe '#when_panned' do
     testMethod.call :when_panned
     testMethod.call :whenPanned

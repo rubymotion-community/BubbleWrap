@@ -18,6 +18,12 @@ class UIView
     add_gesture_recognizer_helper(UISwipeGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
   end
 
+  def when_swiped_left(enableInteraction=true, &proc)
+    recognizer = UISwipeGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:')
+    recognizer.direction = UISwipeGestureRecognizerDirectionLeft
+    add_gesture_recognizer_helper(recognizer, enableInteraction, proc)
+  end
+
   def when_panned(enableInteraction=true, &proc)
     add_gesture_recognizer_helper(UIPanGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
   end
@@ -47,6 +53,11 @@ class UIView
     when_swiped(enableInteraction, &proc)
   end
 
+  def whenSwipedLeft(enableInteraction=true, &proc)
+    NSLog "[DEPRECATED - whenSwipedLeft] please use when_swiped_left instead."
+    when_swiped_left(enableInteraction, &proc)
+  end  
+  
   def whenPanned(enableInteraction=true, &proc)
     NSLog "[DEPRECATED - whenPanned] please use when_panned instead."
     when_panned(enableInteraction, &proc)
