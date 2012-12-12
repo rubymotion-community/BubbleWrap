@@ -10,6 +10,7 @@ module BubbleWrap
     def []=(key, value)
       storage.setObject(value, forKey: storage_key(key))
       storage.synchronize
+      self[key]
     end
 
     def [](key)
