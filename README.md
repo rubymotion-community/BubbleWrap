@@ -374,7 +374,7 @@ BW::Media.play_modal("http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_s
 Extra methods on `UIView` for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:
 
 ```ruby
-    view.whenTapped do
+    view.when_tapped do
       UIView.animateWithDuration(1,
         animations:lambda {
           # animate
@@ -383,7 +383,7 @@ Extra methods on `UIView` for working with gesture recognizers. A gesture recogn
     end
 ```
 
-There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
+There are similar methods for `pinched`, `rotated`, `swiped`, `panned`, and `pressed` (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
 
 ### UIViewController
 
