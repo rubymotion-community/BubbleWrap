@@ -477,7 +477,7 @@ iso8601 formatted string into a Time instance.</p>
 <p>Extra methods on <code>UIView</code> for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:</p>
 
 <div class="highlight">
-<pre>    <span class="n">view</span><span class="o">.</span><span class="n">whenTapped</span> <span class="k">do</span>
+<pre>    <span class="n">view</span><span class="o">.</span><span class="n">when_tapped</span> <span class="k">do</span>
       <span class="no">UIView</span><span class="o">.</span><span class="n">animateWithDuration</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">animations</span><span class="ss">:lambda</span> <span class="p">{</span>
           <span class="c1"># animate</span>
@@ -488,7 +488,7 @@ iso8601 formatted string into a Time instance.</p>
 </div>
 
 
-<p>There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.</p>
+<p>There are similar methods for <code>pinched</code>, <code>rotated</code>, <code>swiped</code>, <code>panned</code>, and <code>pressed</code> (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.</p>
 
 <h3>UIViewController</h3>
 
