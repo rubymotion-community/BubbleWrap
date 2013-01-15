@@ -52,6 +52,7 @@ module BubbleWrap
       @options[:distance_filter] ||= KCLDistanceFilterNone
       @options[:desired_accuracy] ||= KCLLocationAccuracyBest
       @options[:retries] ||= 5
+      @options[:once] ||= false
       @retries = 0
 
       if not enabled?
@@ -71,6 +72,10 @@ module BubbleWrap
 
     def get_significant(options = {}, &block)
       get(options.merge(significant: true), &block)
+    end
+
+    def get_once(options = {}, &block)
+      get(options.merge(once: true), &block)
     end
 
     # Stop getting locations
@@ -102,7 +107,12 @@ module BubbleWrap
     ##########
     # CLLocationManagerDelegate Methods
     def locationManager(manager, didUpdateToLocation:newLocation, fromLocation:oldLocation)
-      @callback.call({to: newLocation, from: oldLocation})
+      if @options[:once]
+        @callback.call(newLocation)
+        stop
+      else
+        @callback.call({to: newLocation, from: oldLocation})
+      end
     end
 
     def locationManager(manager, didFailWithError:error)
