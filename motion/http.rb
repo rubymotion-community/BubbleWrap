@@ -107,6 +107,7 @@ module BubbleWrap
         @url = create_url(url_string)
         @body = create_request_body
         @request = create_request
+        @original_url = @url.dup
 
         @connection = create_connection(request, self)
         @connection.start
@@ -147,6 +148,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
           call_delegator_with_response
           nil
         else
+          @url = request.URL
           request
         end
       end
