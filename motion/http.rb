@@ -137,6 +137,10 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def connection(connection, willSendRequest:request, redirectResponse:redirect_response)
+        # abort early if the user has explicitly disabled redirects
+        if @options[:no_redirect] and redirect_response then
+          return nil
+        end
         @redirect_count ||= 0
         @redirect_count += 1
         log "##{@redirect_count} HTTP redirect_count: #{request.inspect} - #{self.description}"

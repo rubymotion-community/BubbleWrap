@@ -583,6 +583,24 @@ describe "HTTP" do
         end
       end
 
+      it "should always allow canonical redirects" do
+          @query.options.update({:no_redirect => 1})
+          request = @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+          request.should.equal @request
+      end
+
+      it "should disallow non-canonical redirects if requested not to" do
+          @query.options.update({:no_redirect => 1})
+          request = @query.connection(nil, willSendRequest:@request, redirectResponse:"monkey")
+          request.should.equal nil
+      end
+
+      it "should allow non-canonical redirects by default" do
+          @query.options.delete(:no_redirect)
+          request = @query.connection(nil, willSendRequest:@request, redirectResponse:"monkey")
+          request.should.equal @request
+      end
+
       describe "after 30 redirects" do
         before do
           31.times do
