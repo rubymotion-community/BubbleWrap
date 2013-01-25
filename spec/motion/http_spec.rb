@@ -603,6 +603,48 @@ describe "HTTP" do
         end
       end
 
+      it "should not update the request URL after redirecting by default" do
+          request = @query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+          @query.connectionDidFinishLoading(nil)
+          @query.response.url.absoluteString().should.equal @query.response.original_url.absoluteString()
+      end
+
+      it "should update the request URL after redirecting if requested" do
+          # make a new query object here to guarantee we know what the original requested URL is
+          query = BubbleWrap::HTTP::Query.new('http://fakehost.local/', :get, {:follow_urls => 1});
+
+          # pretend we've redirected to a different URL
+          @request = NSMutableURLRequest.requestWithURL NSURL.URLWithString('http://expanded.local/')
+
+          # redirectResponse should only be nil if we're canonicalising the URL
+          # but since the code doesn't distinguish this case, we don't have to
+          request = query.connection(nil, willSendRequest:@request, redirectResponse:nil)
+          query.connectionDidFinishLoading(nil)
+
+          query.response.url.absoluteString().should.equal 'http://expanded.local/'
+          query.response.original_url.absoluteString().should.equal 'http://fakehost.local/'
+      end
+
+      it "should update the request URL after multiple redirects if requested" do
+          # make a new query object here to guarantee we know what the original requested URL is
+          query = BubbleWrap::HTTP::Query.new('http://fakehost.local/', :get, {:follow_urls => 1});
+
+          # pretend we've redirected to a different URL
+          bounce1 = NSMutableURLRequest.requestWithURL NSURL.URLWithString('http://expanded.local/')
+          request = query.connection(nil, willSendRequest:bounce1, redirectResponse:nil)
+
+          # ...and again
+          bounce2 = NSMutableURLRequest.requestWithURL NSURL.URLWithString('http://auth.local/login.php?notauth')
+          request = query.connection(nil, willSendRequest:bounce2, redirectResponse:nil)
+
+          query.connectionDidFinishLoading(nil)
+
+          query.response.url.absoluteString().should.equal 'http://auth.local/login.php?notauth'
+          query.response.original_url.absoluteString().should.equal 'http://fakehost.local/'
+      end
+
+
+
     end
 
     describe "didReceiveAuthenticationChallenge" do
