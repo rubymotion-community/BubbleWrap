@@ -34,6 +34,7 @@ module BubbleWrap
       attr_reader :headers
       attr_accessor :status_code, :status_description, :error_message
       attr_reader :url
+      attr_reader :original_url
 
       def initialize(values={})
         self.update(values)
@@ -107,7 +108,7 @@ module BubbleWrap
         @url = create_url(url_string)
         @body = create_request_body
         @request = create_request
-        @original_url = @url.dup
+        @original_url = @url.copy() # must use copy(), dup() doesn't work
 
         @connection = create_connection(request, self)
         @connection.start
@@ -148,7 +149,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
           call_delegator_with_response
           nil
         else
-          @url = request.URL
+          if @options[:follow_urls] then
+            @url = request.URL
+          end
           request
         end
       end
@@ -171,7 +174,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         UIApplication.sharedApplication.networkActivityIndicatorVisible = false
         @request.done_loading!
         response_body = NSData.dataWithData(@received_data) if @received_data
-        @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url)
+        @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url, original_url: @original_url)
 
         call_delegator_with_response
       end
