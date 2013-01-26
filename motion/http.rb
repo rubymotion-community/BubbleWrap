@@ -82,8 +82,9 @@ module BubbleWrap
       # options<Hash>:: optional options used for the query
       #
       # ==== Options
+      # :query             - String or Hash to append to url resource as query string.
       # :payload<String>   - data to pass to a POST, PUT, DELETE query.
-      # :delegator         - Proc, class or object to call when the file is downloaded.
+      # :action            - Proc, class or object to call when the file is downloaded.
       # a proc will receive a Response object while the passed object
       # will receive the handle_query_response method
       # :headers<Hash>     - headers send with the request
@@ -92,6 +93,7 @@ module BubbleWrap
       def initialize(url_string, http_method = :get, options={})
         @method = http_method.upcase.to_s
         @delegator = options.delete(:action) || self
+        @query = options.delete(:query)
         @payload = options.delete(:payload)
         @files = options.delete(:files)
         @boundary = options.delete(:boundary) || BW.create_uuid
@@ -302,10 +304,11 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
       def create_url(url_string)
         url_string = url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
-        if (@method == "GET" || @method == "HEAD") && @payload
-          convert_payload_to_url if @payload.is_a?(Hash)
-          url_string += "?#{@payload}"
+        if @method == "GET" || @method == "HEAD"
+          @query ||= @payload
         end
+        convert_query_to_url if @query.is_a?(Hash)
+        url_string += "?#{@query}" if @query
         url = NSURL.URLWithString(url_string)
 
         validate_url(url)
@@ -324,10 +327,10 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         end
       end
 
-      def convert_payload_to_url
-        params_array = process_payload_hash(@payload)
+      def convert_query_to_url
+        params_array = process_payload_hash(@query)
         params_array.map! { |key, value| "#{escape key}=#{escape value}" }
-        @payload = params_array.join("&")
+        @query = params_array.join("&")
       end
 
       def process_payload_hash(payload, prefix=nil)
