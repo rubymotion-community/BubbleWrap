@@ -248,6 +248,35 @@ describe "HTTP" do
           end
         end
 
+        it "processes filenames from file hashes" do
+          files = {
+            upload: {data: sample_data, filename: "test.txt"}
+          }
+          query = BubbleWrap::HTTP::Query.new(@fake_url, :post, {files: files})
+          uuid = query.instance_variable_get(:@boundary)
+          real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
+          real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"upload\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}--\r\n"
+        end
+        
+        it "processes filenames from file hashes, using the name when the filename is missing" do
+          files = {
+            upload: {data: sample_data}
+          }
+          query = BubbleWrap::HTTP::Query.new(@fake_url, :post, {files: files})
+          uuid = query.instance_variable_get(:@boundary)
+          real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
+          real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"upload\"; filename=\"upload\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}--\r\n"
+        end
+        
+        it "throws an error for invalid file parameters" do
+          files = {
+            twitter: {filename: "test.txt", data: nil}
+          }
+          lambda {
+            BW::HTTP::Query.new("http://example.com", :post, { files: files})
+          }.should.raise InvalidFileError
+        end
+
         it "sets the HTTPBody DATA to @request for all methods except GET and HEAD" do
           payload = { name: 'apple', model: 'macbook'}
           files = { twitter: sample_data, site: "mneorr.com".dataUsingEncoding(NSUTF8StringEncoding) }

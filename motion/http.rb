@@ -281,14 +281,24 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         body
       end
 
+      def parse_file(key, value)
+        if value.is_a?(Hash)
+          raise InvalidFileError if value[:data].nil?
+          {data: value[:data], filename: value[:filename] || key}
+        else
+          {data: value, filename: key}
+        end
+      end
+
       def append_files(body)
         @files.each do |key, value|
+          file = parse_file(key, value)
           file_data = NSMutableData.new
           s = "--#{@boundary}\r\n"
-          s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{key}\"\r\n"
+          s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{file[:filename]}\"\r\n"
           s += "Content-Type: application/octet-stream\r\n\r\n"
           file_data.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
-          file_data.appendData(value)
+          file_data.appendData(file[:data])
           file_data.appendData("\r\n".dataUsingEncoding NSUTF8StringEncoding)
           body.appendData(file_data)
         end
@@ -385,3 +395,4 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 end
 
 class InvalidURLError < StandardError; end
+class InvalidFileError < StandardError; end
