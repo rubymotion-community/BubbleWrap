@@ -64,6 +64,31 @@ describe BubbleWrap::Reactor do
         @proxy.proof.should >= 2
       end
     end
+
+    it 'accepts non-block callbacks' do
+      @proxy.proof = 0
+      callback = lambda {
+        @proxy.proof = @proxy.proof + 1
+        @subject.cancel_timer(@timer) if @proxy.proof > 2
+      }
+      @timer = @subject.add_periodic_timer 0.5, :callback => callback
+      wait 1.1 do
+        @proxy.proof.should >= 2
+      end
+    end
+
+    it 'accepts non-block callbacks in place of options (old-style API)' do
+      @proxy.proof = 0
+      callback = lambda {
+        @proxy.proof = @proxy.proof + 1
+        @subject.cancel_timer(@timer) if @proxy.proof > 2
+      }
+      @timer = @subject.add_periodic_timer 0.5, callback
+      wait 1.1 do
+        @proxy.proof.should >= 2
+      end
+    end
+
   end
 
   describe '.cancel_timer' do
