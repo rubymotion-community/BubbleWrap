@@ -13,7 +13,8 @@ module BubbleWrap
           (callback || blk).call
           trigger(:fired)
         }
-        @timer = NSTimer.scheduledTimerWithTimeInterval(interval,target: fire, selector: 'call:', userInfo: nil, repeats: true)
+        @timer = NSTimer.timerWithTimeInterval(interval,target: fire, selector: 'call:', userInfo: nil, repeats: true)
+        NSRunLoop.currentRunLoop.addTimer(@timer, forMode: NSDefaultRunLoopMode)
       end
 
       # Cancel the timer
