@@ -7,14 +7,16 @@ module BubbleWrap
       attr_accessor :interval
 
       # Create a new timer that fires after a given number of seconds
-      def initialize(interval, callback=nil, &blk)
+      def initialize(interval, options={}, &blk)
+        options = {:callback => options} if options.respond_to?(:call)
         self.interval = interval
         fire = proc {
-          (callback || blk).call
+          (options[:callback] || blk).call
           trigger(:fired)
         }
-        @timer = NSTimer.timerWithTimeInterval(interval,target: fire, selector: 'call:', userInfo: nil, repeats: true)
-        NSRunLoop.currentRunLoop.addTimer(@timer, forMode: NSDefaultRunLoopMode)
+        @timer = NSTimer.timerWithTimeInterval(interval, target: fire, selector: 'call:', userInfo: nil, repeats: true)
+        runloop_mode = options[:common_modes] ? NSRunLoopCommonModes : NSDefaultRunLoopMode 
+        NSRunLoop.currentRunLoop.addTimer(@timer, forMode: runloop_mode)
       end
 
       # Cancel the timer

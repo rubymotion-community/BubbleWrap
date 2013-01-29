@@ -37,9 +37,17 @@ module BubbleWrap
     # Call `callback` or the passed block every `interval` seconds.
     # Returns a timer signature that can be passed into
     # `cancel_timer`
-    def add_periodic_timer(interval, callback=nil, &blk)
+    # Pass :common_modes => true in the options hash to schedule the timer
+    # for the runloop "common modes" (NSRunLoopCommonModes) instead of
+    # the default mode.
+    # You may pass :callback => an_object_that_responds_to_call in the 
+    # options hash instead of supplying a block
+    # "options" may also itself respond to call, which preserves the behaviour
+    # of version 1.1.5 of this gem
+    def add_periodic_timer(interval, options={}, &blk)
+      options = {:callback => options} if options.respond_to?(:call)
       @timers ||= {}
-      timer = PeriodicTimer.new(interval,callback,&blk)
+      timer = PeriodicTimer.new(interval,options,&blk)
       timer.on(:cancelled) do
         @timers.delete(timer)
       end
