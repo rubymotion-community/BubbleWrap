@@ -53,6 +53,29 @@ describe BubbleWrap::Reactor do
         @proxy.proof.should >= 2
       end
     end
+
+    it 'accepts non-block callbacks' do
+      @proxy.proof = 0
+      callback = lambda {
+        @proxy.proof = @proxy.proof + 1
+        @subject.cancel_timer(@timer) if @proxy.proof > 2
+      }
+      @timer = @subject.add_periodic_timer 0.5, callback
+      wait 1.1 do
+        @proxy.proof.should >= 2
+      end
+    end
+
+    it 'runs callbacks repeatedly in common runloop modes' do
+      @proxy.proof = 0
+      @timer = @subject.add_periodic_timer 0.5, :common_modes => true do
+        @proxy.proof = @proxy.proof + 1
+        @subject.cancel_timer(@timer) if @proxy.proof > 2
+      end
+      wait 1.1 do
+        @proxy.proof.should >= 2
+      end
+    end
   end
 
   describe '.cancel_timer' do
@@ -68,6 +91,15 @@ describe BubbleWrap::Reactor do
     it 'cancels periodic timers' do
       @proxy.proof = true
       timer = @subject.add_periodic_timer 10.0 do
+        @proxy.proof = false
+      end
+      @subject.cancel_timer(timer)
+      @proxy.proof.should == true
+    end
+
+    it 'cancels common modes periodic timers' do
+      @proxy.proof = true
+      timer = @subject.add_periodic_timer 10.0, :common_modes => true do
         @proxy.proof = false
       end
       @subject.cancel_timer(timer)
