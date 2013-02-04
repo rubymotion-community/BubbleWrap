@@ -159,7 +159,7 @@ A module with useful methods related to the running application
 # ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
 > App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
 # ['TF1', 'France 2', 'France 3']
-> App.env?
+> App.environment
 # 'test'
 ```
 

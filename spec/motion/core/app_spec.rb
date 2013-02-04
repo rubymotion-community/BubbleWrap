@@ -227,10 +227,10 @@ describe BubbleWrap::App do
 
   end
 
-  describe ".env?" do
+  describe ".environment" do
 
     it 'returns current application environment' do
-      App.env?.should.equal "test"
+      App.environment.should.equal "test"
     end
 
   end

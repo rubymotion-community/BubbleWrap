@@ -130,20 +130,20 @@ module BubbleWrap
     end
 
     # the current application environment : development, test, release
-    def env?
+    def environment
       RUBYMOTION_ENV
     end
 
     def development?
-      env? == 'development'
+      environment == 'development'
     end
 
     def test?
-      env? == 'test'
+      environment == 'test'
     end
 
     def release?
-      env? == 'release'
+      environment == 'release'
     end
 
   end
