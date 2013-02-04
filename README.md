@@ -159,6 +159,8 @@ A module with useful methods related to the running application
 # ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
 > App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
 # ['TF1', 'France 2', 'France 3']
+> App.environment
+# 'test'
 ```
 
 Other available methods:
@@ -171,6 +173,9 @@ Other available methods:
 * `App.shared`
 * `App.window`
 * `App.current_locale`
+* `App.release?`
+* `App.test?`
+* `App.development?`
 
 
 ### Device
