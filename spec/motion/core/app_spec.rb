@@ -227,4 +227,28 @@ describe BubbleWrap::App do
 
   end
 
+  describe ".env?" do
+
+    it 'returns current application environment' do
+      App.env?.should.equal "test"
+    end
+
+  end
+
+  describe ".test? .release? .development?" do
+
+    it 'tests if current application environment is test' do
+      App.test?.should.equal true
+    end
+
+    it 'tests if current application environment is release' do
+      App.release?.should.equal false
+    end
+
+    it 'tests if current application environment is development' do
+      App.development?.should.equal false
+    end
+
+  end
+
 end

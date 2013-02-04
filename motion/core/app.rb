@@ -129,6 +129,23 @@ module BubbleWrap
       end
     end
 
+    # the current application environment : development, test, release
+    def env?
+      RUBYMOTION_ENV
+    end
+
+    def development?
+      env? == 'development'
+    end
+
+    def test?
+      env? == 'test'
+    end
+
+    def release?
+      env? == 'release'
+    end
+
   end
 end
 ::App = BubbleWrap::App unless defined?(::App)
