@@ -104,6 +104,7 @@ module BubbleWrap
         @credential_persistence = options.delete(:credential_persistence) || NSURLCredentialPersistenceForSession
         @options = options
         @response = HTTP::Response.new
+        @follow_urls = options[:follow_urls] || true
 
         @url = create_url(url_string)
         @body = create_request_body
@@ -113,7 +114,7 @@ module BubbleWrap
         @connection = create_connection(request, self)
         @connection.start
 
-        UIApplication.sharedApplication.networkActivityIndicatorVisible = true
+        UIApplication.sharedApplication.networkActivityIndicatorVisible = true if defined?(UIApplication)
       end
 
       def to_s
@@ -153,16 +154,14 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
           call_delegator_with_response
           nil
         else
-          if @options[:follow_urls] then
-            @url = request.URL
-          end
+          @url = request.URL if @follow_urls
           request
         end
       end
 
       def connection(connection, didFailWithError: error)
-        log "HTTP Connection failed #{error.localizedDescription}"
-        UIApplication.sharedApplication.networkActivityIndicatorVisible = false
+        log "HTTP Connection to #{@url.absoluteString} failed #{error.localizedDescription}"
+        UIApplication.sharedApplication.networkActivityIndicatorVisible = false if defined?(UIApplication)
         @request.done_loading!
         @response.error_message = error.localizedDescription
         call_delegator_with_response
@@ -175,7 +174,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       end
 
       def connectionDidFinishLoading(connection)
-        UIApplication.sharedApplication.networkActivityIndicatorVisible = false
+        UIApplication.sharedApplication.networkActivityIndicatorVisible = false if defined?(UIApplication)
         @request.done_loading!
         response_body = NSData.dataWithData(@received_data) if @received_data
         @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url, original_url: @original_url)
