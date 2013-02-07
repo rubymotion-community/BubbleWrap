@@ -109,7 +109,7 @@ module BubbleWrap
         @url = create_url(url_string)
         @body = create_request_body
         @request = create_request
-        @original_url = @url.copy() # must use copy(), dup() doesn't work
+        @original_url = @url.copy
 
         @connection = create_connection(request, self)
         @connection.start
