@@ -487,7 +487,7 @@ state callbacks:
 ```ruby
 feed_parser = BW::RSSParser.new("http://feeds.feedburner.com/sdrbpodcast")
 feed_parser.delegate = self
-feed.parse do |item|
+feed_parser.parse do |item|
   p item.title
 end
 
