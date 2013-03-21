@@ -219,7 +219,7 @@ describe "HTTP" do
         end
 
         it "should set payload from options{} to @payload" do
-          payload = "user[name]=marin&user[surname]=usalj&twitter=@mneorr&website=mneorr.com&values[]=apple&values[]=orange&values[]=peach&credentials[username]=mneorr&credentials[password]=123456xx!@crazy"
+          payload = "user%5Bname%5D=marin&user%5Bsurname%5D=usalj&twitter=%40mneorr&website=mneorr.com&values%5B%5D=apple&values%5B%5D=orange&values%5B%5D=peach&credentials%5Busername%5D=mneorr&credentials%5Bpassword%5D=123456xx%21%40crazy"
           @query.instance_variable_get(:@payload).should.equal payload
           @options.should.not.has_key? :payload
         end
@@ -365,7 +365,7 @@ describe "HTTP" do
       end
 
       it "should call initiate_request with the URL passed in" do
-        processed_url = "http://localhost?user%5Bname%5D=marin&user%5Bsurname%5D=usalj&twitter=@mneorr&website=mneorr.com&values%5B%5D=apple&values%5B%5D=orange&values%5B%5D=peach&credentials%5Busername%5D=mneorr&credentials%5Bpassword%5D=123456xx!@crazy"
+        processed_url = "http://localhost?user%5Bname%5D=marin&user%5Bsurname%5D=usalj&twitter=%40mneorr&website=mneorr.com&values%5B%5D=apple&values%5B%5D=orange&values%5B%5D=peach&credentials%5Busername%5D=mneorr&credentials%5Bpassword%5D=123456xx%21%40crazy"
         @query.instance_variable_get(:@url).description.should.equal processed_url
       end
 
@@ -696,13 +696,13 @@ describe "HTTP" do
     describe "properly format payload to url get query string" do
 
       before do
-        @payload = {"we love" => '#==Rock&Roll==#', "radio" => "Ga Ga", "qual" => 3.0, "incr" => -1}
+        @payload = {"we love" => '#==Rock&Roll==#', "radio" => "Ga Ga", "qual" => 3.0, "incr" => -1, "RFC3986" => "!*'();:@&=+$,/?%#[]"}
         @url_string = 'http://fake.url/method'
         @get_query = BubbleWrap::HTTP::Query.new( @url_string, :get, :payload => @payload)
-        @escaped_url = "http://fake.url/method?we%20love=%23%3D%3DRock%26Roll%3D%3D%23&radio=Ga%20Ga&qual=3.0&incr=-1"
+        @escaped_url = "http://fake.url/method?we%20love=%23%3D%3DRock%26Roll%3D%3D%23&radio=Ga%20Ga&qual=3.0&incr=-1&RFC3986=%21%2A%27%28%29%3B%3A%40%26%3D%2B%24%2C%2F%3F%25%23%5B%5D"
       end
 
-      it "should escape \#=& characters only in keys and values" do
+      it "should escape !*'();:@&=+$,/?%#[] characters only in keys and values" do
         @get_query.instance_variable_get(:@url).description.should.equal @escaped_url
       end
 
