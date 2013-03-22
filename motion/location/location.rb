@@ -28,7 +28,7 @@ module BubbleWrap
     #     all location changes (see Apple docs for info); default == false
     #   distance_filter:  minimum change in distance to be updated about, in meters;
     #     default == uses KCLDistanceFilterNone,
-    #   desired_accuracy: minimum accuracy for updates to arrive; 
+    #   desired_accuracy: minimum accuracy for updates to arrive;
     #     any of :best_for_navigation, :best, :nearest_ten_meters,
     #     :hundred_meters, :kilometer, or :three_kilometers; default == :best
     #   purpose: string to display when the system asks user for location,
@@ -37,7 +37,7 @@ module BubbleWrap
     # @block for callback. takes one argument, `result`.
     #   - On error or cancelled, is called with a hash {error: BW::Location::Error::<Type>}
     #   - On success, is called with a hash {to: #<CLLocation>, from: #<CLLocation>}
-    # 
+    #
     # Example
     # BW::Location.get(distance_filter: 10, desired_accuracy: :nearest_ten_meters) do |result|
     #   result[:to].class == CLLocation
@@ -52,6 +52,7 @@ module BubbleWrap
       @options[:distance_filter] ||= KCLDistanceFilterNone
       @options[:desired_accuracy] ||= KCLLocationAccuracyBest
       @options[:retries] ||= 5
+      @options[:once] ||= false
       @retries = 0
 
       if not enabled?
@@ -71,6 +72,10 @@ module BubbleWrap
 
     def get_significant(options = {}, &block)
       get(options.merge(significant: true), &block)
+    end
+
+    def get_once(options = {}, &block)
+      get(options.merge(once: true), &block)
     end
 
     # Stop getting locations
@@ -102,7 +107,13 @@ module BubbleWrap
     ##########
     # CLLocationManagerDelegate Methods
     def locationManager(manager, didUpdateToLocation:newLocation, fromLocation:oldLocation)
-      @callback.call({to: newLocation, from: oldLocation})
+      if @options[:once]
+        @callback.call(newLocation)
+        @callback = proc { |result| }
+        stop
+      else
+        @callback.call({to: newLocation, from: oldLocation})
+      end
     end
 
     def locationManager(manager, didFailWithError:error)
