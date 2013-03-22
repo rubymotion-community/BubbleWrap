@@ -14,7 +14,7 @@ class CLLocationManager
 
   def self.locationServicesEnabled
     return true if @enabled.nil?
-    @enabled 
+    @enabled
   end
 
   def startUpdatingLocation
@@ -98,6 +98,27 @@ describe BubbleWrap::Location do
       end
 
       BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+    end
+  end
+
+  describe ".get_once" do
+    it "should have correct location when succeeding" do
+      to = CLLocation.alloc.initWithLatitude(100, longitude: 50)
+      from = CLLocation.alloc.initWithLatitude(100, longitude: 49)
+
+      @number_times = 0
+      BW::Location.get_once do |location|
+        location.longitude.should == 50
+        location.latitude.should == 100
+        @number_times += 1
+      end
+
+      BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+
+      to = CLLocation.alloc.initWithLatitude(0, longitude: 0)
+      from = CLLocation.alloc.initWithLatitude(0, longitude: 0)
+      BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+      @number_times.should == 1
     end
   end
 
