@@ -7,10 +7,10 @@ module Wrappers
     aliased_native_attributes style: :alertViewStyle
 
     STYLE_OPTIONS = %w(default secure plain login)
-    STYLE_DEFAULT = 0
-    STYLE_SECURE  = 1
-    STYLE_PLAIN   = 2
-    STYLE_LOGIN   = 3
+    STYLE_DEFAULT = UIAlertViewStyleDefault
+    STYLE_SECURE  = UIAlertViewStyleSecureTextInput
+    STYLE_PLAIN   = UIAlertViewStylePlainTextInput
+    STYLE_LOGIN   = UIAlertViewStyleLoginAndPasswordInput
 
     def initialize(title, message, options={})
       delegate              = options[:delegate]
