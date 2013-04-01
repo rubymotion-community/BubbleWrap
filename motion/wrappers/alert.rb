@@ -1,10 +1,9 @@
 module Wrappers
   class Alert
-    extend BW::Wrappers::NativeAttributes
+    extend BW::Wrappers::NativeAccessor
 
-    native_attributes :show, :title, :message, :numberOfButtons, :cancelButtonIndex, :delegate, :visible
-    attr_accessor :native
-    aliased_native_attributes style: :alertViewStyle
+    native_accessor :show, :title, :message, :numberOfButtons, :cancelButtonIndex, :delegate, :visible
+    aliased_native_accessor style: :alertViewStyle
 
     STYLE_OPTIONS = %w(default secure plain login)
     STYLE_DEFAULT = UIAlertViewStyleDefault
