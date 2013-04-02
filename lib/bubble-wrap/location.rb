@@ -1,4 +1,5 @@
 require 'bubble-wrap/loader'
+BubbleWrap.require('motion/core/constants.rb')
 BubbleWrap.require('motion/core/string.rb')
 BubbleWrap.require('motion/location/**/*.rb') do
   file('motion/location/pollute.rb').depends_on 'motion/location/location.rb'
