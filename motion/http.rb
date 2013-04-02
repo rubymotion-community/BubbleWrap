@@ -87,6 +87,7 @@ module BubbleWrap
       # a proc will receive a Response object while the passed object
       # will receive the handle_query_response method
       # :headers<Hash>     - headers send with the request
+      # :cookies<Boolean>  - Set whether cookies should be sent with request or not (Default: true)
       # Anything else will be available via the options attribute reader.
       #
       def initialize(url_string, http_method = :get, options={})
@@ -102,6 +103,7 @@ module BubbleWrap
         @format = options.delete(:format)
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @credential_persistence = options.delete(:credential_persistence) || NSURLCredentialPersistenceForSession
+        @cookies = options.key?(:cookies) ? options.delete(:cookies) : true      
         @options = options
         @response = HTTP::Response.new
         @follow_urls = options[:follow_urls] || true
@@ -211,6 +213,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         set_content_type
         request.setAllHTTPHeaderFields(@headers)
         request.setHTTPBody(@body)
+        request.setHTTPShouldHandleCookies(@cookies)
         patch_nsurl_request(request)
 
         request

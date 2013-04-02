@@ -708,6 +708,25 @@ describe "HTTP" do
 
     end
 
+    describe 'properly support cookie-option for nsmutableurlrequest' do 
+      
+      before do 
+        @no_cookie_query = BubbleWrap::HTTP::Query.new("http://fake.url", :get, {:payload => {:something => "else"}, :cookies => false})
+        @cookie_query = BubbleWrap::HTTP::Query.new("http://fake.url", :get, :payload => {:something => "else"})
+      end
+
+      it 'should disabled cookie-usage on nsurlrequest' do 
+        puts @no_cookie_query.instance_variable_get(:@cookies).inspect
+        @no_cookie_query.instance_variable_get(:@request).HTTPShouldHandleCookies.should.equal false
+      end
+
+      it 'should keep sane cookie-related defaults on nsurlrequest' do 
+        @cookie_query.instance_variable_get(:@request).HTTPShouldHandleCookies.should.equal true
+      end
+
+
+    end
+
     class FakeSender
       attr_reader :challenge, :credential, :was_cancelled, :continue_without_credential
       def cancelAuthenticationChallenge(challenge)
