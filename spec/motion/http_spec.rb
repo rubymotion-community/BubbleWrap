@@ -711,12 +711,11 @@ describe "HTTP" do
     describe 'properly support cookie-option for nsmutableurlrequest' do 
       
       before do 
-        @no_cookie_query = BubbleWrap::HTTP::Query.new("http://fake.url", :get, {:payload => {:something => "else"}, :cookies => false})
-        @cookie_query = BubbleWrap::HTTP::Query.new("http://fake.url", :get, :payload => {:something => "else"})
+        @no_cookie_query = BubbleWrap::HTTP::Query.new("http://haz-no-cookiez.url", :get, {:payload => {:something => "else"}, :cookies => false})
+        @cookie_query = BubbleWrap::HTTP::Query.new("http://haz-cookiez.url", :get, :payload => {:something => "else"})
       end
 
       it 'should disabled cookie-usage on nsurlrequest' do 
-        puts @no_cookie_query.instance_variable_get(:@cookies).inspect
         @no_cookie_query.instance_variable_get(:@request).HTTPShouldHandleCookies.should.equal false
       end
 
