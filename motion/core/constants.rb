@@ -14,7 +14,7 @@ module BubbleWrap
     def get(base, value)
       case value
       when Numeric
-        value
+        value.to_i
       when NSArray
         value.reduce { |i, j|
           get(base, i) | get(base, j)
