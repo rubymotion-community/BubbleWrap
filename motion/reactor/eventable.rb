@@ -7,18 +7,28 @@ module BubbleWrap
       # and be passed the arguments that are passed to
       # `trigger`.
       def on(event, &blk)
-        @events ||= Hash.new { |h,k| h[k] = [] }
-        @events[event].push blk
+        events[event].push blk
+      end
+
+      # When `event` is triggered, do not call the given
+      # block any more
+      def off(event, &blk)
+        events[event].delete_if { |b| b == blk }
+        blk
       end
 
       # Trigger an event
       def trigger(event, *args)
-        @events ||= Hash.new { |h,k| h[k] = [] }
-        @events[event].map do |event|
+        events[event].map do |event|
           event.call(*args)
         end
       end
 
+      private
+
+      def events
+        @events ||= Hash.new { |h,k| h[k] = [] }
+      end
     end
   end
 end

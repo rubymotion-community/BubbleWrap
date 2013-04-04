@@ -15,6 +15,21 @@ describe BubbleWrap::Reactor::Eventable do
       events = @subject.instance_variable_get(:@events)
       events[:foo].member?(proof).should == true
     end
+
+    it 'returns the array of blocks for the event' do
+      proof = proc {  }
+      @subject.on(:foo, &proof).should == [proof]
+    end
+  end
+
+  describe '.off' do
+    it 'unregisters events' do
+      proof = proc { }
+      @subject.on(:foo, &proof)
+      events = @subject.instance_variable_get(:@events)
+      @subject.off(:foo, &proof)
+      events[:foo].member?(proof).should == false
+    end
   end
 
   describe '.trigger' do
