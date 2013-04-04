@@ -1,5 +1,4 @@
-module BubbleWrap
-  module Constants
+module Kernel.const_get("BubbleWrap")::Constants
     module_function
 
     # Looks like RubyMotiononly  adds UIKit constants
@@ -36,4 +35,3 @@ module BubbleWrap
       end
     end
   end
-end
