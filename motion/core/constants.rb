@@ -11,7 +11,8 @@ module BubbleWrap
     # get("UIReturnKey", "done") => UIReturnKeyDone == 9
     # get("UIReturnKey", 9) => 9
     # get("UIImagePickerControllerSourceType", ["photo_library", "camera", "saved_photos_album"]) => 3
-    def get(base, value)
+    def get(base, *values)
+      value = values.size == 1 ? values.first : values.flatten
       case value
       when Numeric
         value.to_i

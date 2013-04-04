@@ -17,7 +17,7 @@ describe BubbleWrap::Constants do
     end
 
     it "should bitmask array values" do
-      BW::Constants.get("UIReturnKey", [:done, :next]).should == (UIReturnKeyDone | UIReturnKeyNext)
+      BW::Constants.get("UIReturnKey", :done, :next).should == (UIReturnKeyDone | UIReturnKeyNext)
     end
   end
 end
