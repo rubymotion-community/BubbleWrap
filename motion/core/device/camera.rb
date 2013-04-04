@@ -12,6 +12,9 @@ module BubbleWrap
         CANCELED=1000
       end
 
+      Constants.register UIImagePickerControllerSourceTypePhotoLibrary, UIImagePickerControllerSourceTypeCamera,
+          UIImagePickerControllerSourceTypeSavedPhotosAlbum
+
       MEDIA_TYPE_HASH = {movie: KUTTypeMovie, image: KUTTypeImage}
 
       # The camera location; if :none, then we can't use source_type: :camera
@@ -191,16 +194,6 @@ module BubbleWrap
 
       def error(type)
         @callback.call({ error: type })
-      end
-
-      # Looks like RubyMotion adds UIKit constants
-      # at compile time. If you don't use these
-      # directly in your code, they don't get added
-      # to Kernel and Constants.get crashes.
-      def load_constants_hack
-        [UIImagePickerControllerSourceTypePhotoLibrary, UIImagePickerControllerSourceTypeCamera, 
-          UIImagePickerControllerSourceTypeSavedPhotosAlbum
-        ]
       end
     end
   end

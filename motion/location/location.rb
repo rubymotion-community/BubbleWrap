@@ -21,6 +21,10 @@ module BubbleWrap
       LOCATION_UNKNOWN=3
     end
 
+    Constants.register KCLLocationAccuracyBestForNavigation, KCLLocationAccuracyBest,
+        KCLLocationAccuracyNearestTenMeters, KCLLocationAccuracyHundredMeters,
+        KCLLocationAccuracyKilometer, KCLLocationAccuracyThreeKilometers
+
     module_function
     # Start getting locations
     # @param [Hash] options = {
@@ -144,13 +148,6 @@ module BubbleWrap
       when KCLAuthorizationStatusDenied
         error(Error::PERMISSION_DENIED)
       end
-    end
-
-    def load_constants_hack
-      [KCLLocationAccuracyBestForNavigation, KCLLocationAccuracyBest,
-        KCLLocationAccuracyNearestTenMeters, KCLLocationAccuracyHundredMeters,
-        KCLLocationAccuracyKilometer, KCLLocationAccuracyThreeKilometers,
-      ]
     end
   end
 end

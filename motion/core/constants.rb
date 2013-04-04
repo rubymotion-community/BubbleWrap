@@ -2,6 +2,16 @@ module BubbleWrap
   module Constants
     module_function
 
+    # Looks like RubyMotiononly  adds UIKit constants
+    # at compile time. If you don't use these
+    # directly in your code, they don't get added
+    # to Kernel and Constants.get crashes.
+    # Examples
+    # Constants.register UIReturnKeyDone, UIReturnKeyNext
+    def register(*ui_constants)
+      # do nothing, just get the constants in the code
+    end
+
     # @param [String] base of the constant 
     # @param [Integer, NSArray, String, Symbol] the suffix of the constant
     #   when NSArray, will return the bitmask of all suffixes in the array

@@ -1,5 +1,8 @@
 describe BubbleWrap::Constants do
   describe ".get" do
+    BubbleWrap::Constants.register UIReturnKeyDone, UIReturnKeyNext
+
+
     it "should return integer passed" do
       BW::Constants.get("anything", 5).should == 5
     end
