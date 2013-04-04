@@ -666,15 +666,22 @@ idiom it is available as a public API.
 
 ```ruby
 > o = Class.new { include EM::Eventable }.new
-=> #<#<Class:0x6dc1310>:0x6dc2ec0>
+=> #<#<Class:0xab63f00>:0xab64430>
 > o.on(:november_5_1955) { puts "Ow!" }
-=> [#<Proc:0x6dc6300>]
-> o.on(:november_5_1955) { puts "Flux capacitor!" }
-=> [#<Proc:0x6dc6300>, #<Proc:0x6dc1ba0>]
+=> [#<Proc:0xad9bf00>]
+> flux = proc{ puts "Flux capacitor!" }
+=> #<Proc:0xab630f0>
+> o.on(:november_5_1955, &flux)
+=> [#<Proc:0xad9bf00>, #<Proc:0xab630f0>]
 > o.trigger(:november_5_1955)
 Ow!
 Flux capacitor!
 => [nil, nil]
+> o.off(:november_5_1955, &flux)
+=> #<Proc:0xab630f0>
+> o.trigger(:november_5_1955)
+Ow!
+=> [nil]
 ```
 
 # Suggestions?
