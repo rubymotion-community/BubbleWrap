@@ -12,6 +12,9 @@ module BubbleWrap
         CANCELED=1000
       end
 
+      Constants.register UIImagePickerControllerSourceTypePhotoLibrary, UIImagePickerControllerSourceTypeCamera,
+          UIImagePickerControllerSourceTypeSavedPhotosAlbum
+
       MEDIA_TYPE_HASH = {movie: KUTTypeMovie, image: KUTTypeImage}
 
       # The camera location; if :none, then we can't use source_type: :camera
@@ -88,7 +91,7 @@ module BubbleWrap
         end
 
         source_type_readable = options[:source_type]
-        source_type = const_int_get("UIImagePickerControllerSourceType", @options[:source_type])
+        source_type = Constants.get("UIImagePickerControllerSourceType", @options[:source_type])
         if not Camera.source_type_available?(source_type)
           error(Error::SOURCE_TYPE_NOT_AVAILABLE) and return
         end
@@ -176,7 +179,7 @@ module BubbleWrap
 
       private
       def camera_device
-        const_int_get("UIImagePickerControllerCameraDevice", self.location)
+        Constants.get("UIImagePickerControllerCameraDevice", self.location)
       end
 
       # ex media_type_to_symbol(KUTTypeMovie) => :movie
@@ -191,29 +194,6 @@ module BubbleWrap
 
       def error(type)
         @callback.call({ error: type })
-      end
-
-      # @param [String] base of the constant 
-      # @param [Integer, String, Symbol] the 
-      # @return [Integer] the constant for this base
-      # Examples
-      # const_int_get("UIReturnKey", :done) => UIReturnKeyDone == 9
-      # const_int_get("UIReturnKey", "done") => UIReturnKeyDone == 9
-      # const_int_get("UIReturnKey", 9) => 9
-      def const_int_get(base, value)
-        return value if value.is_a? Numeric
-        value = value.to_s.camelize
-        Kernel.const_get("#{base}#{value}")
-      end
-
-      # Looks like RubyMotion adds UIKit constants
-      # at compile time. If you don't use these
-      # directly in your code, they don't get added
-      # to Kernel and const_int_get crashes.
-      def load_constants_hack
-        [UIImagePickerControllerSourceTypePhotoLibrary, UIImagePickerControllerSourceTypeCamera, 
-          UIImagePickerControllerSourceTypeSavedPhotosAlbum
-        ]
       end
     end
   end
