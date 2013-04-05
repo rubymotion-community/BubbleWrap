@@ -1,3 +1,4 @@
+# Stupid hack because the RubyMotion dependency detection has a bug.
 module Kernel.const_get("BubbleWrap")::Constants
   module_function
 
