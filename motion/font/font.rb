@@ -2,15 +2,15 @@ module BubbleWrap
   module Font
     module_function
 
-    def bold(size)
+    def bold(size = nil)
       Font.new(:bold, size)
     end
 
-    def system(size)
+    def system(size = nil)
       Font.new(:system, size)
     end
 
-    def italic(size)
+    def italic(size = nil)
       Font.new(:italic, size)
     end
 

@@ -2,8 +2,11 @@ describe BubbleWrap::Font do
   [[:system, "systemFontOfSize:"], [:bold, "boldSystemFontOfSize:"], [:italic, "italicSystemFontOfSize:"]].each do |font, method|
     describe ".#{font}" do
       it "should work" do
-        f = BubbleWrap::Font.send(font, 12)
-        f.should == UIFont.send(method, 12)
+        f = BubbleWrap::Font.send(font, 16)
+        f.should == UIFont.send(method, 16)
+
+        f = BubbleWrap::Font.send(font)
+        f.should == UIFont.send(method, UIFont.systemFontSize)
       end
     end
   end
