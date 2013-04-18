@@ -409,6 +409,109 @@ button.when(UIControlEventTouchUpInside) do
 end
 ```
 
+### UIBarButtonItem
+
+`BW::UIBarButtonItem` provides an idiomatic Ruby syntax for instantiating `UIBarButtonItem` objects.  Instead of a target-action pair, each method accepts a block.  When the button is tapped, the block is executed.  As a convenience, the block is optional.
+
+```ruby
+BW::UIBarButtonItem.system(:save) do
+  # ...
+end
+
+title = "Friends"
+BW::UIBarButtonItem.styled(:plain, title) do
+  # ...
+end
+
+image = UIImage.alloc.init
+BW::UIBarButtonItem.styled(:bordered, image) do
+  # ...
+end
+
+image     = UIImage.alloc.init
+landscape = UIImage.alloc.init
+BW::UIBarButtonItem.styled(:bordered, image, landscape) do
+  # ...
+end
+
+view = UIView.alloc.init
+BW::UIBarButtonItem.custom(view) do
+  # ...
+end
+# NOTE: The block is attached to the view as a single tap gesture recognizer.
+```
+
+Alternatively, `BW::UIBarButtonItem` provides a flexible, builder-style syntax for dynamically instantiating `UIBarButtonItem` objects.
+
+```ruby
+options = { :system => :save }
+BW::UIBarButtonItem.build(options) do
+  # ...
+end
+
+options = { :styled => :plain, :title => "Friends" }
+BW::UIBarButtonItem.build(options) do
+  # ...
+end
+
+options = { :styled => :bordered, :image => UIImage.alloc.init }
+BW::UIBarButtonItem.build(options) do
+  # ...
+end
+
+options = {
+  :styled    => :bordered,
+  :image     => UIImage.alloc.init,
+  :landscape => UIImage.alloc.init
+}
+BW::UIBarButtonItem.build(options) do
+  # ...
+end
+
+options = { :custom => UIView.alloc.init }
+BW::UIBarButtonItem.build(options) do
+  # ...
+end
+# NOTE: The block is attached to the view as a single tap gesture recognizer.
+```
+
+The `.styled` button types are:
+
+```ruby
+:plain
+:bordered
+:done
+```
+
+And the `.system` button types are:
+
+```ruby
+:done
+:cancel
+:edit
+:save
+:add
+:flexible_space
+:fixed_space
+:compose
+:reply
+:action
+:organize
+:bookmarks
+:search
+:refresh
+:stop
+:camera
+:trash
+:play
+:pause
+:rewind
+:fast_forward
+:undo
+:redo
+:page_curl
+```
+
 ## HTTP
 
 `BW::HTTP` wraps `NSURLRequest`, `NSURLConnection` and friends to provide Ruby developers with a more familiar and easier to use API.
