@@ -6,7 +6,8 @@ A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and p
 [BubbleWrap mailing list](https://groups.google.com/forum/#!forum/bubblewrap)
 
 [![Code Climate](https://codeclimate.com/github/rubymotion/BubbleWrap.png)](https://codeclimate.com/github/rubymotion/BubbleWrap)
-[![Build Status](https://travis-ci.org/henrikhodne/BubbleWrap.png?branch=master)](https://travis-ci.org/henrikhodne/BubbleWrap)
+[![Build Status](https://travis-ci.org/rubymotion/BubbleWrap.png?branch=master)](https://travis-ci.org/rubymotion/BubbleWrap)
+[![Dependency Status](https://gemnasium.com/rubymotion/BubbleWrap.png)](https://gemnasium.com/rubymotion/BubbleWrap)
 
 ## Installation
 
