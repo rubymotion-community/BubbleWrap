@@ -1,6 +1,17 @@
 ## Unreleased
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.4...master)
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.5...master)
+
+## 1.1.5
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.4...v1.1.5)
+
+* Fix `BW::Camera` view-controller selection process to pickup a window's `presentedViewController` (#183)
+* Fix strings parsed in `BW::JSON` to be mutable (#175)
+* Add option for `:credential_persistence`/`NSURLCredentialPersistence` in `BW::HTTP` (#166)
+* Change `Device.wide_screen?` to `Device.long_screen?` (#159)
+* String escaping fixes to `BW::HTTP` (#160 #161 #162)
+* Add `Device.sdk_version`
 
 ## 1.1.4
 
