@@ -1,6 +1,19 @@
 ## Unreleased
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.5...master)
+## 1.2.0.pre
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.2...master)
+
+* Added `BW::UIBarButtonItem`, a factory-esque wrapper for `UIBarButtonItem` ([#202](https://github.com/rubymotion/BubbleWrap/pull/202))
+* Added `BW::Font`, a wrapper for creating `UIFont` objects ([#206](https://github.com/rubymotion/BubbleWrap/pull/206))
+* Added `BW::Reactor::Eventable#off`, to remove `BW::Reactor` callbacks ([#205](https://github.com/rubymotion/BubbleWrap/pull/205))
+* Added `BW::Constants.get`, which is a class to help wrapper creation ([#203](https://github.com/rubymotion/BubbleWrap/pull/203))
+* Added `BW::Location.get_once` to grab only one location ([#197](https://github.com/rubymotion/BubbleWrap/pull/197))
+* Added `App#environment`, to detect the current RubyMotion environment ([#191](https://github.com/rubymotion/BubbleWrap/pull/191))
+* Added `:follow_urls` option to `BW::HTTP` ([#192](https://github.com/rubymotion/BubbleWrap/pull/192))
+* Added `:common_modes` option to `BW::Reactor`to change the runloop mode (#190)
+* Added `:no_redirect` option to `BW::HTTP` ([#187](https://github.com/rubymotion/BubbleWrap/pull/187))
+* Added `:cookies` option to `BW::HTTP` ([#204](https://github.com/rubymotion/BubbleWrap/pull/204))
 
 ## 1.1.5
 

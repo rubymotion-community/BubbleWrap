@@ -1,5 +1,5 @@
 module BubbleWrap
-  VERSION = '1.1.5' unless defined?(BubbleWrap::VERSION)
+  VERSION = '1.2.0.pre' unless defined?(BubbleWrap::VERSION)
   MIN_MOTION_VERSION = '1.24'
 
   module_function
