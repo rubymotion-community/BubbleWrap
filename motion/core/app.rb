@@ -42,7 +42,7 @@ module BubbleWrap
         options[:cancel_button_title] = args.shift
       end
 
-      alert = UIAlertView.alloc.initWithTitle title,
+      alert = ::UIAlertView.alloc.initWithTitle title,
         message: options[:message],
         delegate: nil,
         cancelButtonTitle: options[:cancel_button_title],
