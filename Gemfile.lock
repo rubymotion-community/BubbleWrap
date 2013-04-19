@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bubble-wrap (1.1.5)
+    bubble-wrap (1.2.0.pre)
 
 GEM
   remote: https://rubygems.org/
