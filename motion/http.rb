@@ -107,6 +107,7 @@ module BubbleWrap
         @options = options
         @response = HTTP::Response.new
         @follow_urls = options[:follow_urls] || true
+        @present_credentials = options.delete(:present_credentials) || false
 
         @url = create_url(url_string)
         @body = create_request_body
@@ -211,6 +212,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
                                                       timeoutInterval:@timeout)
         request.setHTTPMethod(@method)
         set_content_type
+        append_auth_header
         request.setAllHTTPHeaderFields(@headers)
         request.setHTTPBody(@body)
         request.setHTTPShouldHandleCookies(@cookies)
@@ -279,6 +281,18 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         end
         @payload_or_files_were_appended = true
         body
+      end
+
+      def append_auth_header
+        return if @headers && @headers["Authorization"]
+
+        if @credentials != {} && @present_credentials
+          mock_request = CFHTTPMessageCreateRequest(nil, nil, nil, nil)
+          CFHTTPMessageAddAuthentication(mock_request, nil, @credentials[:username], @credentials[:password], KCFHTTPAuthenticationSchemeBasic, false)
+
+          @headers ||= {}
+          @headers["Authorization"] = CFHTTPMessageCopyHeaderFieldValue(mock_request, "Authorization")
+        end
       end
 
       def parse_file(key, value)

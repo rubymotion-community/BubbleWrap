@@ -355,6 +355,13 @@ describe "HTTP" do
         new_query.instance_variable_get(:@credential_persistence).should.equal NSURLCredentialPersistenceForSession
       end
 
+      it "should present credentials when asked to :present_credentials" do
+        query = BubbleWrap::HTTP::Query.new(@fake_url, :get, { credentials: @credentials, present_credentials: true })
+        headers = query.instance_variable_get(:@headers)
+
+        headers["Authorization"].should.equal "Basic bW5lb3JyOjEyMzQ1Nnh4IUBjcmF6eQ=="
+      end
+
       it "should set the rest of options{} to ivar @options" do
         @query.options.size.should.equal 1
         @query.options.values[0].should.equal @leftover_option
