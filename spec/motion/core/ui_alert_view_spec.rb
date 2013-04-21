@@ -852,12 +852,11 @@ describe BW::UIBarButtonItem do
 
     describe "given an enable_first_other_button? handler" do
       before do
-        @subject.enable_first_other_button? { :enable_first_other_button? }
+        @subject.enable_first_other_button? { true }
       end
 
       it "returns correctly" do
-        expected = :enable_first_other_button?
-        @subject.alertViewShouldEnableFirstOtherButton(@subject).should.equal(expected)
+        @subject.alertViewShouldEnableFirstOtherButton(@subject).should.equal(true)
       end
     end
   end
