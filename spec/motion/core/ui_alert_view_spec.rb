@@ -95,7 +95,7 @@ end
 
 ###################################################################################################
 
-describe BW::UIBarButtonItem do
+describe BW::UIAlertView do
   describe ".new" do
     describe "given no options" do
       before do
