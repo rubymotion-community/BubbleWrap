@@ -827,7 +827,10 @@ describe BW::UIAlertView do
 
     describe "given a will_present handler" do
       before do
-        @subject.will_present { :will_present }
+        @subject.will_present do |alert|
+          alert.should.equal(@subject)
+          :will_present
+        end
       end
 
       it "returns correctly" do
@@ -853,7 +856,10 @@ describe BW::UIAlertView do
 
     describe "given a did_present handler" do
       before do
-        @subject.did_present { :did_present }
+        @subject.did_present do |alert|
+          alert.should.equal(@subject)
+          :did_present
+        end
       end
 
       it "returns correctly" do
@@ -879,7 +885,10 @@ describe BW::UIAlertView do
 
     describe "given an on_system_cancel handler" do
       before do
-        @subject.on_system_cancel { :on_system_cancel }
+        @subject.on_system_cancel do |alert|
+          alert.should.equal(@subject)
+          :on_system_cancel
+        end
       end
 
       it "returns correctly" do
@@ -905,11 +914,15 @@ describe BW::UIAlertView do
 
     describe "given an on_click handler" do
       before do
-        @subject.on_click { |index| "on_click: #{index}" }
+        @subject.on_click do |alert, index|
+          alert.should.equal(@subject)
+          index.should.equal(0)
+          :on_click
+        end
       end
 
       it "returns correctly" do
-        @subject.alertView(@subject, clickedButtonAtIndex:0).should.equal("on_click: 0")
+        @subject.alertView(@subject, clickedButtonAtIndex:0).should.equal(:on_click)
       end
     end
   end
@@ -931,11 +944,15 @@ describe BW::UIAlertView do
 
     describe "given a will_dismiss handler" do
       before do
-        @subject.will_dismiss { |index| "will_dismiss: #{index}" }
+        @subject.will_dismiss do |alert, index|
+          alert.should.equal(@subject)
+          index.should.equal(0)
+          :will_dismiss
+        end
       end
 
       it "returns correctly" do
-        @subject.alertView(@subject, willDismissWithButtonIndex:0).should.equal("will_dismiss: 0")
+        @subject.alertView(@subject, willDismissWithButtonIndex:0).should.equal(:will_dismiss)
       end
     end
   end
@@ -957,11 +974,15 @@ describe BW::UIAlertView do
 
     describe "given a did_dismiss handler" do
       before do
-        @subject.did_dismiss { |index| "did_dismiss: #{index}" }
+        @subject.did_dismiss do |alert, index|
+          alert.should.equal(@subject)
+          index.should.equal(0)
+          :did_dismiss
+        end
       end
 
       it "returns correctly" do
-        @subject.alertView(@subject, didDismissWithButtonIndex:0).should.equal("did_dismiss: 0")
+        @subject.alertView(@subject, didDismissWithButtonIndex:0).should.equal(:did_dismiss)
       end
     end
   end
@@ -983,7 +1004,10 @@ describe BW::UIAlertView do
 
     describe "given an enable_first_other_button? handler" do
       before do
-        @subject.enable_first_other_button? { true }
+        @subject.enable_first_other_button? do |alert|
+          alert.should.equal(@subject)
+          true
+        end
       end
 
       it "returns correctly" do

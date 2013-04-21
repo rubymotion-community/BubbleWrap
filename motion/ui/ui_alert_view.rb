@@ -85,32 +85,32 @@ module BW
 
     # UIAlertViewDelegate protocol ################################################################
 
-    def willPresentAlertView(alertView)
-      handlers[:will_present].call if handlers[:will_present]
+    def willPresentAlertView(alert)
+      handlers[:will_present].call(alert) if handlers[:will_present]
     end
 
-    def didPresentAlertView(alertView)
-      handlers[:did_present].call if handlers[:did_present]
+    def didPresentAlertView(alert)
+      handlers[:did_present].call(alert) if handlers[:did_present]
     end
 
-    def alertViewCancel(alertView)
-      handlers[:on_system_cancel].call if handlers[:on_system_cancel]
+    def alertViewCancel(alert)
+      handlers[:on_system_cancel].call(alert) if handlers[:on_system_cancel]
     end
 
-    def alertView(alertView, clickedButtonAtIndex:index)
-      handlers[:on_click].call(index) if handlers[:on_click]
+    def alertView(alert, clickedButtonAtIndex:index)
+      handlers[:on_click].call(alert, index) if handlers[:on_click]
     end
 
-    def alertView(alertView, willDismissWithButtonIndex:index)
-      handlers[:will_dismiss].call(index) if handlers[:will_dismiss]
+    def alertView(alert, willDismissWithButtonIndex:index)
+      handlers[:will_dismiss].call(alert, index) if handlers[:will_dismiss]
     end
 
-    def alertView(alertView, didDismissWithButtonIndex: index)
-      handlers[:did_dismiss].call(index) if handlers[:did_dismiss]
+    def alertView(alert, didDismissWithButtonIndex: index)
+      handlers[:did_dismiss].call(alert, index) if handlers[:did_dismiss]
     end
 
-    def alertViewShouldEnableFirstOtherButton(alertView)
-      handlers[:enable_first_other_button?].call if handlers[:enable_first_other_button?]
+    def alertViewShouldEnableFirstOtherButton(alert)
+      handlers[:enable_first_other_button?].call(alert) if handlers[:enable_first_other_button?]
     end
   end
 
