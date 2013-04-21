@@ -21,10 +21,11 @@ module BW
           otherButtonTitles: nil
         )
 
-        view.style    = options[:style]
-        view.delegate = view
-
         Array(options[:buttons]).each { |title| view.addButtonWithTitle(title) }
+
+        view.style               = options[:style]
+        view.delegate            = view
+        view.cancel_button_index = options[:cancel_button_index]
 
         view.instance_variable_set(:@handlers, {})
         options[:on_click] ||= block
@@ -63,6 +64,14 @@ module BW
 
     def style=(value)
       self.alertViewStyle = Constants.get("UIAlertViewStyle", value) if value
+    end
+
+    def cancel_button_index
+      cancelButtonIndex
+    end
+
+    def cancel_button_index=(value)
+      self.cancelButtonIndex = value if value
     end
 
     attr_reader :handlers

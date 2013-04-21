@@ -19,6 +19,10 @@ shared "an instance with no options" do
     @subject.delegate.should.equal(@subject)
   end
 
+  it "has the correct cancel button index" do
+    @subject.cancel_button_index.should.equal(-1)
+  end
+
   it "has no will_present handler" do
     @subject.will_present.should.be.nil
   end
@@ -57,6 +61,10 @@ shared "an instance with a full set of options" do
 
   it "has the correct delegate" do
     @subject.delegate.should.equal(@subject)
+  end
+
+  it "has the correct cancel button index" do
+    @subject.cancel_button_index.should.equal(@options[:cancel_button_index])
   end
 
   it "has the correct buttons" do
@@ -150,6 +158,7 @@ describe BW::UIAlertView do
           :message                    => "message",
           :style                      => :plain_text_input,
           :buttons                    => "button title",
+          :cancel_button_index        => 0,
           :will_present               => -> { true },
           :did_present                => -> { true },
           :on_system_cancel           => -> { true },
@@ -252,6 +261,7 @@ describe BW::UIAlertView do
           :message                    => "message",
           :style                      => :plain_text_input,
           :buttons                    => "button title",
+          :cancel_button_index        => 0,
           :will_present               => -> { true },
           :did_present                => -> { true },
           :on_system_cancel           => -> { true },
@@ -356,6 +366,7 @@ describe BW::UIAlertView do
           :message                    => "message",
           :style                      => :default,
           :buttons                    => "button title",
+          :cancel_button_index        => 0,
           :will_present               => -> { true },
           :did_present                => -> { true },
           :on_system_cancel           => -> { true },
@@ -460,6 +471,7 @@ describe BW::UIAlertView do
           :message                    => "message",
           :style                      => :default,
           :buttons                    => "button title",
+          :cancel_button_index        => 0,
           :will_present               => -> { true },
           :did_present                => -> { true },
           :on_system_cancel           => -> { true },
@@ -564,6 +576,7 @@ describe BW::UIAlertView do
           :message                    => "message",
           :style                      => :default,
           :buttons                    => "button title",
+          :cancel_button_index        => 0,
           :will_present               => -> { true },
           :did_present                => -> { true },
           :on_system_cancel           => -> { true },
@@ -675,6 +688,36 @@ describe BW::UIAlertView do
 
       it "has the correct style" do
         @subject.style.should.equal(UIAlertViewStylePlainTextInput)
+      end
+    end
+  end
+
+  #################################################################################################
+
+  describe "#cancel_button_index=" do
+    before do
+      @subject = BW::UIAlertView.new
+    end
+
+    describe "given no cancel button index" do
+      before do
+        @subject.cancel_button_index = nil
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(-1)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given a cancel button index" do
+      before do
+        @subject.cancel_button_index = 0
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(0)
       end
     end
   end
