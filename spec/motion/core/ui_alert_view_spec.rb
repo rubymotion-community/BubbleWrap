@@ -19,6 +19,14 @@ shared "an instance with no options" do
     @subject.delegate.should.equal(@subject)
   end
 
+  it "is not canceled" do
+    @subject.should.not.be.canceled
+  end
+
+  it "has no clicked button title" do
+    @subject.clicked.should.be.nil
+  end
+
   it "has no will_present handler" do
     @subject.will_present.should.be.nil
   end
@@ -66,6 +74,14 @@ shared "an instance with a full set of options" do
   it "has the correct buttons" do
     @subject.numberOfButtons.should.equal(1)
     @subject.buttonTitleAtIndex(0).should.equal(@options[:buttons])
+  end
+
+  it "is not canceled" do
+    @subject.should.not.be.canceled
+  end
+
+  it "has no clicked button title" do
+    @subject.clicked.should.be.nil
   end
 
   it "has no will_present handler" do
@@ -829,6 +845,8 @@ describe BW::UIAlertView do
       before do
         @subject.will_present do |alert|
           alert.should.equal(@subject)
+          alert.should.not.be.canceled
+          alert.clicked.should.be.nil
           :will_present
         end
       end
@@ -858,6 +876,8 @@ describe BW::UIAlertView do
       before do
         @subject.did_present do |alert|
           alert.should.equal(@subject)
+          alert.should.not.be.canceled
+          alert.clicked.should.be.nil
           :did_present
         end
       end
@@ -887,6 +907,8 @@ describe BW::UIAlertView do
       before do
         @subject.on_system_cancel do |alert|
           alert.should.equal(@subject)
+          alert.should.not.be.canceled
+          alert.clicked.should.be.nil
           :on_system_cancel
         end
       end
@@ -901,12 +923,14 @@ describe BW::UIAlertView do
 
   describe "-alertView:clickedButtonAtIndex:" do
     before do
-      @subject = BW::UIAlertView.new
+      @index   = 0
+      @button  = "button title"
+      @subject = BW::UIAlertView.new(buttons: @button)
     end
 
     describe "given no on_click handler" do
       it "returns noting" do
-        @subject.alertView(@subject, clickedButtonAtIndex:0).should.be.nil
+        @subject.alertView(@subject, clickedButtonAtIndex:@index).should.be.nil
       end
     end
 
@@ -916,13 +940,35 @@ describe BW::UIAlertView do
       before do
         @subject.on_click do |alert, index|
           alert.should.equal(@subject)
-          index.should.equal(0)
+          alert.should.not.be.canceled
+          alert.clicked.should.equal(@button)
+          index.should.equal(@index)
           :on_click
         end
       end
 
       it "returns correctly" do
-        @subject.alertView(@subject, clickedButtonAtIndex:0).should.equal(:on_click)
+        @subject.alertView(@subject, clickedButtonAtIndex:@index).should.equal(:on_click)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given an on_click handler with a cancel button index" do
+      before do
+        @subject.cancel_button_index = @index
+
+        @subject.on_click do |alert, index|
+          alert.should.equal(@subject)
+          alert.should.be.canceled
+          alert.clicked.should.equal(@button)
+          index.should.equal(@index)
+          :on_click
+        end
+      end
+
+      it "returns correctly" do
+        @subject.alertView(@subject, clickedButtonAtIndex:@index).should.equal(:on_click)
       end
     end
   end
@@ -931,12 +977,14 @@ describe BW::UIAlertView do
 
   describe "-alertView:willDismissWithButtonIndex:" do
     before do
-      @subject = BW::UIAlertView.new
+      @index   = 0
+      @button  = "button title"
+      @subject = BW::UIAlertView.new(buttons: @button)
     end
 
     describe "given no will_dismiss handler" do
       it "returns noting" do
-        @subject.alertView(@subject, willDismissWithButtonIndex:0).should.be.nil
+        @subject.alertView(@subject, willDismissWithButtonIndex:@index).should.be.nil
       end
     end
 
@@ -946,13 +994,35 @@ describe BW::UIAlertView do
       before do
         @subject.will_dismiss do |alert, index|
           alert.should.equal(@subject)
-          index.should.equal(0)
+          alert.should.not.be.canceled
+          alert.clicked.should.equal(@button)
+          index.should.equal(@index)
           :will_dismiss
         end
       end
 
       it "returns correctly" do
-        @subject.alertView(@subject, willDismissWithButtonIndex:0).should.equal(:will_dismiss)
+        @subject.alertView(@subject, willDismissWithButtonIndex:@index).should.equal(:will_dismiss)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given a will_dismiss handler with a cancel button index" do
+      before do
+        @subject.cancel_button_index = @index
+
+        @subject.will_dismiss do |alert, index|
+          alert.should.equal(@subject)
+          alert.should.be.canceled
+          alert.clicked.should.equal(@button)
+          index.should.equal(@index)
+          :will_dismiss
+        end
+      end
+
+      it "returns correctly" do
+        @subject.alertView(@subject, willDismissWithButtonIndex:@index).should.equal(:will_dismiss)
       end
     end
   end
@@ -961,12 +1031,14 @@ describe BW::UIAlertView do
 
   describe "-alertView:didDismissWithButtonIndex:" do
     before do
-      @subject = BW::UIAlertView.new
+      @index   = 0
+      @button  = "button title"
+      @subject = BW::UIAlertView.new(buttons: @button)
     end
 
     describe "given no did_dismiss handler" do
       it "returns noting" do
-        @subject.alertView(@subject, didDismissWithButtonIndex:0).should.be.nil
+        @subject.alertView(@subject, didDismissWithButtonIndex:@index).should.be.nil
       end
     end
 
@@ -976,13 +1048,35 @@ describe BW::UIAlertView do
       before do
         @subject.did_dismiss do |alert, index|
           alert.should.equal(@subject)
-          index.should.equal(0)
+          alert.should.not.be.canceled
+          alert.clicked.should.equal(@button)
+          index.should.equal(@index)
           :did_dismiss
         end
       end
 
       it "returns correctly" do
-        @subject.alertView(@subject, didDismissWithButtonIndex:0).should.equal(:did_dismiss)
+        @subject.alertView(@subject, didDismissWithButtonIndex:@index).should.equal(:did_dismiss)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given a did_dismiss handler with a cancel button index" do
+      before do
+        @subject.cancel_button_index = @index
+
+        @subject.did_dismiss do |alert, index|
+          alert.should.equal(@subject)
+          alert.should.be.canceled
+          alert.clicked.should.equal(@button)
+          index.should.equal(@index)
+          :did_dismiss
+        end
+      end
+
+      it "returns correctly" do
+        @subject.alertView(@subject, didDismissWithButtonIndex:@index).should.equal(:did_dismiss)
       end
     end
   end
@@ -1006,6 +1100,8 @@ describe BW::UIAlertView do
       before do
         @subject.enable_first_other_button? do |alert|
           alert.should.equal(@subject)
+          alert.should.not.be.canceled
+          alert.clicked.should.be.nil
           true
         end
       end

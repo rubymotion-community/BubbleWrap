@@ -57,28 +57,29 @@ class AlertViewController < UIViewController
   end
 
   def built_alert(method)
-    alert = BW::UIAlertView.send(method, :title => method) do |index|
-      self.text_view.text += "\n#{method} on_click: #{index}"
+    alert = BW::UIAlertView.send(method, :title => method) do |alert, index|
+      self.text_view.text += "\non_click, index: #{index}, canceled?: #{alert.canceled?.inspect}"
       self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
     end
 
-    alert.will_present do
-      self.text_view.text += "\n\n#{method} will_present"
+    alert.will_present do |alert|
+      self.text_view.text += "\n\n#{method}"
+      self.text_view.text += "\nwill_present"
       self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
     end
 
-    alert.did_present do
-      self.text_view.text += "\n#{method} did_present"
+    alert.did_present do |alert|
+      self.text_view.text += "\ndid_present"
       self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
     end
 
-    alert.will_dismiss do |index|
-      self.text_view.text += "\n#{method} will_dismiss: #{index}"
+    alert.will_dismiss do |alert, index|
+      self.text_view.text += "\nwill_dismiss, index: #{index}, canceled?: #{alert.canceled?.inspect}"
       self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
     end
 
-    alert.did_dismiss do |index|
-      self.text_view.text += "\n#{method} did_dismiss: #{index}"
+    alert.did_dismiss do |alert, index|
+      self.text_view.text += "\ndid_dismiss, index: #{index}, canceled?: #{alert.canceled?.inspect}"
       self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
     end
 
