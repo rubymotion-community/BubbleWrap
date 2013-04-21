@@ -43,17 +43,17 @@ module BW
       end
 
       def plain_text_input(options = {}, &block)
-        options = { buttons: ["Cancel", "OK"] }.merge!(options)
+        options = { buttons: ["Cancel", "OK"], cancel_button_index: 0 }.merge!(options)
         new(options.merge!(style: :plain_text_input), &block)
       end
 
       def secure_text_input(options = {}, &block)
-        options = { buttons: ["Cancel", "OK"] }.merge!(options)
+        options = { buttons: ["Cancel", "OK"], cancel_button_index: 0 }.merge!(options)
         new(options.merge!(style: :secure_text_input), &block)
       end
 
       def login_and_password_input(options = {}, &block)
-        options = { buttons: ["Cancel", "Log in"] }.merge!(options)
+        options = { buttons: ["Cancel", "Log in"], cancel_button_index: 0 }.merge!(options)
         new(options.merge!(style: :login_and_password_input), &block)
       end
     end

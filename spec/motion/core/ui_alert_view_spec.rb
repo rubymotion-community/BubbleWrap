@@ -19,10 +19,6 @@ shared "an instance with no options" do
     @subject.delegate.should.equal(@subject)
   end
 
-  it "has the correct cancel button index" do
-    @subject.cancel_button_index.should.equal(-1)
-  end
-
   it "has no will_present handler" do
     @subject.will_present.should.be.nil
   end
@@ -120,6 +116,10 @@ describe BW::UIAlertView do
         @subject.numberOfButtons.should.equal(0)
       end
 
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(-1)
+      end
+
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
@@ -142,6 +142,10 @@ describe BW::UIAlertView do
 
       it "has no buttons" do
         @subject.numberOfButtons.should.equal(0)
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(-1)
       end
 
       it "has the correct on_click handler" do
@@ -222,6 +226,10 @@ describe BW::UIAlertView do
         @subject.buttonTitleAtIndex(0).should.equal("OK")
       end
 
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(-1)
+      end
+
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
@@ -245,6 +253,10 @@ describe BW::UIAlertView do
       it "has the correct buttons" do
         @subject.numberOfButtons.should.equal(1)
         @subject.buttonTitleAtIndex(0).should.equal("OK")
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(-1)
       end
 
       it "has the correct on_click handler" do
@@ -293,6 +305,19 @@ describe BW::UIAlertView do
 
     ###############################################################################################
 
+    describe "given options with a cancel button index" do
+      before do
+        @options = { cancel_button_index: 0 }
+        @subject = BW::UIAlertView.new(@options)
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(0)
+      end
+    end
+
+    ###############################################################################################
+
     describe "given options with both an on_click handler and a block" do
       before do
         @options = { on_click: -> { true }}
@@ -326,6 +351,10 @@ describe BW::UIAlertView do
         @subject.buttonTitleAtIndex(1).should.equal("OK")
       end
 
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(0)
+      end
+
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
@@ -350,6 +379,10 @@ describe BW::UIAlertView do
         @subject.numberOfButtons.should.equal(2)
         @subject.buttonTitleAtIndex(0).should.equal("Cancel")
         @subject.buttonTitleAtIndex(1).should.equal("OK")
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(0)
       end
 
       it "has the correct on_click handler" do
@@ -398,6 +431,19 @@ describe BW::UIAlertView do
 
     ###############################################################################################
 
+    describe "given options with a cancel button index" do
+      before do
+        @options = { cancel_button_index: -1 }
+        @subject = BW::UIAlertView.plain_text_input(@options)
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(-1)
+      end
+    end
+
+    ###############################################################################################
+
     describe "given options with both an on_click handler and a block" do
       before do
         @options = { on_click: -> { true }}
@@ -431,6 +477,10 @@ describe BW::UIAlertView do
         @subject.buttonTitleAtIndex(1).should.equal("OK")
       end
 
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(0)
+      end
+
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
@@ -455,6 +505,10 @@ describe BW::UIAlertView do
         @subject.numberOfButtons.should.equal(2)
         @subject.buttonTitleAtIndex(0).should.equal("Cancel")
         @subject.buttonTitleAtIndex(1).should.equal("OK")
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(0)
       end
 
       it "has the correct on_click handler" do
@@ -503,6 +557,19 @@ describe BW::UIAlertView do
 
     ###############################################################################################
 
+    describe "given options with a cancel button index" do
+      before do
+        @options = { cancel_button_index: -1 }
+        @subject = BW::UIAlertView.secure_text_input(@options)
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(-1)
+      end
+    end
+
+    ###############################################################################################
+
     describe "given options with both an on_click handler and a block" do
       before do
         @options = { on_click: -> { true }}
@@ -536,6 +603,10 @@ describe BW::UIAlertView do
         @subject.buttonTitleAtIndex(1).should.equal("Log in")
       end
 
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(0)
+      end
+
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
@@ -560,6 +631,10 @@ describe BW::UIAlertView do
         @subject.numberOfButtons.should.equal(2)
         @subject.buttonTitleAtIndex(0).should.equal("Cancel")
         @subject.buttonTitleAtIndex(1).should.equal("Log in")
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(0)
       end
 
       it "has the correct on_click handler" do
@@ -603,6 +678,19 @@ describe BW::UIAlertView do
         @subject.numberOfButtons.should.equal(2)
         @subject.buttonTitleAtIndex(0).should.equal(@options[:buttons][0])
         @subject.buttonTitleAtIndex(1).should.equal(@options[:buttons][1])
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given options with a cancel button index" do
+      before do
+        @options = { cancel_button_index: -1 }
+        @subject = BW::UIAlertView.login_and_password_input(@options)
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(-1)
       end
     end
 
