@@ -40,7 +40,7 @@ class AlertViewController < UIViewController
   end
 
   def build_text_view
-    text_view = UITextView.alloc.initWithFrame([[20, 10], [280, 184]])
+    text_view = UITextView.alloc.initWithFrame([[0, 0], [320, 194]])
     text_view.editable = false
     text_view.text     = "Waiting..."
     text_view
@@ -57,32 +57,29 @@ class AlertViewController < UIViewController
   end
 
   def built_alert(method)
-    alert = BW::UIAlertView.send(method, :title => method) do |alert, index|
-      self.text_view.text += "\non_click, index: #{index}, canceled?: #{alert.canceled?.inspect}"
+    options = {
+      :title        => method,
+      :will_present => build_callback(:will_present, method),
+      :did_present  => build_callback(:did_present, method),
+      :on_click     => build_callback(:on_click, method),
+      :will_dismiss => build_callback(:will_dismiss, method),
+      :did_dismiss  => build_callback(:did_dismiss, method)
+    }
+    BW::UIAlertView.send(method, options)
+  end
+
+  def build_callback(name, method)
+    proc do |alert, index|
+      message = []
+      message << "#{name}"
+      message << "index: #{index}" if index
+      message << "canceled?: #{alert.canceled?.inspect}"
+      message << "clicked: #{alert.clicked.inspect}"
+      message = message.join(", ")
+
+      self.text_view.text += "\n\n#{method}" if name == :will_present
+      self.text_view.text += "\n#{message}"
       self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
     end
-
-    alert.will_present do |alert|
-      self.text_view.text += "\n\n#{method}"
-      self.text_view.text += "\nwill_present"
-      self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
-    end
-
-    alert.did_present do |alert|
-      self.text_view.text += "\ndid_present"
-      self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
-    end
-
-    alert.will_dismiss do |alert, index|
-      self.text_view.text += "\nwill_dismiss, index: #{index}, canceled?: #{alert.canceled?.inspect}"
-      self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
-    end
-
-    alert.did_dismiss do |alert, index|
-      self.text_view.text += "\ndid_dismiss, index: #{index}, canceled?: #{alert.canceled?.inspect}"
-      self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
-    end
-
-    alert
   end
 end
