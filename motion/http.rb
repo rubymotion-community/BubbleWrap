@@ -97,7 +97,7 @@ module BubbleWrap
         @files = options.delete(:files)
         @boundary = options.delete(:boundary) || BW.create_uuid
         @credentials = options.delete(:credentials) || {}
-        @credentials = {:username => '', :password => ''}.merge(@credentials)
+        @credentials = {:username => nil, :password => nil}.merge(@credentials)
         @timeout = options.delete(:timeout) || 30.0
         @headers = escape_line_feeds(options.delete :headers)
         @format = options.delete(:format)
@@ -107,7 +107,7 @@ module BubbleWrap
         @options = options
         @response = HTTP::Response.new
         @follow_urls = options[:follow_urls] || true
-        @present_credentials = options.delete(:present_credentials) || false
+        @present_credentials = options[:present_credentials] == nil ? true : options.delete(:present_credentials)
 
         @url = create_url(url_string)
         @body = create_request_body
@@ -245,6 +245,10 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         @headers && @headers.keys.find {|k| k.downcase == 'content-type'}
       end
 
+      def credentials_provided?
+        @credentials[:username] && @credentials[:password]
+      end
+
       def create_request_body
         return nil if (@method == "GET" || @method == "HEAD")
         return nil unless (@payload || @files)
@@ -286,7 +290,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       def append_auth_header
         return if @headers && @headers["Authorization"]
 
-        if @credentials != {} && @present_credentials
+        if credentials_provided? && @present_credentials
           mock_request = CFHTTPMessageCreateRequest(nil, nil, nil, nil)
           CFHTTPMessageAddAuthentication(mock_request, nil, @credentials[:username], @credentials[:password], KCFHTTPAuthenticationSchemeBasic, false)
 

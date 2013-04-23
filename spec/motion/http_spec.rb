@@ -202,7 +202,7 @@ describe "HTTP" do
         options = { credentials: {} }
         new_query = BubbleWrap::HTTP::Query.new( @localhost_url, :get,  options)
 
-        generated_credentials = {:username => '', :password => ''}
+        generated_credentials = { :username => nil, :password => nil }
         new_query.credentials.should.equal generated_credentials
         options.should.be.empty
       end
@@ -335,8 +335,10 @@ describe "HTTP" do
       end
 
       it "should delete :headers from options and escape Line Feeds" do
-        escaped_lf = {"User-Agent"=>"Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \r\n Gecko/20100101 Firefox/12.0"}
-        @query.instance_variable_get(:@headers).should.equal escaped_lf
+        escaped_lf = "Mozilla/5.0 (X11; Linux x86_64; rv:12.0) \r\n Gecko/20100101 Firefox/12.0"
+        headers = @query.instance_variable_get(:@headers)
+        
+        headers["User-Agent"].should.equal escaped_lf
       end
 
       it "should delete :cache_policy or set NSURLRequestUseProtocolCachePolicy" do
@@ -355,11 +357,17 @@ describe "HTTP" do
         new_query.instance_variable_get(:@credential_persistence).should.equal NSURLCredentialPersistenceForSession
       end
 
-      it "should present credentials when asked to :present_credentials" do
-        query = BubbleWrap::HTTP::Query.new(@fake_url, :get, { credentials: @credentials, present_credentials: true })
-        headers = query.instance_variable_get(:@headers)
+      it "should present base64-encoded credentials in Authorization header when provided" do
+        headers = @query.instance_variable_get(:@headers)
 
         headers["Authorization"].should.equal "Basic bW5lb3JyOjEyMzQ1Nnh4IUBjcmF6eQ=="
+      end
+
+      it "should not present Authorization header when :present_credentials is false" do
+        query = BubbleWrap::HTTP::Query.new(@fake_url, :get, { credentials: @credentials, present_credentials: false })
+        headers = query.instance_variable_get(:@headers)
+
+        headers.should.equal nil
       end
 
       it "should set the rest of options{} to ivar @options" do
