@@ -131,6 +131,22 @@ describe BW::UIAlertView do
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
+
+      it "has no plain text field" do
+        @subject.plain_text_field.should.be.nil
+      end
+
+      it "has no secure text field" do
+        @subject.secure_text_field.should.be.nil
+      end
+
+      it "has no login text field" do
+        @subject.login_text_field.should.be.nil
+      end
+
+      it "has no password text field" do
+        @subject.password_text_field.should.be.nil
+      end
     end
 
     ###############################################################################################
@@ -240,6 +256,22 @@ describe BW::UIAlertView do
 
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
+      end
+
+      it "has no plain text field" do
+        @subject.plain_text_field.should.be.nil
+      end
+
+      it "has no secure text field" do
+        @subject.secure_text_field.should.be.nil
+      end
+
+      it "has no login text field" do
+        @subject.login_text_field.should.be.nil
+      end
+
+      it "has no password text field" do
+        @subject.password_text_field.should.be.nil
       end
     end
 
@@ -365,6 +397,22 @@ describe BW::UIAlertView do
 
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
+      end
+
+      it "has a plain text field" do
+        @subject.plain_text_field.should.be.kind_of(UITextField)
+      end
+
+      it "has no secure text field" do
+        @subject.secure_text_field.should.be.nil
+      end
+
+      it "has no login text field" do
+        @subject.login_text_field.should.be.nil
+      end
+
+      it "has no password text field" do
+        @subject.password_text_field.should.be.nil
       end
     end
 
@@ -492,6 +540,22 @@ describe BW::UIAlertView do
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
+
+      it "has no plain text field" do
+        @subject.plain_text_field.should.be.nil
+      end
+
+      it "has a secure text field" do
+        @subject.secure_text_field.should.be.kind_of(UITextField)
+      end
+
+      it "has no login text field" do
+        @subject.login_text_field.should.be.nil
+      end
+
+      it "has no password text field" do
+        @subject.password_text_field.should.be.nil
+      end
     end
 
     ###############################################################################################
@@ -617,6 +681,22 @@ describe BW::UIAlertView do
 
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
+      end
+
+      it "has no plain text field" do
+        @subject.plain_text_field.should.be.nil
+      end
+
+      it "has no secure text field" do
+        @subject.secure_text_field.should.be.nil
+      end
+
+      it "has a login text field" do
+        @subject.login_text_field.should.be.kind_of(UITextField)
+      end
+
+      it "has a password text field" do
+        @subject.password_text_field.should.be.kind_of(UITextField)
       end
     end
 

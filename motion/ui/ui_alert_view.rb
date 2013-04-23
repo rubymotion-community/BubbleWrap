@@ -137,6 +137,24 @@ module BW
       alert.clicked = ClickedButton.new(alert, index)
       handlers[:did_dismiss].call(alert) if handlers[:did_dismiss]
     end
+
+    ###############################################################################################
+
+    def plain_text_field
+      textFieldAtIndex(0) if style == UIAlertViewStylePlainTextInput
+    end
+
+    def secure_text_field
+      textFieldAtIndex(0) if style == UIAlertViewStyleSecureTextInput
+    end
+
+    def login_text_field
+      textFieldAtIndex(0) if style == UIAlertViewStyleLoginAndPasswordInput
+    end
+
+    def password_text_field
+      textFieldAtIndex(1) if style == UIAlertViewStyleLoginAndPasswordInput
+    end
   end
 
   Constants.register(
