@@ -4,10 +4,10 @@ module BW
       :will_present,
       :did_present,
       :on_system_cancel,
+      :enable_first_other_button?,
       :on_click,
       :will_dismiss,
-      :did_dismiss,
-      :enable_first_other_button?
+      :did_dismiss
     ]
 
     class << self
@@ -74,8 +74,23 @@ module BW
       self.cancelButtonIndex = value if value
     end
 
+    ###############################################################################################
+
     attr_accessor :clicked
     protected     :clicked=
+
+    class ClickedButton
+      def initialize(alert, index)
+        @index  = index
+        @title  = alert.buttonTitleAtIndex(index)
+        @cancel = alert.cancelButtonIndex == index
+      end
+
+      attr_reader :index, :title
+      def cancel?; @cancel end
+    end
+
+    ###############################################################################################
 
     attr_reader :handlers
     protected   :handlers
@@ -87,17 +102,6 @@ module BW
     end
 
     # UIAlertViewDelegate protocol ################################################################
-
-    class ClickedButton
-      def initialize(alert, index)
-        @index  = index
-        @title  = alert.buttonTitleAtIndex(index)
-        @cancel = alert.cancelButtonIndex == index
-      end
-
-      attr_reader :index, :title, :cancel
-      alias_method :cancel?, :cancel
-    end
 
     def willPresentAlertView(alert)
       alert.clicked = nil
@@ -114,6 +118,11 @@ module BW
       handlers[:on_system_cancel].call(alert) if handlers[:on_system_cancel]
     end
 
+    def alertViewShouldEnableFirstOtherButton(alert)
+      alert.clicked = nil
+      handlers[:enable_first_other_button?].call(alert) if handlers[:enable_first_other_button?]
+    end
+
     def alertView(alert, clickedButtonAtIndex:index)
       alert.clicked = ClickedButton.new(alert, index)
       handlers[:on_click].call(alert) if handlers[:on_click]
@@ -127,11 +136,6 @@ module BW
     def alertView(alert, didDismissWithButtonIndex: index)
       alert.clicked = ClickedButton.new(alert, index)
       handlers[:did_dismiss].call(alert) if handlers[:did_dismiss]
-    end
-
-    def alertViewShouldEnableFirstOtherButton(alert)
-      alert.clicked = nil
-      handlers[:enable_first_other_button?].call(alert) if handlers[:enable_first_other_button?]
     end
   end
 

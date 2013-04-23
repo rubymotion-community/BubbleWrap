@@ -910,6 +910,36 @@ describe BW::UIAlertView do
 
   #################################################################################################
 
+  describe "-alertViewShouldEnableFirstOtherButton:" do
+    before do
+      @subject = BW::UIAlertView.new
+    end
+
+    describe "given no enable_first_other_button? handler" do
+      it "returns noting" do
+        @subject.alertViewShouldEnableFirstOtherButton(@subject).should.be.nil
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given an enable_first_other_button? handler" do
+      before do
+        @subject.enable_first_other_button? do |alert|
+          alert.should.equal(@subject)
+          alert.clicked.should.be.nil
+          true
+        end
+      end
+
+      it "returns correctly" do
+        @subject.alertViewShouldEnableFirstOtherButton(@subject).should.equal(true)
+      end
+    end
+  end
+
+  #################################################################################################
+
   describe "-alertView:clickedButtonAtIndex:" do
     before do
       @index   = 0
@@ -1072,36 +1102,6 @@ describe BW::UIAlertView do
 
       it "returns correctly" do
         @subject.alertView(@subject, didDismissWithButtonIndex:@index).should.equal(:did_dismiss)
-      end
-    end
-  end
-
-  #################################################################################################
-
-  describe "-alertViewShouldEnableFirstOtherButton:" do
-    before do
-      @subject = BW::UIAlertView.new
-    end
-
-    describe "given no enable_first_other_button? handler" do
-      it "returns noting" do
-        @subject.alertViewShouldEnableFirstOtherButton(@subject).should.be.nil
-      end
-    end
-
-    ###############################################################################################
-
-    describe "given an enable_first_other_button? handler" do
-      before do
-        @subject.enable_first_other_button? do |alert|
-          alert.should.equal(@subject)
-          alert.clicked.should.be.nil
-          true
-        end
-      end
-
-      it "returns correctly" do
-        @subject.alertViewShouldEnableFirstOtherButton(@subject).should.equal(true)
       end
     end
   end
