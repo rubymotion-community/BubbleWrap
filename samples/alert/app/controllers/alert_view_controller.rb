@@ -69,12 +69,16 @@ class AlertViewController < UIViewController
   end
 
   def build_callback(name, method)
-    proc do |alert, index|
+    lambda do |alert|
       message = []
       message << "#{name}"
-      message << "index: #{index}" if index
-      message << "canceled?: #{alert.canceled?.inspect}"
-      message << "clicked: #{alert.clicked.inspect}"
+
+      if alert.clicked_button
+        message << "index: #{alert.clicked_button.index}"
+        message << "title: #{alert.clicked_button.title.inspect}"
+        message << "cancel?: #{alert.clicked_button.cancel?.inspect}"
+      end
+
       message = message.join(", ")
 
       self.text_view.text += "\n\n#{method}" if name == :will_present

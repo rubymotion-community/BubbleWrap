@@ -76,8 +76,8 @@ module BW
 
     ###############################################################################################
 
-    attr_accessor :clicked
-    protected     :clicked=
+    attr_accessor :clicked_button
+    protected     :clicked_button=
 
     class ClickedButton
       def initialize(alert, index)
@@ -104,37 +104,37 @@ module BW
     # UIAlertViewDelegate protocol ################################################################
 
     def willPresentAlertView(alert)
-      alert.clicked = nil
+      alert.clicked_button = nil
       handlers[:will_present].call(alert) if handlers[:will_present]
     end
 
     def didPresentAlertView(alert)
-      alert.clicked = nil
+      alert.clicked_button = nil
       handlers[:did_present].call(alert) if handlers[:did_present]
     end
 
     def alertViewCancel(alert)
-      alert.clicked = nil
+      alert.clicked_button = nil
       handlers[:on_system_cancel].call(alert) if handlers[:on_system_cancel]
     end
 
     def alertViewShouldEnableFirstOtherButton(alert)
-      alert.clicked = nil
+      alert.clicked_button = nil
       handlers[:enable_first_other_button?].call(alert) if handlers[:enable_first_other_button?]
     end
 
     def alertView(alert, clickedButtonAtIndex:index)
-      alert.clicked = ClickedButton.new(alert, index)
+      alert.clicked_button = ClickedButton.new(alert, index)
       handlers[:on_click].call(alert) if handlers[:on_click]
     end
 
     def alertView(alert, willDismissWithButtonIndex:index)
-      alert.clicked = ClickedButton.new(alert, index)
+      alert.clicked_button = ClickedButton.new(alert, index)
       handlers[:will_dismiss].call(alert) if handlers[:will_dismiss]
     end
 
     def alertView(alert, didDismissWithButtonIndex: index)
-      alert.clicked = ClickedButton.new(alert, index)
+      alert.clicked_button = ClickedButton.new(alert, index)
       handlers[:did_dismiss].call(alert) if handlers[:did_dismiss]
     end
 
