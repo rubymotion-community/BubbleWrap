@@ -19,11 +19,7 @@ shared "an instance with no options" do
     @subject.delegate.should.equal(@subject)
   end
 
-  it "is not canceled" do
-    @subject.should.not.be.canceled
-  end
-
-  it "has no clicked button title" do
+  it "has no clicked button" do
     @subject.clicked.should.be.nil
   end
 
@@ -76,11 +72,7 @@ shared "an instance with a full set of options" do
     @subject.buttonTitleAtIndex(0).should.equal(@options[:buttons])
   end
 
-  it "is not canceled" do
-    @subject.should.not.be.canceled
-  end
-
-  it "has no clicked button title" do
+  it "has no clicked button" do
     @subject.clicked.should.be.nil
   end
 
@@ -845,7 +837,6 @@ describe BW::UIAlertView do
       before do
         @subject.will_present do |alert|
           alert.should.equal(@subject)
-          alert.should.not.be.canceled
           alert.clicked.should.be.nil
           :will_present
         end
@@ -876,7 +867,6 @@ describe BW::UIAlertView do
       before do
         @subject.did_present do |alert|
           alert.should.equal(@subject)
-          alert.should.not.be.canceled
           alert.clicked.should.be.nil
           :did_present
         end
@@ -907,7 +897,6 @@ describe BW::UIAlertView do
       before do
         @subject.on_system_cancel do |alert|
           alert.should.equal(@subject)
-          alert.should.not.be.canceled
           alert.clicked.should.be.nil
           :on_system_cancel
         end
@@ -938,11 +927,12 @@ describe BW::UIAlertView do
 
     describe "given an on_click handler" do
       before do
-        @subject.on_click do |alert, index|
+        @subject.on_click do |alert|
           alert.should.equal(@subject)
-          alert.should.not.be.canceled
-          alert.clicked.should.equal(@button)
-          index.should.equal(@index)
+          alert.clicked.should.not.be.nil
+          alert.clicked.index.should.equal(@index)
+          alert.clicked.title.should.equal(@button)
+          alert.clicked.should.not.be.cancel
           :on_click
         end
       end
@@ -958,11 +948,12 @@ describe BW::UIAlertView do
       before do
         @subject.cancel_button_index = @index
 
-        @subject.on_click do |alert, index|
+        @subject.on_click do |alert|
           alert.should.equal(@subject)
-          alert.should.be.canceled
-          alert.clicked.should.equal(@button)
-          index.should.equal(@index)
+          alert.clicked.should.not.be.nil
+          alert.clicked.index.should.equal(@index)
+          alert.clicked.title.should.equal(@button)
+          alert.clicked.should.be.cancel
           :on_click
         end
       end
@@ -992,11 +983,12 @@ describe BW::UIAlertView do
 
     describe "given a will_dismiss handler" do
       before do
-        @subject.will_dismiss do |alert, index|
+        @subject.will_dismiss do |alert|
           alert.should.equal(@subject)
-          alert.should.not.be.canceled
-          alert.clicked.should.equal(@button)
-          index.should.equal(@index)
+          alert.clicked.should.not.be.nil
+          alert.clicked.index.should.equal(@index)
+          alert.clicked.title.should.equal(@button)
+          alert.clicked.should.not.be.cancel
           :will_dismiss
         end
       end
@@ -1012,11 +1004,12 @@ describe BW::UIAlertView do
       before do
         @subject.cancel_button_index = @index
 
-        @subject.will_dismiss do |alert, index|
+        @subject.will_dismiss do |alert|
           alert.should.equal(@subject)
-          alert.should.be.canceled
-          alert.clicked.should.equal(@button)
-          index.should.equal(@index)
+          alert.clicked.should.not.be.nil
+          alert.clicked.index.should.equal(@index)
+          alert.clicked.title.should.equal(@button)
+          alert.clicked.should.be.cancel
           :will_dismiss
         end
       end
@@ -1046,11 +1039,12 @@ describe BW::UIAlertView do
 
     describe "given a did_dismiss handler" do
       before do
-        @subject.did_dismiss do |alert, index|
+        @subject.did_dismiss do |alert|
           alert.should.equal(@subject)
-          alert.should.not.be.canceled
-          alert.clicked.should.equal(@button)
-          index.should.equal(@index)
+          alert.clicked.should.not.be.nil
+          alert.clicked.index.should.equal(@index)
+          alert.clicked.title.should.equal(@button)
+          alert.clicked.should.not.be.cancel
           :did_dismiss
         end
       end
@@ -1066,11 +1060,12 @@ describe BW::UIAlertView do
       before do
         @subject.cancel_button_index = @index
 
-        @subject.did_dismiss do |alert, index|
+        @subject.did_dismiss do |alert|
           alert.should.equal(@subject)
-          alert.should.be.canceled
-          alert.clicked.should.equal(@button)
-          index.should.equal(@index)
+          alert.clicked.should.not.be.nil
+          alert.clicked.index.should.equal(@index)
+          alert.clicked.title.should.equal(@button)
+          alert.clicked.should.be.cancel
           :did_dismiss
         end
       end
@@ -1100,7 +1095,6 @@ describe BW::UIAlertView do
       before do
         @subject.enable_first_other_button? do |alert|
           alert.should.equal(@subject)
-          alert.should.not.be.canceled
           alert.clicked.should.be.nil
           true
         end
