@@ -97,8 +97,10 @@ module BW
 
     callbacks.each do |callback|
       define_method(callback) do |&block|
+        return handlers[callback] unless block
+
         handlers[callback] = block if block
-        handlers[callback]
+        self
       end
     end
 

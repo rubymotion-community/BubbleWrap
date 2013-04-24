@@ -827,8 +827,8 @@ describe BW::UIAlertView do
           @return = @subject.send(callback, &@block)
         end
 
-        it "returns the correct handler" do
-          @return.should.equal(@block)
+        it "returns the subject" do
+          @return.should.equal(@subject)
         end
 
         it "has the correct handler" do
