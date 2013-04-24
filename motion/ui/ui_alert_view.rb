@@ -134,7 +134,7 @@ module BW
       handlers[:will_dismiss].call(alert) if handlers[:will_dismiss]
     end
 
-    def alertView(alert, didDismissWithButtonIndex: index)
+    def alertView(alert, didDismissWithButtonIndex:index)
       alert.clicked_button = ClickedButton.new(alert, index)
       handlers[:did_dismiss].call(alert) if handlers[:did_dismiss]
     end
