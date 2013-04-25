@@ -34,7 +34,7 @@ describe BubbleWrap::App do
       end
 
       it 'returns an alert' do
-        @alert.class.should == UIAlertView
+        @alert.class.should == BW::UIAlertView
       end
 
       it 'is displaying the correct title' do
@@ -58,7 +58,7 @@ describe BubbleWrap::App do
       end
 
       it 'returns an alert' do
-        @alert.class.should == UIAlertView
+        @alert.class.should == BW::UIAlertView
       end
 
       it 'is displaying the correct title' do
@@ -83,7 +83,7 @@ describe BubbleWrap::App do
       end
 
       it 'returns an alert' do
-        @alert.class.should == UIAlertView
+        @alert.class.should == BW::UIAlertView
       end
 
       it 'is displaying the correct title' do
@@ -113,7 +113,7 @@ describe BubbleWrap::App do
       end
 
       it 'returns an alert' do
-        @alert.class.should == UIAlertView
+        @alert.class.should == BW::UIAlertView
       end
 
       it 'is displaying the correct title' do
