@@ -349,8 +349,13 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
             list += param
           elsif v.is_a?(Array)
             v.each do |val|
-              param = prefix ? "#{prefix}[#{k.to_s}][]" : "#{k.to_s}[]"
-              list << [param, val]
+              if val.is_a?(Hash)
+                param = prefix ? "#{prefix}[#{k.to_s}][]" : "#{k.to_s}[]"
+                list += process_payload_hash(val, param)
+              else
+                param = prefix ? "#{prefix}[#{k.to_s}][]" : "#{k.to_s}[]"
+                list << [param, val]
+              end
             end
           else
             param = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
