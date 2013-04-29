@@ -474,7 +474,24 @@ describe "HTTP" do
         ]
         @query.send(:process_payload_hash, @payload).should.equal expected_params
       end
-
+      
+      it "should create payload key/value pairs from nested arrays of hashes with prefix[key][][nested_key]=value" do
+        payload = { 
+          user: { 
+            phones_attributes: [
+              { number: 1234567, area_code: 213 }, 
+              { number: 7654321, area_code: 310 }
+            ]
+          }
+        }
+        expected_params = [
+          ['user[phones_attributes][][number]', 1234567],
+          ['user[phones_attributes][][area_code]', 213],
+          ['user[phones_attributes][][number]', 7654321],
+          ['user[phones_attributes][][area_code]', 310]
+        ]
+        @query.send(:process_payload_hash, payload).should.equal expected_params
+      end
     end
 
     describe "when didReceiveResponse:" do
