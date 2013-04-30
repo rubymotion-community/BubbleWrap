@@ -1,4 +1,5 @@
 require 'bubble-wrap/loader'
+require 'motion-support/inflector'
 BubbleWrap.require('motion/core.rb')
 BubbleWrap.require('motion/core/**/*.rb') do
   file('motion/core/pollute.rb').depends_on 'motion/core/ns_index_path.rb'

@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     bubble-wrap (1.2.0)
+      motion-support
 
 GEM
   remote: https://rubygems.org/
@@ -12,6 +13,9 @@ GEM
       metaclass (~> 0.0.1)
     mocha-on-bacon (0.2.1)
       mocha (>= 0.9.8)
+    motion-require (0.0.6)
+    motion-support (0.2.0)
+      motion-require (>= 0.0.6)
     rake (0.9.2.2)
 
 PLATFORMS
