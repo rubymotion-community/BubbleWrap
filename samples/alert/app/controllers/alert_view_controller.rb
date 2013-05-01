@@ -5,8 +5,15 @@ class AlertViewController < UIViewController
 
   def init
     super.tap do
+      @text_view = build_text_view
+
       @buttons = []
       @alerts  = []
+
+      [:default, :plain_text_input, :secure_text_input, :login_and_password_input].each do |style|
+        @buttons << build_button(style.to_s)
+        @alerts  << built_alert(style)
+      end
     end
   end
 
@@ -15,27 +22,12 @@ class AlertViewController < UIViewController
 
     self.view.backgroundColor = UIColor.grayColor
 
-    @text_view = build_text_view
     self.view.addSubview(self.text_view)
-
-    self.buttons << build_button("Default")
-    self.alerts  << built_alert(:default)
-
-    self.buttons << build_button("Plain Text")
-    self.alerts  << built_alert(:plain_text_input)
-
-    self.buttons << build_button("Secure Text")
-    self.alerts  << built_alert(:secure_text_input)
-
-    self.buttons << build_button("Login and Password")
-    self.alerts  << built_alert(:login_and_password_input)
 
     self.buttons.each_with_index do |button, index|
       self.view.addSubview(button)
 
-      button.when(UIControlEventTouchUpInside) do
-        self.alerts[index].show
-      end
+      button.when(UIControlEventTouchUpInside) { self.alerts[index].show }
     end
   end
 
@@ -71,18 +63,11 @@ class AlertViewController < UIViewController
   def build_callback(name, method)
     lambda do |alert|
       message = []
-      message << "#{name}"
+      message << "\n\n" + method.to_s if name == :will_present
+      message << "\n" + name.to_s
+      message << "\n" + alert.clicked_button.inspect if alert.clicked_button
 
-      if alert.clicked_button
-        message << "index: #{alert.clicked_button.index}"
-        message << "title: #{alert.clicked_button.title.inspect}"
-        message << "cancel?: #{alert.clicked_button.cancel?.inspect}"
-      end
-
-      message = message.join(", ")
-
-      self.text_view.text += "\n\n#{method}" if name == :will_present
-      self.text_view.text += "\n#{message}"
+      self.text_view.text += message.join
       self.text_view.selectedRange = NSMakeRange(self.text_view.text.length, 0)
     end
   end
