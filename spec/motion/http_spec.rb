@@ -257,7 +257,7 @@ describe "HTTP" do
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
           real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"upload\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}--\r\n"
         end
-        
+
         it "processes filenames from file hashes, using the name when the filename is missing" do
           files = {
             upload: {data: sample_data}
@@ -267,7 +267,7 @@ describe "HTTP" do
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
           real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"upload\"; filename=\"upload\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}--\r\n"
         end
-        
+
         it "throws an error for invalid file parameters" do
           files = {
             twitter: {filename: "test.txt", data: nil}
@@ -474,12 +474,12 @@ describe "HTTP" do
         ]
         @query.send(:process_payload_hash, @payload).should.equal expected_params
       end
-      
+
       it "should create payload key/value pairs from nested arrays of hashes with prefix[key][][nested_key]=value" do
-        payload = { 
-          user: { 
+        payload = {
+          user: {
             phones_attributes: [
-              { number: 1234567, area_code: 213 }, 
+              { number: 1234567, area_code: 213 },
               { number: 7654321, area_code: 310 }
             ]
           }
@@ -710,12 +710,26 @@ describe "HTTP" do
 
     end
 
+    describe "empty payload" do
+
+      before do
+        @payload = {}
+        @url_string = 'http://fake.url/method'
+        @get_query = BubbleWrap::HTTP::Query.new(@url_string, :get, :payload => @payload)
+      end
+
+      it "should not append a ? to the end of the URL" do
+        @get_query.instance_variable_get(:@url).description.should.equal('http://fake.url/method')
+      end
+
+    end
+
     describe "properly format payload to url get query string" do
 
       before do
         @payload = {"we love" => '#==Rock&Roll==#', "radio" => "Ga Ga", "qual" => 3.0, "incr" => -1, "RFC3986" => "!*'();:@&=+$,/?%#[]"}
         @url_string = 'http://fake.url/method'
-        @get_query = BubbleWrap::HTTP::Query.new( @url_string, :get, :payload => @payload)
+        @get_query = BubbleWrap::HTTP::Query.new(@url_string, :get, :payload => @payload)
         @escaped_url = "http://fake.url/method?we%20love=%23%3D%3DRock%26Roll%3D%3D%23&radio=Ga%20Ga&qual=3.0&incr=-1&RFC3986=%21%2A%27%28%29%3B%3A%40%26%3D%2B%24%2C%2F%3F%25%23%5B%5D"
       end
 
@@ -725,18 +739,18 @@ describe "HTTP" do
 
     end
 
-    describe 'properly support cookie-option for nsmutableurlrequest' do 
-      
-      before do 
+    describe 'properly support cookie-option for nsmutableurlrequest' do
+
+      before do
         @no_cookie_query = BubbleWrap::HTTP::Query.new("http://haz-no-cookiez.url", :get, {:payload => {:something => "else"}, :cookies => false})
         @cookie_query = BubbleWrap::HTTP::Query.new("http://haz-cookiez.url", :get, :payload => {:something => "else"})
       end
 
-      it 'should disabled cookie-usage on nsurlrequest' do 
+      it 'should disabled cookie-usage on nsurlrequest' do
         @no_cookie_query.instance_variable_get(:@request).HTTPShouldHandleCookies.should.equal false
       end
 
-      it 'should keep sane cookie-related defaults on nsurlrequest' do 
+      it 'should keep sane cookie-related defaults on nsurlrequest' do
         @cookie_query.instance_variable_get(:@request).HTTPShouldHandleCookies.should.equal true
       end
 

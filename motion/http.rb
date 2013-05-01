@@ -103,7 +103,7 @@ module BubbleWrap
         @format = options.delete(:format)
         @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
         @credential_persistence = options.delete(:credential_persistence) || NSURLCredentialPersistenceForSession
-        @cookies = options.key?(:cookies) ? options.delete(:cookies) : true      
+        @cookies = options.key?(:cookies) ? options.delete(:cookies) : true
         @options = options
         @response = HTTP::Response.new
         @follow_urls = options[:follow_urls] || true
@@ -313,8 +313,10 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       def create_url(url_string)
         url_string = url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
         if (@method == "GET" || @method == "HEAD") && @payload
-          convert_payload_to_url if @payload.is_a?(Hash)
-          url_string += "?#{@payload}"
+          unless @payload.empty?
+            convert_payload_to_url if @payload.is_a?(Hash)
+            url_string += "?#{@payload}"
+          end
         end
         url = NSURL.URLWithString(url_string)
 
