@@ -735,6 +735,32 @@ would be a Proc that takes two arguments: a float representing the
 amount of data currently received and another float representing the
 total amount of data expected.
 
+### Gotchas
+
+Because of how RubyMotion currently works, you sometimes need to assign objects as `@instance_variables` in order to retain their callbacks.
+
+For example:
+
+```ruby
+class HttpClient
+  def get_user(user_id, &callback)
+    BW::HTTP.get(user_url(user_id)) do |response|
+      # ..
+    end
+  end 
+end
+```
+
+This class should be invoked in your code as:
+
+```ruby
+@http_client = HttpClient.new
+@http_client.get_user(user_id) do |user|
+  # ..
+end
+```
+
+(instead of doing an instance-variable-less `HttpClient.new.get_user`)
 
 ## RSS Parser
 **Since: > version 1.0.0**
