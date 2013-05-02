@@ -516,7 +516,7 @@ And the `.system` button types are:
 
 ### UIAlertView
 
-`BW::UIAlertView` is a subclass of `UIAlertView` with an idiomatic Ruby syntax layered on top.
+`BW::UIAlertView` is a subclass of `UIAlertView` with an natural Ruby syntax.
 
 #### Default alert
 
@@ -526,11 +526,11 @@ The `.default` constructor accepts an optional `Hash` of options and returns a `
 
 ```ruby
 options = { :title => "Are you ready?" }
-alert = BW::UIAlertView.default(options).on_click do |alert|
+ready_alert = BW::UIAlertView.default(options).on_click do |alert|
   # ...
 end
 
-alert.show
+ready_alert.show
 ```
 
 #### Input alerts
@@ -543,11 +543,11 @@ alert.show
 
 ```ruby
 options = { :title => "Replicator" }
-alert = BW::UIAlertView.plain_text_input(options).on_click do |alert|
+replicator_alert = BW::UIAlertView.plain_text_input(options).on_click do |alert|
   alert.plain_text_field.text    #=> "Tea. Early Grey. Hot."
 end
 
-alert.show
+replicator_alert.show
 ```
 
 `.secure_text_input` returns an instance in the `UIAlertViewStyleSecureTextInput` style.
@@ -556,11 +556,11 @@ alert.show
 
 ```ruby
 options = { :title => "Authorization" }
-alert = BW::UIAlertView.secure_text_input(options).on_click do |alert|
+replicator_alert = BW::UIAlertView.secure_text_input(options).on_click do |alert|
   alert.secure_text_field.text   #=> "Theta2997"
 end
 
-alert.show
+replicator_alert.show
 ```
 
 And `.login_and_password_input` returns an instance in the `UIAlertViewStyleLoginAndPasswordInput` style.
@@ -569,12 +569,12 @@ And `.login_and_password_input` returns an instance in the `UIAlertViewStyleLogi
 
 ```ruby
 options = { :title => "Authorization" }
-alert = BW::UIAlertView.login_and_password_input(options).on_click do |alert|
+auth_alert = BW::UIAlertView.login_and_password_input(options).on_click do |alert|
   alert.login_text_field.text    #=> "La Forge"
   alert.password_text_field.text #=> "Theta2997"
 end
 
-alert.show
+auth_alert.show
 ```
 
 #### Buttons
@@ -614,7 +614,7 @@ options = {
   :message => "Plot a course for Starbase 118.  Warp 7.",
   :buttons => ["Cancel", "Engage"],
 }
-alert = BW::UIAlertView.default(options).on_click do |alert|
+warp_alert = BW::UIAlertView.default(options).on_click do |alert|
   if alert.clicked_button.index == 0
     # ...
   else
@@ -628,7 +628,7 @@ alert = BW::UIAlertView.default(options).on_click do |alert|
   end
 end
 
-alert.show
+warp_alert.show
 ```
 
 When the constructor's `:cancel_button_index` argument is provided, the `clicked_button` knows whether or not it's a `cancel?` button.  Conveniently, the argument is automatically set to `0` for all constructors **EXCEPT** `.default` and `.new`.
@@ -642,7 +642,7 @@ options = {
   :buttons             => ["Cancel", "Engage"],
   :cancel_button_index => 0 # set for all constructors EXCEPT `.default` and `.new`
 }
-alert = BW::UIAlertView.default(options).on_click do |alert|
+warp_alert = BW::UIAlertView.default(options).on_click do |alert|
   # NOTE: uses the :cancel_button_index argument
   if alert.clicked_button.cancel?
     # ...
@@ -651,7 +651,7 @@ alert = BW::UIAlertView.default(options).on_click do |alert|
   end
 end
 
-alert.show
+warp_alert.show
 ```
 
 #### Callbacks
