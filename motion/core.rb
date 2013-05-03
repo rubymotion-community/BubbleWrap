@@ -8,7 +8,12 @@ module BubbleWrap
 
   # @return [UIcolor]
   def rgba_color(r,g,b,a)
-    UIColor.colorWithRed((r/255.0), green:(g/255.0), blue:(b/255.0), alpha:a)
+    r,g,b = [r,g,b].map { |i| i / 255.0}
+    if App.osx?
+      NSColor.colorWithDeviceRed(r, green: g, blue: b, alpha: a)
+    else
+      UIColor.colorWithRed(r, green: g, blue:b, alpha:a)
+    end
   end
 
   def localized_string(key, value)
