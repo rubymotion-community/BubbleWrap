@@ -24,6 +24,21 @@ unless defined?(BubbleWrap::LOADER_PRESENT)
       Requirement.scan(caller.first, file_spec, &block)
     end
 
+    def require_ios(requirement = nil, &callback)
+      if !Motion::Project::App.osx?
+        callback.call
+      else
+        puts "bubble-wrap/#{requirement} requires iOS to use." if requirement
+      end
+    end
+
+    def require_osx(requirement = nil, &callback)
+      if Motion::Project::App.osx?
+        callback.call
+      else
+        puts "bubble-wrap/#{requirement} requires OS X to use." if requirement
+      end
+    end
   end
 
   BW = BubbleWrap unless defined?(BW)

@@ -1,2 +1,4 @@
 require 'bubble-wrap/loader'
-BubbleWrap.require('motion/font/font.rb')
+BubbleWrap.require_ios("font") do
+  BubbleWrap.require('motion/font/font.rb')
+end
