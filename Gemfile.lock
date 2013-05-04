@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     bubble-wrap (1.2.0)
-      motion-support
+      motion-support (~> 0.2.0)
 
 GEM
   remote: https://rubygems.org/
