@@ -413,7 +413,11 @@ end
 
 ### UIBarButtonItem
 
-`BW::UIBarButtonItem` provides an idiomatic Ruby syntax for instantiating `UIBarButtonItem` objects.  Instead of a target-action pair, each method accepts a block.  When the button is tapped, the block is executed.  As a convenience, the block is optional.
+`BW::UIBarButtonItem` is a subclass of `UIBarButtonItem` with an natural Ruby syntax.
+
+#### Constructors
+
+Instead specifying a target-action pair, each constructor method accepts an optional block.  When the button is tapped, the block is executed.
 
 ```ruby
 BW::UIBarButtonItem.system(:save) do
@@ -443,21 +447,21 @@ end
 # NOTE: The block is attached to the view as a single tap gesture recognizer.
 ```
 
-Alternatively, `BW::UIBarButtonItem` provides a flexible, builder-style syntax for dynamically instantiating `UIBarButtonItem` objects.
+The `.new` constructor provides a flexible, builder-style syntax.
 
 ```ruby
 options = { :system => :save }
-BW::UIBarButtonItem.build(options) do
+BW::UIBarButtonItem.new(options) do
   # ...
 end
 
 options = { :styled => :plain, :title => "Friends" }
-BW::UIBarButtonItem.build(options) do
+BW::UIBarButtonItem.new(options) do
   # ...
 end
 
 options = { :styled => :bordered, :image => UIImage.alloc.init }
-BW::UIBarButtonItem.build(options) do
+BW::UIBarButtonItem.new(options) do
   # ...
 end
 
@@ -466,16 +470,18 @@ options = {
   :image     => UIImage.alloc.init,
   :landscape => UIImage.alloc.init
 }
-BW::UIBarButtonItem.build(options) do
+BW::UIBarButtonItem.new(options) do
   # ...
 end
 
 options = { :custom => UIView.alloc.init }
-BW::UIBarButtonItem.build(options) do
+BW::UIBarButtonItem.new(options) do
   # ...
 end
 # NOTE: The block is attached to the view as a single tap gesture recognizer.
 ```
+
+#### Button types
 
 The `.styled` button types are:
 
