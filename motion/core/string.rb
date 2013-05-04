@@ -3,6 +3,17 @@ module BubbleWrap
   # NSString
   module String
 
+    def bw_camelize(uppercase_first_letter = :upper)
+      if [TrueClass, FalseClass].member? uppercase_first_letter.class
+        _argument = uppercase_first_letter
+        uppercase_first_letter = uppercase_first_letter ? :upper : :lower
+        puts "[DEPRECATED] - String#camelize with `uppercase_first_letter` == #{_argument} " +
+             "is deprecated; use :#{uppercase_first_letter} instead."
+      end
+
+      support_camelize(uppercase_first_letter)
+    end
+
     def to_url_encoded(encoding = NSUTF8StringEncoding)
       stringByAddingPercentEscapesUsingEncoding encoding
     end
@@ -40,4 +51,7 @@ module BubbleWrap
   end
 end
 
-NSString.send(:include, BubbleWrap::String)
+String.send(:include, BubbleWrap::String)
+
+String.send(:alias_method, :support_camelize, :camelize)
+String.send(:alias_method, :camelize, :bw_camelize)
