@@ -21,6 +21,8 @@ module BubbleWrap
     #         cancel_button_title - The title of the cancel button as a String.
     #         message             - The main message as a String.
     # block - Yields the alert object if a block is given, and does so before the alert is shown.
+    #
+    # Returns an instance of BW::UIAlertView
     def alert(title, *args, &block)
       options = { cancel_button_title: 'OK' }
       options.merge!(args.pop) if args.last.is_a?(Hash)
@@ -29,11 +31,11 @@ module BubbleWrap
         options[:cancel_button_title] = args.shift
       end
 
-      alert = UIAlertView.alloc.initWithTitle title,
-        message: options[:message],
-        delegate: nil,
-        cancelButtonTitle: options[:cancel_button_title],
-        otherButtonTitles: nil
+      options[:title]               = title
+      options[:buttons]             = options[:cancel_button_title]
+      options[:cancel_button_index] = 0 # FIXME: alerts don't have "Cancel" buttons
+
+      alert = UIAlertView.default(options)
 
       yield(alert) if block_given?
 

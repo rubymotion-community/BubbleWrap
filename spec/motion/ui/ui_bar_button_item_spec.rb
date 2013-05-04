@@ -24,7 +24,11 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has the correct style" do
@@ -53,7 +57,11 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has the correct style" do
@@ -83,7 +91,11 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has the correct style" do
@@ -114,7 +126,11 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has the correct style" do
@@ -158,7 +174,11 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has the correct system item" do
@@ -183,7 +203,11 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has the correct system item" do
@@ -211,7 +235,11 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has a custom view" do
@@ -234,7 +262,11 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has a custom view" do
@@ -249,17 +281,17 @@ describe BW::UIBarButtonItem do
 
   #################################################################################################
 
-  describe ".build" do
+  describe ".new" do
     describe "not given options" do
       it "raises an exception" do
-        exception = should.raise(ArgumentError) { BW::UIBarButtonItem.build }
+        exception = should.raise(ArgumentError) { BW::UIBarButtonItem.new }
         exception.message.should.equal("invalid options - {}")
       end
     end
 
     describe "given unknown options" do
       it "raises an exception" do
-        exception = should.raise(ArgumentError) { BW::UIBarButtonItem.build(:unknown => true) }
+        exception = should.raise(ArgumentError) { BW::UIBarButtonItem.new(:unknown => true) }
         exception.message.should.equal("invalid options - {:unknown=>true}")
       end
     end
@@ -274,7 +306,7 @@ describe BW::UIBarButtonItem do
       end
 
       it "raises an exception" do
-        exception = should.raise(ArgumentError) { BW::UIBarButtonItem.build(@options) }
+        exception = should.raise(ArgumentError) { BW::UIBarButtonItem.new(@options) }
         exception.message.should.equal("invalid object - #{@options.values_at(:title, :image)}")
       end
     end
@@ -285,11 +317,15 @@ describe BW::UIBarButtonItem do
       before do
         @options = { :styled => :plain, :title => "Friends" }
         @target  = -> { true }
-        @subject = BW::UIBarButtonItem.build(@options, &@target)
+        @subject = BW::UIBarButtonItem.new(@options, &@target)
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has the correct style" do
@@ -315,11 +351,15 @@ describe BW::UIBarButtonItem do
       before do
         @options = { :styled => :bordered, :image => UIImage.alloc.init }
         @target  = -> { true }
-        @subject = BW::UIBarButtonItem.build(@options, &@target)
+        @subject = BW::UIBarButtonItem.new(@options, &@target)
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has the correct style" do
@@ -349,11 +389,15 @@ describe BW::UIBarButtonItem do
           :landscape => UIImage.alloc.init
         }
         @target  = -> { true }
-        @subject = BW::UIBarButtonItem.build(@options, &@target)
+        @subject = BW::UIBarButtonItem.new(@options, &@target)
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has the correct style" do
@@ -383,11 +427,15 @@ describe BW::UIBarButtonItem do
       before do
         @options = { :system => :save }
         @target  = -> { true }
-        @subject = BW::UIBarButtonItem.build(@options, &@target)
+        @subject = BW::UIBarButtonItem.new(@options, &@target)
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has the correct system item" do
@@ -409,11 +457,15 @@ describe BW::UIBarButtonItem do
       before do
         @options = { :custom => UIView.alloc.init }
         @target  = -> { true }
-        @subject = BW::UIBarButtonItem.build(@options, &@target)
+        @subject = BW::UIBarButtonItem.new(@options, &@target)
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has a custom view" do
@@ -433,11 +485,15 @@ describe BW::UIBarButtonItem do
       before do
         @options = { :view => UIView.alloc.init }
         @target  = -> { true }
-        @subject = BW::UIBarButtonItem.build(@options, &@target)
+        @subject = BW::UIBarButtonItem.new(@options, &@target)
       end
 
       it "has the correct class" do
-        @subject.class.should.equal(UIBarButtonItem)
+        @subject.class.should.equal(BW::UIBarButtonItem)
+      end
+
+      it "has the correct superclass" do
+        @subject.superclass.should.equal(::UIBarButtonItem)
       end
 
       it "has a custom view" do

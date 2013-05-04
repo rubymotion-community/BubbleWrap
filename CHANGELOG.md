@@ -1,8 +1,10 @@
 ## Unreleased
 
-## 1.2.0.pre
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.2.0...master)
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.2...master)
+## 1.2.0
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.1.5...v1.2.0)
 
 * Added `BW::UIBarButtonItem`, a factory-esque wrapper for `UIBarButtonItem` ([#202](https://github.com/rubymotion/BubbleWrap/pull/202))
 * Added `BW::Font`, a wrapper for creating `UIFont` objects ([#206](https://github.com/rubymotion/BubbleWrap/pull/206))
