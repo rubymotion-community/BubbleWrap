@@ -66,8 +66,14 @@ module BubbleWrap
         paths.fetch(relative)
       end
 
+      def prefix_files(files = [])
+        @prefix_files ||= []
+        @prefix_files += files
+      end
+
       def files(app_files=nil)
-        files = paths.values.map(&:to_s)
+        files = @prefix_files || []
+        files += paths.values.map(&:to_s)
         files += app_files if app_files
         files.uniq
       end
