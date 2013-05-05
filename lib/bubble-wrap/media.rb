@@ -1,4 +1,5 @@
 require 'bubble-wrap/loader'
+BubbleWrap.require('motion/core/app.rb')
 BubbleWrap.require('motion/core/string.rb')
 BubbleWrap.require('motion/core/ns_notification_center.rb')
 BubbleWrap.require('motion/media/**/*.rb') do
