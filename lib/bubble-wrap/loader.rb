@@ -4,8 +4,8 @@ end
 
 unless defined?(BubbleWrap::LOADER_PRESENT)
   require 'bubble-wrap/version' unless defined?(VERSION)
-  if BubbleWrap::minor_version(Motion::Version) < BubbleWrap::minor_version(BubbleWrap::MIN_MOTION_VERSION)
-    raise "BubbleWrap #{BubbleWrap::VERSION} requires at least rubymotion #{BubbleWrap::MIN_MOTION_VERSION}"
+  if Gem::Version.new(Motion::Version) < Gem::Version.new(BubbleWrap::MIN_MOTION_VERSION)
+    raise "BubbleWrap #{BubbleWrap::VERSION} requires at least RubyMotion #{BubbleWrap::MIN_MOTION_VERSION}"
   end
 
   require 'bubble-wrap/ext'
