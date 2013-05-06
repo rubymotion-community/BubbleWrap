@@ -34,7 +34,7 @@ class BubbleWrap::HTTP::Query
     @files = options.delete(:files)
     @boundary = options.delete(:boundary) || BW.create_uuid
     @credentials = options.delete(:credentials) || {}
-    @credentials = {:username => '', :password => ''}.merge(@credentials)
+    @credentials = {:username => nil, :password => nil}.merge(@credentials)
     @timeout = options.delete(:timeout) || 30.0
     @headers = escape_line_feeds(options.delete :headers)
     @format = options.delete(:format)
@@ -44,6 +44,7 @@ class BubbleWrap::HTTP::Query
     @options = options
     @response = BubbleWrap::HTTP::Response.new
     @follow_urls = options[:follow_urls] || true
+    @present_credentials = options[:present_credentials] == nil ? true : options.delete(:present_credentials)
 
     @url = create_url(url_string)
     @body = create_request_body
@@ -148,6 +149,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
                                                   timeoutInterval:@timeout)
     request.setHTTPMethod(@method)
     set_content_type
+    append_auth_header
     request.setAllHTTPHeaderFields(@headers)
     request.setHTTPBody(@body)
     request.setHTTPShouldHandleCookies(@cookies)
@@ -178,6 +180,10 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   def headers_provided?
     @headers && @headers.keys.find {|k| k.downcase == 'content-type'}
+  end
+
+  def credentials_provided?
+    @credentials[:username] && @credentials[:password]
   end
 
   def create_request_body
@@ -216,6 +222,18 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     end
     @payload_or_files_were_appended = true
     body
+  end
+
+  def append_auth_header
+    return if @headers && @headers["Authorization"]
+
+    if credentials_provided? && @present_credentials
+      mock_request = CFHTTPMessageCreateRequest(nil, nil, nil, nil)
+      CFHTTPMessageAddAuthentication(mock_request, nil, @credentials[:username], @credentials[:password], KCFHTTPAuthenticationSchemeBasic, false)
+
+      @headers ||= {}
+      @headers["Authorization"] = CFHTTPMessageCopyHeaderFieldValue(mock_request, "Authorization")
+    end
   end
 
   def parse_file(key, value)
