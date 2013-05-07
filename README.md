@@ -193,9 +193,9 @@ Examples:
 # true
 > Device.ipad?
 # false
-> Device.front_camera?
+> Device.camera.front?
 # true
-> Device.rear_camera?
+> Device.camera.rear?
 # true
 > Device.orientation
 # :portrait
