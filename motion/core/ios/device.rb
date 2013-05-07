@@ -51,5 +51,9 @@ module BubbleWrap
       UIDevice.currentDevice.systemVersion
     end
 
+    # Delegates to BubbleWrap::Screen.orientation
+    def orientation
+      screen.orientation
+    end
   end
 end
