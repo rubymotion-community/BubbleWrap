@@ -1,5 +1,5 @@
 describe BubbleWrap::Device do
-
+describe "iOS" do
   describe 'on iPhone' do
     before do
       @idiom = UIUserInterfaceIdiomPhone
@@ -65,21 +65,10 @@ describe BubbleWrap::Device do
     end
   end
 
-  describe '.screen' do
-    it 'return BubbleWrap::Screen' do
-      BW::Device.screen.should == BW::Device::Screen
-    end
-  end
-
-  describe '.retina?' do
-    it 'delegates to BubbleWrap::Screen.retina?' do
-      BW::Device.retina?.should == BW::Device::Screen.retina?
-    end
-  end
-
   describe '.orientation' do
     it 'delegates to BubbleWrap::Screen.orientation' do
       BW::Device.orientation.should == BW::Device::Screen.orientation
     end
   end
+end
 end

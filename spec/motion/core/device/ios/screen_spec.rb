@@ -1,5 +1,5 @@
 describe BubbleWrap::Device::Screen do
-
+describe "iOS" do
   describe 'on retina enabled screen' do
     before do
       @screen = Object.new.tap do |o|
@@ -156,4 +156,5 @@ describe BubbleWrap::Device::Screen do
       end
     end
   end
+end
 end
