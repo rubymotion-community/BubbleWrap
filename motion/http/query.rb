@@ -54,7 +54,7 @@ class BubbleWrap::HTTP::Query
     @connection = create_connection(request, self)
     @connection.start
 
-    UIApplication.sharedApplication.networkActivityIndicatorVisible = true if defined?(UIApplication)
+    show_status_indicator true
   end
 
   def to_s
@@ -101,7 +101,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   def connection(connection, didFailWithError: error)
     log "HTTP Connection to #{@url.absoluteString} failed #{error.localizedDescription}"
-    UIApplication.sharedApplication.networkActivityIndicatorVisible = false if defined?(UIApplication)
+    show_status_indicator false
     @request.done_loading!
     @response.error_message = error.localizedDescription
     call_delegator_with_response
@@ -114,7 +114,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def connectionDidFinishLoading(connection)
-    UIApplication.sharedApplication.networkActivityIndicatorVisible = false if defined?(UIApplication)
+    show_status_indicator false
     @request.done_loading!
     response_body = NSData.dataWithData(@received_data) if @received_data
     @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url, original_url: @original_url)
@@ -140,6 +140,13 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
 
   private
+
+  private
+  def show_status_indicator(show)
+    if !App.osx?
+      UIApplication.sharedApplication.networkActivityIndicatorVisible = show
+    end
+  end
 
   def create_request
     log "BubbleWrap::HTTP building a NSRequest for #{@url.description}"
