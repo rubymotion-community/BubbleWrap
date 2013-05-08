@@ -64,6 +64,12 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   alias description to_s
 
   def connection(connection, didReceiveResponse:response)
+    # On OSX, if using an FTP connection, this method will fire *immediately* after creating an
+    # NSURLConnection, even if the connection has not yet started. The `response`
+    # object will be a NSURLResponse, *not* an `NSHTTPURLResponse`, and so will start to crash.
+    if App.osx? && !response.is_a?(NSHTTPURLResponse)
+      return
+    end
     @status_code = response.statusCode
     @response_headers = response.allHeaderFields
     @response_size = response.expectedContentLength.to_f
