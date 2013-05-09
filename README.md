@@ -155,6 +155,8 @@ A module with useful methods related to the running application
 # "io.bubblewrap.testSuite"
 > App.alert("BubbleWrap is awesome!")
 # creates and shows an alert message.
+> App.alert("BubbleWrap is awesome!", {cancel_button_title: "I know it is!", message: "Like, seriously awesome."})
+# creates and shows an alert message with optional parameters.
 > App.run_after(0.5) {  p "It's #{Time.now}"   }
 # Runs the block after 0.5 seconds.
 > App.open_url("http://matt.aimonetti.net")
