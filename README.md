@@ -15,6 +15,12 @@ A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and p
 gem install bubble-wrap
 ```
 
+**If you are requiring bubble-wrap for OS X, specify version 1.3.0.osx**:
+
+```ruby
+gem install bubble-wrap 1.3.0.osx
+```
+
 ## Setup
 
 1. Edit the `Rakefile` of your RubyMotion project and add the following require line:
