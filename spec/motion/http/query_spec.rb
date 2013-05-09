@@ -295,7 +295,7 @@ describe BubbleWrap::HTTP::Query do
       @query.connection.was_started.should.equal true
     end
 
-    if !App.osx?
+    if App.ios?
       it "should turn on the network indicator" do
         UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal true
       end
@@ -459,7 +459,7 @@ describe BubbleWrap::HTTP::Query do
       @fake_error = NSError.errorWithDomain('testing', code:7768, userInfo:nil)
     end
 
-    if !App.osx?
+    if App.ios?
       it "should turn off network indicator" do
         UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
         @query.connection(nil, didFailWithError:@fake_error)
@@ -495,7 +495,7 @@ describe BubbleWrap::HTTP::Query do
 
   describe "when connectionDidFinishLoading:" do
 
-    if !App.osx?
+    if App.ios?
       it "should turn off the network indicator" do
         UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
 

@@ -149,7 +149,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   private
   def show_status_indicator(show)
-    if !App.osx?
+    if App.ios?
       UIApplication.sharedApplication.networkActivityIndicatorVisible = show
     end
   end
