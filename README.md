@@ -23,7 +23,7 @@ gem install bubble-wrap
 require 'bubble-wrap'
 ```
 
-**If you are requiring bubble-wrap for OS X, use Bunlder and specify version 1.3.0.osx**:
+**If you are requiring bubble-wrap for OS X, use Bundler and specify version 1.3.0.osx**:
 
 ```ruby
 gem "bubble-wrap", "~> 1.3.0.osx"
