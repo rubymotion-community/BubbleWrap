@@ -18,7 +18,7 @@ gem install bubble-wrap
 **If you are requiring bubble-wrap for OS X, specify version 1.3.0.osx**:
 
 ```ruby
-gem install bubble-wrap 1.3.0.osx
+gem install bubble-wrap -v 1.3.0.osx
 ```
 
 ## Setup
