@@ -23,6 +23,12 @@ gem install bubble-wrap
 require 'bubble-wrap'
 ```
 
+**If you are requiring bubble-wrap for OS X, use Bunlder and specify version 1.3.0.osx**:
+
+```ruby
+gem "bubble-wrap", "~> 1.3.0.osx"
+```
+
 BubbleWrap is split into multiple modules so that you can easily choose which parts
 are included at compile-time.
 
