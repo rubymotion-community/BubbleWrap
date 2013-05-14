@@ -1,7 +1,6 @@
 module BubbleWrap
   module Device
-    module Screen
+    module_function
 
-    end
   end
 end

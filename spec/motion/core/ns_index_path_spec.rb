@@ -1,7 +1,11 @@
 describe "NSIndexPathWrap" do
 
   before do
-    @index = NSIndexPath.indexPathForRow(0, inSection:3) 
+    if App.osx?
+      @index = NSIndexPath.indexPathWithIndex(3)
+    else
+      @index = NSIndexPath.indexPathForRow(0, inSection:3)
+    end
   end
 
   it "should be able to use an array like accessor" do
@@ -13,7 +17,11 @@ describe "NSIndexPathWrap" do
     @index.each do |idx|
       i << idx
     end
-    i.should == [3, 0]
+    if App.osx?
+      i.should == [3]
+    else
+      i.should == [3, 0]
+    end
   end
 
 end

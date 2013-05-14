@@ -1,0 +1,3 @@
+source :rubygems
+
+gem 'bubble-wrap', :path => "../../" # '~> 1.3.0.osx'

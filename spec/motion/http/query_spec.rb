@@ -295,10 +295,11 @@ describe BubbleWrap::HTTP::Query do
       @query.connection.was_started.should.equal true
     end
 
-    it "should turn on the network indicator" do
-      UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal true
+    if App.ios?
+      it "should turn on the network indicator" do
+        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal true
+      end
     end
-
   end
 
   describe "create request" do
@@ -437,7 +438,7 @@ describe BubbleWrap::HTTP::Query do
 
     it "should initialize @received_data and append the received data" do
       query_received_data.should.equal nil
-      data = NSData.dataWithBytesNoCopy(Pointer.new(:char, 'abc'), length:24)
+      data = NSData.dataWithBytesNoCopy(Pointer.new(:char, 'abc'), length:24, freeWhenDone: false)
 
       @query.connection(nil, didReceiveData:nil)
       query_received_data.should.not.equal nil
@@ -458,10 +459,12 @@ describe BubbleWrap::HTTP::Query do
       @fake_error = NSError.errorWithDomain('testing', code:7768, userInfo:nil)
     end
 
-    it "should turn off network indicator" do
-      UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
-      @query.connection(nil, didFailWithError:@fake_error)
-      UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
+    if App.ios?
+      it "should turn off network indicator" do
+        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
+        @query.connection(nil, didFailWithError:@fake_error)
+        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
+      end
     end
 
     it "should set request_done to true" do
@@ -492,11 +495,13 @@ describe BubbleWrap::HTTP::Query do
 
   describe "when connectionDidFinishLoading:" do
 
-    it "should turn off the network indicator" do
-      UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
+    if App.ios?
+      it "should turn off the network indicator" do
+        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
 
-      @query.connectionDidFinishLoading(nil)
-      UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
+        @query.connectionDidFinishLoading(nil)
+        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
+      end
     end
 
     it "should set request_done to true" do
@@ -507,7 +512,7 @@ describe BubbleWrap::HTTP::Query do
     end
 
     it "should set response_body to @received data if not nil" do
-      data = NSData.dataWithBytesNoCopy(Pointer.new(:char, 'abc'), length:24)
+      data = NSData.dataWithBytesNoCopy(Pointer.new(:char, 'abc'), length:24, freeWhenDone: false)
       headers = { foo: 'bar' }
       status_code = 234
       response = FakeURLResponse.new(status_code, headers, 65456)
@@ -714,7 +719,7 @@ describe BubbleWrap::HTTP::Query do
     end
   end
 
-  class FakeURLResponse
+  class FakeURLResponse < NSHTTPURLResponse
     attr_reader :statusCode, :allHeaderFields, :expectedContentLength
     def initialize(status_code, headers, length)
       @statusCode = status_code
