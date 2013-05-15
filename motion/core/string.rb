@@ -48,7 +48,8 @@ module BubbleWrap
     def to_color
       # First check if it is a color keyword
       keyword_selector = "#{self.camelize(:lower)}Color"
-      return UIColor.send(keyword_selector) if UIColor.respond_to? keyword_selector
+      color_klass = App.osx? ? NSColor : UIColor
+      return color_klass.send(keyword_selector) if color_klass.respond_to? keyword_selector
 
       # Next attempt to convert from hex
       hex_color = self.gsub("#", "")   
@@ -61,7 +62,7 @@ module BubbleWrap
           raise ArgumentError
       end 
       if colors.size == 3
-        UIColor.colorWithRed((colors[0]/255.0), green:(colors[1]/255.0), blue:(colors[2]/255.0), alpha:1)
+        BubbleWrap.rgb_color(colors[0], colors[1], colors[2])
       else
         raise ArgumentError
       end 

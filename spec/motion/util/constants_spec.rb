@@ -1,6 +1,6 @@
 describe BubbleWrap::Constants do
   describe ".get" do
-    BubbleWrap::Constants.register UIReturnKeyDone, UIReturnKeyNext
+    BubbleWrap::Constants.register NSStringEncodingConversionAllowLossy, NSStringEncodingConversionExternalRepresentation
 
 
     it "should return integer passed" do
@@ -12,15 +12,15 @@ describe BubbleWrap::Constants do
     end
 
     it "should return the correct integer for a string" do
-      BW::Constants.get("UIReturnKey", "done").should == UIReturnKeyDone
+      BW::Constants.get("NSStringEncodingConversion", "allow_lossy").should == NSStringEncodingConversionAllowLossy
     end
 
     it "should return the correct integer for a symbol" do
-      BW::Constants.get("UIReturnKey", :done).should == UIReturnKeyDone
+      BW::Constants.get("NSStringEncodingConversion", :allow_lossy).should == NSStringEncodingConversionAllowLossy
     end
 
     it "should bitmask array values" do
-      BW::Constants.get("UIReturnKey", :done, :next).should == (UIReturnKeyDone | UIReturnKeyNext)
+      BW::Constants.get("NSStringEncodingConversion", :allow_lossy, :external_representation).should == (NSStringEncodingConversionAllowLossy | NSStringEncodingConversionExternalRepresentation)
     end
   end
 end

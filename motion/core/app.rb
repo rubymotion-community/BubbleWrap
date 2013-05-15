@@ -26,36 +26,6 @@ module BubbleWrap
       NSUserDefaults.standardUserDefaults
     end
 
-    # Displays a UIAlertView.
-    #
-    # title - The title as a String.
-    # args  - The title of the cancel button as a String, or a Hash of options.
-    #         (Default: { cancel_button_title: 'OK' })
-    #         cancel_button_title - The title of the cancel button as a String.
-    #         message             - The main message as a String.
-    # block - Yields the alert object if a block is given, and does so before the alert is shown.
-    #
-    # Returns an instance of BW::UIAlertView
-    def alert(title, *args, &block)
-      options = { cancel_button_title: 'OK' }
-      options.merge!(args.pop) if args.last.is_a?(Hash)
-
-      if args.size > 0 && args.first.is_a?(String)
-        options[:cancel_button_title] = args.shift
-      end
-
-      options[:title]               = title
-      options[:buttons]             = options[:cancel_button_title]
-      options[:cancel_button_index] = 0 # FIXME: alerts don't have "Cancel" buttons
-
-      alert = UIAlertView.default(options)
-
-      yield(alert) if block_given?
-
-      alert.show
-      alert
-    end
-
     # Executes a block after a certain delay
     # Usage example:
     #   App.run_after(0.5) {  p "It's #{Time.now}"   }
@@ -65,17 +35,6 @@ module BubbleWrap
                                               selector: "call:",
                                               userInfo: nil,
                                               repeats: false)
-    end
-
-    # Opens an url (string or instance of `NSURL`)
-    # in the device's web browser.
-    # Usage Example:
-    #   App.open_url("http://matt.aimonetti.net")
-    def open_url(url)
-      unless url.is_a?(NSURL)
-        url = NSURL.URLWithString(url)
-      end
-      UIApplication.sharedApplication.openURL(url)
     end
 
     @states = {}
@@ -94,31 +53,6 @@ module BubbleWrap
 
     def version
       NSBundle.mainBundle.infoDictionary['CFBundleVersion']
-    end
-
-    # Return application frame
-    def frame
-      UIScreen.mainScreen.applicationFrame
-    end
-
-    # Main Screen bounds. Useful when starting the app
-    def bounds
-      UIScreen.mainScreen.bounds
-    end
-
-    # Application Delegate
-    def delegate
-      UIApplication.sharedApplication.delegate
-    end
-
-    # the Application object.
-    def shared
-      UIApplication.sharedApplication
-    end
-
-    # the Application Window
-    def window
-      UIApplication.sharedApplication.keyWindow || UIApplication.sharedApplication.windows[0]
     end
 
     # @return [NSLocale] locale of user settings
@@ -148,6 +82,13 @@ module BubbleWrap
       environment == 'release'
     end
 
+    def osx?
+      Kernel.const_defined?(:NSApplication)
+    end
+
+    def ios?
+      Kernel.const_defined?(:UIApplication)
+    end
   end
 end
 ::App = BubbleWrap::App unless defined?(::App)
