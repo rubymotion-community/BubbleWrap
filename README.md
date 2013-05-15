@@ -1,6 +1,6 @@
 # BubbleWrap for RubyMotion
 
-A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
+A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKit code and provide more Ruby like APIs.
 
 [BubbleWrap website](http://bubblewrap.io)
 [BubbleWrap mailing list](https://groups.google.com/forum/#!forum/bubblewrap)
@@ -15,12 +15,6 @@ A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and p
 gem install bubble-wrap
 ```
 
-**If you are requiring bubble-wrap for RubyMotion 2.0 (iOS or OS X), specify version 1.3.0.osx. See [#233](https://github.com/rubymotion/BubbleWrap/pull/233)**:
-
-```ruby
-gem install bubble-wrap -v 1.3.0.osx
-```
-
 ## Setup
 
 1. Edit the `Rakefile` of your RubyMotion project and add the following require line:
@@ -29,10 +23,10 @@ gem install bubble-wrap -v 1.3.0.osx
 require 'bubble-wrap'
 ```
 
-**If you are requiring bubble-wrap for RubyMotion 2.0 (iOS or OS X), use Bundler and specify version 1.3.0.osx**:
+If you are requiring bubble-wrap for RubyMotion 2.0 (iOS or OS X), use Bundler and specify version greater than 1.3.0:
 
 ```ruby
-gem "bubble-wrap", "~> 1.3.0.osx"
+gem "bubble-wrap", "~> 1.3.0"
 ```
 
 BubbleWrap is split into multiple modules so that you can easily choose which parts

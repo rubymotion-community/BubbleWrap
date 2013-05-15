@@ -1,6 +1,16 @@
 ## Unreleased
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.2.0...master)
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.3.0...master)
+
+## 1.3.0
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.2.0...v1.3.0)
+
+* Added OS X support for RubyMotion 2.0 ([#233](https://github.com/rubymotion/BubbleWrap/pull/233)). BubbleWrap *drops support* for RubyMotion 1.x.
+* Changed `BW::UIBarButtonItem` internals; `.build` is now deprecated and forwards to `.ne` ([#226](https://github.com/rubymotion/BubbleWrap/pull/226))
+* Changed `HTTP` to present credentials with an `Authorization` header *before* any requests are made, unless the `:present_credentials` option `== false` ([#199](https://github.com/rubymotion/BubbleWrap/pull/199))
+* Fixed `HTTP` to not append a question-mark (`?`) at the end of URL requests with empty `:payload`s ([#221](https://github.com/rubymotion/BubbleWrap/pull/221))
+* Fixed `HTTP` to correct parameterize an array of hashes, Rails-style ([#219](https://github.com/rubymotion/BubbleWrap/pull/219))
 
 ## 1.2.0
 
