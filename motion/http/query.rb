@@ -251,7 +251,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   def parse_file(key, value)
     if value.is_a?(Hash)
-      raise InvalidFileError if value[:data].nil?
+      raise(InvalidFileError, "You need to supply a `:data` entry in #{value} for file '#{key}' in your HTTP `:files`") if value[:data].nil?
       {data: value[:data], filename: value[:filename] || key}
     else
       {data: value, filename: key}
