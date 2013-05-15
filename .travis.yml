@@ -1,5 +1,4 @@
 language: objective-c
 before_install:
     - (ruby --version)
-    - sudo motion update
 script: "(bundle install) && (bundle exec rake clean) && (bundle exec rake spec) && (bundle exec rake clean) && (bundle exec rake spec osx=true)"
