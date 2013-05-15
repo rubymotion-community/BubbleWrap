@@ -10,7 +10,7 @@
 * Changed `BW::UIBarButtonItem` internals; `.build` is now deprecated and forwards to `.ne` ([#226](https://github.com/rubymotion/BubbleWrap/pull/226))
 * Changed `HTTP` to present credentials with an `Authorization` header *before* any requests are made, unless the `:present_credentials` option `== false` ([#199](https://github.com/rubymotion/BubbleWrap/pull/199))
 * Fixed `HTTP` to not append a question-mark (`?`) at the end of URL requests with empty `:payload`s ([#221](https://github.com/rubymotion/BubbleWrap/pull/221))
-* Fixed `HTTP` to correct parameterize an array of hashes, Rails-style ([#219](https://github.com/rubymotion/BubbleWrap/pull/219))
+* Fixed `HTTP` to correctly parameterize an array of hashes, Rails-style ([#219](https://github.com/rubymotion/BubbleWrap/pull/219))
 
 ## 1.2.0
 
