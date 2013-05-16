@@ -85,15 +85,6 @@ describe BubbleWrap::Reactor do
       @subject.cancel_timer(timer)
       @proxy.proof.should == true
     end
-
-    it 'cancels common modes periodic timers' do
-      @proxy.proof = true
-      timer = @subject.add_periodic_timer 10.0, :common_modes => true do
-        @proxy.proof = false
-      end
-      @subject.cancel_timer(timer)
-      @proxy.proof.should == true
-    end
   end
 
   describe '.defer' do
