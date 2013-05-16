@@ -8,9 +8,9 @@ module BubbleWrap
       def initialize(interval, callback=nil, &blk)
         queue  = Dispatch::Queue.current
         @timer = Dispatch::Source.timer(interval, interval, 0.0, queue) do |src|
+          src.cancel!
           (callback || blk).call
           trigger(:fired)
-          src.cancel!
         end        
       end
 
