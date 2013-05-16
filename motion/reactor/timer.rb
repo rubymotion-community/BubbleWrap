@@ -16,8 +16,7 @@ module BubbleWrap
 
       # Cancel the timer
       def cancel
-        @timer.cancel!
-        @timer = nil
+        @timer.cancel! if @timer
         trigger(:cancelled)
         true
       end

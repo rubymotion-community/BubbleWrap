@@ -23,7 +23,6 @@ module BubbleWrap
       # Cancel the timer
       def cancel
         @timer.cancel!
-        @timer = nil
         trigger(:cancelled)
       end
 
