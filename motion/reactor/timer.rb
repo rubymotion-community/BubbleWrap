@@ -5,17 +5,21 @@ module BubbleWrap
       include Eventable
 
       # Create a new timer that fires after a given number of seconds
-      def initialize(interval, callback=nil, &blk)
-        fire = proc {
-          (callback || blk).call
-          trigger(:fired)
-        }
-        @timer = NSTimer.scheduledTimerWithTimeInterval(interval,target: fire, selector: 'call:', userInfo: nil, repeats: false)
+      def initialize(leeway, callback=nil, &blk)
+        queue  = Dispatch::Queue.current
+        @timer = Dispatch::Source.timer(leeway, Dispatch::TIME_FOREVER, 0.0, queue) do |src|
+          begin
+            (callback || blk).call
+            trigger(:fired)
+          ensure
+            src.cancel!
+          end
+        end        
       end
 
       # Cancel the timer
       def cancel
-        @timer.invalidate
+        @timer.cancel! if @timer
         trigger(:cancelled)
         true
       end
