@@ -118,7 +118,7 @@ module BubbleWrap
       def timeout(seconds)
         cancel_timeout
         me = self
-        @deferred_timeout = Timer.new(seconds) {me.fail}
+        @deferred_timeout = Timer.new(seconds) {me.fail(:timeout)}
       end
 
     end
