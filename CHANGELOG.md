@@ -2,6 +2,9 @@
 
 [Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.3.0...master)
 
+* Moved BW::Reactor::Timer and BW::Reactor::PeriodicTimer from NSTimer to GCD Dispatch::Source.timer ([#242](https://github.com/rubymotion/BubbleWrap/pull/242))
+	* Option `:common_modes` for BW::Reactor::PeriodicTimer has been deprecated, it's not needed anymore.
+	
 ## 1.3.0
 
 [Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.2.0...v1.3.0)
