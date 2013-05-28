@@ -65,6 +65,18 @@ describe 'BubbleWrap' do
       bundle.arguments.should.equal [key, value, nil]
     end
 
+    it "returns the key if localization not found and no value is given" do
+      key = 'fake_key'
+      value = nil
+
+      bundle = NSBundle.mainBundle
+      def bundle.arguments; @arguments; end
+      def bundle.localizedStringForKey(key, value:value, table:table); @arguments = [key, value, table]; end
+
+      BubbleWrap::localized_string(key)
+      bundle.arguments.should.equal [key, key, nil]
+    end
+
   end
   
   describe "uuid" do

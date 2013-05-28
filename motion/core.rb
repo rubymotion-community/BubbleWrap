@@ -16,7 +16,7 @@ module BubbleWrap
     end
   end
 
-  def localized_string(key, value)
+  def localized_string(key, value=nil)
     NSBundle.mainBundle.localizedStringForKey(key, value:value, table:nil)
   end
 
