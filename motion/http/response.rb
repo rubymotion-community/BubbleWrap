@@ -1,5 +1,5 @@
 # Response class wrapping the results of a Query's response
-class BubbleWrap::HTTP::Response
+module BubbleWrap; module HTTP; class Response
   attr_reader :body
   attr_reader :headers
   attr_accessor :status_code, :status_description, :error_message
@@ -29,4 +29,4 @@ class BubbleWrap::HTTP::Response
   def update_status_description
     @status_description = status_code.nil? ? nil : NSHTTPURLResponse.localizedStringForStatusCode(status_code)
   end
-end
+end; end; end

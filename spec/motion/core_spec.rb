@@ -54,27 +54,16 @@ describe 'BubbleWrap' do
   describe "Localized string" do
     
     it "loads the string from NSBundle" do
-      key = 'fake_key'
-      value = 'fake_value'
+      key = 'real_key'
+      value = 'Real Key'
 
-      bundle = NSBundle.mainBundle
-      def bundle.arguments; @arguments; end
-      def bundle.localizedStringForKey(key, value:value, table:table); @arguments = [key, value, table]; end
-      
-      BubbleWrap::localized_string(key, value)
-      bundle.arguments.should.equal [key, value, nil]
+      BubbleWrap::localized_string(key, value).should == value
     end
 
     it "returns the key if localization not found and no value is given" do
       key = 'fake_key'
-      value = nil
 
-      bundle = NSBundle.mainBundle
-      def bundle.arguments; @arguments; end
-      def bundle.localizedStringForKey(key, value:value, table:table); @arguments = [key, value, table]; end
-
-      BubbleWrap::localized_string(key)
-      bundle.arguments.should.equal [key, key, nil]
+      BubbleWrap::localized_string(key).should == key
     end
 
   end
