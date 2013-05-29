@@ -3,7 +3,7 @@ describe BubbleWrap::Reactor::Eventable do
     @subject = Class.new do
       include BubbleWrap::Reactor::Eventable
     end.new
-    @proxy = Class.new do 
+    @proxy = Class.new do
       attr_accessor :proof
     end.new
   end
@@ -12,7 +12,7 @@ describe BubbleWrap::Reactor::Eventable do
     it 'registers events' do
       proof = proc {  }
       @subject.on(:foo, &proof)
-      events = @subject.instance_variable_get(:@events)
+      events = @subject.instance_variable_get(:@__events__)
       events[:foo].member?(proof).should == true
     end
 
@@ -26,7 +26,7 @@ describe BubbleWrap::Reactor::Eventable do
     it 'unregisters events' do
       proof = proc { }
       @subject.on(:foo, &proof)
-      events = @subject.instance_variable_get(:@events)
+      events = @subject.instance_variable_get(:@__events__)
       @subject.off(:foo, &proof)
       events[:foo].member?(proof).should == false
     end

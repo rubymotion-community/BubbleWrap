@@ -1,6 +1,6 @@
 # BubbleWrap for RubyMotion
 
-A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
+A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKit code and provide more Ruby like APIs.
 
 [BubbleWrap website](http://bubblewrap.io)
 [BubbleWrap mailing list](https://groups.google.com/forum/#!forum/bubblewrap)
@@ -21,6 +21,12 @@ gem install bubble-wrap
 
 ```ruby
 require 'bubble-wrap'
+```
+
+If you are requiring bubble-wrap for RubyMotion 2.0 (iOS or OS X), use Bundler and specify version greater than 1.3.0:
+
+```ruby
+gem "bubble-wrap", "~> 1.3.0"
 ```
 
 BubbleWrap is split into multiple modules so that you can easily choose which parts
@@ -155,6 +161,8 @@ A module with useful methods related to the running application
 # "io.bubblewrap.testSuite"
 > App.alert("BubbleWrap is awesome!")
 # creates and shows an alert message.
+> App.alert("BubbleWrap is awesome!", {cancel_button_title: "I know it is!", message: "Like, seriously awesome."})
+# creates and shows an alert message with optional parameters.
 > App.run_after(0.5) {  p "It's #{Time.now}"   }
 # Runs the block after 0.5 seconds.
 > App.open_url("http://matt.aimonetti.net")
@@ -193,9 +201,9 @@ Examples:
 # true
 > Device.ipad?
 # false
-> Device.front_camera?
+> Device.camera.front?
 # true
-> Device.rear_camera?
+> Device.camera.rear?
 # true
 > Device.orientation
 # :portrait
@@ -413,7 +421,11 @@ end
 
 ### UIBarButtonItem
 
-`BW::UIBarButtonItem` provides an idiomatic Ruby syntax for instantiating `UIBarButtonItem` objects.  Instead of a target-action pair, each method accepts a block.  When the button is tapped, the block is executed.  As a convenience, the block is optional.
+`BW::UIBarButtonItem` is a subclass of `UIBarButtonItem` with an natural Ruby syntax.
+
+#### Constructors
+
+Instead specifying a target-action pair, each constructor method accepts an optional block.  When the button is tapped, the block is executed.
 
 ```ruby
 BW::UIBarButtonItem.system(:save) do
@@ -443,21 +455,21 @@ end
 # NOTE: The block is attached to the view as a single tap gesture recognizer.
 ```
 
-Alternatively, `BW::UIBarButtonItem` provides a flexible, builder-style syntax for dynamically instantiating `UIBarButtonItem` objects.
+The `.new` constructor provides a flexible, builder-style syntax.
 
 ```ruby
 options = { :system => :save }
-BW::UIBarButtonItem.build(options) do
+BW::UIBarButtonItem.new(options) do
   # ...
 end
 
 options = { :styled => :plain, :title => "Friends" }
-BW::UIBarButtonItem.build(options) do
+BW::UIBarButtonItem.new(options) do
   # ...
 end
 
 options = { :styled => :bordered, :image => UIImage.alloc.init }
-BW::UIBarButtonItem.build(options) do
+BW::UIBarButtonItem.new(options) do
   # ...
 end
 
@@ -466,16 +478,18 @@ options = {
   :image     => UIImage.alloc.init,
   :landscape => UIImage.alloc.init
 }
-BW::UIBarButtonItem.build(options) do
+BW::UIBarButtonItem.new(options) do
   # ...
 end
 
 options = { :custom => UIView.alloc.init }
-BW::UIBarButtonItem.build(options) do
+BW::UIBarButtonItem.new(options) do
   # ...
 end
 # NOTE: The block is attached to the view as a single tap gesture recognizer.
 ```
+
+#### Button types
 
 The `.styled` button types are:
 
@@ -512,184 +526,6 @@ And the `.system` button types are:
 :undo
 :redo
 :page_curl
-```
-
-### UIAlertView
-
-`BW::UIAlertView` is a subclass of `UIAlertView` with an idiomatic Ruby syntax layered on top.
-
-#### Default alert
-
-The `.default` constructor accepts an optional `Hash` of options and returns a `BW::UIAlertView` instance in the `UIAlertViewStyleDefault` style.  The instance can then be given an `#on_click` callback to be executed when it's button is clicked.  For example:
-
-![iOS Simulator Screen shot Apr 24 2013 10 54 28 AM](https://f.cloud.github.com/assets/5688/421437/59a5376c-ad08-11e2-9ccc-0df83eb360e0.png)
-
-```ruby
-options = { :title => "Are you ready?" }
-alert = BW::UIAlertView.default(options).on_click do |alert|
-  # ...
-end
-
-alert.show
-```
-
-#### Input alerts
-
-`BW::UIAlertView` has constructors for input alerts too.
-
-`.plain_text_input` returns an instance in the `UIAlertViewStylePlainTextInput` style.
-
-![iOS Simulator Screen shot Apr 24 2013 10 58 27 AM](https://f.cloud.github.com/assets/5688/421453/a6c15698-ad08-11e2-9bef-a755732e9b91.png)
-
-```ruby
-options = { :title => "Replicator" }
-alert = BW::UIAlertView.plain_text_input(options).on_click do |alert|
-  alert.plain_text_field.text    #=> "Tea. Early Grey. Hot."
-end
-
-alert.show
-```
-
-`.secure_text_input` returns an instance in the `UIAlertViewStyleSecureTextInput` style.
-
-![iOS Simulator Screen shot Apr 24 2013 11 09 43 AM](https://f.cloud.github.com/assets/5688/421503/396084dc-ad0a-11e2-9e09-c778d2a6cdc4.png)
-
-```ruby
-options = { :title => "Authorization" }
-alert = BW::UIAlertView.secure_text_input(options).on_click do |alert|
-  alert.secure_text_field.text   #=> "Theta2997"
-end
-
-alert.show
-```
-
-And `.login_and_password_input` returns an instance in the `UIAlertViewStyleLoginAndPasswordInput` style.
-
-![iOS Simulator Screen shot Apr 24 2013 11 27 20 AM](https://f.cloud.github.com/assets/5688/421608/b26ab51c-ad0c-11e2-8356-d73fd20c8d7f.png)
-
-```ruby
-options = { :title => "Authorization" }
-alert = BW::UIAlertView.login_and_password_input(options).on_click do |alert|
-  alert.login_text_field.text    #=> "La Forge"
-  alert.password_text_field.text #=> "Theta2997"
-end
-
-alert.show
-```
-
-#### Buttons
-
-Each alert style has sane, default button titles.  Yet they're fully customizable by providing either a `String` to the constructor's `:buttons` argument
-
-![iOS Simulator Screen shot Apr 24 2013 11 34 12 AM](https://f.cloud.github.com/assets/5688/421633/ac364106-ad0d-11e2-9b0a-ec1692da0c7f.png)
-
-```ruby
-alert = BW::UIAlertView.default(:title => "BubbleWrap is", :buttons => "Awesome")
-
-alert.show
-```
-
-Or an `Array` of strings to the constructor's `:buttons` argument.
-
-![iOS Simulator Screen shot Apr 24 2013 11 35 36 AM](https://f.cloud.github.com/assets/5688/421640/ce9e4d9c-ad0d-11e2-96bd-ca5327570f4d.png)
-
-```ruby
-options = {
-  :title   => "Dinner this Friday?",
-  :message => "My treat!",
-  :buttons => ["No", "Maybe", "Yes"]
-}
-alert = BW::UIAlertView.default(options)
-
-alert.show
-```
-
-Inside a callback, the `#clicked_button` method contains the `index` and `title` of the clicked button.
-
-![iOS Simulator Screen shot Apr 24 2013 11 43 26 AM](https://f.cloud.github.com/assets/5688/421755/d3bf35cc-ad10-11e2-995d-ca45adaad504.png)
-
-```ruby
-options = {
-  :title   => "Warp Engine Online",
-  :message => "Plot a course for Starbase 118.  Warp 7.",
-  :buttons => ["Cancel", "Engage"],
-}
-alert = BW::UIAlertView.default(options).on_click do |alert|
-  if alert.clicked_button.index == 0
-    # ...
-  else
-    # ...
-  end
-
-  if alert.clicked_button.title == "Cancel"
-    # ...
-  else
-    # ...
-  end
-end
-
-alert.show
-```
-
-When the constructor's `:cancel_button_index` argument is provided, the `clicked_button` knows whether or not it's a `cancel?` button.  Conveniently, the argument is automatically set to `0` for all constructors **EXCEPT** `.default` and `.new`.
-
-![iOS Simulator Screen shot Apr 24 2013 11 43 26 AM](https://f.cloud.github.com/assets/5688/421755/d3bf35cc-ad10-11e2-995d-ca45adaad504.png)
-
-```ruby
-options = {
-  :title               => "Warp Engine Online",
-  :message             => "Plot a course for Starbase 118.  Warp 7.",
-  :buttons             => ["Cancel", "Engage"],
-  :cancel_button_index => 0 # set for all constructors EXCEPT `.default` and `.new`
-}
-alert = BW::UIAlertView.default(options).on_click do |alert|
-  # NOTE: uses the :cancel_button_index argument
-  if alert.clicked_button.cancel?
-    # ...
-  else
-    # ...
-  end
-end
-
-alert.show
-```
-
-#### Callbacks
-
-`BW::UIAlertView` instances are their own delegate.  The complete `UIAlertViewDelegte` protocol is available via callbacks.
-
-```ruby
-alert = BW::UIAlertView.default
-
-alert.will_present do |alert|
-  # aka willPresentAlertView:
-end
-
-alert.did_present do |alert|
-  # aka didPresentAlertView:
-end
-
-alert.on_click do |alert|
-  # aka alertView:clickedButtonAtIndex:
-end
-
-alert.will_dismiss do |alert|
-  # aka alertView:willDismissWithButtonIndex:
-end
-
-alert.did_dismiss do |alert|
-  # aka alertView:didDismissWithButtonIndex:
-end
-
-alert.on_system_cancel do |alert|
-  # aka alertViewCancel:
-end
-
-alert.enable_first_other_button? do |alert|
-  # aka alertViewShouldEnableFirstOtherButton:
-  # NOTE: must return a boolean
-  true
-end
 ```
 
 ## HTTP
@@ -735,6 +571,32 @@ would be a Proc that takes two arguments: a float representing the
 amount of data currently received and another float representing the
 total amount of data expected.
 
+### Gotchas
+
+Because of how RubyMotion currently works, you sometimes need to assign objects as `@instance_variables` in order to retain their callbacks.
+
+For example:
+
+```ruby
+class HttpClient
+  def get_user(user_id, &callback)
+    BW::HTTP.get(user_url(user_id)) do |response|
+      # ..
+    end
+  end 
+end
+```
+
+This class should be invoked in your code as:
+
+```ruby
+@http_client = HttpClient.new
+@http_client.get_user(user_id) do |user|
+  # ..
+end
+```
+
+(instead of doing an instance-variable-less `HttpClient.new.get_user`)
 
 ## RSS Parser
 **Since: > version 1.0.0**

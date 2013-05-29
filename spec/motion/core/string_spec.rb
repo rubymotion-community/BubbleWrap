@@ -92,8 +92,10 @@ describe BubbleWrap::String do
   end
 
   before do
-    @blue_color = UIColor.blueColor
-    @orange_color = UIColor.colorWithRed((255.0/255.0), green:(138.0/255.0), blue:(25.0/255.0), alpha:1.0)
+    @blue_color = App.osx? ? NSColor.colorWithDeviceRed(0,green:0,blue:1,alpha:1) : UIColor.blueColor
+    r,g,b,a = [1, (138.0/255.0), (25.0/255.0), 1]
+    @orange_color = App.osx? ? NSColor.colorWithDeviceRed(r, green:g, blue:b, alpha: a) :
+                                UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
   end
 
   describe "A UIColor should be created from a String with a hex color" do
@@ -116,15 +118,19 @@ describe BubbleWrap::String do
 
   describe "a string with a color keyword (blue, red, lightText)" do
     it "should return the corresponding color" do
-      'blue'.to_color.should == UIColor.blueColor
+      'blue'.to_color.should == (App.osx? ? NSColor.blueColor : UIColor.blueColor)
     end
 
     it "should accept camelCase" do
-      'lightText'.to_color.should == UIColor.lightTextColor
+      if App.osx?
+        'headerText'.to_color.should == NSColor.headerTextColor
+      else
+        'lightText'.to_color.should == UIColor.lightTextColor
+      end
     end
 
     it "should accept snake_case" do
-      'dark_gray'.to_color.should == UIColor.darkGrayColor
+      'dark_gray'.to_color.should == (App.osx? ? NSColor.darkGrayColor : UIColor.darkGrayColor)
     end
   end
 
