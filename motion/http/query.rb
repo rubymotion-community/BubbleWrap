@@ -1,5 +1,5 @@
 # Class wrapping NSConnection and often used indirectly by the BubbleWrap::HTTP module methods.
-class BubbleWrap::HTTP::Query
+module BubbleWrap; module HTTP; class Query
   attr_accessor :request
   attr_accessor :connection
   attr_accessor :credentials # username & password has a hash
@@ -364,4 +364,4 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     NSURLConnection.connectionWithRequest(request, delegate:delegate)
   end
 
-end
+end; end; end
