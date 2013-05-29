@@ -3,7 +3,7 @@ module BubbleWrap
 
     module_function
 
-    # Base method to create your in app mail
+    # Base method to create your in-app mail
     # ---------------------------------------
     # EX
     #   BW::Mail.compose self, {
