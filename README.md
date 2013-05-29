@@ -81,6 +81,12 @@ If you wish to only include the `Media` wrapper:
 require 'bubble-wrap/media'
 ```
 
+If you wish to only include the `Mail` wrapper:
+
+```ruby
+require 'bubble-wrap/mail'
+```
+
 If you want to include everything (ie kitchen sink mode) you can save time and do:
 
 ```ruby
@@ -384,6 +390,29 @@ end
 
 # Plays in an independent modal controller
 BW::Media.play_modal("http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3")
+```
+
+## Mail
+
+Wrapper for showing an in-app mail composer view.
+
+```ruby
+# Opens as a modal in the current UIViewController
+BW::Mail.compose self, {
+  to: [ "tom@example.com" ],
+  cc: [ "itchy@example.com", "scratchy@example.com" ],
+  bcc: [ "jerry@example.com" ],
+  html: false,
+  subject: "My Subject",
+  message: "This is my message. It isn't very long.",
+  animated: false
+} do |result, error|
+  result.sent?      # => boolean
+  result.canceled?  # => boolean
+  result.saved?     # => boolean
+  result.failed?    # => boolean
+  error             # => NSError
+end
 ```
 
 ## UI

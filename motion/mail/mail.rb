@@ -8,8 +8,12 @@ module BubbleWrap
     # EX
     #   BW::Mail.compose self, {
     #     to: [ "tom@example.com" ],
-    #     cc: [ "itchy@example.com", "scratchy@example.com" ]
+    #     cc: [ "itchy@example.com", "scratchy@example.com" ],
     #     bcc: [ "jerry@example.com" ],
+    #     html: false,
+    #     subject: "My Subject",
+    #     message: "This is my message. It isn't very long.",
+    #     animated: false
     #   } do |result, error|
     #     result.sent?      # => boolean
     #     result.canceled?  # => boolean
