@@ -41,6 +41,7 @@ describe BW::Mail do
     before do
       @view_controller = MailViewController.new
       @standard_mail_options = {
+        delegate: @view_controller,
         to: [ "tom@example.com" ],
         cc: [ "itchy@example.com", "scratchy@example.com" ],
         bcc: [ "jerry@example.com" ],
@@ -56,7 +57,7 @@ describe BW::Mail do
         mail_controller.should.be.kind_of(MFMailComposeViewController)
       }
       
-      BubbleWrap::Mail.compose @view_controller, @standard_mail_options
+      BubbleWrap::Mail.compose @standard_mail_options
     end
     
     it "should create a mail controller with the right to: address set" do
@@ -65,7 +66,7 @@ describe BW::Mail do
         mail_controller.toRecipients.should == @standard_mail_options[:to]
       }
       
-      BubbleWrap::Mail.compose @view_controller, @standard_mail_options
+      BubbleWrap::Mail.compose @standard_mail_options
     end
 
     it "should create a mail controller with the right cc: address set" do
@@ -74,7 +75,7 @@ describe BW::Mail do
         mail_controller.ccRecipients.should == @standard_mail_options[:cc]
       }
       
-      BubbleWrap::Mail.compose @view_controller, @standard_mail_options
+      BubbleWrap::Mail.compose @standard_mail_options
     end
 
     it "should create a mail controller with the right bcc: address set" do
@@ -83,7 +84,7 @@ describe BW::Mail do
         mail_controller.bccRecipients.should == @standard_mail_options[:bcc]
       }
       
-      BubbleWrap::Mail.compose @view_controller, @standard_mail_options
+      BubbleWrap::Mail.compose @standard_mail_options
     end
 
     it "should create a mail controller with the right subject: set" do
@@ -92,7 +93,7 @@ describe BW::Mail do
         mail_controller.subject.should == @standard_mail_options[:subject]
       }
       
-      BubbleWrap::Mail.compose @view_controller, @standard_mail_options
+      BubbleWrap::Mail.compose @standard_mail_options
     end
 
     it "should create a mail controller with the right message: set" do
@@ -101,7 +102,7 @@ describe BW::Mail do
         mail_controller.message.should == @standard_mail_options[:message]
       }
       
-      BubbleWrap::Mail.compose @view_controller, @standard_mail_options
+      BubbleWrap::Mail.compose @standard_mail_options
     end
 
     it "should create a mail controller with the right html: set" do
@@ -109,7 +110,7 @@ describe BW::Mail do
         mail_controller.html.should == @standard_mail_options[:html]
       }
       
-      BubbleWrap::Mail.compose @view_controller, @standard_mail_options
+      BubbleWrap::Mail.compose @standard_mail_options
     end
 
     it "should create a mail controller with the right animation" do
@@ -117,7 +118,7 @@ describe BW::Mail do
         animated.should.be.false
       }
       
-      BubbleWrap::Mail.compose @view_controller, @standard_mail_options
+      BubbleWrap::Mail.compose @standard_mail_options
     end
 
   end

@@ -26,7 +26,7 @@ Motion::Project::App.setup do |app|
   app.spec_files
   if Motion::Project::App.osx?
     app.spec_files -= Dir.glob("./spec/motion/**/ios/**.rb")
-    ["font", "location", "media", "ui"].each do |package|
+    ["font", "location", "media", "ui", "mail"].each do |package|
       app.spec_files -= Dir.glob("./spec/motion/#{package}/**/*.rb")
     end
   else

@@ -6,7 +6,8 @@ module BubbleWrap
     # Base method to create your in-app mail
     # ---------------------------------------
     # EX
-    #   BW::Mail.compose self, {
+    #   BW::Mail.compose {
+    #     delegate: self, # optional, will use root view controller by default
     #     to: [ "tom@example.com" ],
     #     cc: [ "itchy@example.com", "scratchy@example.com" ],
     #     bcc: [ "jerry@example.com" ],
@@ -21,8 +22,8 @@ module BubbleWrap
     #     result.failed?    # => boolean
     #     error             # => NSError
     #   end
-    def compose(delegate, options={}, &callback)
-      @delegate = delegate
+    def compose(options={}, &callback)
+      @delegate = options[:delegate] || App.window.rootViewController
 
       @callback = callback
       
