@@ -398,7 +398,7 @@ Wrapper for showing an in-app mail composer view.
 
 ```ruby
 # Opens as a modal in the current UIViewController
-BW::Mail.compose self, {
+BW::Mail.compose {
   delegate: self, # optional, defaults to rootViewController
   to: [ "tom@example.com" ],
   cc: [ "itchy@example.com", "scratchy@example.com" ],
