@@ -70,9 +70,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     if App.osx? && !response.is_a?(NSHTTPURLResponse)
       return
     end
-    @status_code = response.statusCode
-    @response_headers = response.allHeaderFields
-    @response_size = response.expectedContentLength.to_f
+    did_receive_response(response)
   end
 
   # This delegate method get called every time a chunk of data is being received
@@ -139,6 +137,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
         log "auth challenged, answered with credentials: #{credentials.inspect}"
       end
     else
+      did_receive_response(challenge.failureResponse)
+      @response.update(status_code: status_code, headers: response_headers, url: @url, original_url: @original_url)
       challenge.sender.cancelAuthenticationChallenge(challenge)
       log 'Auth Failed :('
     end
@@ -147,7 +147,12 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   private
 
-  private
+  def did_receive_response(response)
+    @status_code = response.statusCode
+    @response_headers = response.allHeaderFields
+    @response_size = response.expectedContentLength.to_f
+  end
+
   def show_status_indicator(show)
     if App.ios?
       UIApplication.sharedApplication.networkActivityIndicatorVisible = show
