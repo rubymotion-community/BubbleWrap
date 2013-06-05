@@ -608,10 +608,18 @@ describe BubbleWrap::HTTP::Query do
       @query.connection(nil, didReceiveAuthenticationChallenge:@challenge)
     end
 
-    it "should cancel the authentication if the failure count was not 0" do
-      @challenge.previousFailureCount = 1
-      @query.connection(nil, didReceiveAuthenticationChallenge:@challenge)
-      @challenge.sender.was_cancelled.should.equal true
+    describe "given the failure count was not 0" do
+      before { @challenge.previousFailureCount = 1 }
+
+      it "should cancel the authentication" do
+        @query.connection(nil, didReceiveAuthenticationChallenge:@challenge)
+        @challenge.sender.was_cancelled.should.equal true
+      end
+
+      it "should set the response fields" do
+        @query.connection(nil, didReceiveAuthenticationChallenge:@challenge)
+        @query.response.status_code.should.equal @challenge.failureResponse.statusCode
+      end
     end
 
     it "should pass in Credentials and the challenge itself to the sender" do
@@ -695,10 +703,14 @@ describe BubbleWrap::HTTP::Query do
   end
 
   class FakeChallenge
-    attr_accessor :previousFailureCount
+    attr_accessor :previousFailureCount, :failureResponse
 
     def sender
       @fake_sender ||= FakeSender.new
+    end
+
+    def failureResponse
+      @failureResponse ||= FakeURLResponse.new(401, { bla: "123" }, 123)
     end
   end
 
