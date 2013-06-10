@@ -31,6 +31,7 @@ module BubbleWrap; module HTTP; class Query
     @method = http_method.upcase.to_s
     @delegator = options.delete(:action) || self
     @payload = options.delete(:payload)
+    @encoding = options.delete(:encoding) || NSUTF8StringEncoding
     @files = options.delete(:files)
     @boundary = options.delete(:boundary) || BW.create_uuid
     @credentials = options.delete(:credentials) || {}
@@ -222,7 +223,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     if @payload.is_a?(NSData)
       body.appendData(@payload)
     elsif @payload.is_a?(String)
-      body.appendData(@payload.dataUsingEncoding NSUTF8StringEncoding)
+      body.appendData(@payload.to_encoded_data @encoding)
     else
       append_form_params(body)
     end
@@ -236,7 +237,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
       s += value.to_s
       s += "\r\n"
-      body.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
+      body.appendData(s.to_encoded_data @encoding)
     end
     @payload_or_files_were_appended = true
     body
@@ -270,9 +271,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{file[:filename]}\"\r\n"
       s += "Content-Type: application/octet-stream\r\n\r\n"
       file_data = NSMutableData.new
-      file_data.appendData(s.dataUsingEncoding NSUTF8StringEncoding)
+      file_data.appendData(s.to_encoded_data @encoding)
       file_data.appendData(file[:data])
-      file_data.appendData("\r\n".dataUsingEncoding NSUTF8StringEncoding)
+      file_data.appendData("\r\n".to_encoded_data @encoding)
       body.appendData(file_data)
     end
     @payload_or_files_were_appended = true
@@ -280,7 +281,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def append_body_boundary(body)
-    body.appendData("--#{@boundary}--\r\n".dataUsingEncoding NSUTF8StringEncoding)
+    body.appendData("--#{@boundary}--\r\n".to_encoded_data @encoding)
   end
 
   def create_url(url_string)
