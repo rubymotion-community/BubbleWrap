@@ -19,8 +19,9 @@ module BubbleWrap
 
       # Trigger an event
       def trigger(event, *args)
-        __events__[event].map do |event|
-          event.call(*args)
+        blks = __events__[event].clone
+        blks.map do |blk|
+          blk.call(*args)
         end
       end
 

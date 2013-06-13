@@ -30,6 +30,21 @@ describe BubbleWrap::Reactor::Eventable do
       @subject.off(:foo, &proof)
       events[:foo].member?(proof).should == false
     end
+
+    it 'calls other event procs when a proc unregisters itself' do
+      @proxy.proof = 0
+      proof1 = proc do |r|
+        @proxy.proof += r
+        @subject.off(:foo, &proof1)
+      end
+      proof2 = proc do |r|
+        @proxy.proof += r
+      end
+      @subject.on(:foo, &proof1)
+      @subject.on(:foo, &proof2)
+      @subject.trigger(:foo, 2)
+      @proxy.proof.should == 4
+    end
   end
 
   describe '.trigger' do
