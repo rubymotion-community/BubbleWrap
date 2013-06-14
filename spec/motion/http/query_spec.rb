@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 describe BubbleWrap::HTTP::Query do
 
   before do
@@ -222,6 +223,19 @@ describe BubbleWrap::HTTP::Query do
         uuid = query.instance_variable_get(:@boundary)
         real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
         real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[name]\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[model]\"\r\n\r\nmacbook\r\n--#{uuid}--\r\n"
+      end
+
+      [["NSUTF8StringEncoding", NSUTF8StringEncoding],
+       ["NSJapaneseEUCStringEncoding", NSJapaneseEUCStringEncoding],
+       ["NSShiftJISStringEncoding", NSShiftJISStringEncoding],
+       ["NSISO2022JPStringEncoding", NSISO2022JPStringEncoding]].each do |enc_name, encoding|
+        it "sets the japanese characters payload encoded in #{enc_name}" do
+          payload = { computer: { name: '名前', model: 'モデル'} }
+          query = BubbleWrap::HTTP::Query.new( @fake_url, :post, { payload: payload, encoding: encoding })
+          uuid = query.instance_variable_get(:@boundary)
+          real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:encoding)
+          real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[name]\"\r\n\r\n#{payload[:computer][:name]}\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[model]\"\r\n\r\n#{payload[:computer][:model]}\r\n--#{uuid}--\r\n"
+        end
       end
 
     end
