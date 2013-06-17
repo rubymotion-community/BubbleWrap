@@ -224,6 +224,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
       body.appendData(@payload)
     elsif @payload.is_a?(String)
       body.appendData(@payload.to_encoded_data @encoding)
+    elsif @format == :json
+      json_string = BW::JSON.generate(@payload)
+      body.appendData(json_string.to_encoded_data @encoding)
     else
       append_form_params(body)
     end
