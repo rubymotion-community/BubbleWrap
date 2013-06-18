@@ -1,6 +1,22 @@
 # -*- coding: utf-8 -*-
 describe BubbleWrap::HTTP::Query do
 
+  describe "json parameter encoding" do
+    before do
+      @json_payload = {"foo" => "bar"}
+      @json_options = {
+        payload: @json_payload,
+        format: :json
+      }
+      @json_query = BubbleWrap::HTTP::Query.new( "http://localhost:3000" , :post, @json_options )
+    end
+
+    it "should generate json body" do
+      BW::JSON.parse(@json_query.request.HTTPBody).should == @json_payload
+    end
+
+  end
+
   before do
     @localhost_url = 'http://localhost'
     @fake_url = 'http://fake.url'
