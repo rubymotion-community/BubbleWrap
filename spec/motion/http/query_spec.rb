@@ -3,7 +3,7 @@ describe BubbleWrap::HTTP::Query do
 
   describe "json parameter encoding" do
     before do
-      @json_payload = {:foo => :bar}
+      @json_payload = {"foo" => "bar"}
       @json_options = {
         payload: @json_payload,
         format: :json
@@ -12,7 +12,7 @@ describe BubbleWrap::HTTP::Query do
     end
 
     it "should generate json body" do
-      BW::JSON.parse(@json_query.request.HTTPBody) == @json_payload.should
+      BW::JSON.parse(@json_query.request.HTTPBody).should == @json_payload
     end
 
   end
