@@ -4,6 +4,11 @@ class Time
     cached_date_formatter("yyyy-MM-dd'T'HH:mm:ss'Z'").
       dateFromString(time)
   end
+  
+  def self.iso8601_with_timezone(time)
+    cached_date_formatter("yyyy-MM-dd'T'HH:mm:ssZZZZZ").
+      dateFromString(time)
+  end
 
   private
 
