@@ -12,7 +12,7 @@ describe BubbleWrap::HTTP::Query do
     end
 
     it "should generate json body" do
-      @json_payload.should == BW::JSON.parse(@json_query.request.HTTPBody)
+      BW::JSON.parse(@json_query.request.HTTPBody) == @json_payload.should
     end
 
   end
