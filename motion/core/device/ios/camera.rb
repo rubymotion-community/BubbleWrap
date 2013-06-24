@@ -122,7 +122,23 @@ module BubbleWrap
 
         presenting_controller ||= App.window.rootViewController.presentedViewController # May be nil, but handles use case of container views
         presenting_controller ||= App.window.rootViewController
-        presenting_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
+        
+        if Device.ipad? and source_type==UIImagePickerControllerSourceTypePhotoLibrary
+          @popover = UIPopoverController.alloc.initWithContentViewController(picker)
+          # set the view from view or controller
+          view = presenting_controller
+          if presenting_controller.is_a?(UIViewController)
+            view = presenting_controller.view
+          end
+          @popover.presentPopoverFromRect(view.bounds, inView:view, permittedArrowDirections:UIPopoverArrowDirectionAny, animated:@options[:animated])
+        else
+          presenting_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
+        end
+      end
+      
+      # iPad popover is dismissed
+      def popoverControllerDidDismissPopover(popoverController)
+        @popover = nil
       end
 
       ##########
@@ -153,6 +169,11 @@ module BubbleWrap
 
         @callback.call(callback_info)
         dismiss
+        # iPad popover? close it
+        if @popover
+          @popover.dismissPopoverAnimated(@options[:animated])
+          @popover = nil
+        end
       end
 
       ##########
