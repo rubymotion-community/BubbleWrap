@@ -74,7 +74,7 @@ module BubbleWrap
       # BW::Camera.picture(source_type: :photo_library, media_types: [:image]) do |result|
       #   image_view = UIImageView.alloc.initWithImage(result[:original_image])
       # end
-      def picture(options = {}, presenting_controller = nil, &block)
+      def picture(options = {}, presenting_view_or_controller = nil, &block)
         @callback = block
 
         @options = options
@@ -120,19 +120,21 @@ module BubbleWrap
           self.picker.cameraDevice = camera_device
         end
 
-        presenting_controller ||= App.window.rootViewController.presentedViewController # May be nil, but handles use case of container views
-        presenting_controller ||= App.window.rootViewController
+        # find default controller when present_view_or_controller is nil or of the wrong type
+        default_controller = App.window.rootViewController.presentedViewController # May be nil, but handles use case of container views
+        default_controller ||= App.window.rootViewController
         
         if Device.ipad? and source_type==UIImagePickerControllerSourceTypePhotoLibrary
           @popover = UIPopoverController.alloc.initWithContentViewController(picker)
           # set the view from view or controller
-          view = presenting_controller
-          if presenting_controller.is_a?(UIViewController)
-            view = presenting_controller.view
+          view = presenting_view_or_controller || default_controller
+          if presenting_view_or_controller.is_a?(UIViewController)
+            view = presenting_view_or_controller.view
           end
           @popover.presentPopoverFromRect(view.bounds, inView:view, permittedArrowDirections:UIPopoverArrowDirectionAny, animated:@options[:animated])
         else
-          presenting_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
+          presenting_view_or_controller = default_controller unless presenting_view_or_controller.is_a?(UIViewController)
+          presenting_view_or_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
         end
       end
       
