@@ -124,15 +124,21 @@ module BubbleWrap
         default_controller = App.window.rootViewController.presentedViewController # May be nil, but handles use case of container views
         default_controller ||= App.window.rootViewController
         
+        # use popover for iPad
         if Device.ipad? and source_type==UIImagePickerControllerSourceTypePhotoLibrary
           @popover = UIPopoverController.alloc.initWithContentViewController(picker)
           # set the view from view or controller
-          view = presenting_view_or_controller || default_controller
-          if presenting_view_or_controller.is_a?(UIViewController)
+          view = presenting_view_or_controller
+          # ensure there is the right object otherwise set default
+          unless view.is_a?(UIViewController) or view.is_a?(UIView)
+            view = default_controller
+          end
+          if view.is_a?(UIViewController)
             view = presenting_view_or_controller.view
           end
           @popover.presentPopoverFromRect(view.bounds, inView:view, permittedArrowDirections:UIPopoverArrowDirectionAny, animated:@options[:animated])
         else
+          # only controller use default when no controller
           presenting_view_or_controller = default_controller unless presenting_view_or_controller.is_a?(UIViewController)
           presenting_view_or_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
         end
