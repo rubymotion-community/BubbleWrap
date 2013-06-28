@@ -179,7 +179,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   def set_content_type
     return if headers_provided?
-    return if (@method == "GET" || @method == "HEAD")
+    return if (@method == "GET" || @method == "HEAD" || @method == "OPTIONS")
     @headers ||= {}
     @headers["Content-Type"] = case @format
     when :json
@@ -206,7 +206,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def create_request_body
-    return nil if (@method == "GET" || @method == "HEAD")
+    return nil if (@method == "GET" || @method == "HEAD" || @method == "OPTIONS")
     return nil unless (@payload || @files)
 
     body = NSMutableData.data
@@ -286,7 +286,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   def create_url(url_string)
     url_string = url_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
-    if (@method == "GET" || @method == "HEAD") && @payload
+    if (@method == "GET" || @method == "HEAD" || @method == "OPTIONS") && @payload
       unless @payload.empty?
         convert_payload_to_url if @payload.is_a?(Hash)
         url_string += "?#{@payload}"
