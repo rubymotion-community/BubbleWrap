@@ -138,14 +138,14 @@ describe BubbleWrap::HTTP::Query do
         }.should.not.raise NoMethodError
       end
 
-      it "should set the payload in URL only for GET and HEAD requests" do
+      it "should set the payload in URL only for GET/HEAD/OPTIONS requests" do
         [:post, :put, :delete, :patch].each do |method|
           query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: @payload } )
           query.instance_variable_get(:@url).description.should.equal @localhost_url
         end
 
         payload = {name: 'marin'}
-        [:get, :head].each do |method|
+        [:get, :head, :options].each do |method|
           query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: payload } )
           query.instance_variable_get(:@url).description.should.equal "#{@localhost_url}?name=marin"
         end
@@ -180,7 +180,7 @@ describe BubbleWrap::HTTP::Query do
         }.should.raise InvalidFileError
       end
 
-      it "sets the HTTPBody DATA to @request for all methods except GET and HEAD" do
+      it "sets the HTTPBody DATA to @request for all methods except GET/HEAD/OPTIONS" do
         payload = { name: 'apple', model: 'macbook'}
         files = { twitter: sample_data, site: "mneorr.com".dataUsingEncoding(NSUTF8StringEncoding) }
 
@@ -193,7 +193,7 @@ describe BubbleWrap::HTTP::Query do
           real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"model\"\r\n\r\nmacbook\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"twitter\"; filename=\"twitter\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"site\"; filename=\"site\"\r\nContent-Type: application/octet-stream\r\n\r\nmneorr.com\r\n--#{uuid}--\r\n"
         end
 
-        [:get, :head].each do |method|
+        [:get, :head, :options].each do |method|
           puts "    - #{method}\n"
           query = BubbleWrap::HTTP::Query.new( @fake_url , method, { payload: payload } )
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
