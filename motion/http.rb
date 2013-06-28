@@ -19,7 +19,7 @@ module BubbleWrap
     #   end
     #
 
-    [:get, :post, :put, :delete, :head, :patch].each do |http_verb|
+    [:get, :post, :put, :delete, :head, :options, :patch].each do |http_verb|
 
       define_singleton_method(http_verb) do |url, options = {}, &block|
         options[:action] = block if block
