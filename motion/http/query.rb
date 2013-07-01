@@ -305,8 +305,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def escape(string)
-    if string
-      CFURLCreateStringByAddingPercentEscapes nil, string.to_s, nil, "!*'();:@&=+$,/?%#[]", KCFStringEncodingUTF8
+    string_to_escape = string.to_s
+    if string_to_escape
+      CFURLCreateStringByAddingPercentEscapes nil, string_to_escape, nil, "!*'();:@&=+$,/?%#[]", KCFStringEncodingUTF8
     end
   end
 

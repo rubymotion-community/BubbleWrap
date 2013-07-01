@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
 describe BubbleWrap::HTTP::Query do
 
+  describe "false value" do
+    before do
+      @query = BubbleWrap::HTTP::Query.new("http://www.google.com", :get, {payload: {following: false}})
+    end
+
+    it "should have right url" do
+      @query.request.URL.absoluteString.should == "http://www.google.com?following=false"
+    end
+  end
+
   before do
     @localhost_url = 'http://localhost'
     @fake_url = 'http://fake.url'
