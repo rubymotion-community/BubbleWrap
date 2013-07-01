@@ -14,6 +14,7 @@ describe BubbleWrap::HTTP::Query do
     it "should generate json body" do
       BW::JSON.parse(@json_query.request.HTTPBody).should == @json_payload
     end
+  end
 
   describe "false value" do
     before do
