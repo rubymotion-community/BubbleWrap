@@ -34,6 +34,10 @@ module BubbleWrap
       def any
         @any ||= BubbleWrap::Device::Camera.any
       end
+      # alias for any
+      def photo_library
+        any
+      end
 
       # Should always return true, since picking images from *some* source is always possible
       # @return [TrueClass]

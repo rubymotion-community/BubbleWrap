@@ -33,8 +33,16 @@ module BubbleWrap
       end
 
       # For uploading photos from the library.
-      def self.any
-        @any ||= Camera.new
+      class << self
+        def any
+          @any ||= Camera.new
+        end
+        alias_method "photo_library", "any"
+      end
+      
+      def popover_from(view)
+        @popover_in_view = view
+        self
       end
 
       def initialize(location = :none)
@@ -74,7 +82,7 @@ module BubbleWrap
       # BW::Camera.picture(source_type: :photo_library, media_types: [:image]) do |result|
       #   image_view = UIImageView.alloc.initWithImage(result[:original_image])
       # end
-      def picture(options = {}, presenting_view_or_controller = nil, &block)
+      def picture(options = {}, presenting_controller = nil, &block)
         @callback = block
 
         @options = options
@@ -120,27 +128,15 @@ module BubbleWrap
           self.picker.cameraDevice = camera_device
         end
 
-        # find default controller when present_view_or_controller is nil or of the wrong type
-        default_controller = App.window.rootViewController.presentedViewController # May be nil, but handles use case of container views
-        default_controller ||= App.window.rootViewController
+        presenting_controller ||= App.window.rootViewController.presentedViewController # May be nil, but handles use case of container views
+        presenting_controller ||= App.window.rootViewController
         
-        # use popover for iPad
-        if Device.ipad? and source_type==UIImagePickerControllerSourceTypePhotoLibrary
+        # use popover for iPad (ignore on iPhone)
+        if Device.ipad? and source_type==UIImagePickerControllerSourceTypePhotoLibrary and @popover_in_view
           @popover = UIPopoverController.alloc.initWithContentViewController(picker)
-          # set the view from view or controller
-          view = presenting_view_or_controller
-          # ensure there is the right object otherwise set default
-          unless view.is_a?(UIViewController) or view.is_a?(UIView)
-            view = default_controller
-          end
-          if view.is_a?(UIViewController)
-            view = presenting_view_or_controller.view
-          end
-          @popover.presentPopoverFromRect(view.bounds, inView:view, permittedArrowDirections:UIPopoverArrowDirectionAny, animated:@options[:animated])
+          @popover.presentPopoverFromRect(view.bounds, inView:@popover_in_view, permittedArrowDirections:UIPopoverArrowDirectionAny, animated:@options[:animated])
         else
-          # only controller use default when no controller
-          presenting_view_or_controller = default_controller unless presenting_view_or_controller.is_a?(UIViewController)
-          presenting_view_or_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
+          presenting_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
         end
       end
       
