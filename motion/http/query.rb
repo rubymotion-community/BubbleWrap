@@ -55,7 +55,7 @@ module BubbleWrap; module HTTP; class Query
     @connection = create_connection(request, self)
     @connection.start
 
-    show_status_indicator true
+    show_status_indicator
   end
 
   def to_s
@@ -106,7 +106,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   def connection(connection, didFailWithError: error)
     log "HTTP Connection to #{@url.absoluteString} failed #{error.localizedDescription}"
-    show_status_indicator false
+    hide_status_indicator
     @request.done_loading!
     @response.error_message = error.localizedDescription
     call_delegator_with_response
@@ -119,7 +119,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def connectionDidFinishLoading(connection)
-    show_status_indicator false
+    hide_status_indicator
     @request.done_loading!
     response_body = NSData.dataWithData(@received_data) if @received_data
     @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url, original_url: @original_url)
@@ -154,9 +154,28 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     @response_size = response.expectedContentLength.to_f
   end
 
-  def show_status_indicator(show)
+  @@queries_in_flight = 0
+  @@status_indicator_queue = Dispatch::Queue.new('com.bubble-wrap.status-indicator-queue')
+
+  def update_status_indicator
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = @@queries_in_flight > 0
+  end
+
+  def show_status_indicator
     if App.ios?
-      UIApplication.sharedApplication.networkActivityIndicatorVisible = show
+      @@status_indicator_queue.async do
+        @@queries_in_flight += 1
+        Dispatch::Queue.main.sync {update_status_indicator}
+      end
+    end
+  end
+
+  def hide_status_indicator
+    if App.ios?
+      @@status_indicator_queue.async do
+        @@queries_in_flight -= 1
+        Dispatch::Queue.main.sync {update_status_indicator}
+      end
     end
   end
 
