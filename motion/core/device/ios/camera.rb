@@ -134,7 +134,7 @@ module BubbleWrap
         # use popover for iPad (ignore on iPhone)
         if Device.ipad? and source_type==UIImagePickerControllerSourceTypePhotoLibrary and @popover_in_view
           @popover = UIPopoverController.alloc.initWithContentViewController(picker)
-          @popover.presentPopoverFromRect(view.bounds, inView:@popover_in_view, permittedArrowDirections:UIPopoverArrowDirectionAny, animated:@options[:animated])
+          @popover.presentPopoverFromRect(@popover_in_view.bounds, inView:@popover_in_view, permittedArrowDirections:UIPopoverArrowDirectionAny, animated:@options[:animated])
         else
           presenting_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
         end
