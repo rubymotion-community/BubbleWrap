@@ -35,6 +35,25 @@ module BubbleWrap
         end
       end
 
+      # Figure out the current orientation of the interface
+      # @return [:portrait, :portrait_upside_down, :landscape_left, :landscape_right]
+      def interface_orientation(device_orientation=UIDevice.currentDevice.orientation, fallback=true)
+        case device_orientation
+        when UIInterfaceOrientationPortrait then :portrait
+        when UIInterfaceOrientationPortraitUpsideDown then :portrait_upside_down
+        when UIInterfaceOrientationLandscapeLeft then :landscape_left
+        when UIInterfaceOrientationLandscapeRight then :landscape_right
+        else
+          # In some cases, the accelerometer can't get an accurate read of orientation so we fall back on the orientation of
+          # the status bar.
+          if fallback && (device_orientation != UIApplication.sharedApplication.statusBarOrientation)
+            orientation(UIApplication.sharedApplication.statusBarOrientation)
+          else
+            :unknown
+          end
+        end
+      end
+
       # The width of the device's screen.
       # The real resolution is dependant on the scale
       # factor (see `retina?`) but the coordinate system

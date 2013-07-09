@@ -55,5 +55,10 @@ module BubbleWrap
     def orientation
       screen.orientation
     end
+
+    # Delegates to BubbleWrap::Screen.interface_orientation
+    def interface_orientation
+      screen.interface_orientation
+    end
   end
 end
