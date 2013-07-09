@@ -213,6 +213,8 @@ Examples:
 # true
 > Device.orientation
 # :portrait
+> Device.interface_orientation
+# :portrait
 > Device.simulator?
 # true
 > Device.ios_version

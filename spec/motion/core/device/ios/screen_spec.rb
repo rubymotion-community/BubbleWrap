@@ -103,6 +103,51 @@ describe "iOS" do
     end
   end
 
+  describe '.interface_orientation' do
+
+    describe 'portrait' do
+      it 'returns :portrait' do
+        BW::Device::Screen.orientation(UIInterfaceOrientationPortrait).should == :portrait
+      end
+    end
+
+    describe 'portrait upside down' do
+      it 'returns :portrait_upside_down' do
+        BW::Device::Screen.orientation(UIInterfaceOrientationPortraitUpsideDown).should == :portrait_upside_down
+      end
+    end
+
+    describe 'landscape left' do
+      it 'returns :landscape_left' do
+        BW::Device::Screen.orientation(UIInterfaceOrientationLandscapeLeft).should == :landscape_left
+      end
+    end
+
+    describe 'landscape right' do
+      it 'returns :landscape_right' do
+        BW::Device::Screen.orientation(UIInterfaceOrientationLandscapeRight).should == :landscape_right
+      end
+    end
+
+    describe 'unknown' do
+      it 'returns :unknown if fallback is false' do
+        BW::Device::Screen.orientation(UIDeviceOrientationUnknown, false).should == :unknown
+      end
+      it 'returns Status bar orientation if fallback not specified' do
+        BW::Device::Screen.orientation(UIDeviceOrientationUnknown).should == BW::Device::Screen.orientation(UIApplication.sharedApplication.statusBarOrientation)
+      end
+    end
+
+    describe 'any other input' do
+      it 'returns :unknown  if fallback is false' do
+        BW::Device::Screen.orientation('twiggy twiggy twiggy', false).should == :unknown
+      end
+      it 'returns Status bar orientation if fallback not specified' do
+        BW::Device::Screen.orientation('twiggy twiggy twiggy').should == BW::Device::Screen.orientation(UIApplication.sharedApplication.statusBarOrientation)
+      end
+    end
+  end
+
   describe '.width' do
     it 'returns the current device screen width' do
       BW::Device::Screen.width.should == 320.0 if BW::Device.iphone?
