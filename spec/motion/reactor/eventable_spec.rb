@@ -65,6 +65,34 @@ describe BubbleWrap::Reactor::Eventable do
       @subject.trigger(:foo, 2)
       @proxy.proof.should == 6
     end
+
+    describe 'memory implications' do
+      before do
+        @did_work = false
+        dealloc_proc = proc { |x| @did_work = true }
+        @klass = Class.new do
+          include BubbleWrap::Reactor::Eventable
+        end
+        @object = @klass.new
+        ObjectSpace.define_finalizer(@object, &dealloc_proc)
+      end
+
+      it 'does not cause a retain-cycle prior to calling trigger' do
+        @object = nil
+        wait 0 do
+          @did_work.should == true
+        end
+      end
+
+      it 'does not cause a retain-cycle after calling trigger' do
+        @object.trigger(:something)
+        @object = nil
+        wait 0 do
+          @did_work.should == true
+        end
+      end
+
+    end
   end
 
 end
