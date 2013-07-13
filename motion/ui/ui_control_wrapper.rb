@@ -12,5 +12,10 @@ module BubbleWrap
       @callback[events] << block
       addTarget(@callback[events].last, action:'call', forControlEvents: events)
     end
+
+    def off(events)
+      removeTarget(nil, action:nil, forControlEvents: events)
+      @callback.delete events
+    end
   end
 end
