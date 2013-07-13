@@ -449,6 +449,9 @@ Helper methods to give `UIButton` a Ruby-like interface. Ex:
 button.when(UIControlEventTouchUpInside) do
   self.view.backgroundColor = UIColor.redColor
 end
+
+# call this when your view controller or context is deconstructing
+button.off(UIControlEventTouchUpInside)
 ```
 
 ### UIBarButtonItem
