@@ -36,6 +36,12 @@ describe BubbleWrap::App do
     end
   end
 
+  describe '.info_plist' do
+    it 'returns the information property list hash' do
+      App.info_plist.should == NSBundle.mainBundle.infoDictionary
+    end
+  end
+
   describe '.name' do
     it 'returns the application name' do
       App.name.should == 'testSuite'
