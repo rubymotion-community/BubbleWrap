@@ -28,7 +28,15 @@ module BubbleWrap
       private
 
       def __events__
-        @__events__ ||= Hash.new { |h,k| h[k] = [] }
+        # @__events__ ||= Hash.new { |h,k| h[k] = [] }
+        #
+        # Workaround for http://hipbyte.myjetbrains.com/youtrack/issue/RM-203
+        #
+        @__events__ ||= begin
+          hash = {}
+          hash.default = []
+          hash
+        end
       end
     end
   end
