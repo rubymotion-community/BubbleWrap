@@ -7,19 +7,19 @@ module BubbleWrap
       # and be passed the arguments that are passed to
       # `trigger`.
       def on(event, &blk)
-        events_for_event(event).push blk
+        __events__[event].push blk
       end
 
       # When `event` is triggered, do not call the given
       # block any more
       def off(event, &blk)
-        __events__[event].delete_if { |b| b == blk } if __events__.key?(event)
+        __events__[event].delete_if { |b| b == blk }
         blk
       end
 
       # Trigger an event
       def trigger(event, *args)
-        blks = events_for_event(event).clone
+        blks = __events__[event].clone
         blks.map do |blk|
           blk.call(*args)
         end
@@ -27,13 +27,16 @@ module BubbleWrap
 
       private
 
-      def events_for_event(event)
-        __events__[event] ||= []
-        __events__[event]
-      end
-
       def __events__
-        @__events__ ||= {}
+        # @__events__ ||= Hash.new { |h,k| h[k] = [] }
+        #
+        # Workaround for http://hipbyte.myjetbrains.com/youtrack/issue/RM-203
+        #
+        @__events__ ||= begin
+          hash = {}
+          hash.default = []
+          hash
+        end
       end
     end
   end
