@@ -76,7 +76,6 @@ describe BubbleWrap::Reactor::Eventable do
     end
 
     class TestUIViewControllerWithEventable < UIViewController
-      attr_accessor :proxy
       include BubbleWrap::Reactor::Eventable
       def test_on
         on(:foo) do
@@ -116,8 +115,6 @@ describe BubbleWrap::Reactor::Eventable do
       end
 
       it 'does not cause a retain-cycle after adding an event' do
-        @proxy.proof = false
-        @object.proxy = @proxy
         @object.test_on
         @object = nil
         wait 0 do
