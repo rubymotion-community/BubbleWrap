@@ -57,6 +57,15 @@ describe BubbleWrap::Reactor::Eventable do
       @proxy.proof.should == true
     end
 
+    it 'calls event procs for correct event' do
+      @proxy.proof = false
+      @subject.on(:foo) do |r|
+        @proxy.proof = r
+      end
+      @subject.trigger(:bar, true)
+      @proxy.proof.should == false
+    end
+
     it 'calls all the event procs' do
       @proxy.proof = 0
       @subject.on(:foo) { |r| @proxy.proof += r }
@@ -66,18 +75,23 @@ describe BubbleWrap::Reactor::Eventable do
       @proxy.proof.should == 6
     end
 
+    class TestUIViewControllerWithEventable < UIViewController
+      include BubbleWrap::Reactor::Eventable
+      def test_on
+        on(:foo) do
+        end
+      end
+    end
+
     describe 'memory implications' do
       before do
         @did_work = false
         dealloc_proc = proc { |x| @did_work = true }
-        @klass = Class.new do
-          include BubbleWrap::Reactor::Eventable
-        end
-        @object = @klass.new
+        @object = TestUIViewControllerWithEventable.alloc.init
         ObjectSpace.define_finalizer(@object, &dealloc_proc)
       end
 
-      it 'does not cause a retain-cycle prior to calling trigger' do
+      it 'does not cause a retain-cycle prior to loading __events__' do
         @object = nil
         wait 0 do
           @did_work.should == true
@@ -86,6 +100,22 @@ describe BubbleWrap::Reactor::Eventable do
 
       it 'does not cause a retain-cycle after calling trigger' do
         @object.trigger(:something)
+        @object = nil
+        wait 0 do
+          @did_work.should == true
+        end
+      end
+
+      it 'does not cause a retain-cycle after loading __events__' do
+        @object.send(:__events__)
+        @object = nil
+        wait 0 do
+          @did_work.should == true
+        end
+      end
+
+      it 'does not cause a retain-cycle after adding an event' do
+        @object.test_on
         @object = nil
         wait 0 do
           @did_work.should == true
