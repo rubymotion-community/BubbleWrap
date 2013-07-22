@@ -75,7 +75,7 @@ describe BubbleWrap::Reactor::Eventable do
       @proxy.proof.should == 6
     end
 
-    class TestUIViewControllerWithEventable < UIViewController
+    class TestUIViewControllerWithEventable < NSObject
       include BubbleWrap::Reactor::Eventable
       def test_on
         on(:foo) do
