@@ -43,8 +43,12 @@ module BubbleWrap
       @states
     end
 
+    def info_plist
+      NSBundle.mainBundle.infoDictionary
+    end
+
     def name
-      NSBundle.mainBundle.objectForInfoDictionaryKey 'CFBundleDisplayName'
+      info_plist['CFBundleDisplayName']
     end
 
     def identifier
@@ -52,7 +56,7 @@ module BubbleWrap
     end
 
     def version
-      NSBundle.mainBundle.infoDictionary['CFBundleVersion']
+      info_plist['CFBundleVersion']
     end
 
     # @return [NSLocale] locale of user settings
@@ -90,5 +94,6 @@ module BubbleWrap
       Kernel.const_defined?(:UIApplication)
     end
   end
+
 end
 ::App = BubbleWrap::App unless defined?(::App)
