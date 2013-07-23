@@ -75,50 +75,62 @@ describe BubbleWrap::Reactor::Eventable do
       @proxy.proof.should == 6
     end
 
-    class TestUIViewControllerWithEventable < NSObject
+    class TestUIViewControllerWithEventable
       include BubbleWrap::Reactor::Eventable
       def test_on
         on(:foo) do
         end
       end
+      def dealloc
+        $test_dealloc = true
+        super
+      end
     end
 
     describe 'memory implications' do
-      before do
-        @did_work = false
-        dealloc_proc = proc { |x| @did_work = true }
-        @object = TestUIViewControllerWithEventable.alloc.init
-        ObjectSpace.define_finalizer(@object, &dealloc_proc)
-      end
 
       it 'does not cause a retain-cycle prior to loading __events__' do
-        @object = nil
+        autorelease_pool do
+          $test_dealloc = false
+          TestUIViewControllerWithEventable.alloc.init
+        end
         wait 0 do
-          @did_work.should == true
+          $test_dealloc.should == true
         end
       end
 
       it 'does not cause a retain-cycle after calling trigger' do
-        @object.trigger(:something)
-        @object = nil
+        autorelease_pool do
+        autorelease_pool do
+          $test_dealloc = false
+          obj = TestUIViewControllerWithEventable.alloc.init
+          obj.trigger(:something)
+        end
+        end
         wait 0 do
-          @did_work.should == true
+          $test_dealloc.should == true
         end
       end
 
       it 'does not cause a retain-cycle after loading __events__' do
-        @object.send(:__events__)
-        @object = nil
+        autorelease_pool do
+          $test_dealloc = false
+          obj = TestUIViewControllerWithEventable.alloc.init
+          obj.send(:__events__)
+        end
         wait 0 do
-          @did_work.should == true
+          $test_dealloc.should == true
         end
       end
 
       it 'does not cause a retain-cycle after adding an event' do
-        @object.test_on
-        @object = nil
+        autorelease_pool do
+          $test_dealloc = false
+          obj = TestUIViewControllerWithEventable.alloc.init
+          obj.test_on
+        end
         wait 0 do
-          @did_work.should == true
+          $test_dealloc.should == true
         end
       end
 
