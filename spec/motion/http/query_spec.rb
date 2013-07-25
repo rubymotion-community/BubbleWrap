@@ -680,6 +680,23 @@ describe BubbleWrap::HTTP::Query do
 
   end
 
+  describe 'cancel' do
+    before do
+      @doa_query = BubbleWrap::HTTP::Query.new(@localhost_url, :get)
+      @doa_query.cancel
+    end
+
+    it "should cancel the connection" do
+      @doa_query.connection.was_cancelled.should.equal true
+    end
+
+    if App.ios?
+      it "should turn off the network indicator" do
+        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal false
+      end
+    end
+  end
+
   describe "empty payload" do
 
     before do
@@ -758,7 +775,7 @@ describe BubbleWrap::HTTP::Query do
   end
 
   class FakeURLConnection < NSURLConnection
-    attr_reader :delegate, :request, :was_started
+    attr_reader :delegate, :request, :was_started, :was_cancelled
     def initialize(request, delegate)
       @request = request
       @delegate = delegate
@@ -766,7 +783,11 @@ describe BubbleWrap::HTTP::Query do
     end
     def start
       @was_started = true
+      @was_cancelled = false
       super
+    end
+    def cancel
+      @was_cancelled = true
     end
   end
 
