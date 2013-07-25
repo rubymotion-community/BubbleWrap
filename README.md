@@ -601,6 +601,20 @@ would be a Proc that takes two arguments: a float representing the
 amount of data currently received and another float representing the
 total amount of data expected.
 
+Connections can also be cancelled. Just keep a refrence,
+
+```ruby
+@conn = BW::HTTP.get("https://api.github.com/users/mattetti") do |response|
+  p response.body.to_str
+end
+```
+
+and send the `cancel` method to it asynchronously as desired. The block will not be executed.
+
+```ruby
+@conn.cancel
+```
+
 ### Gotchas
 
 Because of how RubyMotion currently works, you sometimes need to assign objects as `@instance_variables` in order to retain their callbacks.
