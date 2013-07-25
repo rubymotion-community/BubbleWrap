@@ -20,7 +20,7 @@ module BubbleWrap; module HTTP; class Query
   #
   # ==== Options
   # :payload<String>   - data to pass to a POST, PUT, DELETE query.
-  # :delegator         - Proc, class or object to call when the file is downloaded.
+  # :action            - Proc, class or object to call when the file is downloaded.
   # a proc will receive a Response object while the passed object
   # will receive the handle_query_response method
   # :headers<Hash>     - headers send with the request
@@ -95,6 +95,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
     if @redirect_count >= 30
       @response.error_message = "Too many redirections"
+      show_status_indicator false
       @request.done_loading!
       call_delegator_with_response
       nil
@@ -145,6 +146,11 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     end
   end
 
+  def cancel
+    @connection.cancel
+    show_status_indicator false
+    @request.done_loading!
+  end
 
   private
 
