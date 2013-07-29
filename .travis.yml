@@ -1,4 +1,5 @@
 language: objective-c
 before_install:
     - (ruby --version)
+before_script: sudo chown -R travis ~/Library/RubyMotion
 script: ./travis.sh
