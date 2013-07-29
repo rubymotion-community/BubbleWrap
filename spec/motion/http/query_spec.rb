@@ -209,7 +209,6 @@ describe BubbleWrap::HTTP::Query do
         payload = { name: 'apple', model: 'macbook'}
         files = { twitter: sample_data, site: "mneorr.com".dataUsingEncoding(NSUTF8StringEncoding) }
 
-        puts "\n"
         [:post, :put, :delete, :patch].each do |method|
           puts "    - #{method}\n"
           query = BubbleWrap::HTTP::Query.new( @fake_url , method, { payload: payload, files: files } )
@@ -233,7 +232,6 @@ describe BubbleWrap::HTTP::Query do
 
       it "sets the payload as a string if JSON" do
         json = "{\"foo\":42,\"bar\":\"BubbleWrap\"}"
-        puts "\n"
         [:put, :post, :delete, :patch].each do |method|
           puts "    - #{method}\n"
           query = BubbleWrap::HTTP::Query.new( @fake_url , method, { payload: json } )
