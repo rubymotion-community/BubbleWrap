@@ -18,7 +18,7 @@ module BubbleWrap; module HTTP; class Response
   end
 
   def ok?
-    status_code.to_s =~ /20\d/ ? true : false
+    status_code.to_s =~ /2\d\d/ ? true : false
   end
 
   def to_s
