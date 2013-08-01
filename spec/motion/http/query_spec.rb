@@ -493,6 +493,12 @@ describe BubbleWrap::HTTP::Query do
       @query.response.error_message.should.equal @fake_error.localizedDescription
     end
 
+    it "should set the error code to response object" do
+      @query.response.error_code.should.equal nil
+      @query.connection(nil, didFailWithError:@fake_error)
+      @query.response.error_code.should.equal @fake_error.code
+    end
+
     it "should check if there's a callback block and pass the response in" do
       expected_response = BubbleWrap::HTTP::Response.new
       real_response = nil
@@ -591,8 +597,9 @@ describe BubbleWrap::HTTP::Query do
         end
       end
 
-      it "sets the error message on response" do
+      it "sets the error message/code on response" do
         @real_response.error_message.should.equal "Too many redirections"
+        @real_response.error_code.should.equal NSURLErrorHTTPTooManyRedirects
       end
 
       it "sets the request.done_loading" do

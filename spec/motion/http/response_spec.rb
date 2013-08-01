@@ -39,6 +39,7 @@ describe BubbleWrap::HTTP::Response do
     @response.should.respond_to :url
     @response.should.respond_to :status_code=
     @response.should.respond_to :error_message=
+    @response.should.respond_to :error_code=
   end
 
 end

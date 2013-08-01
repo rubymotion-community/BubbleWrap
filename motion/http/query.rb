@@ -95,6 +95,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
     if @redirect_count >= 30
       @response.error_message = "Too many redirections"
+      @response.error_code = NSURLErrorHTTPTooManyRedirects
       show_status_indicator false
       @request.done_loading!
       call_delegator_with_response
@@ -110,6 +111,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     show_status_indicator false
     @request.done_loading!
     @response.error_message = error.localizedDescription
+    @response.error_code = error.code
     call_delegator_with_response
   end
 
