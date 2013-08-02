@@ -2,7 +2,7 @@
 module BubbleWrap; module HTTP; class Response
   attr_reader :body
   attr_reader :headers
-  attr_accessor :status_code, :status_description, :error_message
+  attr_accessor :status_code, :status_description, :error_message, :error
   attr_reader :url
   attr_reader :original_url
 
