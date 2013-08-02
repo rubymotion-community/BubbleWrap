@@ -2,7 +2,7 @@
 module BubbleWrap; module HTTP; class Response
   attr_reader :body
   attr_reader :headers
-  attr_accessor :status_code, :status_description, :error_message, :error_code
+  attr_accessor :status_code, :status_description, :error_message, :error
   attr_reader :url
   attr_reader :original_url
 
@@ -22,7 +22,7 @@ module BubbleWrap; module HTTP; class Response
   end
 
   def to_s
-    "#<#{self.class}:#{self.object_id} - url: #{self.url}, body: #{self.body}, headers: #{self.headers}, status code: #{self.status_code}, error message: #{self.error_message}, error code: #{self.error_code} >"
+    "#<#{self.class}:#{self.object_id} - url: #{self.url}, body: #{self.body}, headers: #{self.headers}, status code: #{self.status_code}, error message: #{self.error_message} >"
   end
   alias description to_s
 
