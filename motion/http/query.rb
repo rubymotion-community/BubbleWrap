@@ -94,7 +94,10 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     log "##{@redirect_count} HTTP redirect_count: #{request.inspect} - #{self.description}"
 
     if @redirect_count >= 30
-      @response.error_message = "Too many redirections"
+      @response.error = NSError.errorWithDomain('BubbleWrap::HTTP', code:NSURLErrorHTTPTooManyRedirects, 
+                                                userInfo:NSDictionary.dictionaryWithObject("Too many redirections",
+                                                                                           forKey: NSLocalizedDescriptionKey))
+      @response.error_message = @response.error.localizedDescription
       show_status_indicator false
       @request.done_loading!
       call_delegator_with_response
@@ -109,6 +112,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     log "HTTP Connection to #{@url.absoluteString} failed #{error.localizedDescription}"
     show_status_indicator false
     @request.done_loading!
+    @response.error = error
     @response.error_message = error.localizedDescription
     call_delegator_with_response
   end
