@@ -35,66 +35,31 @@ describe BW::Message do
       BW::Message.compose @standard_message_options
     end
     
-    # it "should create a mail controller with the right to: address set" do
-    #   @view_controller.expectation = lambda { |mail_controller, animated|
-    #     mail_controller.toRecipients.should.be.kind_of(Array)
-    #     mail_controller.toRecipients.should == @standard_mail_options[:to]
-    #   }
+    it "should create a message controller with the right recipient address set" do
+      @view_controller.expectation = lambda { |message_controller, animated|
+        message_controller.recipients.should.be.kind_of(Array)
+        message_controller.recipients.should == @standard_message_options[:to]
+      }
       
-    #   BubbleWrap::Mail.compose @standard_mail_options
-    # end
+      BubbleWrap::Message.compose @standard_message_options
+    end
 
-    # it "should create a mail controller with the right cc: address set" do
-    #   @view_controller.expectation = lambda { |mail_controller, animated|
-    #     mail_controller.ccRecipients.should.be.kind_of(Array)
-    #     mail_controller.ccRecipients.should == @standard_mail_options[:cc]
-    #   }
-      
-    #   BubbleWrap::Mail.compose @standard_mail_options
-    # end
 
-    # it "should create a mail controller with the right bcc: address set" do
-    #   @view_controller.expectation = lambda { |mail_controller, animated|
-    #     mail_controller.bccRecipients.should.be.kind_of(Array)
-    #     mail_controller.bccRecipients.should == @standard_mail_options[:bcc]
-    #   }
+    it "should create a message controller with the right message: set" do
+      @view_controller.expectation = lambda { |message_controller, animated|
+        message_controller.body.should.be.kind_of(String)
+        message_controller.body.should == @standard_message_options[:message]
+      }
       
-    #   BubbleWrap::Mail.compose @standard_mail_options
-    # end
+      BubbleWrap::Message.compose @standard_message_options
+    end
 
-    # it "should create a mail controller with the right subject: set" do
-    #   @view_controller.expectation = lambda { |mail_controller, animated|
-    #     mail_controller.subject.should.be.kind_of(String)
-    #     mail_controller.subject.should == @standard_mail_options[:subject]
-    #   }
-      
-    #   BubbleWrap::Mail.compose @standard_mail_options
-    # end
-
-    # it "should create a mail controller with the right message: set" do
-    #   @view_controller.expectation = lambda { |mail_controller, animated|
-    #     mail_controller.message.should.be.kind_of(String)
-    #     mail_controller.message.should == @standard_mail_options[:message]
-    #   }
-      
-    #   BubbleWrap::Mail.compose @standard_mail_options
-    # end
-
-    # it "should create a mail controller with the right html: set" do
-    #   @view_controller.expectation = lambda { |mail_controller, animated|
-    #     mail_controller.html.should == @standard_mail_options[:html]
-    #   }
-      
-    #   BubbleWrap::Mail.compose @standard_mail_options
-    # end
-
-    # it "should create a mail controller with the right animation" do
-    #   @view_controller.expectation = lambda { |mail_controller, animated|
-    #     animated.should.be.false
-    #   }
-      
-    #   BubbleWrap::Mail.compose @standard_mail_options
-    # end
+    it "should create a mail controller with the right animation" do
+      @view_controller.expectation = lambda { |message_controller, animated|
+        animated.should.be.false
+      }
+      BubbleWrap::Message.compose @standard_message_options
+    end
 
   end
 end
