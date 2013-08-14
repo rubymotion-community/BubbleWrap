@@ -28,7 +28,8 @@ module BubbleWrap
     def create_message_controller(options={})
       message_controller = MFMessageComposeViewController.alloc.init
       message_controller.messageComposeDelegate = self
-      message_controller.body = options[:message]      
+      message_controller.body = options[:message] 
+      message_controller.recipients = Array(options[:to])     
       message_controller
     end
 
