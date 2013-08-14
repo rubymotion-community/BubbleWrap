@@ -8,15 +8,15 @@ module BubbleWrap
       end
 
       def sent?
-        self.result == MFMailComposeResultSent
+        self.result == MessageComposeResultSent
       end
 
       def canceled?
-        self.result == MFMailComposeResultCancelled
+        self.result == MessageComposeResultCancelled
       end
 
       def failed?
-        self.result == MFMailComposeResultFailed
+        self.result == MessageComposeResultFailed
       end
       
     end
