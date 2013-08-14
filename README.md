@@ -310,6 +310,8 @@ simple interface:
 # ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
 > App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
 # ['TF1', 'France 2', 'France 3']
+> App::Persistence.delete('channels')
+# ['TF1', 'France 2', 'France 3']
 > App::Persistence['something__new'] # something previously never stored
 # nil
 ```
