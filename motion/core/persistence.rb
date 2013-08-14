@@ -29,6 +29,13 @@ module BubbleWrap
       storage.synchronize
     end
 
+    def delete(key)
+      value = storage.objectForKey storage_key(key)
+      storage.removeObjectForKey(storage_key(key))
+      storage.synchronize
+      value
+    end
+
     def storage
       NSUserDefaults.standardUserDefaults
     end
