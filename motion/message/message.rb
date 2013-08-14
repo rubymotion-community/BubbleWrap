@@ -6,23 +6,25 @@ module BubbleWrap
     # Base method to create your in-app mail
     # ---------------------------------------
     # EX
-    #   BW::Message.compose {
-    #     delegate: self, # optional, will use root view controller by default
-    #     to: [ "1(234)567-8910" ],
-    #     message: "This is my message. It isn't very long.",
-    #     animated: false
-    #   } do |result, error|
-    #     result.sent?      # => boolean
-    #     result.canceled?  # => boolean
-    #     result.failed?    # => boolean
-    #     error             # => NSError
-    #   end
+    # BW::Message.compose (
+    # {
+    #   delegate: self, # optional, will use root view controller by default
+    #   to: [ "1(234)567-8910" ],
+    #   message: "This is my message. It isn't very long.",
+    #   animated: false
+    # }) {|result, error|
+    #   result.sent?      # => boolean
+    #   result.canceled?  # => boolean
+    #   result.failed?    # => boolean
+    #   error             # => NSError
+    #   }           
+  
     def compose(options={}, &callback)
       @delegate = options[:delegate] || App.window.rootViewController
       @callback = callback
       @message_controller = create_message_controller(options)
       @message_is_animated = options[:animated] == false ? false : true
-      @delegate.presentModalViewController(@message_controller, animated: @mailer_is_animated)
+      @delegate.presentModalViewController(@message_controller, animated: @message_is_animated)
     end
     
     def create_message_controller(options={})
