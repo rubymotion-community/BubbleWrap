@@ -279,7 +279,7 @@ def viewWillAppear(animated)
     loadAndRefresh
   end
 
-  @reload_observer = App.notification_center.observe ReloadNotification do |notification|
+  @reload_observer = App.notification_center.observe 'ReloadNotification' do |notification|
     loadAndRefresh
   end
 end
@@ -290,7 +290,7 @@ def viewWillDisappear(animated)
 end
 
 def reload
-  App.notification_center.post ReloadNotification
+  App.notification_center.post 'ReloadNotification'
 end
 ```
 
