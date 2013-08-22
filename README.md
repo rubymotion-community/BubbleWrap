@@ -698,6 +698,12 @@ end
 def when_parser_is_done
   p "The feed is entirely parsed, congratulations!"
 end
+
+def when_parser_errors
+  p "The parser encountered an error"
+  ns_error = feed_parser.parserError
+  p ns_error.localizedDescription
+end
 ```
 
 These delegate methods are optional, however, you might find the
