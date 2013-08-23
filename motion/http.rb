@@ -27,6 +27,14 @@ module BubbleWrap
       end
 
     end
+
+    module_function
+    # This object is capable of creating a request using the same methods as
+    # `BW::HTTP`, but the query is not started automatically.
+    def query
+      HTTP::QueryFactory.new
+    end
+
   end
 end
 

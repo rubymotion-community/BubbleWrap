@@ -49,6 +49,8 @@ module BubbleWrap; module HTTP; class Query
     @cookies = options.fetch(:cookies, true) ; options.delete(:cookies)
     @follow_urls = options.fetch(:follow_urls, true) ; options.delete(:follow_urls)
     @present_credentials = options.fetch(:present_credentials, true) ; options.delete(:present_credentials)
+    autostart = options.fetch(:autostart, @delegator ? true : false) ; options.delete(:autostart)
+    @started = false
 
     @options = options
     @response = BubbleWrap::HTTP::Response.new
@@ -60,7 +62,7 @@ module BubbleWrap; module HTTP; class Query
 
     @connection = create_connection(request, self)
     @connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
-    if @delegator
+    if autostart
       self.start
     end
 
@@ -69,7 +71,14 @@ module BubbleWrap; module HTTP; class Query
 
   def start(&action)
     @delegator = action if action
+    return if @started
+
+    @started = true
     @connection.start
+  end
+
+  def started?
+    !! @started
   end
 
   def upload_progress(&progress)

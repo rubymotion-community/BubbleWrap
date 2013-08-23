@@ -657,12 +657,14 @@ representing the total amount of data expected.  `:upload_progress` should
 accept three arguments: The data that was just sent, the number of bytes
 written, and the number of bytes expected.
 
-If you need to modify the request before starting the request, do not provide a
-response block when you create the request, and call `start` with the response
-handler instead.  For instance, to create a signed twitter request:
+If you need to modify the request before starting the request, you should create
+a `Query` object using `BW::HTTP.query`.  It has the same methods as `BW::HTTP`,
+but it does not start automatically.  You should call `start` with the response
+handler when you want the request to begin.  For instance, to create a signed
+twitter request:
 
 ```ruby
-query = BW::HTTP.post("https://upload.twitter.com/1/statuses/update.json", {
+query = BW::HTTP.query.post("https://upload.twitter.com/1/statuses/update.json", {
   "status" => "I'm having a great time with BubbleWrap"
 })
 sign_request(query.request)
@@ -674,7 +676,7 @@ end
 You can also use this to assign the progress handlers:
 
 ```ruby
-query = BW::HTTP.get("http://api.yoursite.com/long_request")
+query = BW::HTTP.query.get("http://api.yoursite.com/long_request")
 query.upload_progress do |data, written, total|
   # ...
 end
