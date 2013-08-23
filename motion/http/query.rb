@@ -60,8 +60,6 @@ module BubbleWrap; module HTTP; class Query
     @request = create_request
     @original_url = @url.copy
 
-    @connection = create_connection(request, self)
-    @connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
     if autostart
       self.start
     end
@@ -74,6 +72,8 @@ module BubbleWrap; module HTTP; class Query
     return if @started
 
     @started = true
+    @connection = create_connection(request, self)
+    @connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
     @connection.start
   end
 
@@ -188,7 +188,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def cancel
-    @connection.cancel
+    @connection.cancel if @connection
     show_status_indicator false
     @request.done_loading!
   end
