@@ -371,15 +371,14 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     payload.each do |k,v|
       if v.is_a?(Hash)
         new_prefix = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
-        param = process_payload_hash(v, new_prefix)
-        list += param
+        list.concat process_payload_hash(v, new_prefix)
       elsif v.is_a?(Array)
         v.each do |val|
-          param = prefix ? "#{prefix}[#{k.to_s}][]" : "#{k.to_s}[]"
+          new_prefix = prefix ? "#{prefix}[#{k.to_s}][]" : "#{k.to_s}[]"
           if val.is_a?(Hash)
-            list += process_payload_hash(val, param)
+            list.concat process_payload_hash(val, new_prefix)
           else
-            list << [param, val]
+            list << [new_prefix, val]
           end
         end
       else
