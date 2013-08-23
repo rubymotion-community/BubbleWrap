@@ -63,8 +63,6 @@ module BubbleWrap; module HTTP; class Query
     if autostart
       self.start
     end
-
-    show_status_indicator true
   end
 
   def start(&action)
@@ -75,6 +73,7 @@ module BubbleWrap; module HTTP; class Query
     @connection = create_connection(request, self)
     @connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
     @connection.start
+    show_status_indicator true
   end
 
   def started?
