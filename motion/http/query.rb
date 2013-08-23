@@ -67,7 +67,7 @@ module BubbleWrap; module HTTP; class Query
 
   def start(&action)
     @delegator = action if action
-    return if @started
+    return if started?
 
     @started = true
     @connection = create_connection(request, self)
