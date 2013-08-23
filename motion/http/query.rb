@@ -283,11 +283,10 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   def append_form_params(body)
     list = process_payload_hash(@payload)
     list.each do |key, value|
-      s = "--#{@boundary}\r\n"
-      s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
-      s += value.to_s
-      s += "\r\n"
-      body.appendData(s.to_encoded_data @encoding)
+      body.appendData("--#{@boundary}\r\n".to_encoded_data @encoding)
+      body.appendData("Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n".to_encoded_data @encoding)
+      body.appendData(value)
+      body.appendData("\r\n".to_encoded_data @encoding)
     end
     @payload_or_files_were_appended = true
     body
