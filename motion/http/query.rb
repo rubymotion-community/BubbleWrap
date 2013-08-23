@@ -7,6 +7,9 @@ module BubbleWrap; module HTTP; class Query
   attr_accessor :post_data
   attr_reader   :method
 
+  attr_accessor :upload_progress
+  attr_accessor :download_progress
+
   attr_reader :response
   attr_reader :status_code
   attr_reader :response_headers
@@ -29,7 +32,9 @@ module BubbleWrap; module HTTP; class Query
   #
   def initialize(url_string, http_method = :get, options={})
     @method = http_method.upcase.to_s
-    @delegator = options.delete(:action) || self
+    @delegator = options.delete(:action)
+    @upload_progress = options.delete(:upload_progress)
+    @download_progress = options.delete(:download_progress)
     @payload = options.delete(:payload)
     @encoding = options.delete(:encoding) || NSUTF8StringEncoding
     @files = options.delete(:files)
@@ -41,11 +46,12 @@ module BubbleWrap; module HTTP; class Query
     @format = options.delete(:format)
     @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
     @credential_persistence = options.delete(:credential_persistence) || NSURLCredentialPersistenceForSession
-    @cookies = options.key?(:cookies) ? options.delete(:cookies) : true
+    @cookies = options.fetch(:cookies, true) ; options.delete(:cookies)
+    @follow_urls = options.fetch(:follow_urls, true) ; options.delete(:follow_urls)
+    @present_credentials = options.fetch(:present_credentials, true) ; options.delete(:present_credentials)
+
     @options = options
     @response = BubbleWrap::HTTP::Response.new
-    @follow_urls = options[:follow_urls] || true
-    @present_credentials = options[:present_credentials] == nil ? true : options.delete(:present_credentials)
 
     @url = create_url(url_string)
     @body = create_request_body
@@ -54,9 +60,30 @@ module BubbleWrap; module HTTP; class Query
 
     @connection = create_connection(request, self)
     @connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
-    @connection.start
+    if @delegator
+      self.start
+    end
 
     show_status_indicator true
+  end
+
+  def start(&action)
+    @delegator = action if action
+    @connection.start
+  end
+
+  def upload_progress(&progress)
+    if progress
+      @upload_progress = progress
+    end
+    @upload_progress
+  end
+
+  def download_progress(&progress)
+    if progress
+      @download_progress = progress
+    end
+    @download_progress
   end
 
   def to_s
@@ -80,8 +107,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     @received_data ||= NSMutableData.new
     @received_data.appendData(received_data)
 
-    if download_progress = options[:download_progress]
-      download_progress.call(@received_data.length.to_f, response_size)
+    if @download_progress
+      @download_progress.call(@received_data.length.to_f, response_size)
     end
   end
 
@@ -95,7 +122,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     log "##{@redirect_count} HTTP redirect_count: #{request.inspect} - #{self.description}"
 
     if @redirect_count >= 30
-      @response.error = NSError.errorWithDomain('BubbleWrap::HTTP', code:NSURLErrorHTTPTooManyRedirects, 
+      @response.error = NSError.errorWithDomain('BubbleWrap::HTTP', code:NSURLErrorHTTPTooManyRedirects,
                                                 userInfo:NSDictionary.dictionaryWithObject("Too many redirections",
                                                                                            forKey: NSLocalizedDescriptionKey))
       @response.error_message = @response.error.localizedDescription
@@ -119,8 +146,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def connection(connection, didSendBodyData:sending, totalBytesWritten:written, totalBytesExpectedToWrite:expected)
-    if upload_progress = options[:upload_progress]
-      upload_progress.call(sending, written, expected)
+    if @upload_progress
+      @upload_progress.call(sending, written, expected)
     end
   end
 
@@ -272,8 +299,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   def parse_file(key, value)
     value = {data: value} unless value.is_a?(Hash)
     raise(InvalidFileError, "You need to supply a `:data` entry in #{value} for file '#{key}' in your HTTP `:files`") if value[:data].nil?
-    { 
-      data: value[:data], 
+    {
+      data: value[:data],
       filename: value.fetch(:filename, key),
       content_type: value.fetch(:content_type, "application/octet-stream")
     }
@@ -376,7 +403,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def call_delegator_with_response
-    if @delegator.respond_to?(:call)
+    if @delegator && @delegator.respond_to?(:call)
       @delegator.call( @response, self )
     end
   end

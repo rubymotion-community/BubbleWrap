@@ -443,7 +443,7 @@ Wrapper for showing an in-app message (SMS) composer view.
        result.canceled?  # => boolean
        result.failed?    # => boolean
        error             # => NSError
-      } 
+      }
 ```
 
 ## UI
@@ -610,11 +610,15 @@ Usage example:
 BW::HTTP.get("https://api.github.com/users/mattetti") do |response|
   p response.body.to_str
 end
+BW::HTTP.get("https://api.github.com/users/mattetti") do |response, query|
+  p response.body.to_str
+  p query  # The BW::HTTP::Query object that processed this request
+end
 ```
 
 ```ruby
 BW::HTTP.get("https://api.github.com/users/mattetti", {credentials: {username: 'matt', password: 'aimonetti'}}) do |response|
-  p response.body.to_str # prints the response's body
+  p response.body.to_str
 end
 ```
 
@@ -646,10 +650,41 @@ BW::HTTP.post("http://foo.bar.com/", {payload: data}, files: { avatar: avatar })
 end
 ```
 
-A `:download_progress` option can also be passed. The expected object
-would be a Proc that takes two arguments: a float representing the
-amount of data currently received and another float representing the
-total amount of data expected.
+`:upload_progress` and `:download_progress` options can also be passed. The
+`:download_progress` should be a Proc that takes two arguments: a float
+representing the amount of data currently received and another float
+representing the total amount of data expected.  `:upload_progress` should
+accept three arguments: The data that was just sent, the number of bytes
+written, and the number of bytes expected.
+
+If you need to modify the request before starting the request, do not provide a
+response block when you create the request, and call `start` with the response
+handler instead.  For instance, to create a signed twitter request:
+
+```ruby
+query = BW::HTTP.post("https://upload.twitter.com/1/statuses/update.json", {
+  "status" => "I'm having a great time with BubbleWrap"
+})
+sign_request(query.request)
+query.start do |response|
+  p BW::JSON.parse(response.body)
+end
+```
+
+You can also use this to assign the progress handlers:
+
+```ruby
+query = BW::HTTP.get("http://api.yoursite.com/long_request")
+query.upload_progress do |data, written, total|
+  # ...
+end
+query.download_progress do |received, total|
+  # ...
+end
+query.start do |response|
+  # ...
+end
+```
 
 Connections can also be cancelled. Just keep a refrence,
 
@@ -677,7 +712,7 @@ class HttpClient
     BW::HTTP.get(user_url(user_id)) do |response|
       # ..
     end
-  end 
+  end
 end
 ```
 
