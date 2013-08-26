@@ -56,8 +56,6 @@ module BubbleWrap; module HTTP; class Query
     @response = BubbleWrap::HTTP::Response.new
 
     @url = create_url(url_string)
-    @body = create_request_body
-    @request = create_request
     @original_url = @url.copy
 
     if autostart
@@ -67,13 +65,34 @@ module BubbleWrap; module HTTP; class Query
 
   def start(&action)
     @delegator = action if action
-    return if started?
+    return if @started
 
     @started = true
-    @connection = create_connection(request, self)
+
+    self.request.setHTTPBody(self.body)
+
+    @connection = create_connection(self.request)
     @connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
     @connection.start
     show_status_indicator true
+  end
+
+  def body
+    @body ||= create_request_body
+  end
+
+  def payload=(value)
+    @payload = value
+    @body = nil
+  end
+
+  def files=(value)
+    @files = value
+    @body = nil
+  end
+
+  def request
+    @request ||= create_request
   end
 
   def started?
@@ -95,7 +114,7 @@ module BubbleWrap; module HTTP; class Query
   end
 
   def to_s
-    "#<#{self.class}:#{self.object_id} - Method: #{@method}, url: #{@url.description}, body: #{@body.description}, Payload: #{@payload}, Headers: #{@headers} Credentials: #{@credentials}, Timeout: #{@timeout}, \
+    "#<#{self.class}:#{self.object_id} - Method: #{@method}, url: #{@url.description}, body: #{self.body.description}, Payload: #{@payload}, Headers: #{@headers} Credentials: #{@credentials}, Timeout: #{@timeout}, \
 Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
   alias description to_s
@@ -135,7 +154,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
                                                                                            forKey: NSLocalizedDescriptionKey))
       @response.error_message = @response.error.localizedDescription
       show_status_indicator false
-      @request.done_loading!
+      self.request.done_loading!
       call_delegator_with_response
       nil
     else
@@ -147,7 +166,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   def connection(connection, didFailWithError: error)
     log "HTTP Connection to #{@url.absoluteString} failed #{error.localizedDescription}"
     show_status_indicator false
-    @request.done_loading!
+    self.request.done_loading!
     @response.error = error
     @response.error_message = error.localizedDescription
     call_delegator_with_response
@@ -161,7 +180,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   def connectionDidFinishLoading(connection)
     show_status_indicator false
-    @request.done_loading!
+    self.request.done_loading!
     response_body = NSData.dataWithData(@received_data) if @received_data
     @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url, original_url: @original_url)
 
@@ -189,7 +208,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   def cancel
     @connection.cancel if @connection
     show_status_indicator false
-    @request.done_loading!
+    self.request.done_loading!
   end
 
   private
@@ -216,7 +235,6 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     set_content_type
     append_auth_header
     request.setAllHTTPHeaderFields(@headers)
-    request.setHTTPBody(@body)
     request.setHTTPShouldHandleCookies(@cookies)
     patch_nsurl_request(request)
 
@@ -257,6 +275,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
     body = NSMutableData.data
 
+    @payload_or_files_were_appended = false
     append_payload(body) if @payload
     append_files(body) if @files
     append_body_boundary(body) if @payload_or_files_were_appended
@@ -284,7 +303,11 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     list.each do |key, value|
       body.appendData("--#{@boundary}\r\n".to_encoded_data @encoding)
       body.appendData("Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n".to_encoded_data @encoding)
-      body.appendData(value)
+      if value.is_a? NSData
+        body.appendData(value)
+      else
+        body.appendData(value.to_s.to_encoded_data @encoding)
+      end
       body.appendData("\r\n".to_encoded_data @encoding)
     end
     @payload_or_files_were_appended = true
