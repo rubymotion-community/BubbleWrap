@@ -69,8 +69,6 @@ module BubbleWrap; module HTTP; class Query
 
     @started = true
 
-    self.request.setHTTPBody(self.body)
-
     @connection = create_connection(self.request)
     @connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
     @connection.start
@@ -79,16 +77,6 @@ module BubbleWrap; module HTTP; class Query
 
   def body
     @body ||= create_request_body
-  end
-
-  def payload=(value)
-    @payload = value
-    @body = nil
-  end
-
-  def files=(value)
-    @files = value
-    @body = nil
   end
 
   def request
@@ -231,6 +219,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     request = NSMutableURLRequest.requestWithURL(@url,
                                                   cachePolicy:@cache_policy,
                                                   timeoutInterval:@timeout)
+    request.setHTTPBody(self.body)
     request.setHTTPMethod(@method)
     set_content_type
     append_auth_header
@@ -301,14 +290,11 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   def append_form_params(body)
     list = process_payload_hash(@payload)
     list.each do |key, value|
-      body.appendData("--#{@boundary}\r\n".to_encoded_data @encoding)
-      body.appendData("Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n".to_encoded_data @encoding)
-      if value.is_a? NSData
-        body.appendData(value)
-      else
-        body.appendData(value.to_s.to_encoded_data @encoding)
-      end
-      body.appendData("\r\n".to_encoded_data @encoding)
+      s = "--#{@boundary}\r\n"
+      s += "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n"
+      s += value.to_s
+      s += "\r\n"
+      body.appendData(s.to_encoded_data @encoding)
     end
     @payload_or_files_were_appended = true
     body
