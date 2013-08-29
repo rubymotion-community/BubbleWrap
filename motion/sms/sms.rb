@@ -1,12 +1,12 @@
 module BubbleWrap
-  module Message
+  module SMS
 
     module_function
 
     # Base method to create your in-app mail
     # ---------------------------------------
     # EX
-    # BW::Message.compose (
+    # BW::SMS.compose (
     # {
     #   delegate: self, # optional, will use root view controller by default
     #   to: [ "1(234)567-8910" ],

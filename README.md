@@ -87,10 +87,10 @@ If you wish to only include the `Mail` wrapper:
 require 'bubble-wrap/mail'
 ```
 
-If you wish to only include the `Message` wrapper:
+If you wish to only include the `SMS` wrapper:
 
 ```ruby
-require 'bubble-wrap/message'
+require 'bubble-wrap/sms'
 ```
 
 If you want to include everything (ie kitchen sink mode) you can save time and do:
@@ -424,13 +424,13 @@ BW::Mail.compose {
 end
 ```
 
-## Message
+## SMS
 
 Wrapper for showing an in-app message (SMS) composer view.
 
 ```ruby
 # Opens as a modal in the current UIViewController
-    BW::Message.compose (
+    BW::SMS.compose (
     {
        delegate: self, # optional, will use root view controller by default
        to: [ "1(234)567-8910" ],

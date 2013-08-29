@@ -1,5 +1,5 @@
 module BubbleWrap
-  module Message
+  module SMS
     class Result
       attr_accessor :result
 

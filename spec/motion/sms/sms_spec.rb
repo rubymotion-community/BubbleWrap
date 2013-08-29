@@ -15,7 +15,7 @@ class MFMessageComposeViewController
   attr_accessor :recipients, :body
 end
 
-describe BW::Message do
+describe BW::SMS do
   describe ".compose" do
     before do
       @view_controller = MessageViewController.new
@@ -32,7 +32,7 @@ describe BW::Message do
         message_controller.should.be.kind_of(MFMessageComposeViewController)
       }
       
-      BW::Message.compose @standard_message_options
+      BW::SMS.compose @standard_message_options
     end
     
     it "should create a message controller with the right recipient address set" do
@@ -41,7 +41,7 @@ describe BW::Message do
         message_controller.recipients.should == @standard_message_options[:to]
       }
       
-      BubbleWrap::Message.compose @standard_message_options
+      BubbleWrap::SMS.compose @standard_message_options
     end
 
 
@@ -51,14 +51,14 @@ describe BW::Message do
         message_controller.body.should == @standard_message_options[:message]
       }
       
-      BubbleWrap::Message.compose @standard_message_options
+      BubbleWrap::SMS.compose @standard_message_options
     end
 
     it "should create a mail controller with the right animation" do
       @view_controller.expectation = lambda { |message_controller, animated|
         animated.should.be.false
       }
-      BubbleWrap::Message.compose @standard_message_options
+      BubbleWrap::SMS.compose @standard_message_options
     end
 
   end
