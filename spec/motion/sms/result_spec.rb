@@ -1,7 +1,7 @@
-describe BW::Message::Result do
+describe BW::SMS::Result do
   
   before do
-    @subject = BW::Message::Result.new(MessageComposeResultCancelled)
+    @subject = BW::SMS::Result.new(MessageComposeResultCancelled)
   end
   
   it "should set sent? when sent" do
