@@ -1,8 +1,8 @@
 describe BubbleWrap::String do
 
-  describe ::String do
+  describe ::NSString do
     it 'should include BubbleWrap::String' do
-      ::String.ancestors.member?(BubbleWrap::String).should == true
+      ::NSString.ancestors.member?(BubbleWrap::String).should == true
     end
   end
 
