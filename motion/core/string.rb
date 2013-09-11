@@ -71,4 +71,4 @@ module BubbleWrap
   end
 end
 
-String.send(:include, BubbleWrap::String)
+NSString.send(:include, BubbleWrap::String)
