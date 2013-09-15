@@ -137,7 +137,6 @@ module BubbleWrap
       # instead of UIImagePickerControllerThisForm, and then sends it
       # to the callback
       def imagePickerController(picker, didFinishPickingMediaWithInfo: info)
-        delete_keys = []
         callback_info = {}
 
         info.keys.each { |k|

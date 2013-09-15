@@ -227,7 +227,7 @@ describe BubbleWrap::HTTP::Query do
 
       it "sets the payload without conversion to-from NSString if the payload was NSData" do
         data = sample_data
-        lambda { query = create_query(data, nil) }.should.not.raise NoMethodError
+        lambda { create_query(data, nil) }.should.not.raise NoMethodError
       end
 
       it "sets the payload as a string if JSON" do
