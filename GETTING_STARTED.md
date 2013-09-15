@@ -12,7 +12,7 @@ RubyMotion install take a look at the [getting started guide](http://www.rubymot
 ## Create a new RubyMotion project
 
 RubyMotion ships with the `motion` command-line tool to handle creating projects,
-updating and creatint support tickets.
+updating and creating support tickets.
 
 ```
 $ motion create bw-demo
