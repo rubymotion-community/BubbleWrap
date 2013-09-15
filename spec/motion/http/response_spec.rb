@@ -14,7 +14,7 @@ describe BubbleWrap::HTTP::Response do
     (200..211).each do |code|
       BubbleWrap::HTTP::Response.new(status_code: code).ok?.should.be.true
     end
-    [100..101, 300..307, 400..417, 500..505].inject([]){|codes, rg| codes += rg.to_a}.each do |code|
+    [100..101, 300..307, 400..417, 500..505].inject([]){|codes, rg| codes + rg.to_a}.each do |code|
       BubbleWrap::HTTP::Response.new(status_code: code).ok?.should.be.false
     end
   end

@@ -162,7 +162,7 @@ describe BubbleWrap::Location do
     end
 
     it "should use significant update functions with get_significant" do
-      BW::Location.get_significant do |result|
+      BW::Location.get_significant do
       end
 
       BW::Location.stop

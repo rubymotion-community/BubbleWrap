@@ -3,9 +3,9 @@ def camera_picker
 end
 
 def example_info
-  info = { UIImagePickerControllerMediaType => KUTTypeImage,
-                 UIImagePickerControllerOriginalImage => UIImage.alloc.init,
-                 UIImagePickerControllerMediaURL => NSURL.alloc.init}
+  { UIImagePickerControllerMediaType => KUTTypeImage,
+    UIImagePickerControllerOriginalImage => UIImage.alloc.init,
+    UIImagePickerControllerMediaURL => NSURL.alloc.init}
 end
 
 describe BubbleWrap::Device::Camera do
