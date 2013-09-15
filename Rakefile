@@ -11,13 +11,15 @@ Bundler.require
 require 'bubble-wrap/all'
 require 'bubble-wrap/test'
 
-module Motion; module Project
-  class Config
-    def spec_files=(spec_files)
-      @spec_files = spec_files
+module Motion
+  module Project
+    class Config
+      def spec_files=(spec_files)
+        @spec_files = spec_files
+      end
     end
   end
-end; end
+end
 
 Motion::Project::App.setup do |app|
   app.name = 'testSuite'
