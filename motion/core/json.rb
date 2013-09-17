@@ -28,9 +28,7 @@ module BubbleWrap
     end
 
     def self.generate(obj)
-      # opts = NSJSONWritingPrettyPrinted
-      data = NSJSONSerialization.dataWithJSONObject(obj, options:0, error:nil)
-      data.to_str
+      NSJSONSerialization.dataWithJSONObject(obj, options:0, error:nil).to_str
     end
 
   end
