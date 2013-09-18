@@ -55,9 +55,9 @@ module BubbleWrap
       hex_color = self.gsub("#", "")   
       case hex_color.size 
         when 3
-          colors = hex_color.scan(%r{[0-9A-Fa-f]}).map{ |el| (el * 2).to_i(16) }
+          colors = hex_color.scan(%r{[0-9A-Fa-f]}).map!{ |el| (el * 2).to_i(16) }
         when 6
-          colors = hex_color.scan(%r<[0-9A-Fa-f]{2}>).map{ |el| el.to_i(16) }        
+          colors = hex_color.scan(%r<[0-9A-Fa-f]{2}>).map!{ |el| el.to_i(16) }
         else
           raise ArgumentError
       end 
