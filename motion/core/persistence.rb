@@ -41,7 +41,7 @@ module BubbleWrap
     end
 
     def storage_key(key)
-      app_key + '_' + key.to_s
+      "#{app_key}_#{key}"
     end
   end
 
