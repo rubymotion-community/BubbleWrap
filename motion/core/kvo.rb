@@ -64,9 +64,7 @@ module BubbleWrap
       return if @targets.nil? || target.nil? || key_path.nil?
 
       key_paths = @targets[target]
-      if !key_paths.nil? && key_paths.has_key?(key_path.to_s)
-        key_paths.delete(key_path.to_s)
-      end
+      key_paths.delete(key_path.to_s) if !key_paths.nil?
     end
 
     def remove_all_observer_blocks
@@ -75,19 +73,19 @@ module BubbleWrap
 
     # NSKeyValueObserving Protocol
 
-    def observeValueForKeyPath(key_path, ofObject:target, change:change, context:context)
+    def observeValueForKeyPath(key_path, ofObject: target, change: change, context: context)
       key_paths = @targets[target] || {}
-        blocks = key_paths[key_path] || []
-        blocks.each do |block|
-          args = [ change[NSKeyValueChangeOldKey], change[NSKeyValueChangeNewKey] ]
-          args << change[NSKeyValueChangeIndexesKey] if collection?(change)
-          block.call(*args)
-        end
+      blocks = key_paths[key_path] || []
+      blocks.each do |block|
+        args = [change[NSKeyValueChangeOldKey], change[NSKeyValueChangeNewKey]]
+        args << change[NSKeyValueChangeIndexesKey] if collection?(change)
+        block.call(*args)
       end
+    end
 
-      def collection?(change)
-        COLLECTION_OPERATIONS.include?(change[NSKeyValueChangeKindKey])
-      end
+    def collection?(change)
+      COLLECTION_OPERATIONS.include?(change[NSKeyValueChangeKindKey])
+    end
 
   end
 end
