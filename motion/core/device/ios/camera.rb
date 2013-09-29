@@ -17,6 +17,8 @@ module BubbleWrap
 
       MEDIA_TYPE_HASH = {movie: KUTTypeMovie, image: KUTTypeImage}
 
+      CAMERA_LOCATIONS = [:front, :rear, :none]
+
       # The camera location; if :none, then we can't use source_type: :camera
       # in #picture
       # [:front, :rear, :none]
@@ -42,7 +44,7 @@ module BubbleWrap
       end
 
       def location=(location)
-        if not [:front, :rear, :none].member? location
+        if not CAMERA_LOCATIONS.member? location
           raise Error::INVALID_CAMERA_LOCATION, "#{location} is not a valid camera location"
         end
         @location = location
