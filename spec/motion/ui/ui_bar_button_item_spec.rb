@@ -9,8 +9,8 @@ describe BW::UIBarButtonItem do
 
     describe "given an invalid object" do
       it "raises an exception" do
-        exception = should.raise(ArgumentError) { BW::UIBarButtonItem.styled(:plain, :object) }
-        exception.message.should.equal("invalid object - :object")
+        exception = should.raise(ArgumentError) { BW::UIBarButtonItem.styled(:plain, 2) }
+        exception.message.should.equal("invalid object - 2")
       end
     end
 
@@ -87,7 +87,7 @@ describe BW::UIBarButtonItem do
       before do
         @object  = UIImage.alloc.init
         @target  = -> { true }
-        @subject = BW::UIBarButtonItem.styled(:bordered, @object, &@target)
+        @subject = BW::UIBarButtonItem.styled(:done, @object, &@target)
       end
 
       it "has the correct class" do
@@ -99,7 +99,7 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct style" do
-        @subject.style.should.equal(UIBarButtonItemStyleBordered)
+        @subject.style.should.equal(UIBarButtonItemStyleDone)
       end
 
       it "has the correct image" do
@@ -349,7 +349,7 @@ describe BW::UIBarButtonItem do
 
     describe "given options for a styled item with an image" do
       before do
-        @options = { :styled => :bordered, :image => UIImage.alloc.init }
+        @options = { :styled => :done, :image => UIImage.alloc.init }
         @target  = -> { true }
         @subject = BW::UIBarButtonItem.new(@options, &@target)
       end
@@ -363,7 +363,7 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct style" do
-        @subject.style.should.equal(UIBarButtonItemStyleBordered)
+        @subject.style.should.equal(UIBarButtonItemStyleDone)
       end
 
       it "has the correct image" do
@@ -384,7 +384,7 @@ describe BW::UIBarButtonItem do
     describe "given options for a styled item with two images" do
       before do
         @options = {
-          :styled    => :bordered,
+          :styled    => :done,
           :image     => UIImage.alloc.init,
           :landscape => UIImage.alloc.init
         }
@@ -401,7 +401,7 @@ describe BW::UIBarButtonItem do
       end
 
       it "has the correct style" do
-        @subject.style.should.equal(UIBarButtonItemStyleBordered)
+        @subject.style.should.equal(UIBarButtonItemStyleDone)
       end
 
       it "has the correct image" do

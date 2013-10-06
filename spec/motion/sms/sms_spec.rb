@@ -13,6 +13,12 @@ end
 # but it's testable.
 class MFMessageComposeViewController
   attr_accessor :recipients, :body
+
+  # for iOS7 compatibility
+  # on similators, MFMessageComposeViewController.alloc.init returns nil
+  def init
+    self
+  end
 end
 
 describe BW::SMS do
