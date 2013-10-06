@@ -1,10 +1,31 @@
 ## Unreleased
 
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.4.0...master)
+
+## 1.4.0
+
 [Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.3.0...master)
 
-* Moved BW::Reactor::Timer and BW::Reactor::PeriodicTimer from NSTimer to GCD Dispatch::Source.timer ([#242](https://github.com/rubymotion/BubbleWrap/pull/242))
+* Added `BW::Mail` for sending emails ([#247](https://github.com/rubymotion/BubbleWrap/pull/247))
+* Added `BW::SMS` for sending SMS/iMessages ([#287](https://github.com/rubymotion/BubbleWrap/pull/287))
+* Added `App::Persistence.delete` ([#286](https://github.com/rubymotion/BubbleWrap/pull/286))
+* Added `BW::HTTP::Response#error`, which is an `NSError` instance ([#284](https://github.com/rubymotion/BubbleWrap/pull/284))
+* Added `BW::HTTP::Query#cancel` to chancel URL requests ([#278](https://github.com/rubymotion/BubbleWrap/pull/278))
+* Added `App.info_plist` ([#273](https://github.com/rubymotion/BubbleWrap/pull/273/))
+* Added `BW::Device.interface_orientation` ([#265](https://github.com/rubymotion/BubbleWrap/pull/265))
+* Added `OPTIONS` request method to `BW::HTTP` ([#260](https://github.com/rubymotion/BubbleWrap/pull/260))
+* Added `Time.iso8601_with_timezone` ([#255](https://github.com/rubymotion/BubbleWrap/pull/255))
+* Added `:encoding` option to `BW::HTTP` ([#251](https://github.com/rubymotion/BubbleWrap/pull/251))
+* Moved `BW::Reactor::Timer` and `BW::Reactor::PeriodicTimer` from `NSTimer` to GCD `Dispatch::Source.timer` ([#242](https://github.com/rubymotion/BubbleWrap/pull/242))
 	* Option `:common_modes` for BW::Reactor::PeriodicTimer has been deprecated, it's not needed anymore.
-	
+* Fixed App#window (and thus `BW::Camera`) to work with iOS7 modals ([#305](https://github.com/rubymotion/BubbleWrap/pull/305))
+* Fixed patches on `String` to be on `NSString` ([#292](https://github.com/rubymotion/BubbleWrap/pull/292))
+* Fixed `BW::HTTP` success heuristic to match RFC 2616 ([#282](https://github.com/rubymotion/BubbleWrap/pull/282))
+* Fixed `BW::HTTP` to correctly identify `false` parameters ([#261](https://github.com/rubymotion/BubbleWrap/issues/261) [#262](https://github.com/rubymotion/BubbleWrap/pull/262))
+* Fixed `BW::Reactor` to correctly handle unregistered procs ([#253](https://github.com/rubymotion/BubbleWrap/pull/253))
+* Fixed `BW::localized_string` to mirror Cocoa API by returning the `key` if no localization exists ([#181](https://github.com/rubymotion/BubbleWrap/pull/181))
+* Addressed a few memory related problems ([#270](https://github.com/rubymotion/BubbleWrap/pull/270) [#275](https://github.com/rubymotion/BubbleWrap/pull/275) [#276](https://github.com/rubymotion/BubbleWrap/pull/276))
+
 ## 1.3.0
 
 [Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.2.0...v1.3.0)
