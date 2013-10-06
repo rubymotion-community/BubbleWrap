@@ -63,9 +63,21 @@ module BubbleWrap
       UIApplication.sharedApplication
     end
 
+    def windows
+      UIApplication.sharedApplication.windows
+    end
+
     # the Application Window
     def window
-      UIApplication.sharedApplication.keyWindow || UIApplication.sharedApplication.windows[0]
+      normal_windows = App.windows.select { |w|
+        w.windowLevel == UIWindowLevelNormal
+      }
+
+      key_window = normal_windows.select {|w|
+        w == UIApplication.sharedApplication.keyWindow
+      }.first
+
+      key_window || normal_windows.first
     end
   end
 end

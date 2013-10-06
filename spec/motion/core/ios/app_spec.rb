@@ -3,6 +3,9 @@ describe BubbleWrap::App do
     describe '.alert' do
       after do
         @alert.dismissWithClickedButtonIndex(@alert.cancelButtonIndex, animated: false)
+
+        wait 0.3 do
+        end
       end
 
       describe "with only one string argument" do
@@ -138,9 +141,35 @@ describe BubbleWrap::App do
       end
     end
 
+    describe '.windows' do
+      it 'returns UIApplication.sharedApplication.windows' do
+        App.windows.should == UIApplication.sharedApplication.windows
+      end
+    end
+
     describe '.window' do
       it 'returns UIApplication.sharedApplication.keyWindow' do
         App.window.should == UIApplication.sharedApplication.keyWindow
+      end
+
+      describe 'with UIActionSheet' do
+
+        it 'returns the correct window' do
+          action_sheet = UIActionSheet.alloc.init
+          action_sheet.cancelButtonIndex = (action_sheet.addButtonWithTitle("Cancel"))
+
+          old_window = App.window
+          window_count = App.windows.count
+          action_sheet.showInView(App.window)
+          wait 1 do
+            UIApplication.sharedApplication.windows.count.should > window_count
+            App.window.should == old_window
+
+            action_sheet.dismissWithClickedButtonIndex(action_sheet.cancelButtonIndex, animated: false)
+
+            App.window.should == old_window
+          end
+        end
       end
     end
 
