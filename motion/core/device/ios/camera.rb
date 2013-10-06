@@ -55,17 +55,17 @@ module BubbleWrap
         UIImagePickerController.isFlashAvailableForCameraDevice(camera_device)
       end
 
-      # @param [Hash] options to open the UIImagePickerController with 
+      # @param [Hash] options to open the UIImagePickerController with
       # the form {
       #   source_type: :photo_library, :camera, or :saved_photos_album; default :photo_library
       #   media_types: [] containing :image and/or :movie; default [:image]
       #   allows_editing: true/false; default false
       #   animated: true/false; default true
       # }
-      # 
+      #
       # @param [UIViewController] view controller from which to present the image picker;
       #   if nil, uses the keyWindow's rootViewController.
-      # 
+      #
       # @block for callback. takes one argument.
       #   - On error or cancelled, is called with a hash {error: BW::Camera::Error::<Type>}
       #   - On success, is called with a hash with a possible set of keys
@@ -122,8 +122,9 @@ module BubbleWrap
           self.picker.cameraDevice = camera_device
         end
 
-        presenting_controller ||= App.window.rootViewController.presentedViewController # May be nil, but handles use case of container views
+        presenting_controller ||= App.window.rootViewController.presentedViewController if App.window.rootViewController # May be nil, but handles use case of container views
         presenting_controller ||= App.window.rootViewController
+        presenting_controller ||= UIApplication.sharedApplication.windows[0].rootViewController if UIApplication.sharedApplication.windows[0]
         presenting_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
       end
 
