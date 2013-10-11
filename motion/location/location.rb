@@ -112,11 +112,11 @@ module BubbleWrap
     # CLLocationManagerDelegate Methods
     def locationManager(manager, didUpdateToLocation:newLocation, fromLocation:oldLocation)
       if @options[:once]
-        @callback.call(newLocation)
+        @callback && @callback.call(newLocation)
         @callback = proc { |result| }
         stop
       else
-        @callback.call({to: newLocation, from: oldLocation})
+        @callback && @callback.call({to: newLocation, from: oldLocation})
       end
     end
 
