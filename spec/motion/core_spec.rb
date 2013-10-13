@@ -28,7 +28,6 @@ describe 'BubbleWrap' do
     end
 
     it "creates color with rgb devided by 255 with alpha=1" do
-      color = nil
       r,g,b,a = [(@red/255.0), (@green/255.0), (@blue/255.0), 1]
       if App.osx?
         color = NSColor.colorWithDeviceRed(r, green:g, blue:b, alpha: a)

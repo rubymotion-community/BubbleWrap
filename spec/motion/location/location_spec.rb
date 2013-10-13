@@ -51,7 +51,7 @@ describe BubbleWrap::Location do
     end
 
     it "should set purpose using hash" do
-      BW::Location.get(purpose: "test") do |result|
+      BW::Location.get(purpose: "test") do
       end
 
       location_manager.purpose.should == "test"
@@ -82,7 +82,7 @@ describe BubbleWrap::Location do
     end
 
     it "should use normal update functions" do
-      BW::Location.get do |result|
+      BW::Location.get do
       end
 
       location_manager.instance_variable_get("@startUpdatingLocation").should == true
