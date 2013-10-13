@@ -44,7 +44,7 @@ describe "HTTP" do
     it "works with classic blocks as well" do
       [:get, :post, :put, :delete, :head, :patch].each do |method|
         called = false
-        query = BubbleWrap::HTTP.send(method, @localhost_url, { action: 'not_valid' } ) do |response|
+        query = BubbleWrap::HTTP.send(method, @localhost_url, { action: 'not_valid' } ) do
           called = true
         end
         query.connectionDidFinishLoading(query.connection)
