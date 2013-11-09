@@ -1,5 +1,5 @@
 unless defined?(Motion::Project::Config)
-  raise "This file must be required within a RubyMotion project Rakefile."
+  raise 'This file must be required within a RubyMotion project Rakefile.'
 end
 
 unless defined?(BubbleWrap::LOADER_PRESENT)
@@ -13,7 +13,7 @@ unless defined?(BubbleWrap::LOADER_PRESENT)
 
   module BubbleWrap
 
-    LOADER_PRESENT=true
+    LOADER_PRESENT = true
     module_function
 
     def root
@@ -44,5 +44,5 @@ unless defined?(BubbleWrap::LOADER_PRESENT)
   BW = BubbleWrap unless defined?(BW)
 
   BW.require 'motion/shortcut.rb'
-  
+
 end
