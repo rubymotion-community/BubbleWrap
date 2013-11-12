@@ -85,7 +85,7 @@ module BubbleWrap
       end
 
       def frameworks(app_frameworks=nil)
-        frameworks = ['UIKit', 'Foundation', 'CoreGraphics'] +
+        frameworks = ['Foundation', 'CoreGraphics'] +
           paths.values.map(&:frameworks)
         frameworks += app_frameworks if app_frameworks
         frameworks.flatten.compact.sort.uniq
