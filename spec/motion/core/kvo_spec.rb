@@ -3,11 +3,13 @@ describe BubbleWrap::KVO do
   class KvoExample
     include BubbleWrap::KVO
 
+    attr_accessor :age
     attr_accessor :label
     attr_accessor :items
 
     def initialize
       @items = [ "Apple", "Banana", "Chickpeas" ]
+      @age = 1
 
       if App.osx?
         @label = NSTextField.alloc.initWithFrame [[0,0],[320, 30]]
@@ -185,6 +187,31 @@ describe BubbleWrap::KVO do
       @example.unobserve_label
     
       @example.set_text "Bar"
+      observed.should == false
+    end
+
+    # without target
+
+    it "should observe a key path without a target" do
+      observed = false
+      @example.observe :age do |old_value, new_value|
+        observed = true
+        old_value.should == 1
+        new_value.should == 2
+      end
+    
+      @example.age = 2
+      observed.should == true
+    end
+
+    it "should unobserve a key path without a target" do
+      observed = false
+      @example.observe :age do |old_value, new_value|
+        observed = true
+      end
+      @example.unobserve :age
+    
+      @example.age = 2
       observed.should == false
     end
   
