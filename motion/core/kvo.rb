@@ -21,12 +21,26 @@ module BubbleWrap
     COLLECTION_OPERATIONS = [ NSKeyValueChangeInsertion, NSKeyValueChangeRemoval, NSKeyValueChangeReplacement ]
     DEFAULT_OPTIONS = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
 
-    def observe(target, key_path, &block)
+    def observe(*arguments, &block)
+      unless [1,2].include?(arguments.length)
+        raise ArgumentError, "wrong number of arguments (#{arguments.length} for 1 or 2)"
+      end
+
+      key_path = arguments.pop
+      target   = arguments.pop || self
+
       target.addObserver(self, forKeyPath:key_path, options:DEFAULT_OPTIONS, context:nil) unless registered?(target, key_path)
       add_observer_block(target, key_path, &block)
     end
 
-    def unobserve(target, key_path)
+    def unobserve(*arguments)
+      unless [1,2].include?(arguments.length)
+        raise ArgumentError, "wrong number of arguments (#{arguments.length} for 1 or 2)"
+      end
+
+      key_path = arguments.pop
+      target   = arguments.pop || self
+
       return unless registered?(target, key_path)
 
       target.removeObserver(self, forKeyPath:key_path)
