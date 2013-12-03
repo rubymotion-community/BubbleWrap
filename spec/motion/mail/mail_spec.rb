@@ -2,7 +2,7 @@
 class MailViewController < UIViewController
   attr_accessor :expectation
   
-  def presentModalViewController(modal, animated: animated)
+  def presentViewController(modal, animated: animated, completion: completion)
     expectation.call modal, animated
   end
 end
