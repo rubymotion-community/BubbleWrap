@@ -183,7 +183,7 @@ describe BubbleWrap::HTTP::Query do
         query = BubbleWrap::HTTP::Query.new(@fake_url, :post, {files: files})
         uuid = query.instance_variable_get(:@boundary)
         real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
-        real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"upload\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}--\r\n"
+        real_payload.should.equal "--#{uuid}\r\nContent-Disposition: attachment; name=\"upload\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}--\r\n"
       end
 
       it "processes filenames from file hashes, using the name when the filename is missing" do
@@ -193,7 +193,7 @@ describe BubbleWrap::HTTP::Query do
         query = BubbleWrap::HTTP::Query.new(@fake_url, :post, {files: files})
         uuid = query.instance_variable_get(:@boundary)
         real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
-        real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"upload\"; filename=\"upload\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}--\r\n"
+        real_payload.should.equal "--#{uuid}\r\nContent-Disposition: attachment; name=\"upload\"; filename=\"upload\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}--\r\n"
       end
 
       it "throws an error for invalid file parameters" do
@@ -214,7 +214,7 @@ describe BubbleWrap::HTTP::Query do
           query = BubbleWrap::HTTP::Query.new( @fake_url , method, { payload: payload, files: files } )
           uuid = query.instance_variable_get(:@boundary)
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
-          real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"model\"\r\n\r\nmacbook\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"twitter\"; filename=\"twitter\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"site\"; filename=\"site\"\r\nContent-Type: application/octet-stream\r\n\r\nmneorr.com\r\n--#{uuid}--\r\n"
+          real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"model\"\r\n\r\nmacbook\r\n--#{uuid}\r\nContent-Disposition: attachment; name=\"twitter\"; filename=\"twitter\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}\r\nContent-Disposition: attachment; name=\"site\"; filename=\"site\"\r\nContent-Type: application/octet-stream\r\n\r\nmneorr.com\r\n--#{uuid}--\r\n"
         end
 
         [:get, :head, :options].each do |method|
