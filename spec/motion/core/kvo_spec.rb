@@ -3,20 +3,37 @@ describe BubbleWrap::KVO do
   class KvoExample
     include BubbleWrap::KVO
 
+    attr_accessor :age
     attr_accessor :label
     attr_accessor :items
 
     def initialize
       @items = [ "Apple", "Banana", "Chickpeas" ]
+      @age = 1
 
-      @label = UILabel.alloc.initWithFrame [[0,0],[320, 30]]
-      @label.text = "Foo"
+      if App.osx?
+        @label = NSTextField.alloc.initWithFrame [[0,0],[320, 30]]
+        @label.stringValue = "Foo"
+      else
+        @label = UILabel.alloc.initWithFrame [[0,0],[320, 30]]
+        @label.text = "Foo"
+      end
     end
 
     # Test helper
 
+    def get_text
+      App.osx? ? @label.stringValue : @label.text
+    end
+
+    def set_text(text)
+      method = App.osx? ? :stringValue : :text
+      @label.send("#{method}=", text)
+    end
+
     def observe_label(&block)
-      observe(@label, :text, &block)
+      method = App.osx? ? :stringValue : :text
+      observe(@label, method, &block)
     end
 
     def observe_collection(&block)
@@ -24,7 +41,8 @@ describe BubbleWrap::KVO do
     end
 
     def unobserve_label
-      unobserve(@label, :text)
+      method = App.osx? ? :stringValue : :text
+      unobserve(@label, method)
     end
 
     #  def unobserve_all
@@ -135,7 +153,7 @@ describe BubbleWrap::KVO do
         new_value.should == "Bar"
       end
     
-      @example.label.text = "Bar"
+      @example.set_text "Bar"
       observed.should == true
     end
   
@@ -153,7 +171,7 @@ describe BubbleWrap::KVO do
         observed_three = true
       end
     
-      @example.label.text = "Bar"
+      @example.set_text "Bar"
       observed_one.should == true
       observed_two.should == true
       observed_three.should == true
@@ -168,7 +186,32 @@ describe BubbleWrap::KVO do
       end
       @example.unobserve_label
     
-      @example.label.text = "Bar"
+      @example.set_text "Bar"
+      observed.should == false
+    end
+
+    # without target
+
+    it "should observe a key path without a target" do
+      observed = false
+      @example.observe :age do |old_value, new_value|
+        observed = true
+        old_value.should == 1
+        new_value.should == 2
+      end
+    
+      @example.age = 2
+      observed.should == true
+    end
+
+    it "should unobserve a key path without a target" do
+      observed = false
+      @example.observe :age do |old_value, new_value|
+        observed = true
+      end
+      @example.unobserve :age
+    
+      @example.age = 2
       observed.should == false
     end
   

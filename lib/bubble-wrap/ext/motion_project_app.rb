@@ -19,7 +19,15 @@ module BubbleWrap
       end
 
     end
+
+    module Platforms
+      def osx?
+        self.respond_to?(:template) && self.template == :osx
+      end
+    end
   end
 end
 
 Motion::Project::App.extend(BubbleWrap::Ext::BuildTask)
+
+Motion::Project::App.extend(BubbleWrap::Ext::Platforms)

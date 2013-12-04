@@ -37,9 +37,14 @@ module BubbleWrap
     # Call `callback` or the passed block every `interval` seconds.
     # Returns a timer signature that can be passed into
     # `cancel_timer`
-    def add_periodic_timer(interval, callback=nil, &blk)
+    # Optionally supply a callback as a second argument instead of a block
+    # (as per EventMachine API)
+    # Optionally supply :common_modes => true in args to schedule the timer
+    # for the runloop "common modes" (NSRunLoopCommonModes) instead of
+    # the default runloop mode.
+    def add_periodic_timer(interval, *args, &blk)
       @timers ||= {}
-      timer = PeriodicTimer.new(interval,callback,&blk)
+      timer = PeriodicTimer.new(interval,*args,&blk)
       timer.on(:cancelled) do
         @timers.delete(timer)
       end
@@ -50,7 +55,7 @@ module BubbleWrap
     # Defer is for integrating blocking operations into the reactor's control
     # flow.
     # Call defer with one or two blocks, the second block is optional.
-    #     operator = proc do
+    #     operation = proc do
     #       # perform a long running operation here
     #       "result"
     #     end

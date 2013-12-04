@@ -14,7 +14,7 @@ class CLLocationManager
 
   def self.locationServicesEnabled
     return true if @enabled.nil?
-    @enabled 
+    @enabled
   end
 
   def startUpdatingLocation
@@ -51,7 +51,7 @@ describe BubbleWrap::Location do
     end
 
     it "should set purpose using hash" do
-      BW::Location.get(purpose: "test") do |result|
+      BW::Location.get(purpose: "test") do
       end
 
       location_manager.purpose.should == "test"
@@ -82,7 +82,7 @@ describe BubbleWrap::Location do
     end
 
     it "should use normal update functions" do
-      BW::Location.get do |result|
+      BW::Location.get do
       end
 
       location_manager.instance_variable_get("@startUpdatingLocation").should == true
@@ -98,6 +98,27 @@ describe BubbleWrap::Location do
       end
 
       BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+    end
+  end
+
+  describe ".get_once" do
+    it "should have correct location when succeeding" do
+      to = CLLocation.alloc.initWithLatitude(100, longitude: 50)
+      from = CLLocation.alloc.initWithLatitude(100, longitude: 49)
+
+      @number_times = 0
+      BW::Location.get_once do |location|
+        location.longitude.should == 50
+        location.latitude.should == 100
+        @number_times += 1
+      end
+
+      BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+
+      to = CLLocation.alloc.initWithLatitude(0, longitude: 0)
+      from = CLLocation.alloc.initWithLatitude(0, longitude: 0)
+      BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+      @number_times.should == 1
     end
   end
 
@@ -141,7 +162,7 @@ describe BubbleWrap::Location do
     end
 
     it "should use significant update functions with get_significant" do
-      BW::Location.get_significant do |result|
+      BW::Location.get_significant do
       end
 
       BW::Location.stop

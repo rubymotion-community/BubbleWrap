@@ -48,20 +48,21 @@ module BubbleWrap
     def to_color
       # First check if it is a color keyword
       keyword_selector = "#{self.camelize(:lower)}Color"
-      return UIColor.send(keyword_selector) if UIColor.respond_to? keyword_selector
+      color_klass = App.osx? ? NSColor : UIColor
+      return color_klass.send(keyword_selector) if color_klass.respond_to? keyword_selector
 
       # Next attempt to convert from hex
       hex_color = self.gsub("#", "")   
       case hex_color.size 
         when 3
-          colors = hex_color.scan(%r{[0-9A-Fa-f]}).map{ |el| (el * 2).to_i(16) }
+          colors = hex_color.scan(%r{[0-9A-Fa-f]}).map!{ |el| (el * 2).to_i(16) }
         when 6
-          colors = hex_color.scan(%r<[0-9A-Fa-f]{2}>).map{ |el| el.to_i(16) }        
+          colors = hex_color.scan(%r<[0-9A-Fa-f]{2}>).map!{ |el| el.to_i(16) }
         else
           raise ArgumentError
       end 
       if colors.size == 3
-        UIColor.colorWithRed((colors[0]/255.0), green:(colors[1]/255.0), blue:(colors[2]/255.0), alpha:1)
+        BubbleWrap.rgb_color(colors[0], colors[1], colors[2])
       else
         raise ArgumentError
       end 
@@ -70,4 +71,4 @@ module BubbleWrap
   end
 end
 
-String.send(:include, BubbleWrap::String)
+NSString.send(:include, BubbleWrap::String)

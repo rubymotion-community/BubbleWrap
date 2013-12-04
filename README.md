@@ -1,9 +1,13 @@
 # BubbleWrap for RubyMotion
 
-A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.
+A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKit code and provide more Ruby like APIs.
 
 [BubbleWrap website](http://bubblewrap.io)
 [BubbleWrap mailing list](https://groups.google.com/forum/#!forum/bubblewrap)
+
+[![Code Climate](https://codeclimate.com/github/rubymotion/BubbleWrap.png)](https://codeclimate.com/github/rubymotion/BubbleWrap)
+[![Build Status](https://travis-ci.org/rubymotion/BubbleWrap.png?branch=master)](https://travis-ci.org/rubymotion/BubbleWrap)
+[![Dependency Status](https://gemnasium.com/rubymotion/BubbleWrap.png)](https://gemnasium.com/rubymotion/BubbleWrap)
 
 ## Installation
 
@@ -17,6 +21,12 @@ gem install bubble-wrap
 
 ```ruby
 require 'bubble-wrap'
+```
+
+If you are requiring bubble-wrap for RubyMotion 2.0 (iOS or OS X), use Bundler and specify version greater than 1.3.0:
+
+```ruby
+gem "bubble-wrap", "~> 1.3.0"
 ```
 
 BubbleWrap is split into multiple modules so that you can easily choose which parts
@@ -69,6 +79,18 @@ If you wish to only include the `Media` wrapper:
 
 ```ruby
 require 'bubble-wrap/media'
+```
+
+If you wish to only include the `Mail` wrapper:
+
+```ruby
+require 'bubble-wrap/mail'
+```
+
+If you wish to only include the `SMS` wrapper:
+
+```ruby
+require 'bubble-wrap/sms'
 ```
 
 If you want to include everything (ie kitchen sink mode) you can save time and do:
@@ -151,6 +173,8 @@ A module with useful methods related to the running application
 # "io.bubblewrap.testSuite"
 > App.alert("BubbleWrap is awesome!")
 # creates and shows an alert message.
+> App.alert("BubbleWrap is awesome!", {cancel_button_title: "I know it is!", message: "Like, seriously awesome."})
+# creates and shows an alert message with optional parameters.
 > App.run_after(0.5) {  p "It's #{Time.now}"   }
 # Runs the block after 0.5 seconds.
 > App.open_url("http://matt.aimonetti.net")
@@ -159,6 +183,8 @@ A module with useful methods related to the running application
 # ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
 > App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
 # ['TF1', 'France 2', 'France 3']
+> App.environment
+# 'test'
 ```
 
 Other available methods:
@@ -169,7 +195,11 @@ Other available methods:
 * `App.frame`
 * `App.delegate`
 * `App.shared`
+* `App.window`
 * `App.current_locale`
+* `App.release?`
+* `App.test?`
+* `App.development?`
 
 
 ### Device
@@ -183,14 +213,18 @@ Examples:
 # true
 > Device.ipad?
 # false
-> Device.front_camera?
+> Device.camera.front?
 # true
-> Device.rear_camera?
+> Device.camera.rear?
 # true
 > Device.orientation
 # :portrait
+> Device.interface_orientation
+# :portrait
 > Device.simulator?
 # true
+> Device.ios_version
+# "6.0"
 > Device.retina?
 # false
 > Device.screen.width
@@ -226,7 +260,7 @@ end
 
 ### JSON
 
-`BW::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib.
+`BW::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib. For apps building for iOS4, we suggest a different JSON alternative, like [AnyJSON](https://github.com/mattt/AnyJSON).
 
 ```ruby
 BW::JSON.generate({'foo => 1, 'bar' => [1,2,3], 'baz => 'awesome'})
@@ -251,7 +285,7 @@ def viewWillAppear(animated)
     loadAndRefresh
   end
 
-  @reload_observer = App.notification_center.observe ReloadNotification do |notification|
+  @reload_observer = App.notification_center.observe 'ReloadNotification' do |notification|
     loadAndRefresh
   end
 end
@@ -262,7 +296,7 @@ def viewWillDisappear(animated)
 end
 
 def reload
-  App.notification_center.post ReloadNotification
+  App.notification_center.post 'ReloadNotification'
 end
 ```
 
@@ -282,6 +316,10 @@ simple interface:
 # ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
 > App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
 # ['TF1', 'France 2', 'France 3']
+> App::Persistence.delete('channels')
+# ['TF1', 'France 2', 'France 3']
+> App::Persistence['something__new'] # something previously never stored
+# nil
 ```
 
 ### Observers
@@ -364,6 +402,50 @@ end
 BW::Media.play_modal("http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3")
 ```
 
+## Mail
+
+Wrapper for showing an in-app mail composer view.
+
+```ruby
+# Opens as a modal in the current UIViewController
+BW::Mail.compose {
+  delegate: self, # optional, defaults to rootViewController
+  to: [ "tom@example.com" ],
+  cc: [ "itchy@example.com", "scratchy@example.com" ],
+  bcc: [ "jerry@example.com" ],
+  html: false,
+  subject: "My Subject",
+  message: "This is my message. It isn't very long.",
+  animated: false
+} do |result, error|
+  result.sent?      # => boolean
+  result.canceled?  # => boolean
+  result.saved?     # => boolean
+  result.failed?    # => boolean
+  error             # => NSError
+end
+```
+
+## SMS
+
+Wrapper for showing an in-app message (SMS) composer view.
+
+```ruby
+# Opens as a modal in the current UIViewController
+    BW::SMS.compose (
+    {
+       delegate: self, # optional, will use root view controller by default
+       to: [ "1(234)567-8910" ],
+       message: "This is my message. It isn't very long.",
+       animated: false
+    }) {|result, error|
+       result.sent?      # => boolean
+       result.canceled?  # => boolean
+       result.failed?    # => boolean
+       error             # => NSError
+      } 
+```
+
 ## UI
 
 ### Gestures
@@ -371,7 +453,7 @@ BW::Media.play_modal("http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_s
 Extra methods on `UIView` for working with gesture recognizers. A gesture recognizer can be added using a normal Ruby block, like so:
 
 ```ruby
-    view.whenTapped do
+    view.when_tapped do
       UIView.animateWithDuration(1,
         animations:lambda {
           # animate
@@ -380,7 +462,7 @@ Extra methods on `UIView` for working with gesture recognizers. A gesture recogn
     end
 ```
 
-There are similar methods for pinched, rotated, swiped, panned, and pressed (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
+There are similar methods for `pinched`, `rotated`, `swiped`, `panned`, and `pressed` (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
 
 ### UIViewController
 
@@ -395,6 +477,115 @@ Helper methods to give `UIButton` a Ruby-like interface. Ex:
 button.when(UIControlEventTouchUpInside) do
   self.view.backgroundColor = UIColor.redColor
 end
+```
+
+### UIBarButtonItem
+
+`BW::UIBarButtonItem` is a subclass of `UIBarButtonItem` with an natural Ruby syntax.
+
+#### Constructors
+
+Instead specifying a target-action pair, each constructor method accepts an optional block.  When the button is tapped, the block is executed.
+
+```ruby
+BW::UIBarButtonItem.system(:save) do
+  # ...
+end
+
+title = "Friends"
+BW::UIBarButtonItem.styled(:plain, title) do
+  # ...
+end
+
+image = UIImage.alloc.init
+BW::UIBarButtonItem.styled(:bordered, image) do
+  # ...
+end
+
+image     = UIImage.alloc.init
+landscape = UIImage.alloc.init
+BW::UIBarButtonItem.styled(:bordered, image, landscape) do
+  # ...
+end
+
+view = UIView.alloc.init
+BW::UIBarButtonItem.custom(view) do
+  # ...
+end
+# NOTE: The block is attached to the view as a single tap gesture recognizer.
+```
+
+The `.new` constructor provides a flexible, builder-style syntax.
+
+```ruby
+options = { :system => :save }
+BW::UIBarButtonItem.new(options) do
+  # ...
+end
+
+options = { :styled => :plain, :title => "Friends" }
+BW::UIBarButtonItem.new(options) do
+  # ...
+end
+
+options = { :styled => :bordered, :image => UIImage.alloc.init }
+BW::UIBarButtonItem.new(options) do
+  # ...
+end
+
+options = {
+  :styled    => :bordered,
+  :image     => UIImage.alloc.init,
+  :landscape => UIImage.alloc.init
+}
+BW::UIBarButtonItem.new(options) do
+  # ...
+end
+
+options = { :custom => UIView.alloc.init }
+BW::UIBarButtonItem.new(options) do
+  # ...
+end
+# NOTE: The block is attached to the view as a single tap gesture recognizer.
+```
+
+#### Button types
+
+The `.styled` button types are:
+
+```ruby
+:plain
+:bordered
+:done
+```
+
+And the `.system` button types are:
+
+```ruby
+:done
+:cancel
+:edit
+:save
+:add
+:flexible_space
+:fixed_space
+:compose
+:reply
+:action
+:organize
+:bookmarks
+:search
+:refresh
+:stop
+:camera
+:trash
+:play
+:pause
+:rewind
+:fast_forward
+:undo
+:redo
+:page_curl
 ```
 
 ## HTTP
@@ -440,6 +631,46 @@ would be a Proc that takes two arguments: a float representing the
 amount of data currently received and another float representing the
 total amount of data expected.
 
+Connections can also be cancelled. Just keep a refrence,
+
+```ruby
+@conn = BW::HTTP.get("https://api.github.com/users/mattetti") do |response|
+  p response.body.to_str
+end
+```
+
+and send the `cancel` method to it asynchronously as desired. The block will not be executed.
+
+```ruby
+@conn.cancel
+```
+
+### Gotchas
+
+Because of how RubyMotion currently works, you sometimes need to assign objects as `@instance_variables` in order to retain their callbacks.
+
+For example:
+
+```ruby
+class HttpClient
+  def get_user(user_id, &callback)
+    BW::HTTP.get(user_url(user_id)) do |response|
+      # ..
+    end
+  end 
+end
+```
+
+This class should be invoked in your code as:
+
+```ruby
+@http_client = HttpClient.new
+@http_client.get_user(user_id) do |user|
+  # ..
+end
+```
+
+(instead of doing an instance-variable-less `HttpClient.new.get_user`)
 
 ## RSS Parser
 **Since: > version 1.0.0**
@@ -477,7 +708,7 @@ state callbacks:
 ```ruby
 feed_parser = BW::RSSParser.new("http://feeds.feedburner.com/sdrbpodcast")
 feed_parser.delegate = self
-feed.parse do |item|
+feed_parser.parse do |item|
   p item.title
 end
 
@@ -492,6 +723,12 @@ end
 
 def when_parser_is_done
   p "The feed is entirely parsed, congratulations!"
+end
+
+def when_parser_errors
+  p "The parser encountered an error"
+  ns_error = feed_parser.parserError
+  p ns_error.localizedDescription
 end
 ```
 
@@ -655,15 +892,22 @@ idiom it is available as a public API.
 
 ```ruby
 > o = Class.new { include EM::Eventable }.new
-=> #<#<Class:0x6dc1310>:0x6dc2ec0>
+=> #<#<Class:0xab63f00>:0xab64430>
 > o.on(:november_5_1955) { puts "Ow!" }
-=> [#<Proc:0x6dc6300>]
-> o.on(:november_5_1955) { puts "Flux capacitor!" }
-=> [#<Proc:0x6dc6300>, #<Proc:0x6dc1ba0>]
+=> [#<Proc:0xad9bf00>]
+> flux = proc{ puts "Flux capacitor!" }
+=> #<Proc:0xab630f0>
+> o.on(:november_5_1955, &flux)
+=> [#<Proc:0xad9bf00>, #<Proc:0xab630f0>]
 > o.trigger(:november_5_1955)
 Ow!
 Flux capacitor!
 => [nil, nil]
+> o.off(:november_5_1955, &flux)
+=> #<Proc:0xab630f0>
+> o.trigger(:november_5_1955)
+Ow!
+=> [nil]
 ```
 
 # Suggestions?

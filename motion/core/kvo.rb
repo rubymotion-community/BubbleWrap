@@ -21,12 +21,26 @@ module BubbleWrap
     COLLECTION_OPERATIONS = [ NSKeyValueChangeInsertion, NSKeyValueChangeRemoval, NSKeyValueChangeReplacement ]
     DEFAULT_OPTIONS = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
 
-    def observe(target, key_path, &block)
+    def observe(*arguments, &block)
+      unless [1,2].include?(arguments.length)
+        raise ArgumentError, "wrong number of arguments (#{arguments.length} for 1 or 2)"
+      end
+
+      key_path = arguments.pop
+      target   = arguments.pop || self
+
       target.addObserver(self, forKeyPath:key_path, options:DEFAULT_OPTIONS, context:nil) unless registered?(target, key_path)
       add_observer_block(target, key_path, &block)
     end
 
-    def unobserve(target, key_path)
+    def unobserve(*arguments)
+      unless [1,2].include?(arguments.length)
+        raise ArgumentError, "wrong number of arguments (#{arguments.length} for 1 or 2)"
+      end
+
+      key_path = arguments.pop
+      target   = arguments.pop || self
+
       return unless registered?(target, key_path)
 
       target.removeObserver(self, forKeyPath:key_path)
@@ -64,9 +78,7 @@ module BubbleWrap
       return if @targets.nil? || target.nil? || key_path.nil?
 
       key_paths = @targets[target]
-      if !key_paths.nil? && key_paths.has_key?(key_path.to_s)
-        key_paths.delete(key_path.to_s)
-      end
+      key_paths.delete(key_path.to_s) if !key_paths.nil?
     end
 
     def remove_all_observer_blocks
@@ -75,19 +87,19 @@ module BubbleWrap
 
     # NSKeyValueObserving Protocol
 
-    def observeValueForKeyPath(key_path, ofObject:target, change:change, context:context)
+    def observeValueForKeyPath(key_path, ofObject: target, change: change, context: context)
       key_paths = @targets[target] || {}
-        blocks = key_paths[key_path] || []
-        blocks.each do |block|
-          args = [ change[NSKeyValueChangeOldKey], change[NSKeyValueChangeNewKey] ]
-          args << change[NSKeyValueChangeIndexesKey] if collection?(change)
-          block.call(*args)
-        end
+      blocks = key_paths[key_path] || []
+      blocks.each do |block|
+        args = [change[NSKeyValueChangeOldKey], change[NSKeyValueChangeNewKey]]
+        args << change[NSKeyValueChangeIndexesKey] if collection?(change)
+        block.call(*args)
       end
+    end
 
-      def collection?(change)
-        COLLECTION_OPERATIONS.include?(change[NSKeyValueChangeKindKey])
-      end
+    def collection?(change)
+      COLLECTION_OPERATIONS.include?(change[NSKeyValueChangeKindKey])
+    end
 
   end
 end

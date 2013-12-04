@@ -65,4 +65,29 @@ describe BubbleWrap::Persistence do
       BubbleWrap::Persistence[:arbitraryString].methods.should == 'test string'.methods
     end
   end
+
+  describe "deleting object" do
+    before do
+      BubbleWrap::Persistence['arbitraryString'] = 'foobarbaz'
+    end
+
+    it 'can delete persisted object' do
+      BubbleWrap::Persistence.delete(:arbitraryString).should == 'foobarbaz'
+      BubbleWrap::Persistence['arbitraryString'].should.equal nil
+    end
+
+    it 'returns nil when the object does not exist' do
+      BubbleWrap::Persistence.delete(:wrongKey).should == nil
+    end
+
+    it 'must call synchronize' do
+      storage = NSUserDefaults.standardUserDefaults
+      def storage.synchronize; @sync_was_called = true; end
+
+      BubbleWrap::Persistence.delete(:arbitraryString)
+      
+      storage.instance_variable_get(:@sync_was_called).should.equal true
+    end
+
+  end
 end

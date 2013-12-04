@@ -2,11 +2,11 @@
 
 ## A library in two parts
 
-RubyMotion forces a certain background-radiation of schitzophrenia
+RubyMotion forces a certain background-radiation of schizophrenia
 due to the fact that it's build tools run using the system ruby
 via Rake.  BubbleWrap manipulates the build environment in order
 to make it possible to include itself (and other code) into the
-build process from outsite the project heirarchy.
+build process from outside the project hierarchy.
 
 ### Part the first: `lib/`
 
@@ -17,7 +17,9 @@ code when you call
 require 'bubble-wrap'
 ```
 
-When `bubble-wrap` is required it immediately requires `bubble-wrap/loader` which sets up the infrastructure needed to manipulate the `Rakefile` build process.  Once that is done we can freely call
+When `bubble-wrap` is required it immediately requires `bubble-wrap/loader`
+which sets up the infrastructure needed to manipulate the `Rakefile` build process.
+Once that is done we can freely call
 
 ```ruby
 BubbleWrap.require 'motion/core/**/*.rb'
@@ -76,7 +78,7 @@ of RubyMotion users that use BubbleWrap in their daily development then
 feel free to fork [the repository on GitHub](https://github.com/mattetti/BubbleWrap)
 and send us a pull request.
 
-You should place your implemenation files in a subdirectory of `motion`
+You should place your implementation files in a subdirectory of `motion`
 (eg `motion/my_awesome_project`), your tests in a subdirectory of `spec`
 (eg `spec/my_awesome_project`) and you can create a require file in
 `lib/bubble-wrap` for example `lib/bubble-wrap/my_awesome_project.rb`:

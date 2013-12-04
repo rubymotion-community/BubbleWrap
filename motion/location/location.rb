@@ -21,6 +21,10 @@ module BubbleWrap
       LOCATION_UNKNOWN=3
     end
 
+    Constants.register KCLLocationAccuracyBestForNavigation, KCLLocationAccuracyBest,
+        KCLLocationAccuracyNearestTenMeters, KCLLocationAccuracyHundredMeters,
+        KCLLocationAccuracyKilometer, KCLLocationAccuracyThreeKilometers
+
     module_function
     # Start getting locations
     # @param [Hash] options = {
@@ -28,7 +32,7 @@ module BubbleWrap
     #     all location changes (see Apple docs for info); default == false
     #   distance_filter:  minimum change in distance to be updated about, in meters;
     #     default == uses KCLDistanceFilterNone,
-    #   desired_accuracy: minimum accuracy for updates to arrive; 
+    #   desired_accuracy: minimum accuracy for updates to arrive;
     #     any of :best_for_navigation, :best, :nearest_ten_meters,
     #     :hundred_meters, :kilometer, or :three_kilometers; default == :best
     #   purpose: string to display when the system asks user for location,
@@ -37,7 +41,7 @@ module BubbleWrap
     # @block for callback. takes one argument, `result`.
     #   - On error or cancelled, is called with a hash {error: BW::Location::Error::<Type>}
     #   - On success, is called with a hash {to: #<CLLocation>, from: #<CLLocation>}
-    # 
+    #
     # Example
     # BW::Location.get(distance_filter: 10, desired_accuracy: :nearest_ten_meters) do |result|
     #   result[:to].class == CLLocation
@@ -52,6 +56,7 @@ module BubbleWrap
       @options[:distance_filter] ||= KCLDistanceFilterNone
       @options[:desired_accuracy] ||= KCLLocationAccuracyBest
       @options[:retries] ||= 5
+      @options[:once] ||= false
       @retries = 0
 
       if not enabled?
@@ -59,7 +64,7 @@ module BubbleWrap
       end
 
       self.location_manager.distanceFilter = @options[:distance_filter]
-      self.location_manager.desiredAccuracy = const_int_get("KCLLocationAccuracy", @options[:desired_accuracy])
+      self.location_manager.desiredAccuracy = Constants.get("KCLLocationAccuracy", @options[:desired_accuracy])
       self.location_manager.purpose = @options[:purpose] if @options[:purpose]
 
       if @options[:significant]
@@ -71,6 +76,10 @@ module BubbleWrap
 
     def get_significant(options = {}, &block)
       get(options.merge(significant: true), &block)
+    end
+
+    def get_once(options = {}, &block)
+      get(options.merge(once: true), &block)
     end
 
     # Stop getting locations
@@ -102,7 +111,13 @@ module BubbleWrap
     ##########
     # CLLocationManagerDelegate Methods
     def locationManager(manager, didUpdateToLocation:newLocation, fromLocation:oldLocation)
-      @callback.call({to: newLocation, from: oldLocation})
+      if @options[:once]
+        @callback && @callback.call(newLocation)
+        @callback = proc { |result| }
+        stop
+      else
+        @callback && @callback.call({to: newLocation, from: oldLocation})
+      end
     end
 
     def locationManager(manager, didFailWithError:error)
@@ -133,19 +148,6 @@ module BubbleWrap
       when KCLAuthorizationStatusDenied
         error(Error::PERMISSION_DENIED)
       end
-    end
-
-    def const_int_get(base, value)
-      return value if value.is_a? Numeric
-      value = value.to_s.camelize
-      Kernel.const_get("#{base}#{value}")
-    end
-
-    def load_constants_hack
-      [KCLLocationAccuracyBestForNavigation, KCLLocationAccuracyBest,
-        KCLLocationAccuracyNearestTenMeters, KCLLocationAccuracyHundredMeters,
-        KCLLocationAccuracyKilometer, KCLLocationAccuracyThreeKilometers,
-      ]
     end
   end
 end
