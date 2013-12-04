@@ -626,6 +626,20 @@ BW::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
 end
 ```
 
+To upload files to a server, provide a `files:` hash:
+
+```ruby
+data = {token: "some-api-token"}
+avatar_data = UIImagePNGRepresentation(UIImage.imageNamed("some-image"))
+avatar = { data: avatar_data, filename: "some-image.png", content_type: "image/png" }
+
+BW::HTTP.post("http://foo.bar.com/", {payload: data}, files: { avatar: avatar }) do |response|
+  if response.ok?
+    # files are uploaded
+  end
+end
+```
+
 A `:download_progress` option can also be passed. The expected object
 would be a Proc that takes two arguments: a float representing the
 amount of data currently received and another float representing the
@@ -671,20 +685,6 @@ end
 ```
 
 (instead of doing an instance-variable-less `HttpClient.new.get_user`)
-
-To upload files to a server, provide a `files:` hash:
-
-```ruby
-data = {token: "some-api-token"}
-avatar_data = UIImagePNGRepresentation(UIImage.imageNamed("some-image"))
-avatar = { data: avatar_data, filename: "some-image.png", content_type: "image/png" }
-
-BW::HTTP.post("http://foo.bar.com/", {payload: data}, files: { avatar: avatar }) do |response|
-  if response.ok?
-    # files are uploaded
-  end
-end
-```
 
 ## RSS Parser
 **Since: > version 1.0.0**
