@@ -88,7 +88,11 @@ module BubbleWrap
         if display_modal
           @presenting_controller = options[:controller]
           @presenting_controller ||= App.window.rootViewController
-          @presenting_controller.presentMoviePlayerViewControllerAnimated(@media_player)
+          if Device.ios_version < "7.0"
+            @presenting_controller.presentMoviePlayerViewControllerAnimated(@media_player)
+          else
+            @presenting_controller.presentViewController(@media_player, animated:true, completion:nil)
+          end
         else
           if block.nil?
             raise Error::NilPlayerCallback, "no block callback given in #play; you need\
@@ -105,7 +109,11 @@ module BubbleWrap
       # Stops playback for a Media::Player
       def stop
         if @media_player.is_a? MPMoviePlayerViewController
-          @presenting_controller.dismissMoviePlayerViewControllerAnimated
+          if Device.ios_version < "7.0"
+            @presenting_controller.dismissMoviePlayerViewControllerAnimated
+          else
+            @presenting_controller.dismissViewControllerAnimated(true, completion:nil)
+          end
           @presenting_controller = nil
         else
           @media_player.stop

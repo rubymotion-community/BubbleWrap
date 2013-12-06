@@ -40,11 +40,18 @@ describe BubbleWrap::Media::Player do
 
       @player.play_modal(@local_file)
 
-      wait 1 do
+
+      EM.add_timer 1.0 do
+        resume
+      end
+      wait_max 5 do
         @controller.modalViewController.should.not == nil
+        EM.add_timer 4.0 do
+          resume
+        end
 
         @player.stop
-        wait 1 do
+        wait_max 5 do
           @controller.modalViewController.should == nil
           @controller = nil
           @player = nil
@@ -62,11 +69,17 @@ describe BubbleWrap::Media::Player do
 
       @player.play_modal(@local_file, controller: @controller)
 
-      wait 1 do
+      EM.add_timer 3.0 do
+        resume
+      end
+      wait_max 5 do
         @controller.modalViewController.should.not == nil
+        EM.add_timer 4.0 do
+          resume
+        end
 
         @player.stop
-        wait 1 do
+        wait_max 5 do
           @controller.modalViewController.should == nil
           @controller = nil
           @player = nil
