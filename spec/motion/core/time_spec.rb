@@ -16,7 +16,7 @@ describe "Time" do
 
   describe "parsing an iso8601 formatted time to a Time object" do
     before do
-      @time = Time.iso8601("2012-05-31T19:41:33Z")
+      @time = Time.iso8601("2012-#{Time.now.month}-#{Time.now.day}T19:41:33Z")
       @time_with_timezone = Time.iso8601_with_timezone("1987-08-10T06:00:00+02:00")
     end
 
@@ -38,12 +38,12 @@ describe "Time" do
     end
 
     it "should have a valid month" do
-      @time.utc.month.should == 5
+      @time.utc.month.should == Time.now.month
       @time_with_timezone.utc.month.should == 8
     end
 
     it "should have a valid day" do
-      @time.utc.day.should == 31
+      @time.utc.day.should == Time.now.day
       @time_with_timezone.utc.day.should == 10
     end
 
