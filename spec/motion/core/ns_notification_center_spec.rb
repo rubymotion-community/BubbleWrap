@@ -14,9 +14,9 @@ describe "NSNotificationCenter" do
   end
 
   it "add observer" do
-    notified = false
+    @notified = false
     @observer = BW::App.notification_center.observe(SampleNotification) do |note|
-      notified = true
+      @notified = true
       note.should.is_a NSNotification
       note.object.class.should == Time
       note.userInfo.should.not.be.nil
@@ -25,7 +25,7 @@ describe "NSNotificationCenter" do
 
     lambda { 
       BW::App.notification_center.post SampleNotification, Time.now, {:status => "ok"}
-    }.should.change { notified }
+    }.should.change { @notified }
   end
 
   it "remove observer" do
