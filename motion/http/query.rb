@@ -270,20 +270,21 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def parse_file(key, value)
-    if value.is_a?(Hash)
-      raise(InvalidFileError, "You need to supply a `:data` entry in #{value} for file '#{key}' in your HTTP `:files`") if value[:data].nil?
-      {data: value[:data], filename: value[:filename] || key}
-    else
-      {data: value, filename: key}
-    end
+    value = {data: value} unless value.is_a?(Hash)
+    raise(InvalidFileError, "You need to supply a `:data` entry in #{value} for file '#{key}' in your HTTP `:files`") if value[:data].nil?
+    { 
+      data: value[:data], 
+      filename: value.fetch(:filename, key),
+      content_type: value.fetch(:content_type, "application/octet-stream")
+    }
   end
 
   def append_files(body)
     @files.each do |key, value|
       file = parse_file(key, value)
       s = "--#{@boundary}\r\n"
-      s += "Content-Disposition: form-data; name=\"#{key}\"; filename=\"#{file[:filename]}\"\r\n"
-      s += "Content-Type: application/octet-stream\r\n\r\n"
+      s += "Content-Disposition: attachment; name=\"#{key}\"; filename=\"#{file[:filename]}\"\r\n"
+      s += "Content-Type: #{file[:content_type]}\r\n\r\n"
       file_data = NSMutableData.new
       file_data.appendData(s.to_encoded_data @encoding)
       file_data.appendData(file[:data])

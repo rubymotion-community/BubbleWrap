@@ -30,7 +30,7 @@ module BubbleWrap
       @mail_controller = create_mail_controller(options)
       
       @mailer_is_animated = options[:animated] == false ? false : true
-      @delegate.presentModalViewController(@mail_controller, animated: @mailer_is_animated)
+      @delegate.presentViewController(@mail_controller, animated: @mailer_is_animated, completion: options[:completion])
     end
     
     def create_mail_controller(options={})
