@@ -10,6 +10,7 @@ module BubbleWrap
       end
 
       @callback[events] << block
+      block.weak!
       addTarget(@callback[events].last, action:'call', forControlEvents: events)
     end
   end
