@@ -4,14 +4,15 @@ module BubbleWrap
 
       def self.extended(base)
         base.instance_eval do
-          def setup_with_bubblewrap(&block)
+          def setup_with_bubblewrap(*args, &block)
             bw_config = proc do |app|
               app.files = ::BubbleWrap::Requirement.files(app.files)
               app.files_dependencies ::BubbleWrap::Requirement.files_dependencies
               app.frameworks = ::BubbleWrap::Requirement.frameworks(app.frameworks)
               block.call(app) unless block.nil?
             end
-            config.setup_blocks << bw_config
+
+            setup_without_bubblewrap *args, &bw_config
           end
           alias :setup_without_bubblewrap :setup
           alias :setup :setup_with_bubblewrap
