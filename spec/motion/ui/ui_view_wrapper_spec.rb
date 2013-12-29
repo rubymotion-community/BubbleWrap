@@ -63,8 +63,8 @@ describe BW::UIViewWrapper do
       class ViewSuperView < UIView
         def initWithFrame(frame)
           super
-          subject = UIControl.alloc.init
-          subject.when(UIControlEventTouchUpInside) do
+          subject = UIView.alloc.init
+          subject.when_tapped do
             #Can be empty, but we need a block/proc here to potentially create a retain cycle
           end
           addSubview(subject)
