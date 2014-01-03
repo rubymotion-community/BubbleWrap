@@ -1,4 +1,11 @@
 language: objective-c
 before_install:
     - (ruby --version)
+    - whoami
+    - ls -l ~/Library/RubyMotion
+    - ls -l /Users/travis/Library/RubyMotion
+    - sudo motion update
+    - whoami
+    - ls -l ~/Library/RubyMotion
+    - ls -l /Users/travis/Library/RubyMotion
 script: ./travis.sh
