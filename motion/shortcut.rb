@@ -13,6 +13,14 @@ module BubbleWrap
     BubbleWrap::SETTINGS[:debug]
   end
 
+  def self.use_weak_callbacks=(val)
+    BubbleWrap::SETTINGS[:use_weak_callbacks] = val
+  end
+
+  def self.use_weak_callbacks?
+    BubbleWrap::SETTINGS[:use_weak_callbacks]
+  end
+
 end
 
 BW = BubbleWrap unless defined?(BW)

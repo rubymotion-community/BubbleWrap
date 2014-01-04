@@ -479,6 +479,12 @@ button.when(UIControlEventTouchUpInside) do
 end
 ```
 
+Set the use_weak_callbacks flag so the blocks do not retain a strong reference to self:
+
+```ruby
+BubbleWrap.use_weak_callbacks = true
+```
+
 ### UIBarButtonItem
 
 `BW::UIBarButtonItem` is a subclass of `UIBarButtonItem` with an natural Ruby syntax.

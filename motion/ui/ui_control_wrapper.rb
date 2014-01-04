@@ -10,7 +10,7 @@ module BubbleWrap
       end
 
       @callback[events] << block
-      block.weak!
+      block.weak! if BubbleWrap.use_weak_callbacks?
       addTarget(@callback[events].last, action:'call', forControlEvents: events)
     end
   end

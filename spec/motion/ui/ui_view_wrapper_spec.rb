@@ -58,5 +58,43 @@ describe BW::UIViewWrapper do
       testMethod.call :when_pressed
       testMethod.call :whenPressed
     end
+
+    it "BubbleWrap.use_weak_callbacks=true removes cyclic references" do
+      class ViewSuperView < UIView
+        def initWithFrame(frame)
+          super
+          subject = UIView.alloc.init
+          subject.when_tapped do
+            #Can be empty, but we need a block/proc here to potentially create a retain cycle
+          end
+          addSubview(subject)
+          self
+        end
+
+        def dealloc
+          App.notification_center.post('ViewSuperView dealloc', nil, {'tag'=>tag})
+          super
+        end
+      end
+
+      observer = App.notification_center.observe('ViewSuperView dealloc') do |obj|
+        if obj.userInfo['tag'] == 1
+          @weak_deallocated = true
+        elsif obj.userInfo['tag'] == 2
+          @strong_deallocated = true
+        end
+      end
+      autorelease_pool {
+        BubbleWrap.use_weak_callbacks = true
+        v1 = ViewSuperView.new
+        v1.tag = 1
+        BubbleWrap.use_weak_callbacks = false
+        v2 = ViewSuperView.new
+        v2.tag = 2
+      }
+      App.notification_center.unobserve(observer)
+      @weak_deallocated.should.equal true
+      @strong_deallocated.should.equal nil
+    end
   end
 end

@@ -47,6 +47,7 @@ module BubbleWrap
       self.addGestureRecognizer(recognizer)
 
       @recognizers = {} unless @recognizers
+      proc.weak! if !proc.nil? && BubbleWrap.use_weak_callbacks?
       @recognizers[recognizer] = proc
 
       recognizer
