@@ -2,14 +2,14 @@ language: objective-c
 before_install:
     - (ruby --version)
     - whoami
-    - "([ -f ~/Library ] && ls -ld ~/Library) || true"
-    - "([ -f ~/Library/RubyMotion ] && ls -ld ~/Library/RubyMotion) || true"
-    - "([ -f ~/Library/RubyMotion ] && ls -l ~/Library/RubyMotion) || true"
-    - "([ -f /Users/travis/Library/RubyMotion ] && ls -l /Users/travis/Library/RubyMotion) || true"
+    - "([ -d ~/Library ] && ls -ld ~/Library) || true"
+    - "([ -d ~/Library/RubyMotion ] && ls -ld ~/Library/RubyMotion) || true"
+    - "([ -d ~/Library/RubyMotion ] && ls -l ~/Library/RubyMotion) || true"
+    - "([ -d /Users/travis/Library/RubyMotion ] && ls -l /Users/travis/Library/RubyMotion) || true"
     - sudo motion update
     - whoami
-    - "([ -f ~/Library ] && ls -ld ~/Library) || true"
-    - "([ -f ~/Library/RubyMotion ] && ls -ld ~/Library/RubyMotion) || true"
-    - "([ -f ~/Library/RubyMotion ] && ls -l ~/Library/RubyMotion) || true"
-    - "([ -f /Users/travis/Library/RubyMotion ] && ls -l /Users/travis/Library/RubyMotion) || true"
+    - "([ -d ~/Library ] && ls -ld ~/Library) || true"
+    - "([ -d ~/Library/RubyMotion ] && ls -ld ~/Library/RubyMotion) || true"
+    - "([ -d ~/Library/RubyMotion ] && ls -l ~/Library/RubyMotion) || true"
+    - "([ -d /Users/travis/Library/RubyMotion ] && ls -l /Users/travis/Library/RubyMotion) || true"
 script: ./travis.sh
