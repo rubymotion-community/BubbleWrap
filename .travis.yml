@@ -1,8 +1,7 @@
 language: objective-c
 before_install:
     - (ruby --version)
-    - whoami
-    - "([ -d ~/Library ] && ls -ld ~/Library) || true"
+    - mkdir -p ~/Library/RubyMotion/build
     - "([ -d ~/Library/RubyMotion ] && ls -ld ~/Library/RubyMotion) || true"
     - "([ -d ~/Library/RubyMotion ] && ls -l ~/Library/RubyMotion) || true"
     - "([ -d /Users/travis/Library/RubyMotion ] && ls -l /Users/travis/Library/RubyMotion) || true"
