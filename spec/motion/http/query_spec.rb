@@ -475,7 +475,7 @@ describe BubbleWrap::HTTP::Query do
 
     it "should initialize @received_data and append the received data" do
       query_received_data.should.equal nil
-      data = NSData.dataWithBytesNoCopy(Pointer.new(:char, 'abc'), length:24, freeWhenDone: false)
+      data = NSData.dataWithBytes(Pointer.new(:char, 'abc'), length:24)
 
       @query.connection(nil, didReceiveData:nil)
       query_received_data.should.not.equal nil
@@ -555,7 +555,7 @@ describe BubbleWrap::HTTP::Query do
     end
 
     it "should set response_body to @received data if not nil" do
-      data = NSData.dataWithBytesNoCopy(Pointer.new(:char, 'abc'), length:24, freeWhenDone: false)
+      data = NSData.dataWithBytes(Pointer.new(:char, 'abc'), length:24)
       headers = { foo: 'bar' }
       status_code = 234
       response = FakeURLResponse.new(status_code, headers, 65456)
