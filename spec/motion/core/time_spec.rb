@@ -16,7 +16,7 @@ describe "Time" do
 
   describe "parsing an iso8601 formatted time to a Time object" do
     before do
-      @time = Time.iso8601("2012-#{Time.now.month}-#{Time.now.day}T19:41:33Z")
+      @time = Time.iso8601("2012-#{Time.now.month}-#{Time.now.day}T19:41:32Z")
       @time_with_timezone = Time.iso8601_with_timezone("1987-08-10T06:00:00+02:00")
     end
 
@@ -58,7 +58,7 @@ describe "Time" do
     end
 
     it "should have a valid second" do
-      @time.utc.sec.should == 33
+      @time.utc.sec.should == 32
       @time_with_timezone.utc.sec.should == 0
     end
   end
