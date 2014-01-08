@@ -1,4 +1,30 @@
 describe BW::UIBarButtonItem do
+  class NavigationItemContainingBarButtonItem < UINavigationItem
+    def init_with_styled
+      initWithTitle('dummy')
+      subject = BW::UIBarButtonItem.styled(:plain, 'dummy') do
+        #Can be empty, but we need a block/proc here to potentially create a retain cycle
+      end
+      self.leftBarButtonItem = subject
+      self
+    end
+
+
+    def init_with_system
+      initWithTitle('dummy')
+      subject = BW::UIBarButtonItem.system(:save) do
+        #Can be empty, but we need a block/proc here to potentially create a retain cycle
+      end
+      self.leftBarButtonItem = subject
+      self
+    end
+
+    def dealloc
+      App.notification_center.post('NavigationItemContainingBarButtonItem dealloc', nil, {'tag'=>tag})
+      super
+    end
+  end
+
   describe ".styled" do
     describe "given an unknown style" do
       it "raises an exception" do
@@ -153,6 +179,31 @@ describe BW::UIBarButtonItem do
         @subject.action.should.equal(:call)
       end
     end
+
+    ###############################################################################################
+
+    describe "with BubbleWrap.use_weak_callbacks=true" do
+      it "removes cyclic references" do
+        observer = App.notification_center.observe('NavigationItemContainingBarButtonItem dealloc') do |obj|
+          if obj.userInfo['tag'] == 1
+            @weak_deallocated = true
+          elsif obj.userInfo['tag'] == 2
+            @strong_deallocated = true
+          end
+        end
+        autorelease_pool {
+          BubbleWrap.use_weak_callbacks = true
+          v1 = NavigationItemContainingBarButtonItem.alloc.init_with_styled
+          v1.tag = 1
+          BubbleWrap.use_weak_callbacks = false
+          v2 = NavigationItemContainingBarButtonItem.alloc.init_with_styled
+          v2.tag = 2
+        }
+        App.notification_center.unobserve(observer)
+        @weak_deallocated.should.equal true
+        @strong_deallocated.should.equal nil
+      end
+    end
   end
 
   #################################################################################################
@@ -220,6 +271,31 @@ describe BW::UIBarButtonItem do
 
       it "has the correct action" do
         @subject.action.should.equal(nil)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "with BubbleWrap.use_weak_callbacks=true" do
+      it "removes cyclic references" do
+        observer = App.notification_center.observe('NavigationItemContainingBarButtonItem dealloc') do |obj|
+          if obj.userInfo['tag'] == 1
+            @weak_deallocated = true
+          elsif obj.userInfo['tag'] == 2
+            @strong_deallocated = true
+          end
+        end
+        autorelease_pool {
+          BubbleWrap.use_weak_callbacks = true
+          v1 = NavigationItemContainingBarButtonItem.alloc.init_with_system
+          v1.tag = 1
+          BubbleWrap.use_weak_callbacks = false
+          v2 = NavigationItemContainingBarButtonItem.alloc.init_with_system
+          v2.tag = 2
+        }
+        App.notification_center.unobserve(observer)
+        @weak_deallocated.should.equal true
+        @strong_deallocated.should.equal nil
       end
     end
   end
