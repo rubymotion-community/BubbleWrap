@@ -2,7 +2,12 @@ module BW
   class UIBarButtonItem < ::UIBarButtonItem
     class << self
       def styled(type, *objects, &block)
-        action = block ? :call : nil
+        if block.nil?
+          action = nil
+        else
+          block.weak! if BubbleWrap.use_weak_callbacks?
+          action = :call
+        end
         object = objects.size == 1 ? objects.first : objects
         style  = Constants.get("UIBarButtonItemStyle", type)
 
@@ -34,7 +39,12 @@ module BW
       end
 
       def system(type, &block)
-        action      = block ? :call : nil
+        if block.nil?
+          action = nil
+        else
+          block.weak! if BubbleWrap.use_weak_callbacks?
+          action = :call
+        end
         system_item = Constants.get("UIBarButtonSystemItem", type)
 
         item = alloc.initWithBarButtonSystemItem(system_item, target:block, action:action)
