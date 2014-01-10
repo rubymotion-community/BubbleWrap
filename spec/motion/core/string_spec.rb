@@ -91,6 +91,12 @@ describe BubbleWrap::String do
 
   end
 
+  describe '.titleize' do
+    it 'converts it to title case' do
+      'title case'.titleize.should == 'Title Case'
+    end
+  end
+
   before do
     @blue_color = App.osx? ? NSColor.colorWithDeviceRed(0,green:0,blue:1,alpha:1) : UIColor.blueColor
     r,g,b,a = [1, (138.0/255.0), (25.0/255.0), 1]
