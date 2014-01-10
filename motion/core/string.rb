@@ -33,6 +33,10 @@ module BubbleWrap
       word
     end
 
+    def titleize
+      underscore.gsub(/\b(?<!['’`])[a-z]/) { $&.capitalize }
+    end
+
     def to_url_encoded(encoding = NSUTF8StringEncoding)
       stringByAddingPercentEscapesUsingEncoding encoding
     end
