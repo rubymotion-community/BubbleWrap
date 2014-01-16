@@ -73,7 +73,6 @@ module BubbleWrap; module HTTP; class Query
     @started = true
 
     @connection = create_connection(self.request)
-    @connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
     @connection.start
     show_status_indicator true
   end
@@ -428,7 +427,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   # This is a temporary method used for mocking.
   def create_connection(request, delegate)
-    NSURLConnection.alloc.initWithRequest(request, delegate:delegate, startImmediately:false)
+    NSURLConnection.alloc.initWithRequest(request, delegate:delegate, startImmediately:false).tap do |connection|
+      connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
+    end
   end
 
 end; end; end
