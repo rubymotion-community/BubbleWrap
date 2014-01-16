@@ -7,6 +7,9 @@ module BubbleWrap; module HTTP; class Query
   attr_accessor :post_data
   attr_reader   :method
 
+  attr_accessor :upload_progress
+  attr_accessor :download_progress
+
   attr_reader :response
   attr_reader :status_code
   attr_reader :response_headers
@@ -30,6 +33,8 @@ module BubbleWrap; module HTTP; class Query
   def initialize(url_string, http_method = :get, options={})
     @method = http_method.upcase.to_s
     @delegator = options.delete(:action) || self
+    @upload_progress = options.delete(:upload_progress)
+    @download_progress = options.delete(:download_progress)
     @payload = options.delete(:payload)
     @encoding = options.delete(:encoding) || NSUTF8StringEncoding
     @files = options.delete(:files)
@@ -41,26 +46,65 @@ module BubbleWrap; module HTTP; class Query
     @format = options.delete(:format)
     @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
     @credential_persistence = options.delete(:credential_persistence) || NSURLCredentialPersistenceForSession
-    @cookies = options.key?(:cookies) ? options.delete(:cookies) : true
+    @cookies = options.fetch(:cookies, true) ; options.delete(:cookies)
+    @follow_urls = options.fetch(:follow_urls, true) ; options.delete(:follow_urls)
+    @present_credentials = options.fetch(:present_credentials, true) ; options.delete(:present_credentials)
+    # for backwards compatibility, this should default to 'true' even if no
+    # `:action` is passed.  A program could send a request but not care about
+    # the response.
+    autostart = options.fetch(:autostart, true) ; options.delete(:autostart)
+    @started = false
+
     @options = options
     @response = BubbleWrap::HTTP::Response.new
-    @follow_urls = options[:follow_urls] || true
-    @present_credentials = options[:present_credentials] == nil ? true : options.delete(:present_credentials)
 
     @url = create_url(url_string)
-    @body = create_request_body
-    @request = create_request
     @original_url = @url.copy
 
-    @connection = create_connection(request, self)
-    @connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
-    @connection.start
+    if autostart
+      self.start
+    end
+  end
 
+  def start(&action)
+    @delegator = action if action
+    return if @started
+
+    @started = true
+
+    @connection = create_connection(self.request)
+    @connection.start
     show_status_indicator true
   end
 
+  def body
+    @body ||= create_request_body
+  end
+
+  def request
+    @request ||= create_request
+  end
+
+  def started?
+    !! @started
+  end
+
+  def upload_progress(&progress)
+    if progress
+      @upload_progress = progress
+    end
+    @upload_progress
+  end
+
+  def download_progress(&progress)
+    if progress
+      @download_progress = progress
+    end
+    @download_progress
+  end
+
   def to_s
-    "#<#{self.class}:#{self.object_id} - Method: #{@method}, url: #{@url.description}, body: #{@body.description}, Payload: #{@payload}, Headers: #{@headers} Credentials: #{@credentials}, Timeout: #{@timeout}, \
+    "#<#{self.class}:#{self.object_id} - Method: #{@method}, url: #{@url.description}, body: #{self.body.description}, Payload: #{@payload}, Headers: #{@headers} Credentials: #{@credentials}, Timeout: #{@timeout}, \
 Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
   alias description to_s
@@ -80,8 +124,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     @received_data ||= NSMutableData.new
     @received_data.appendData(received_data)
 
-    if download_progress = options[:download_progress]
-      download_progress.call(@received_data.length.to_f, response_size)
+    if @download_progress
+      @download_progress.call(@received_data.length.to_f, response_size)
     end
   end
 
@@ -95,12 +139,12 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     log "##{@redirect_count} HTTP redirect_count: #{request.inspect} - #{self.description}"
 
     if @redirect_count >= 30
-      @response.error = NSError.errorWithDomain('BubbleWrap::HTTP', code:NSURLErrorHTTPTooManyRedirects, 
+      @response.error = NSError.errorWithDomain('BubbleWrap::HTTP', code:NSURLErrorHTTPTooManyRedirects,
                                                 userInfo:NSDictionary.dictionaryWithObject("Too many redirections",
                                                                                            forKey: NSLocalizedDescriptionKey))
       @response.error_message = @response.error.localizedDescription
       show_status_indicator false
-      @request.done_loading!
+      self.request.done_loading!
       call_delegator_with_response
       nil
     else
@@ -112,21 +156,21 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   def connection(connection, didFailWithError: error)
     log "HTTP Connection to #{@url.absoluteString} failed #{error.localizedDescription}"
     show_status_indicator false
-    @request.done_loading!
+    self.request.done_loading!
     @response.error = error
     @response.error_message = error.localizedDescription
     call_delegator_with_response
   end
 
   def connection(connection, didSendBodyData:sending, totalBytesWritten:written, totalBytesExpectedToWrite:expected)
-    if upload_progress = options[:upload_progress]
-      upload_progress.call(sending, written, expected)
+    if @upload_progress
+      @upload_progress.call(sending, written, expected)
     end
   end
 
   def connectionDidFinishLoading(connection)
     show_status_indicator false
-    @request.done_loading!
+    self.request.done_loading!
     response_body = NSData.dataWithData(@received_data) if @received_data
     @response.update(status_code: status_code, body: response_body, headers: response_headers, url: @url, original_url: @original_url)
 
@@ -152,9 +196,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def cancel
-    @connection.cancel
+    @connection.cancel if @connection
     show_status_indicator false
-    @request.done_loading!
+    self.request.done_loading!
   end
 
   private
@@ -177,11 +221,11 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     request = NSMutableURLRequest.requestWithURL(@url,
                                                   cachePolicy:@cache_policy,
                                                   timeoutInterval:@timeout)
+    request.setHTTPBody(self.body)
     request.setHTTPMethod(@method)
     set_content_type
     append_auth_header
     request.setAllHTTPHeaderFields(@headers)
-    request.setHTTPBody(@body)
     request.setHTTPShouldHandleCookies(@cookies)
     patch_nsurl_request(request)
 
@@ -222,6 +266,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
     body = NSMutableData.data
 
+    @payload_or_files_were_appended = false
     append_payload(body) if @payload
     append_files(body) if @files
     append_body_boundary(body) if @payload_or_files_were_appended
@@ -272,8 +317,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   def parse_file(key, value)
     value = {data: value} unless value.is_a?(Hash)
     raise(InvalidFileError, "You need to supply a `:data` entry in #{value} for file '#{key}' in your HTTP `:files`") if value[:data].nil?
-    { 
-      data: value[:data], 
+    {
+      data: value[:data],
       filename: value.fetch(:filename, key),
       content_type: value.fetch(:content_type, "application/octet-stream")
     }
@@ -337,15 +382,14 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     payload.each do |k,v|
       if v.is_a?(Hash)
         new_prefix = prefix ? "#{prefix}[#{k.to_s}]" : k.to_s
-        param = process_payload_hash(v, new_prefix)
-        list += param
+        list.concat process_payload_hash(v, new_prefix)
       elsif v.is_a?(Array)
         v.each do |val|
-          param = prefix ? "#{prefix}[#{k.to_s}][]" : "#{k.to_s}[]"
+          new_prefix = prefix ? "#{prefix}[#{k.to_s}][]" : "#{k.to_s}[]"
           if val.is_a?(Hash)
-            list += process_payload_hash(val, param)
+            list.concat process_payload_hash(val, new_prefix)
           else
-            list << [param, val]
+            list << [new_prefix, val]
           end
         end
       else
@@ -376,14 +420,16 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def call_delegator_with_response
-    if @delegator.respond_to?(:call)
+    if @delegator && @delegator.respond_to?(:call)
       @delegator.call( @response, self )
     end
   end
 
   # This is a temporary method used for mocking.
-  def create_connection(request, delegate)
-    NSURLConnection.alloc.initWithRequest(request, delegate:delegate, startImmediately:false)
+  def create_connection(request)
+    NSURLConnection.alloc.initWithRequest(request, delegate: self, startImmediately:false).tap do |connection|
+      connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
+    end
   end
 
 end; end; end
