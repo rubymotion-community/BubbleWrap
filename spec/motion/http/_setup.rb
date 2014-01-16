@@ -26,7 +26,9 @@ class FakeChallenge
 end
 
 class BubbleWrap::HTTP::Query
-  def create_connection(request, delegate); FakeURLConnection.new(request, delegate); end
+  def create_connection(request)
+    FakeURLConnection.new(request, self)
+  end
 end
 
 class FakeURLConnection < NSURLConnection
