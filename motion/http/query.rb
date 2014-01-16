@@ -426,8 +426,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   # This is a temporary method used for mocking.
-  def create_connection(request, delegate)
-    NSURLConnection.alloc.initWithRequest(request, delegate:delegate, startImmediately:false).tap do |connection|
+  def create_connection(request)
+    NSURLConnection.alloc.initWithRequest(request, delegate: self, startImmediately:false).tap do |connection|
       connection.scheduleInRunLoop(NSRunLoop.currentRunLoop, forMode:NSRunLoopCommonModes)
     end
   end
