@@ -49,7 +49,10 @@ module BubbleWrap; module HTTP; class Query
     @cookies = options.fetch(:cookies, true) ; options.delete(:cookies)
     @follow_urls = options.fetch(:follow_urls, true) ; options.delete(:follow_urls)
     @present_credentials = options.fetch(:present_credentials, true) ; options.delete(:present_credentials)
-    autostart = options.fetch(:autostart, @delegator ? true : false) ; options.delete(:autostart)
+    # for backwards compatibility, this should default to 'true' even if no
+    # `:action` is passed.  A program could send a request but not care about
+    # the response.
+    autostart = options.fetch(:autostart, true) ; options.delete(:autostart)
     @started = false
 
     @options = options
