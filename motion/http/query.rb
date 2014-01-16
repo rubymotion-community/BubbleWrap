@@ -32,7 +32,7 @@ module BubbleWrap; module HTTP; class Query
   #
   def initialize(url_string, http_method = :get, options={})
     @method = http_method.upcase.to_s
-    @delegator = options.delete(:action)
+    @delegator = options.delete(:action) || self
     @upload_progress = options.delete(:upload_progress)
     @download_progress = options.delete(:download_progress)
     @payload = options.delete(:payload)
