@@ -9,6 +9,11 @@ class Time
     cached_date_formatter("yyyy-MM-dd'T'HH:mm:ssZZZZZ").
       dateFromString(time)
   end
+  
+  def self.iso8601_with_fractional_seconds(time)
+    cached_date_formatter("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").
+      dateFromString(time)
+  end
 
   private
 
