@@ -23,10 +23,10 @@ gem install bubble-wrap
 require 'bubble-wrap'
 ```
 
-If you are requiring bubble-wrap for RubyMotion 2.0 (iOS or OS X), use Bundler and specify version greater than 1.3.0:
+If you using Bundler:
 
 ```ruby
-gem "bubble-wrap", "~> 1.3.0"
+gem "bubble-wrap", "~> 1.4.0"
 ```
 
 BubbleWrap is split into multiple modules so that you can easily choose which parts
