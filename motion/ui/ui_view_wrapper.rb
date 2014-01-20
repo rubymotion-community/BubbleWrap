@@ -24,6 +24,14 @@ module BubbleWrap
       add_gesture_recognizer_helper(UILongPressGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
     end
 
+    def self.build(args = {})
+      element = self.alloc.init
+      args.each do |a, i|
+        element.send("#{a}=".to_sym, i)
+      end
+      element
+    end
+
     def self.deprecated_methods
       %w(whenTapped whenPinched whenRotated whenSwiped whenPanned whenPressed)
     end
