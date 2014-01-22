@@ -5,7 +5,7 @@ module BW
       def new(options = {}, presenting_controller = nil, &block)
         options = {
           activities: nil,
-          transition: Constants.get("UIModalTransitionStyle", :cover_vertical),
+          transition: UIModalTransitionStyleCoverVertical,
           animated: true
         }.merge(options)
 
@@ -17,7 +17,7 @@ module BW
 
         vc = alloc.initWithActivityItems(items, applicationActivities:options[:activities])
         vc.setModalTransitionStyle options[:transition]
-        vc.excludedActivityTypes = Array(options[:excluded]) if options[:excluded]
+        vc.excludedActivityTypes = BW::Constants.get("UIActivityType", Array(options[:excluded])) if options[:excluded]
 
         unless block.nil?
           block.weak! if BubbleWrap.use_weak_callbacks?
