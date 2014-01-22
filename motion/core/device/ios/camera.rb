@@ -34,6 +34,10 @@ module BubbleWrap
         @rear ||= Camera.new(:rear)
       end
 
+      def self.available?
+        UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceTypeCamera)
+      end
+
       # For uploading photos from the library.
       class << self
         def any
