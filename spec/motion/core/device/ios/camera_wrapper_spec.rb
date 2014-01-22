@@ -29,9 +29,9 @@ describe BubbleWrap::Device::CameraWrapper do
       end
     end
 
-    describe '.physical_camera?' do
+    describe '.available?' do
       it 'returns true' do
-        BW::Device.camera.physical_camera?.should == true
+        BW::Device.camera.available?.should == true
       end
     end
   end
@@ -60,9 +60,9 @@ describe BubbleWrap::Device::CameraWrapper do
       end
     end
 
-    describe '.physical_camera?' do
+    describe '.available?' do
       it 'returns true' do
-        BW::Device.camera.physical_camera?.should == true
+        BW::Device.camera.available?.should == true
       end
     end
   end
@@ -91,9 +91,9 @@ describe BubbleWrap::Device::CameraWrapper do
       end
     end
 
-    describe '.physical_camera?' do
+    describe '.available?' do
       it 'returns true' do
-        BW::Device.camera.physical_camera?.should == false
+        BW::Device.camera.available?.should == false
       end
     end
   end

@@ -34,7 +34,7 @@ module BubbleWrap
         @rear ||= Camera.new(:rear)
       end
 
-      def self.physical_camera?
+      def self.available?
         UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceTypeCamera)
       end
 

@@ -47,8 +47,8 @@ module BubbleWrap
 
       # Verifies that the device running has a physical camera.
       # @return [TrueClass, FalseClass] true will be returned if the device has a physical camera, false otherwise.
-      def physical_camera?
-        BubbleWrap::Device::Camera.physical_camera?
+      def available?
+        BubbleWrap::Device::Camera.available?
       end
     end
   end
