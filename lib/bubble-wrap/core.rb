@@ -9,12 +9,12 @@ BubbleWrap.require('motion/core/device/*.rb')
 BubbleWrap.require_ios do
   BubbleWrap.require('motion/core/ios/**/*.rb')
   BubbleWrap.require('motion/core/device/ios/**/*.rb')
+  
+  require 'bubble-wrap/camera'
+  require 'bubble-wrap/ui'
 end
 
 BubbleWrap.require_osx do
   BubbleWrap.require('motion/core/osx/**/*.rb')
   BubbleWrap.require('motion/core/device/osx/**/*.rb')
 end
-
-require 'bubble-wrap/camera'
-require 'bubble-wrap/ui'
