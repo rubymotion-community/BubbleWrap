@@ -24,7 +24,7 @@ describe BubbleWrap::Constants do
     end
 
     it "should return an array of string constant values" do
-      BW::Constants.get("UIActivityType", :air_drop, :print).should == ["com.apple.UIKit.activity.AirDrop", "com.apple.UIKit.activity.Print"]
+      BW::Constants.get("UIActivityType", [:air_drop, :print]).should == ["com.apple.UIKit.activity.AirDrop", "com.apple.UIKit.activity.Print"]
     end
 
   end
