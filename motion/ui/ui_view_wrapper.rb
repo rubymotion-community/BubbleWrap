@@ -20,6 +20,10 @@ module BubbleWrap
       add_gesture_recognizer_helper(UIPanGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
     end
 
+    def when_screen_edge_panned(enableInteraction=true, &proc)
+      add_gesture_recognizer_helper(UIScreenEdgePanGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
+    end
+
     def when_pressed(enableInteraction=true, &proc)
       add_gesture_recognizer_helper(UILongPressGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
     end
