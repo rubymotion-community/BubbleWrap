@@ -86,6 +86,7 @@ module BubbleWrap
     # Schedule a block for execution on the reactor queue.
     def schedule(*args, &blk)
       @queue ||= ::Dispatch::Queue.concurrent("#{NSBundle.mainBundle.bundleIdentifier}.reactor")
+      blk.weak! if blk && BubbleWrap.use_weak_callbacks?
 
       cb = proc do
         blk.call(*args)
@@ -98,6 +99,7 @@ module BubbleWrap
     # This is useful as UI updates need to be executed from the main
     # thread.
     def schedule_on_main(*args, &blk)
+      blk.weak! if blk && BubbleWrap.use_weak_callbacks?
       cb = proc do
         blk.call(*args)
       end

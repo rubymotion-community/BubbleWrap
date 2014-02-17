@@ -28,6 +28,8 @@ module BW
         view.cancel_button_index = options[:cancel_button_index]
 
         view.instance_variable_set(:@handlers, {})
+        block.weak! if block && BubbleWrap.use_weak_callbacks?
+
         options[:on_click] ||= block
 
         callbacks.each do |callback|

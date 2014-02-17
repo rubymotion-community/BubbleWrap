@@ -10,7 +10,8 @@ module BubbleWrap
       def initialize(interval, *args, &blk)
         callback = args.first.respond_to?(:call) ? args.first : blk
         raise ArgumentError, "No callback or block supplied to periodic timer" unless callback
-        
+        callback.weak! if callback && BubbleWrap.use_weak_callbacks?
+
         options = args.last.is_a?(Hash) ? args.last : {}
         if options[:common_modes]
           NSLog "[DEPRECATED - Option :common_modes] a Run Loop Mode is no longer needed."

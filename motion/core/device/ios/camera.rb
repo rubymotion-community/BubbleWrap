@@ -90,6 +90,7 @@ module BubbleWrap
       # end
       def picture(options = {}, presenting_controller = nil, &block)
         @callback = block
+        @callback.weak! if @callback && BubbleWrap.use_weak_callbacks?
 
         @options = options
         @options[:allows_editing] = false if not @options.has_key? :allows_editing

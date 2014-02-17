@@ -22,6 +22,8 @@ module BubbleWrap
     def compose(options={}, &callback)
       @delegate = options[:delegate] || App.window.rootViewController
       @callback = callback
+      @callback.weak! if @callback && BubbleWrap.use_weak_callbacks?
+
       @message_controller = create_message_controller(options)
       @message_is_animated = options[:animated] == false ? false : true
       @delegate.presentModalViewController(@message_controller, animated: @message_is_animated)

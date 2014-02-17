@@ -50,6 +50,7 @@ module BubbleWrap
     # end
     def get(options = {}, &block)
       @callback = block
+      @callback.weak! if @callback && BubbleWrap.use_weak_callbacks?
       @options = options
 
       @options[:significant] = false if @options[:significant].nil?

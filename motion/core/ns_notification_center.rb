@@ -4,6 +4,7 @@ class NSNotificationCenter
   end
 
   def observe(name, object=nil, &proc)
+    proc.weak! if proc && BubbleWrap.use_weak_callbacks?
     observer = self.addObserverForName(name, object:object, queue:NSOperationQueue.mainQueue, usingBlock:proc)
     observers << observer
     observer
