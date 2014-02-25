@@ -3,17 +3,13 @@ module BubbleWrap
   module Persistence
     module_function
 
-    def app_key
-      @app_key ||= BubbleWrap::App.identifier
-    end
-
     def []=(key, value)
-      storage.setObject(value, forKey: storage_key(key))
+      storage.setObject(value, forKey: key)
       storage.synchronize
     end
 
     def [](key)
-      value = storage.objectForKey storage_key(key)
+      value = storage.objectForKey(key)
 
       # RubyMotion currently has a bug where the strings returned from
       # standardUserDefaults are missing some methods (e.g. to_data).
@@ -24,14 +20,14 @@ module BubbleWrap
 
     def merge(values)
       values.each do |key, value|
-        storage.setObject(value, forKey: storage_key(key))
+        storage.setObject(value, forKey: key)
       end
       storage.synchronize
     end
 
     def delete(key)
-      value = storage.objectForKey storage_key(key)
-      storage.removeObjectForKey(storage_key(key))
+      value = storage.objectForKey(key)
+      storage.removeObjectForKey(key)
       storage.synchronize
       value
     end
@@ -39,11 +35,6 @@ module BubbleWrap
     def storage
       NSUserDefaults.standardUserDefaults
     end
-
-    def storage_key(key)
-      "#{app_key}_#{key}"
-    end
   end
-
 end
 ::Persistence = BubbleWrap::Persistence unless defined?(::Persistence)
