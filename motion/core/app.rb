@@ -22,10 +22,6 @@ module BubbleWrap
       NSNotificationCenter.defaultCenter
     end
 
-    def user_cache
-      NSUserDefaults.standardUserDefaults
-    end
-
     # Executes a block after a certain delay
     # Usage example:
     #   App.run_after(0.5) {  p "It's #{Time.now}"   }

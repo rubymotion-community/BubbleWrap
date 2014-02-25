@@ -1,20 +1,5 @@
 describe BubbleWrap::Persistence do
 
-  describe '.app_key' do
-
-    it "caches the @app_key" do
-      BubbleWrap::Persistence.instance_variable_get(:@app_key).should.equal nil
-      BubbleWrap::Persistence.app_key
-      BubbleWrap::Persistence.instance_variable_get(:@app_key).should.not.equal nil
-    end
-
-    it 'delegates to BubbleWrap::App.idenfitier' do
-      BubbleWrap::Persistence.app_key.should == BubbleWrap::App.identifier
-    end
-
-  end
-
-
   describe "storing objects" do
     it 'can persist simple objects' do
       lambda do
@@ -85,9 +70,8 @@ describe BubbleWrap::Persistence do
       def storage.synchronize; @sync_was_called = true; end
 
       BubbleWrap::Persistence.delete(:arbitraryString)
-      
+
       storage.instance_variable_get(:@sync_was_called).should.equal true
     end
-
   end
 end
