@@ -21,12 +21,6 @@ describe BubbleWrap::App do
     end
   end
 
-  describe '.user_cache' do
-    it 'should be a NSUserDefaults' do
-      App.user_cache.should == NSUserDefaults.standardUserDefaults
-    end
-  end
-
   describe '.states' do
     it 'returns a hash' do
       App.states.class.should == Hash
