@@ -7,6 +7,10 @@ describe "CLLocationWrap" do
 end
 
 # monkey patch for testing
+class BWCLHeading
+  attr_accessor :timestamp, :z, :y, :x, :headingAccuracy, :trueHeading, :magneticHeading
+end
+
 class CLLocationManager
   def self.enable(enable)
     @enabled = enable
@@ -23,6 +27,14 @@ class CLLocationManager
 
   def stopUpdatingLocation
     @stopUpdatingLocation = true
+  end
+
+  def startUpdatingHeading
+    @startUpdatingHeading = true
+  end
+
+  def stopUpdatingHeading
+    @stopUpdatingHeading = true
   end
 
   def startMonitoringSignificantLocationChanges
@@ -88,6 +100,13 @@ describe BubbleWrap::Location do
       location_manager.instance_variable_get("@startUpdatingLocation").should == true
     end
 
+    it "should use compass update functions" do
+      BW::Location.get_compass do
+      end
+
+      location_manager.instance_variable_get("@startUpdatingHeading").should == true
+    end
+
     it "should have correct location when succeeding" do
       to = CLLocation.alloc.initWithLatitude(100, longitude: 50)
       from = CLLocation.alloc.initWithLatitude(100, longitude: 49)
@@ -119,6 +138,38 @@ describe BubbleWrap::Location do
       from = CLLocation.alloc.initWithLatitude(0, longitude: 0)
       BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
       @number_times.should == 1
+    end
+  end
+
+  describe ".get_compass" do
+    before do
+      reset
+    end
+
+    it "should use compass functions" do
+      BW::Location.get_compass do |result|
+      end
+
+      location_manager.instance_variable_get("@startUpdatingHeading").should == true
+    end
+
+    it "should have correct heading when succeeding" do
+      timestamp = Time.now
+      heading = BWCLHeading.new.tap do |h|
+        h.timestamp = timestamp
+        h.headingAccuracy = 4
+        h.trueHeading = 220
+        h.magneticHeading = 270
+      end
+
+      BW::Location.get_significant do |heading|
+        heading[:magnetic_heading].should == 270
+        heading[:true_heading].should == 220
+        heading[:accuracy].should == 4
+        heading[:timestamp].should == timestamp
+      end
+
+      BW::Location.locationManager(location_manager, didUpdateHeading: heading)
     end
   end
 
