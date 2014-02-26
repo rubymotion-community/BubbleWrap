@@ -162,7 +162,7 @@ describe BubbleWrap::Location do
         h.magneticHeading = 270
       end
 
-      BW::Location.get_significant do |heading|
+      BW::Location.get_compass do |heading|
         heading[:magnetic_heading].should == 270
         heading[:true_heading].should == 220
         heading[:accuracy].should == 4
