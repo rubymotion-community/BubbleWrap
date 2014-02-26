@@ -212,6 +212,15 @@ describe BubbleWrap::Location do
       location_manager.instance_variable_get("@stopUpdatingLocation").should == true
     end
 
+    it "should use compass update functions" do
+      BW::Location.get_compass do |result|
+      end
+
+      BW::Location.stop
+
+      location_manager.instance_variable_get("@stopUpdatingHeading").should == true
+    end
+
     it "should use significant update functions with get_significant" do
       BW::Location.get_significant do
       end
