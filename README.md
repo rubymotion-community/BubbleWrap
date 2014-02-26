@@ -375,12 +375,21 @@ iso8601 formatted string into a Time instance.
 
 ## Location
 
-Added interface for Ruby-like GPS access:
+Added interface for Ruby-like GPS and compass access:
 
 ```ruby
 BW::Location.get do |result|
   p "From Lat #{result[:from].latitude}, Long #{result[:from].longitude}"
   p "To Lat #{result[:to].latitude}, Long #{result[:to].longitude}"
+end
+```
+
+```ruby
+BW::Location.get_compass do |result|
+  p result[:magnetic_heading] # Heading towards magnetic north
+  p result[:true_heading] # Heading towards true north
+  p result[:accuracy] # Potential error between magnetic and true heading
+  p result[:timestamp] # Timestamp of the heading calculation
 end
 ```
 
