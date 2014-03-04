@@ -79,7 +79,7 @@
 <p>If you using Bundler:</p>
 
 <div class="highlight">
-<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.4.0"</span>
+<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.5.0"</span>
 </pre>
 </div>
 
@@ -483,12 +483,23 @@ iso8601 formatted string into a Time instance.</p>
 
 <h2>Location</h2>
 
-<p>Added interface for Ruby-like GPS access:</p>
+<p>Added interface for Ruby-like GPS and compass access:</p>
 
 <div class="highlight">
 <pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
   <span class="nb">p</span> <span class="s2">"From Lat </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:from</span><span class="o">].</span><span class="n">latitude</span><span class="si">}</span><span class="s2">, Long </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:from</span><span class="o">].</span><span class="n">longitude</span><span class="si">}</span><span class="s2">"</span>
   <span class="nb">p</span> <span class="s2">"To Lat </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:to</span><span class="o">].</span><span class="n">latitude</span><span class="si">}</span><span class="s2">, Long </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:to</span><span class="o">].</span><span class="n">longitude</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get_compass</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:magnetic_heading</span><span class="o">]</span> <span class="c1"># Heading towards magnetic north</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:true_heading</span><span class="o">]</span> <span class="c1"># Heading towards true north</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:accuracy</span><span class="o">]</span> <span class="c1"># Potential error between magnetic and true heading</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:timestamp</span><span class="o">]</span> <span class="c1"># Timestamp of the heading calculation</span>
 <span class="k">end</span>
 </pre>
 </div>
