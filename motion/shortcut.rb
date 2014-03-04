@@ -21,6 +21,9 @@ module BubbleWrap
     BubbleWrap::SETTINGS[:use_weak_callbacks]
   end
 
+  def version
+    BubbleWrap::VERSION
+  end
 end
 
 BW = BubbleWrap unless defined?(BW)
