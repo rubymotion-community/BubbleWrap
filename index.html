@@ -47,10 +47,14 @@
 <html><body>
 <h1>BubbleWrap for RubyMotion</h1>
 
-<p>A collection of (tested) helpers and wrappers used to wrap CocoaTouch code and provide more Ruby like APIs.</p>
+<p>A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKit code and provide more Ruby like APIs.</p>
 
 <p><a href="http://bubblewrap.io">BubbleWrap website</a>
 <a href="https://groups.google.com/forum/#!forum/bubblewrap">BubbleWrap mailing list</a></p>
+
+<p><a href="https://codeclimate.com/github/rubymotion/BubbleWrap"><img src="https://codeclimate.com/github/rubymotion/BubbleWrap.png" alt="Code Climate"></a>
+<a href="https://travis-ci.org/rubymotion/BubbleWrap"><img src="https://travis-ci.org/rubymotion/BubbleWrap.png?branch=master" alt="Build Status"></a>
+<a href="https://gemnasium.com/rubymotion/BubbleWrap"><img src="https://gemnasium.com/rubymotion/BubbleWrap.png" alt="Dependency Status"></a></p>
 
 <h2>Installation</h2>
 
@@ -65,8 +69,17 @@
 <ol>
 <li>Edit the <code>Rakefile</code> of your RubyMotion project and add the following require line:</li>
 </ol>
+
 <div class="highlight">
 <pre><span class="nb">require</span> <span class="s1">'bubble-wrap'</span>
+</pre>
+</div>
+
+
+<p>If you using Bundler:</p>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.4.0"</span>
 </pre>
 </div>
 
@@ -139,6 +152,22 @@ include the core modules use the following line of code instead:</p>
 </div>
 
 
+<p>If you wish to only include the <code>Mail</code> wrapper:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/mail'</span>
+</pre>
+</div>
+
+
+<p>If you wish to only include the <code>SMS</code> wrapper:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/sms'</span>
+</pre>
+</div>
+
+
 <p>If you want to include everything (ie kitchen sink mode) you can save time and do:</p>
 
 <div class="highlight">
@@ -153,6 +182,7 @@ Make sure to append onto the array or use <code>+=</code>.</p>
 <ol>
 <li>Now, you can use BubbleWrap extension in your app:</li>
 </ol>
+
 <div class="highlight">
 <pre><span class="k">class</span> <span class="nc">AppDelegate</span>
   <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
@@ -234,6 +264,8 @@ use the versioned gem.</p>
 <span class="c1"># "io.bubblewrap.testSuite"</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">alert</span><span class="p">(</span><span class="s2">"BubbleWrap is awesome!"</span><span class="p">)</span>
 <span class="c1"># creates and shows an alert message.</span>
+<span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">alert</span><span class="p">(</span><span class="s2">"BubbleWrap is awesome!"</span><span class="p">,</span> <span class="p">{</span><span class="n">cancel_button_title</span><span class="p">:</span> <span class="s2">"I know it is!"</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="s2">"Like, seriously awesome."</span><span class="p">})</span>
+<span class="c1"># creates and shows an alert message with optional parameters.</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">run_after</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span>  <span class="nb">p</span> <span class="s2">"It's </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="si">}</span><span class="s2">"</span>   <span class="p">}</span>
 <span class="c1"># Runs the block after 0.5 seconds.</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">open_url</span><span class="p">(</span><span class="s2">"http://matt.aimonetti.net"</span><span class="p">)</span>
@@ -242,6 +274,8 @@ use the versioned gem.</p>
 <span class="c1"># ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">::</span><span class="no">Persistence</span><span class="o">[</span><span class="s1">'channels'</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'TF1'</span><span class="p">,</span> <span class="s1">'France 2'</span><span class="p">,</span> <span class="s1">'France 3'</span><span class="o">]</span>
 <span class="c1"># ['TF1', 'France 2', 'France 3']</span>
+<span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">environment</span>
+<span class="c1"># 'test'</span>
 </pre>
 </div>
 
@@ -257,7 +291,11 @@ use the versioned gem.</p>
 <li><code>App.shared</code></li>
 <li><code>App.window</code></li>
 <li><code>App.current_locale</code></li>
+<li><code>App.release?</code></li>
+<li><code>App.test?</code></li>
+<li><code>App.development?</code></li>
 </ul>
+
 <h3>Device</h3>
 
 <p>A collection of useful methods about the current device:</p>
@@ -269,11 +307,13 @@ use the versioned gem.</p>
 <span class="c1"># true</span>
 <span class="o">&gt;</span> <span class="no">Device</span><span class="o">.</span><span class="n">ipad?</span>
 <span class="c1"># false</span>
-<span class="o">&gt;</span> <span class="no">Device</span><span class="o">.</span><span class="n">front_camera?</span>
+<span class="o">&gt;</span> <span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">front?</span>
 <span class="c1"># true</span>
-<span class="o">&gt;</span> <span class="no">Device</span><span class="o">.</span><span class="n">rear_camera?</span>
+<span class="o">&gt;</span> <span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">rear?</span>
 <span class="c1"># true</span>
 <span class="o">&gt;</span> <span class="no">Device</span><span class="o">.</span><span class="n">orientation</span>
+<span class="c1"># :portrait</span>
+<span class="o">&gt;</span> <span class="no">Device</span><span class="o">.</span><span class="n">interface_orientation</span>
 <span class="c1"># :portrait</span>
 <span class="o">&gt;</span> <span class="no">Device</span><span class="o">.</span><span class="n">simulator?</span>
 <span class="c1"># true</span>
@@ -318,10 +358,10 @@ use the versioned gem.</p>
 
 <h3>JSON</h3>
 
-<p><code>BW::JSON</code> wraps <code>NSJSONSerialization</code> available in iOS5 and offers the same API as Ruby's JSON std lib.</p>
+<p><code>BW::JSON</code> wraps <code>NSJSONSerialization</code> available in iOS5 and offers the same API as Ruby's JSON std lib. For apps building for iOS4, we suggest a different JSON alternative, like <a href="https://github.com/mattt/AnyJSON">AnyJSON</a>.</p>
 
 <div class="highlight">
-<pre><span class="no">BW</span><span class="o">::</span><span class="no">JSON</span><span class="o">.</span><span class="n">generate</span><span class="p">({</span><span class="s1">'foo'</span> <span class='n'>=&gt;</span> 1, <span class="s1">'bar'</span><span class="n"> =&gt; [1,2,3], </span><span class='s1'>'baz'</span> <span class="o">=&gt;</span> <span class="s1">'awesome'</span><span class="p">})</span>
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">JSON</span><span class="o">.</span><span class="n">generate</span><span class="p">({</span><span class="s1">'foo =&gt; 1, '</span><span class="n">bar</span><span class="s1">' =&gt; [1,2,3], '</span><span class="n">baz</span> <span class="o">=&gt;</span> <span class="s1">'awesome'</span><span class="p">})</span>
 <span class="o">=&gt;</span> <span class="s2">"{</span><span class="se">\"</span><span class="s2">foo</span><span class="se">\"</span><span class="s2">:1,</span><span class="se">\"</span><span class="s2">bar</span><span class="se">\"</span><span class="s2">:[1,2,3],</span><span class="se">\"</span><span class="s2">baz</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">awesome</span><span class="se">\"</span><span class="s2">}"</span>
 <span class="no">BW</span><span class="o">::</span><span class="no">JSON</span><span class="o">.</span><span class="n">parse</span> <span class="s2">"{</span><span class="se">\"</span><span class="s2">foo</span><span class="se">\"</span><span class="s2">:1,</span><span class="se">\"</span><span class="s2">bar</span><span class="se">\"</span><span class="s2">:[1,2,3],</span><span class="se">\"</span><span class="s2">baz</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">awesome</span><span class="se">\"</span><span class="s2">}"</span>
 <span class="o">=&gt;</span> <span class="p">{</span><span class="s2">"foo"</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"bar"</span><span class="o">=&gt;[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="s2">"baz"</span><span class="o">=&gt;</span><span class="s2">"awesome"</span><span class="p">}</span>
@@ -344,7 +384,7 @@ interface.</p>
     <span class="n">loadAndRefresh</span>
   <span class="k">end</span>
 
-  <span class="vi">@reload_observer</span> <span class="o">=</span> <span class="no">App</span><span class="o">.</span><span class="n">notification_center</span><span class="o">.</span><span class="n">observe</span> <span class="no">ReloadNotification</span> <span class="k">do</span> <span class="o">|</span><span class="n">notification</span><span class="o">|</span>
+  <span class="vi">@reload_observer</span> <span class="o">=</span> <span class="no">App</span><span class="o">.</span><span class="n">notification_center</span><span class="o">.</span><span class="n">observe</span> <span class="s1">'ReloadNotification'</span> <span class="k">do</span> <span class="o">|</span><span class="n">notification</span><span class="o">|</span>
     <span class="n">loadAndRefresh</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -355,7 +395,7 @@ interface.</p>
 <span class="k">end</span>
 
 <span class="k">def</span> <span class="nf">reload</span>
-  <span class="no">App</span><span class="o">.</span><span class="n">notification_center</span><span class="o">.</span><span class="n">post</span> <span class="no">ReloadNotification</span>
+  <span class="no">App</span><span class="o">.</span><span class="n">notification_center</span><span class="o">.</span><span class="n">post</span> <span class="s1">'ReloadNotification'</span>
 <span class="k">end</span>
 </pre>
 </div>
@@ -376,6 +416,10 @@ simple interface:</p>
 <span class="c1"># ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">::</span><span class="no">Persistence</span><span class="o">[</span><span class="s1">'channels'</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'TF1'</span><span class="p">,</span> <span class="s1">'France 2'</span><span class="p">,</span> <span class="s1">'France 3'</span><span class="o">]</span>
 <span class="c1"># ['TF1', 'France 2', 'France 3']</span>
+<span class="o">&gt;</span> <span class="no">App</span><span class="o">::</span><span class="no">Persistence</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">'channels'</span><span class="p">)</span>
+<span class="c1"># ['TF1', 'France 2', 'France 3']</span>
+<span class="o">&gt;</span> <span class="no">App</span><span class="o">::</span><span class="no">Persistence</span><span class="o">[</span><span class="s1">'something__new'</span><span class="o">]</span> <span class="c1"># something previously never stored</span>
+<span class="c1"># nil</span>
 </pre>
 </div>
 
@@ -470,6 +514,54 @@ iso8601 formatted string into a Time instance.</p>
 </div>
 
 
+<h2>Mail</h2>
+
+<p>Wrapper for showing an in-app mail composer view.</p>
+
+<div class="highlight">
+<pre><span class="c1"># Opens as a modal in the current UIViewController</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Mail</span><span class="o">.</span><span class="n">compose</span> <span class="p">{</span>
+  <span class="n">delegate</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span> <span class="c1"># optional, defaults to rootViewController</span>
+  <span class="n">to</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"tom@example.com"</span> <span class="o">]</span><span class="p">,</span>
+  <span class="n">cc</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"itchy@example.com"</span><span class="p">,</span> <span class="s2">"scratchy@example.com"</span> <span class="o">]</span><span class="p">,</span>
+  <span class="n">bcc</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"jerry@example.com"</span> <span class="o">]</span><span class="p">,</span>
+  <span class="n">html</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+  <span class="n">subject</span><span class="p">:</span> <span class="s2">"My Subject"</span><span class="p">,</span>
+  <span class="n">message</span><span class="p">:</span> <span class="s2">"This is my message. It isn't very long."</span><span class="p">,</span>
+  <span class="n">animated</span><span class="p">:</span> <span class="kp">false</span>
+<span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="o">|</span>
+  <span class="n">result</span><span class="o">.</span><span class="n">sent?</span>      <span class="c1"># =&gt; boolean</span>
+  <span class="n">result</span><span class="o">.</span><span class="n">canceled?</span>  <span class="c1"># =&gt; boolean</span>
+  <span class="n">result</span><span class="o">.</span><span class="n">saved?</span>     <span class="c1"># =&gt; boolean</span>
+  <span class="n">result</span><span class="o">.</span><span class="n">failed?</span>    <span class="c1"># =&gt; boolean</span>
+  <span class="n">error</span>             <span class="c1"># =&gt; NSError</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h2>SMS</h2>
+
+<p>Wrapper for showing an in-app message (SMS) composer view.</p>
+
+<div class="highlight">
+<pre><span class="c1"># Opens as a modal in the current UIViewController</span>
+    <span class="no">BW</span><span class="o">::</span><span class="no">SMS</span><span class="o">.</span><span class="n">compose</span> <span class="p">(</span>
+    <span class="p">{</span>
+       <span class="n">delegate</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span> <span class="c1"># optional, will use root view controller by default</span>
+       <span class="n">to</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"1(234)567-8910"</span> <span class="o">]</span><span class="p">,</span>
+       <span class="n">message</span><span class="p">:</span> <span class="s2">"This is my message. It isn't very long."</span><span class="p">,</span>
+       <span class="n">animated</span><span class="p">:</span> <span class="kp">false</span>
+    <span class="p">})</span> <span class="p">{</span><span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="o">|</span>
+       <span class="n">result</span><span class="o">.</span><span class="n">sent?</span>      <span class="c1"># =&gt; boolean</span>
+       <span class="n">result</span><span class="o">.</span><span class="n">canceled?</span>  <span class="c1"># =&gt; boolean</span>
+       <span class="n">result</span><span class="o">.</span><span class="n">failed?</span>    <span class="c1"># =&gt; boolean</span>
+       <span class="n">error</span>             <span class="c1"># =&gt; NSError</span>
+      <span class="p">}</span>
+</pre>
+</div>
+
+
 <h2>UI</h2>
 
 <h3>Gestures</h3>
@@ -503,6 +595,131 @@ frame of a view controller.</p>
 <pre><span class="n">button</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="no">UIControlEventTouchUpInside</span><span class="p">)</span> <span class="k">do</span>
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span>
 <span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Set the use_weak_callbacks flag so the blocks do not retain a strong reference to self:</p>
+
+<div class="highlight">
+<pre><span class="no">BubbleWrap</span><span class="o">.</span><span class="n">use_weak_callbacks</span> <span class="o">=</span> <span class="kp">true</span>
+</pre>
+</div>
+
+
+<h3>UIBarButtonItem</h3>
+
+<p><code>BW::UIBarButtonItem</code> is a subclass of <code>UIBarButtonItem</code> with an natural Ruby syntax.</p>
+
+<h4>Constructors</h4>
+
+<p>Instead specifying a target-action pair, each constructor method accepts an optional block.  When the button is tapped, the block is executed.</p>
+
+<div class="highlight">
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="ss">:save</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="n">title</span> <span class="o">=</span> <span class="s2">"Friends"</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">styled</span><span class="p">(</span><span class="ss">:plain</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">styled</span><span class="p">(</span><span class="ss">:bordered</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="n">image</span>     <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+<span class="n">landscape</span> <span class="o">=</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">styled</span><span class="p">(</span><span class="ss">:bordered</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">landscape</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">custom</span><span class="p">(</span><span class="n">view</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+<span class="c1"># NOTE: The block is attached to the view as a single tap gesture recognizer.</span>
+</pre>
+</div>
+
+
+<p>The <code>.new</code> constructor provides a flexible, builder-style syntax.</p>
+
+<div class="highlight">
+<pre><span class="n">options</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:system</span> <span class="o">=&gt;</span> <span class="ss">:save</span> <span class="p">}</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:styled</span> <span class="o">=&gt;</span> <span class="ss">:plain</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s2">"Friends"</span> <span class="p">}</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:styled</span> <span class="o">=&gt;</span> <span class="ss">:bordered</span><span class="p">,</span> <span class="ss">:image</span> <span class="o">=&gt;</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span> <span class="p">}</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:styled</span>    <span class="o">=&gt;</span> <span class="ss">:bordered</span><span class="p">,</span>
+  <span class="ss">:image</span>     <span class="o">=&gt;</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span><span class="p">,</span>
+  <span class="ss">:landscape</span> <span class="o">=&gt;</span> <span class="no">UIImage</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span>
+<span class="p">}</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:custom</span> <span class="o">=&gt;</span> <span class="no">UIView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">init</span> <span class="p">}</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIBarButtonItem</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="k">do</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+<span class="c1"># NOTE: The block is attached to the view as a single tap gesture recognizer.</span>
+</pre>
+</div>
+
+
+<h4>Button types</h4>
+
+<p>The <code>.styled</code> button types are:</p>
+
+<div class="highlight">
+<pre><span class="ss">:plain</span>
+<span class="ss">:bordered</span>
+<span class="ss">:done</span>
+</pre>
+</div>
+
+
+<p>And the <code>.system</code> button types are:</p>
+
+<div class="highlight">
+<pre><span class="ss">:done</span>
+<span class="ss">:cancel</span>
+<span class="ss">:edit</span>
+<span class="ss">:save</span>
+<span class="ss">:add</span>
+<span class="ss">:flexible_space</span>
+<span class="ss">:fixed_space</span>
+<span class="ss">:compose</span>
+<span class="ss">:reply</span>
+<span class="ss">:action</span>
+<span class="ss">:organize</span>
+<span class="ss">:bookmarks</span>
+<span class="ss">:search</span>
+<span class="ss">:refresh</span>
+<span class="ss">:stop</span>
+<span class="ss">:camera</span>
+<span class="ss">:trash</span>
+<span class="ss">:play</span>
+<span class="ss">:pause</span>
+<span class="ss">:rewind</span>
+<span class="ss">:fast_forward</span>
+<span class="ss">:undo</span>
+<span class="ss">:redo</span>
+<span class="ss">:page_curl</span>
 </pre>
 </div>
 
@@ -554,10 +771,75 @@ The API uses async calls and blocks to stay as simple as possible.</p>
 </div>
 
 
+<p>To upload files to a server, provide a <code>files:</code> hash:</p>
+
+<div class="highlight">
+<pre><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">token</span><span class="p">:</span> <span class="s2">"some-api-token"</span><span class="p">}</span>
+<span class="n">avatar_data</span> <span class="o">=</span> <span class="no">UIImagePNGRepresentation</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">"some-image"</span><span class="p">))</span>
+<span class="n">avatar</span> <span class="o">=</span> <span class="p">{</span> <span class="n">data</span><span class="p">:</span> <span class="n">avatar_data</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="s2">"some-image.png"</span><span class="p">,</span> <span class="n">content_type</span><span class="p">:</span> <span class="s2">"image/png"</span> <span class="p">}</span>
+
+<span class="no">BW</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"http://foo.bar.com/"</span><span class="p">,</span> <span class="p">{</span><span class="n">payload</span><span class="p">:</span> <span class="n">data</span><span class="p">},</span> <span class="n">files</span><span class="p">:</span> <span class="p">{</span> <span class="n">avatar</span><span class="p">:</span> <span class="n">avatar</span> <span class="p">})</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
+  <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">ok?</span>
+    <span class="c1"># files are uploaded</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
 <p>A <code>:download_progress</code> option can also be passed. The expected object
 would be a Proc that takes two arguments: a float representing the
 amount of data currently received and another float representing the
 total amount of data expected.</p>
+
+<p>Connections can also be cancelled. Just keep a refrence,</p>
+
+<div class="highlight">
+<pre><span class="vi">@conn</span> <span class="o">=</span> <span class="no">BW</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"https://api.github.com/users/mattetti"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
+  <span class="nb">p</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">to_str</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>and send the <code>cancel</code> method to it asynchronously as desired. The block will not be executed.</p>
+
+<div class="highlight">
+<pre><span class="vi">@conn</span><span class="o">.</span><span class="n">cancel</span>
+</pre>
+</div>
+
+
+<h3>Gotchas</h3>
+
+<p>Because of how RubyMotion currently works, you sometimes need to assign objects as <code>@instance_variables</code> in order to retain their callbacks.</p>
+
+<p>For example:</p>
+
+<div class="highlight">
+<pre><span class="k">class</span> <span class="nc">HttpClient</span>
+  <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">callback</span><span class="p">)</span>
+    <span class="no">BW</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user_url</span><span class="p">(</span><span class="n">user_id</span><span class="p">))</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
+      <span class="c1"># ..</span>
+    <span class="k">end</span>
+  <span class="k">end</span> 
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>This class should be invoked in your code as:</p>
+
+<div class="highlight">
+<pre><span class="vi">@http_client</span> <span class="o">=</span> <span class="no">HttpClient</span><span class="o">.</span><span class="n">new</span>
+<span class="vi">@http_client</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
+  <span class="c1"># ..</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>(instead of doing an instance-variable-less <code>HttpClient.new.get_user</code>)</p>
 
 <h2>RSS Parser</h2>
 
@@ -587,6 +869,7 @@ following attributes:</p>
 <li>pubDate</li>
 <li>enclosure</li>
 </ul>
+
 <p>The item can be converted into a hash by calling <code>to_hash</code> on it.</p>
 
 <h3>Delegate</h3>
@@ -599,7 +882,7 @@ state callbacks:</p>
 <div class="highlight">
 <pre><span class="n">feed_parser</span> <span class="o">=</span> <span class="no">BW</span><span class="o">::</span><span class="no">RSSParser</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"http://feeds.feedburner.com/sdrbpodcast"</span><span class="p">)</span>
 <span class="n">feed_parser</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
-<span class="n">feed</span><span class="o">.</span><span class="n">parse</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+<span class="n">feed_parser</span><span class="o">.</span><span class="n">parse</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
   <span class="nb">p</span> <span class="n">item</span><span class="o">.</span><span class="n">title</span>
 <span class="k">end</span>
 
@@ -614,6 +897,12 @@ state callbacks:</p>
 
 <span class="k">def</span> <span class="nf">when_parser_is_done</span>
   <span class="nb">p</span> <span class="s2">"The feed is entirely parsed, congratulations!"</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">when_parser_errors</span>
+  <span class="nb">p</span> <span class="s2">"The parser encountered an error"</span>
+  <span class="n">ns_error</span> <span class="o">=</span> <span class="n">feed_parser</span><span class="o">.</span><span class="n">parserError</span>
+  <span class="nb">p</span> <span class="n">ns_error</span><span class="o">.</span><span class="n">localizedDescription</span>
 <span class="k">end</span>
 </pre>
 </div>
@@ -795,15 +1084,22 @@ idiom it is available as a public API.</p>
 
 <div class="highlight">
 <pre><span class="o">&gt;</span> <span class="n">o</span> <span class="o">=</span> <span class="no">Class</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="kp">include</span> <span class="no">EM</span><span class="o">::</span><span class="no">Eventable</span> <span class="p">}</span><span class="o">.</span><span class="n">new</span>
-<span class="o">=&gt;</span> <span class="c1">#&lt;#&lt;Class:0x6dc1310&gt;:0x6dc2ec0&gt;</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;#&lt;Class:0xab63f00&gt;:0xab64430&gt;</span>
 <span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"Ow!"</span> <span class="p">}</span>
-<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0x6dc6300&gt;]</span>
-<span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"Flux capacitor!"</span> <span class="p">}</span>
-<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0x6dc6300&gt;, #&lt;Proc:0x6dc1ba0&gt;]</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0xad9bf00&gt;]</span>
+<span class="o">&gt;</span> <span class="n">flux</span> <span class="o">=</span> <span class="nb">proc</span><span class="p">{</span> <span class="nb">puts</span> <span class="s2">"Flux capacitor!"</span> <span class="p">}</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;Proc:0xab630f0&gt;</span>
+<span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">flux</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0xad9bf00&gt;, #&lt;Proc:0xab630f0&gt;]</span>
 <span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">trigger</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span>
 <span class="no">Ow</span><span class="o">!</span>
 <span class="no">Flux</span> <span class="n">capacitor!</span>
 <span class="o">=&gt;</span> <span class="o">[</span><span class="kp">nil</span><span class="p">,</span> <span class="kp">nil</span><span class="o">]</span>
+<span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">off</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">flux</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;Proc:0xab630f0&gt;</span>
+<span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">trigger</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span>
+<span class="no">Ow</span><span class="o">!</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="kp">nil</span><span class="o">]</span>
 </pre>
 </div>
 

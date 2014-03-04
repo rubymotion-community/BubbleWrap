@@ -49,11 +49,11 @@
 
 <h2>A library in two parts</h2>
 
-<p>RubyMotion forces a certain background-radiation of schitzophrenia
+<p>RubyMotion forces a certain background-radiation of schizophrenia
 due to the fact that it's build tools run using the system ruby
 via Rake.  BubbleWrap manipulates the build environment in order
 to make it possible to include itself (and other code) into the
-build process from outsite the project heirarchy.</p>
+build process from outside the project hierarchy.</p>
 
 <h3>Part the first: <code>lib/</code>
 </h3>
@@ -67,7 +67,9 @@ code when you call</p>
 </div>
 
 
-<p>When <code>bubble-wrap</code> is required it immediately requires <code>bubble-wrap/loader</code> which sets up the infrastructure needed to manipulate the <code>Rakefile</code> build process.  Once that is done we can freely call</p>
+<p>When <code>bubble-wrap</code> is required it immediately requires <code>bubble-wrap/loader</code>
+which sets up the infrastructure needed to manipulate the <code>Rakefile</code> build process.
+Once that is done we can freely call</p>
 
 <div class="highlight">
 <pre><span class="no">BubbleWrap</span><span class="o">.</span><span class="n">require</span> <span class="s1">'motion/core/**/*.rb'</span>
@@ -84,6 +86,7 @@ two major changes:</p>
 <li>it can take a file pattern as used by <a href="http://ruby-doc.org/core-1.9.3/Dir.html#method-c-glob"><code>Dir.glob</code></a>.</li>
 <li>it can be passed a block to manipulate dependencies.</li>
 </ul>
+
 <p>If a block is passed to <code>BW.require</code> it is evaluated in the context
 of <code>BW::Requirement</code> and thus has access to all it's class methods.
 The most common use cases are setting file dependencies:</p>
@@ -131,6 +134,7 @@ it in the build process and also configure the app delegate to point
 to <code>TestSuiteDelegate</code>. See the <a href="gem.html">BubbleWrap gem guide</a> for
 more information.</li>
 </ul>
+
 <h4>Your project here</h4>
 
 <p>If you think that your project would be of interest to the large number 
@@ -138,7 +142,7 @@ of RubyMotion users that use BubbleWrap in their daily development then
 feel free to fork <a href="https://github.com/mattetti/BubbleWrap">the repository on GitHub</a>
 and send us a pull request.</p>
 
-<p>You should place your implemenation files in a subdirectory of <code>motion</code>
+<p>You should place your implementation files in a subdirectory of <code>motion</code>
 (eg <code>motion/my_awesome_project</code>), your tests in a subdirectory of <code>spec</code>
 (eg <code>spec/my_awesome_project</code>) and you can create a require file in
 <code>lib/bubble-wrap</code> for example <code>lib/bubble-wrap/my_awesome_project.rb</code>:</p>
