@@ -2,6 +2,8 @@
 #
 module BubbleWrap
   module App
+    include BubbleWrap::Deprecated
+
     module_function
 
     # Returns the application's document directory path where users might be able to upload content.
@@ -25,6 +27,7 @@ module BubbleWrap
     def user_cache
       NSUserDefaults.standardUserDefaults
     end
+    deprecated :user_cache, "2.0.0"
 
     # Executes a block after a certain delay
     # Usage example:
