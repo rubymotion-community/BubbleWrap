@@ -26,6 +26,7 @@ module BubbleWrap
       @delegate = options[:delegate] || App.window.rootViewController
 
       @callback = callback
+      @callback.weak! if @callback && BubbleWrap.use_weak_callbacks?
       
       @mail_controller = create_mail_controller(options)
       

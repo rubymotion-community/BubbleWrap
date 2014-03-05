@@ -68,6 +68,8 @@ module BubbleWrap
     def add_observer_block(target, key_path, &block)
       return if target.nil? || key_path.nil? || block.nil?
 
+      block.weak! if BubbleWrap.use_weak_callbacks?
+
       @targets ||= {}
       @targets[target] ||= {}
       @targets[target][key_path.to_s] ||= []

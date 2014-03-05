@@ -1,3 +1,4 @@
+require 'bubble-wrap/version' unless defined?(BubbleWrap::VERSION)
 require 'bubble-wrap/loader'
 
 BubbleWrap.require('motion/core.rb')

@@ -2,6 +2,8 @@ require 'bubble-wrap/loader'
 
 BubbleWrap.require_ios("media") do
   BubbleWrap.require('motion/core/app.rb')
+  BubbleWrap.require('motion/core/ios/app.rb')
+  BubbleWrap.require('motion/core/ios/device.rb')
   BubbleWrap.require('motion/core/string.rb')
   BubbleWrap.require('motion/core/ns_notification_center.rb')
   BubbleWrap.require('motion/media/**/*.rb') do

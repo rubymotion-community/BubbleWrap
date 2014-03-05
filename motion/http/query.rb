@@ -30,6 +30,10 @@ module BubbleWrap; module HTTP; class Query
   def initialize(url_string, http_method = :get, options={})
     @method = http_method.upcase.to_s
     @delegator = options.delete(:action) || self
+    if @delegator.respond_to?("weak!")
+      @delegator.weak! if BubbleWrap.use_weak_callbacks?
+    end
+
     @payload = options.delete(:payload)
     @encoding = options.delete(:encoding) || NSUTF8StringEncoding
     @files = options.delete(:files)

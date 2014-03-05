@@ -54,6 +54,10 @@ describe BW::UIViewWrapper do
       testMethod.call :whenPanned
     end
 
+    describe '#when_screen_edge_panned' do
+      testMethod.call :when_screen_edge_panned
+    end
+
     describe '#when_pressed' do
       testMethod.call :when_pressed
       testMethod.call :whenPressed

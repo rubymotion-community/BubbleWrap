@@ -50,6 +50,7 @@ module BubbleWrap
     # end
     def get(options = {}, &block)
       @callback = block
+      @callback.weak! if @callback && BubbleWrap.use_weak_callbacks?
       @options = options
 
       @options[:significant] = false if @options[:significant].nil?
@@ -69,6 +70,8 @@ module BubbleWrap
 
       if @options[:significant]
         self.location_manager.startMonitoringSignificantLocationChanges
+      elsif @options[:compass]
+        self.location_manager.startUpdatingHeading
       else
         self.location_manager.startUpdatingLocation
       end
@@ -82,10 +85,20 @@ module BubbleWrap
       get(options.merge(once: true), &block)
     end
 
+    def get_compass(options = {}, &block)
+      get(options.merge(compass: true), &block)
+    end
+
+    def get_compass_once(options = {}, &block)
+      get_compass(options.merge(once: true), &block)
+    end
+
     # Stop getting locations
     def stop
       if @options[:significant]
         self.location_manager.stopMonitoringSignificantLocationChanges
+      elsif @options[:compass]
+        self.location_manager.stopUpdatingHeading
       else
         self.location_manager.stopUpdatingLocation
       end
@@ -117,6 +130,23 @@ module BubbleWrap
         stop
       else
         @callback && @callback.call({to: newLocation, from: oldLocation})
+      end
+    end
+
+    def locationManager(manager, didUpdateHeading:newHeading)
+      heading = {
+        magnetic_heading: newHeading.magneticHeading,
+        true_heading: newHeading.trueHeading,
+        accuracy: newHeading.headingAccuracy,
+        timestamp: newHeading.timestamp,
+      }
+
+      if @options[:once]
+        @callback && @callback.call(heading)
+        @callback = proc { |result| }
+        stop
+      else
+        @callback && @callback.call(heading)
       end
     end
 
