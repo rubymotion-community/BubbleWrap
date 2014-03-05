@@ -9,8 +9,8 @@ module BW
           animated: true
         }.merge(options)
 
-        if options[:items]
-          items = Array(options[:items])
+        if options[:item] || options[:items]
+          items = Array(options[:item] || options[:items])
         else
           raise ArgumentError, "You must specify at least one item - #{options.inspect}"
         end
