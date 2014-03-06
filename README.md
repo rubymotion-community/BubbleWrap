@@ -603,6 +603,50 @@ And the `.system` button types are:
 :page_curl
 ```
 
+### UIActivityViewController
+
+`BW::UIActivityViewController` is a subclass of `UIActivityViewController` with an natural Ruby syntax.
+
+You can initiate a `UIActivityViewController` with or without a completion handler block. For more information on `UIActivityViewController`s, see [Apple's documentation](https://developer.apple.com/library/ios/documentation/uikit/reference/UIActivityViewController_Class/Reference/Reference.html).
+
+```ruby
+# Without a completion handler
+BW::UIActivityViewController.new(
+  items: "Some Text", # or ["Some Text", NSURL.URLWithString('http://www.rubymotion.com')] or a UIImage
+  animated: true, # Defaults to true
+  excluded: :add_to_reading_list # One item or an array
+)
+
+# With completion handler
+BW::UIActivityViewController.new(
+  items: "Some Text",
+  animated: true,
+  excluded: [:add_to_reading_list, :print, :air_drop]
+) do |activity_type, completed|
+  puts "completed with activity: #{activity_type} - finished?: #{completed}"
+end
+```
+
+Built in activities that can be passed to the `excluded` option are defined as `UIActivity` class `UIActivityType` constants:
+
+```ruby
+:post_to_facebook
+:post_to_twitter
+:post_to_weibo
+:message
+:mail
+:print
+:copy_to_pasteboard
+:assign_to_contact
+:save_to_camera_roll
+:add_to_reading_list
+:post_to_flickr
+:post_to_vimeo
+:post_to_tencent_weibo
+:air_drop
+```
+
+
 ## HTTP
 
 `BW::HTTP` wraps `NSURLRequest`, `NSURLConnection` and friends to provide Ruby developers with a more familiar and easier to use API.
