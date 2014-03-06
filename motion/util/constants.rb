@@ -29,8 +29,8 @@ module BubbleWrap
       when Numeric
         value.to_i
       when NSArray
-        if get(base, value.first).is_a? String
-          value.map{|v| get(base, v) }
+        unless get(base, value.first).is_a? Fixnum
+          value.map { |v| get(base, v) }
         else
           value.reduce { |i, j|
             get(base, i) | get(base, j)
