@@ -735,6 +735,53 @@ frame of a view controller.</p>
 </div>
 
 
+<h3>UIActivityViewController</h3>
+
+<p><code>BW::UIActivityViewController</code> is a subclass of <code>UIActivityViewController</code> with an natural Ruby syntax.</p>
+
+<p>You can initiate a <code>UIActivityViewController</code> with or without a completion handler block. For more information on <code>UIActivityViewController</code>s, see <a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UIActivityViewController_Class/Reference/Reference.html">Apple's documentation</a>.</p>
+
+<div class="highlight">
+<pre><span class="c1"># Without a completion handler</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIActivityViewController</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+  <span class="n">items</span><span class="p">:</span> <span class="s2">"Some Text"</span><span class="p">,</span> <span class="c1"># or ["Some Text", NSURL.URLWithString('http://www.rubymotion.com')] or a UIImage</span>
+  <span class="n">animated</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="c1"># Defaults to true</span>
+  <span class="n">excluded</span><span class="p">:</span> <span class="ss">:add_to_reading_list</span> <span class="c1"># One item or an array</span>
+<span class="p">)</span>
+
+<span class="c1"># With completion handler</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">UIActivityViewController</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+  <span class="n">items</span><span class="p">:</span> <span class="s2">"Some Text"</span><span class="p">,</span>
+  <span class="n">animated</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+  <span class="n">excluded</span><span class="p">:</span> <span class="o">[</span><span class="ss">:add_to_reading_list</span><span class="p">,</span> <span class="ss">:print</span><span class="p">,</span> <span class="ss">:air_drop</span><span class="o">]</span>
+<span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">activity_type</span><span class="p">,</span> <span class="n">completed</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">"completed with activity: </span><span class="si">#{</span><span class="n">activity_type</span><span class="si">}</span><span class="s2"> - finished?: </span><span class="si">#{</span><span class="n">completed</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Built in activities that can be passed to the <code>excluded</code> option are defined as <code>UIActivity</code> class <code>UIActivityType</code> constants:</p>
+
+<div class="highlight">
+<pre><span class="ss">:post_to_facebook</span>
+<span class="ss">:post_to_twitter</span>
+<span class="ss">:post_to_weibo</span>
+<span class="ss">:message</span>
+<span class="ss">:mail</span>
+<span class="ss">:print</span>
+<span class="ss">:copy_to_pasteboard</span>
+<span class="ss">:assign_to_contact</span>
+<span class="ss">:save_to_camera_roll</span>
+<span class="ss">:add_to_reading_list</span>
+<span class="ss">:post_to_flickr</span>
+<span class="ss">:post_to_vimeo</span>
+<span class="ss">:post_to_tencent_weibo</span>
+<span class="ss">:air_drop</span>
+</pre>
+</div>
+
+
 <h2>HTTP</h2>
 
 <p><code>BW::HTTP</code> wraps <code>NSURLRequest</code>, <code>NSURLConnection</code> and friends to provide Ruby developers with a more familiar and easier to use API.
