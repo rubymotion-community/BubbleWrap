@@ -171,7 +171,15 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
 
   def show_status_indicator(show)
     if App.ios?
-      UIApplication.sharedApplication.networkActivityIndicatorVisible = show
+      if defined?(BW::NetworkIndicator)
+        if show
+          BW::NetworkIndicator.show
+        else
+          BW::NetworkIndicator.hide
+        end
+      else
+        UIApplication.sharedApplication.networkActivityIndicatorVisible = show
+      end
     end
   end
 
