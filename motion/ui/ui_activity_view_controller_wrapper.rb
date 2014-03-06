@@ -1,11 +1,9 @@
 module BW
   class UIActivityViewController < ::UIActivityViewController
-
     class << self
       def new(options = {}, presenting_controller = nil, &block)
         options = {
           activities: nil,
-          transition: UIModalTransitionStyleCoverVertical,
           animated: true
         }.merge(options)
 
@@ -16,7 +14,6 @@ module BW
         end
 
         vc = alloc.initWithActivityItems(items, applicationActivities:options[:activities])
-        vc.setModalTransitionStyle options[:transition]
         vc.excludedActivityTypes = BW::Constants.get("UIActivityType", Array(options[:excluded])) if options[:excluded]
 
         unless block.nil?
@@ -50,13 +47,5 @@ module BW
     UIActivityTypePostToVimeo,
     UIActivityTypePostToTencentWeibo,
     UIActivityTypeAirDrop
-  )
-
-  # Transition Styles
-  Constants.register(
-    UIModalTransitionStyleCoverVertical,
-    UIModalTransitionStyleFlipHorizontal,
-    UIModalTransitionStyleCrossDissolve,
-    UIModalTransitionStylePartialCurl
   )
 end
