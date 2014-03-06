@@ -630,20 +630,20 @@ end
 Built in activities that can be passed to the `excluded` option are defined as `UIActivity` class `UIActivityType` constants:
 
 ```ruby
-post_to_facebook
-post_to_twitter
-post_to_weibo
-message
-mail
-print
-copy_to_pasteboard
-assign_to_contact
-save_to_camera_roll
-add_to_reading_list
-post_to_flickr
-post_to_vimeo
-post_to_tencent_weibo
-air_drop
+:post_to_facebook
+:post_to_twitter
+:post_to_weibo
+:message
+:mail
+:print
+:copy_to_pasteboard
+:assign_to_contact
+:save_to_camera_roll
+:add_to_reading_list
+:post_to_flickr
+:post_to_vimeo
+:post_to_tencent_weibo
+:air_drop
 ```
 
 
