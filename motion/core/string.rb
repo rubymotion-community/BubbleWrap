@@ -58,11 +58,15 @@ module BubbleWrap
           colors = hex_color.scan(%r{[0-9A-Fa-f]}).map!{ |el| (el * 2).to_i(16) }
         when 6
           colors = hex_color.scan(%r<[0-9A-Fa-f]{2}>).map!{ |el| el.to_i(16) }
+        when 8
+          colors = hex_color.scan(%r<[0-9A-Fa-f]{2}>).map!{ |el| el.to_i(16) }
         else
           raise ArgumentError
       end 
       if colors.size == 3
         BubbleWrap.rgb_color(colors[0], colors[1], colors[2])
+      elsif colors.size == 4
+        BubbleWrap.rgba_color(colors[1], colors[2], colors[3], colors[0])
       else
         raise ArgumentError
       end 

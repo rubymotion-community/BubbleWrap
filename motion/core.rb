@@ -9,6 +9,9 @@ module BubbleWrap
   # @return [UIcolor]
   def rgba_color(r,g,b,a)
     r,g,b = [r,g,b].map { |i| i / 255.0}
+    if a > 1.0
+      a = a / 255.0
+    end
     if App.osx?
       NSColor.colorWithDeviceRed(r, green: g, blue: b, alpha: a)
     else
