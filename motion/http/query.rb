@@ -114,6 +114,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def connection(connection, didFailWithError: error)
+    return if @error
+
+    @error = error
     log "HTTP Connection to #{@url.absoluteString} failed #{error.localizedDescription}"
     show_status_indicator false
     @request.done_loading!
