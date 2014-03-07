@@ -69,6 +69,10 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
   alias description to_s
 
+  def done?
+    @did_fail_error || @did_finish_loading || @canceled
+  end
+
   def connection(connection, didReceiveResponse:response)
     # On OSX, if using an FTP connection, this method will fire *immediately* after creating an
     # NSURLConnection, even if the connection has not yet started. The `response`
@@ -99,13 +103,10 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     log "##{@redirect_count} HTTP redirect_count: #{request.inspect} - #{self.description}"
 
     if @redirect_count >= 30
-      @response.error = NSError.errorWithDomain('BubbleWrap::HTTP', code:NSURLErrorHTTPTooManyRedirects, 
+      error = NSError.errorWithDomain('BubbleWrap::HTTP', code:NSURLErrorHTTPTooManyRedirects,
                                                 userInfo:NSDictionary.dictionaryWithObject("Too many redirections",
                                                                                            forKey: NSLocalizedDescriptionKey))
-      @response.error_message = @response.error.localizedDescription
-      show_status_indicator false
-      @request.done_loading!
-      call_delegator_with_response
+      self.connection(connection, didFailWithError: error)
       nil
     else
       @url = request.URL if @follow_urls
@@ -114,9 +115,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def connection(connection, didFailWithError: error)
-    return if @error
+    return if done?
 
-    @error = error
+    @did_fail_error = error
     log "HTTP Connection to #{@url.absoluteString} failed #{error.localizedDescription}"
     show_status_indicator false
     @request.done_loading!
@@ -132,6 +133,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def connectionDidFinishLoading(connection)
+    return if done?
+    @did_finish_loading = true
+
     show_status_indicator false
     @request.done_loading!
     response_body = NSData.dataWithData(@received_data) if @received_data
@@ -159,6 +163,9 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def cancel
+    return if done?
+    @canceled = true
+
     @connection.cancel
     show_status_indicator false
     @request.done_loading!
@@ -173,7 +180,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def show_status_indicator(show)
-    if App.ios?
+    if App.ios? && @status.nil? || @status != !!show
+      @status = !!show
       if show
         BW::NetworkIndicator.show
       else
@@ -283,8 +291,8 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   def parse_file(key, value)
     value = {data: value} unless value.is_a?(Hash)
     raise(InvalidFileError, "You need to supply a `:data` entry in #{value} for file '#{key}' in your HTTP `:files`") if value[:data].nil?
-    { 
-      data: value[:data], 
+    {
+      data: value[:data],
       filename: value.fetch(:filename, key),
       content_type: value.fetch(:content_type, "application/octet-stream")
     }

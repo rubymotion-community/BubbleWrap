@@ -1,5 +1,9 @@
 describe BW::NetworkIndicator do
 
+  before do
+    BW::NetworkIndicator.reset!
+  end
+
   after do
     BW::NetworkIndicator.instance_variable_set(:@counter, 0)
     UIApplication.sharedApplication.networkActivityIndicatorVisible = false
@@ -8,6 +12,13 @@ describe BW::NetworkIndicator do
   it 'should show the indicator immediately' do
     BW::NetworkIndicator.show
     UIApplication.sharedApplication.networkActivityIndicatorVisible?.should == true
+  end
+
+  it 'should have a counter' do
+    BW::NetworkIndicator.show
+    BW::NetworkIndicator.counter.should == 1
+    BW::NetworkIndicator.hide
+    BW::NetworkIndicator.counter.should == 0
   end
 
   it 'should show the indicator from any thread' do
