@@ -176,11 +176,10 @@ describe BubbleWrap::HTTP::Query do
       end
 
       it "should check if payload is nil" do
-        q = nil
         lambda{
           q = BubbleWrap::HTTP::Query.new( @fake_url , :post, {} )
+          q.cancel
         }.should.not.raise NoMethodError
-        q.cancel
       end
 
       it "should set the payload in URL only for GET/HEAD/OPTIONS requests" do
