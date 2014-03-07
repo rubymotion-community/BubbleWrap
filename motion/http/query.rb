@@ -180,7 +180,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
   end
 
   def show_status_indicator(show)
-    if App.ios? && @status.nil? || @status != !!show
+    if App.ios? && (@status.nil? || @status != !!show)
       @status = !!show
       if show
         BW::NetworkIndicator.show

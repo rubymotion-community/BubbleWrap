@@ -815,8 +815,10 @@ describe BubbleWrap::HTTP::Query do
   end
 
   after do
-    sleep(BW::NetworkIndicator::DELAY) if BW::NetworkIndicator.counter > 0
-    raise "I think you forgot to 'cancel' a query (in order for BW::NetworkIndicator to be tested properly, all queries must be canceled)" if BW::NetworkIndicator.counter > 0
+    if App.ios?
+      sleep(BW::NetworkIndicator::DELAY) if BW::NetworkIndicator.counter > 0
+      raise "I think you forgot to 'cancel' a query (in order for BW::NetworkIndicator to be tested properly, all queries must be canceled)" if BW::NetworkIndicator.counter > 0
+    end
   end
 
   class FakeSender
