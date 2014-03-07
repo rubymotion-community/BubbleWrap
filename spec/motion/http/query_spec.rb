@@ -331,12 +331,6 @@ describe BubbleWrap::HTTP::Query do
     it "should start the connection" do
       @query.connection.was_started.should.equal true
     end
-
-    if App.ios?
-      it "should turn on the network indicator" do
-        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal true
-      end
-    end
   end
 
   describe "create request" do
@@ -496,14 +490,6 @@ describe BubbleWrap::HTTP::Query do
       @fake_error = NSError.errorWithDomain('testing', code:7768, userInfo:nil)
     end
 
-    if App.ios?
-      it "should turn off network indicator" do
-        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
-        @query.connection(nil, didFailWithError:@fake_error)
-        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
-      end
-    end
-
     it "should set request_done to true" do
       @query.request.done_loading?.should == false
       @query.connection(nil, didFailWithError:@fake_error)
@@ -537,15 +523,6 @@ describe BubbleWrap::HTTP::Query do
   end
 
   describe "when connectionDidFinishLoading:" do
-
-    if App.ios?
-      it "should turn off the network indicator" do
-        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
-
-        @query.connectionDidFinishLoading(nil)
-        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
-      end
-    end
 
     it "should set request_done to true" do
       @query.request.done_loading?.should == false
