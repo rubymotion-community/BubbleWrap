@@ -11,6 +11,10 @@ describe BubbleWrap::HTTP::Query do
       @json_query = BubbleWrap::HTTP::Query.new( "http://localhost:3000" , :post, @json_options )
     end
 
+    after do
+      @json_query.cancel
+    end
+
     it "should generate json body" do
       BW::JSON.parse(@json_query.request.HTTPBody).should == @json_payload
     end
@@ -19,6 +23,10 @@ describe BubbleWrap::HTTP::Query do
   describe "false value" do
     before do
       @query = BubbleWrap::HTTP::Query.new("http://www.google.com", :get, {payload: {following: false}})
+    end
+
+    after do
+      @query.cancel
     end
 
     it "should have right url" do
@@ -59,7 +67,12 @@ describe BubbleWrap::HTTP::Query do
       leftover_option: @leftover_option,
       format: @format
     }
+
     @query = BubbleWrap::HTTP::Query.new( @localhost_url , :get, @options )
+  end
+
+  after do
+    @query.cancel
   end
 
   it "has appropriate attributes" do
@@ -84,6 +97,7 @@ describe BubbleWrap::HTTP::Query do
     }
     query = BubbleWrap::HTTP::Query.new( @localhost_url , :get, @options )
     query.should.not.be.nil
+    query.cancel
   end
 
   describe "When initialized" do
@@ -95,7 +109,8 @@ describe BubbleWrap::HTTP::Query do
     it "throws an error for invalid/missing URL schemes" do
       %w(http https file ftp).each do |scheme|
         lambda {
-          BW::HTTP::Query.new("#{scheme}://example.com", :get) { |r| p r.body.to_str }
+          q = BW::HTTP::Query.new("#{scheme}://example.com", :get) { |r| p r.body.to_str }
+          q.cancel
         }.should.not.raise InvalidURLError
       end
 
@@ -122,6 +137,7 @@ describe BubbleWrap::HTTP::Query do
     it "should set self as the delegator if action was not passed in" do
       new_query = BubbleWrap::HTTP::Query.new( 'http://localhost', :get, {})
       new_query.instance_variable_get(:@delegator).should.equal new_query
+      new_query.cancel
     end
 
     it "should merge :username and :password in loaded credentials" do
@@ -129,6 +145,7 @@ describe BubbleWrap::HTTP::Query do
 
       options = { credentials: {} }
       new_query = BubbleWrap::HTTP::Query.new( @localhost_url, :get,  options)
+      new_query.cancel
 
       generated_credentials = { :username => nil, :password => nil }
       new_query.credentials.should.equal generated_credentials
@@ -155,11 +172,13 @@ describe BubbleWrap::HTTP::Query do
       it "should check if @payload is a hash before generating GET params" do
         query_string_payload = BubbleWrap::HTTP::Query.new( @fake_url , :get,  { payload: "name=apple&model=macbook"} )
         query_string_payload.instance_variable_get(:@payload).should.equal 'name=apple&model=macbook'
+        query_string_payload.cancel
       end
 
       it "should check if payload is nil" do
         lambda{
-          BubbleWrap::HTTP::Query.new( @fake_url , :post, {} )
+          q = BubbleWrap::HTTP::Query.new( @fake_url , :post, {} )
+          q.cancel
         }.should.not.raise NoMethodError
       end
 
@@ -167,12 +186,14 @@ describe BubbleWrap::HTTP::Query do
         [:post, :put, :delete, :patch].each do |method|
           query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: @payload } )
           query.instance_variable_get(:@url).description.should.equal @localhost_url
+          query.cancel
         end
 
         payload = {name: 'marin'}
         [:get, :head, :options].each do |method|
           query = BubbleWrap::HTTP::Query.new( @localhost_url , method, { payload: payload } )
           query.instance_variable_get(:@url).description.should.equal "#{@localhost_url}?name=marin"
+          query.cancel
         end
       end
 
@@ -184,6 +205,7 @@ describe BubbleWrap::HTTP::Query do
         uuid = query.instance_variable_get(:@boundary)
         real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
         real_payload.should.equal "--#{uuid}\r\nContent-Disposition: attachment; name=\"upload\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}--\r\n"
+        query.cancel
       end
 
       it "processes filenames from file hashes, using the name when the filename is missing" do
@@ -194,6 +216,7 @@ describe BubbleWrap::HTTP::Query do
         uuid = query.instance_variable_get(:@boundary)
         real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
         real_payload.should.equal "--#{uuid}\r\nContent-Disposition: attachment; name=\"upload\"; filename=\"upload\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}--\r\n"
+        query.cancel
       end
 
       it "throws an error for invalid file parameters" do
@@ -215,6 +238,7 @@ describe BubbleWrap::HTTP::Query do
           uuid = query.instance_variable_get(:@boundary)
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
           real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"model\"\r\n\r\nmacbook\r\n--#{uuid}\r\nContent-Disposition: attachment; name=\"twitter\"; filename=\"twitter\"\r\nContent-Type: application/octet-stream\r\n\r\ntwitter:@mneorr\r\n--#{uuid}\r\nContent-Disposition: attachment; name=\"site\"; filename=\"site\"\r\nContent-Type: application/octet-stream\r\n\r\nmneorr.com\r\n--#{uuid}--\r\n"
+          query.cancel
         end
 
         [:get, :head, :options].each do |method|
@@ -222,12 +246,16 @@ describe BubbleWrap::HTTP::Query do
           query = BubbleWrap::HTTP::Query.new( @fake_url , method, { payload: payload } )
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
           real_payload.should.be.empty
+          query.cancel
         end
       end
 
       it "sets the payload without conversion to-from NSString if the payload was NSData" do
         data = sample_data
-        lambda { create_query(data, nil) }.should.not.raise NoMethodError
+        lambda {
+          q = create_query(data, nil)
+          q.cancel
+        }.should.not.raise NoMethodError
       end
 
       it "sets the payload as a string if JSON" do
@@ -237,6 +265,7 @@ describe BubbleWrap::HTTP::Query do
           query = BubbleWrap::HTTP::Query.new( @fake_url , method, { payload: json } )
           set_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
           set_payload.should.equal json
+          query.cancel
         end
       end
 
@@ -246,6 +275,7 @@ describe BubbleWrap::HTTP::Query do
         uuid = query.instance_variable_get(:@boundary)
         real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:NSUTF8StringEncoding)
         real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[name]\"\r\n\r\napple\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[model]\"\r\n\r\nmacbook\r\n--#{uuid}--\r\n"
+        query.cancel
       end
 
       [["NSUTF8StringEncoding", NSUTF8StringEncoding],
@@ -258,6 +288,7 @@ describe BubbleWrap::HTTP::Query do
           uuid = query.instance_variable_get(:@boundary)
           real_payload = NSString.alloc.initWithData(query.request.HTTPBody, encoding:encoding)
           real_payload.should.equal "--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[name]\"\r\n\r\n#{payload[:computer][:name]}\r\n--#{uuid}\r\nContent-Disposition: form-data; name=\"computer[model]\"\r\n\r\n#{payload[:computer][:model]}\r\n--#{uuid}--\r\n"
+          query.cancel
         end
       end
 
@@ -271,6 +302,7 @@ describe BubbleWrap::HTTP::Query do
 
       new_query.instance_variable_get(:@timeout).should == 10
       options.should.be.empty
+      new_query.cancel
     end
 
     it "should delete :headers from options and escape Line Feeds" do
@@ -286,6 +318,7 @@ describe BubbleWrap::HTTP::Query do
 
       new_query = BubbleWrap::HTTP::Query.new( @localhost_url, :get, {})
       new_query.instance_variable_get(:@cache_policy).should.equal NSURLRequestUseProtocolCachePolicy
+      new_query.cancel
     end
 
     it "should delete :credential_persistence or set NSURLCredentialPersistenceForSession" do
@@ -294,6 +327,7 @@ describe BubbleWrap::HTTP::Query do
 
       new_query = BubbleWrap::HTTP::Query.new( @localhost_url, :get, {})
       new_query.instance_variable_get(:@credential_persistence).should.equal NSURLCredentialPersistenceForSession
+      new_query.cancel
     end
 
     it "should present base64-encoded credentials in Authorization header when provided" do
@@ -307,6 +341,7 @@ describe BubbleWrap::HTTP::Query do
       headers = query.instance_variable_get(:@headers)
 
       headers.should.equal nil
+      query.cancel
     end
 
 
@@ -347,6 +382,11 @@ describe BubbleWrap::HTTP::Query do
       @get_query = BubbleWrap::HTTP::Query.new( @url_string , :get,  { headers: @headers } )
     end
 
+    after do
+      @query.cancel
+      @get_query.cancel
+    end
+
     it "should create a new request with HTTP method & header fields" do
       @query.request.HTTPMethod.should.equal @query.method
       @get_query.request.allHTTPHeaderFields.should.equal @headers
@@ -381,9 +421,14 @@ describe BubbleWrap::HTTP::Query do
       @post_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, payload: @payload})
     end
 
+    after do
+      @post_query.cancel
+    end
+
     it "should add default Content Type if no payload is given" do
       query_without_payload = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers})
       query_without_payload.request.allHTTPHeaderFields.should.include? 'Content-Type'
+      query_without_payload.cancel
     end
 
     it "should automatically provide Content-Type if a payload is provided" do
@@ -393,6 +438,7 @@ describe BubbleWrap::HTTP::Query do
     it "should use the format parameter to decide the Content-Type" do
       json_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, format: :json, payload: "{\"key\":\"abc1234\"}"})
       json_query.request.allHTTPHeaderFields['Content-Type'].should.equal "application/json"
+      json_query.cancel
     end
 
     it "should default to multipart/form-data for payloads with a hash" do
@@ -403,13 +449,15 @@ describe BubbleWrap::HTTP::Query do
     it "should default to application/x-www-form-urlencoded for non-hash payloads" do
       string_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, payload: "{\"key\":\"abc1234\"}"})
       string_query.request.allHTTPHeaderFields['Content-Type'].should.equal "application/x-www-form-urlencoded"
+      string_query.cancel
     end
 
     it "should not add Content-Type if you provide one yourself" do
       # also ensures check is case insenstive
       @headers = { fake: 'headers', 'CONTENT-TYPE' => 'x-banana' }
-      @post_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, payload: @payload})
-      @post_query.request.allHTTPHeaderFields['CONTENT-TYPE'].should.equal @headers['CONTENT-TYPE']
+      post_query = BubbleWrap::HTTP::Query.new(@url_string, :post, {headers: @headers, payload: @payload})
+      post_query.request.allHTTPHeaderFields['CONTENT-TYPE'].should.equal @headers['CONTENT-TYPE']
+      post_query.cancel
     end
 
   end
@@ -500,7 +548,9 @@ describe BubbleWrap::HTTP::Query do
       it "should turn off network indicator" do
         UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
         @query.connection(nil, didFailWithError:@fake_error)
-        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
+        wait BW::NetworkIndicator::DELAY do
+          UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
+        end
       end
     end
 
@@ -540,10 +590,10 @@ describe BubbleWrap::HTTP::Query do
 
     if App.ios?
       it "should turn off the network indicator" do
-        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
-
         @query.connectionDidFinishLoading(nil)
-        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
+        wait BW::NetworkIndicator::DELAY do
+          UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == false
+        end
       end
     end
 
@@ -681,6 +731,7 @@ describe BubbleWrap::HTTP::Query do
       query = BubbleWrap::HTTP::Query.new( @localhost_url , :get, @options )
       query.connection(nil, didReceiveAuthenticationChallenge:@challenge)
       @challenge.sender.continue_without_credential.should.equal true
+      query.cancel
     end
 
   end
@@ -697,7 +748,9 @@ describe BubbleWrap::HTTP::Query do
 
     if App.ios?
       it "should turn off the network indicator" do
-        UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal false
+        wait BW::NetworkIndicator::DELAY do
+          UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal false
+        end
       end
     end
   end
@@ -708,6 +761,10 @@ describe BubbleWrap::HTTP::Query do
       @payload = {}
       @url_string = 'http://fake.url/method'
       @get_query = BubbleWrap::HTTP::Query.new(@url_string, :get, :payload => @payload)
+    end
+
+    after do
+      @get_query.cancel
     end
 
     it "should not append a ? to the end of the URL" do
@@ -725,6 +782,10 @@ describe BubbleWrap::HTTP::Query do
       @escaped_url = "http://fake.url/method?we%20love=%23%3D%3DRock%26Roll%3D%3D%23&radio=Ga%20Ga&qual=3.0&incr=-1&RFC3986=%21%2A%27%28%29%3B%3A%40%26%3D%2B%24%2C%2F%3F%25%23%5B%5D"
     end
 
+    after do
+      @get_query.cancel
+    end
+
     it "should escape !*'();:@&=+$,/?%#[] characters only in keys and values" do
       @get_query.instance_variable_get(:@url).description.should.equal @escaped_url
     end
@@ -738,6 +799,11 @@ describe BubbleWrap::HTTP::Query do
       @cookie_query = BubbleWrap::HTTP::Query.new("http://haz-cookiez.url", :get, :payload => {:something => "else"})
     end
 
+    after do
+      @no_cookie_query.cancel
+      @cookie_query.cancel
+    end
+
     it 'should disabled cookie-usage on nsurlrequest' do
       @no_cookie_query.instance_variable_get(:@request).HTTPShouldHandleCookies.should.equal false
     end
@@ -746,7 +812,13 @@ describe BubbleWrap::HTTP::Query do
       @cookie_query.instance_variable_get(:@request).HTTPShouldHandleCookies.should.equal true
     end
 
+  end
 
+  after do
+    if App.ios?
+      sleep(BW::NetworkIndicator::DELAY) if BW::NetworkIndicator.counter > 0
+      raise "I think you forgot to 'cancel' a query (in order for BW::NetworkIndicator to be tested properly, all queries must be canceled)" if BW::NetworkIndicator.counter > 0
+    end
   end
 
   class FakeSender

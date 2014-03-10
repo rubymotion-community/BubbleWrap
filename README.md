@@ -93,6 +93,12 @@ If you wish to only include the `SMS` wrapper:
 require 'bubble-wrap/sms'
 ```
 
+If you wish to only include the `NetworkIndicator` wrapper:
+
+```ruby
+require 'bubble-wrap/network-indicator'
+```
+
 If you want to include everything (ie kitchen sink mode) you can save time and do:
 
 ```ruby
@@ -452,7 +458,36 @@ Wrapper for showing an in-app message (SMS) composer view.
        result.canceled?  # => boolean
        result.failed?    # => boolean
        error             # => NSError
-      } 
+      }
+```
+
+## NetworkIndicator
+
+Wrapper for showing and hiding the network indicator (the status bar spinner).
+
+```ruby
+    BW::NetworkIndicator.show  # starts the spinner
+    BW::NetworkIndicator.hide  # stops it
+
+    # the nice thing is if you call 'show' multiple times, the 'hide' method will
+    # not have any effect until you've called it the same number of times.
+    BW::NetworkIndicator.show
+    # ...somewhere else
+    BW::NetworkIndicator.show
+
+    # ...down the line
+    BW::NetworkIndicator.hide
+    # indicator is still visible
+
+    BW::NetworkIndicator.hide
+    # NOW the indicator is hidden!
+
+    # If you *really* want to hide the indicator immediately, you can call `reset!`
+    # but this is in no way encouraged.
+    BW::NetworkIndicator.reset!
+
+    # and for completeness, a check to see if the indicator is visible
+    BW::NetworkIndicator.visible?
 ```
 
 ## UI
