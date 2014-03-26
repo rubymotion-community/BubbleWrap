@@ -2,7 +2,7 @@ describe BubbleWrap::Media::Player do
   describe ".play" do
     before do
       @player = BW::Media::Player.new
-      @local_file = NSURL.fileURLWithPath(File.join(App.resources_path, 'test.mp3'))
+      @local_file = NSURL.fileURLWithPath(File.join(BW::App.resources_path, 'test.mp3'))
     end
 
     it "should raise error if not modal and no callback given" do
@@ -33,11 +33,11 @@ describe BubbleWrap::Media::Player do
   describe ".play_modal" do
     before do
       @player = BW::Media::Player.new
-      @local_file = NSURL.fileURLWithPath(File.join(App.resources_path, 'test.mp3'))
+      @local_file = NSURL.fileURLWithPath(File.join(BW::App.resources_path, 'test.mp3'))
     end
 
     it "should present a modalViewController on root if no controller given" do
-      @controller = App.window.rootViewController
+      @controller = BW::App.window.rootViewController
 
       @player.play_modal(@local_file)
 
@@ -61,7 +61,7 @@ describe BubbleWrap::Media::Player do
     end
 
     it "should present a modalViewController if controller given" do
-      parent = App.window.rootViewController
+      parent = BW::App.window.rootViewController
       @controller = UINavigationController.alloc.init
       parent.addChildViewController @controller
       @controller.viewWillAppear(false)

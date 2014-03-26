@@ -114,7 +114,7 @@ Make sure to append onto the array or use `+=`.
 ```ruby
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    puts "#{App.name} (#{App.documents_path})"
+    puts "#{BW::App.name} (#{BW::App.documents_path})"
     true
   end
 end
@@ -169,43 +169,43 @@ BubbleWrap.debug?
 A module with useful methods related to the running application
 
 ```ruby
-> App.documents_path
+> BW::App.documents_path
 # "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/Documents"
-> App.resources_path
+> BW::App.resources_path
 # "/Users/mattetti/Library/Application Support/iPhone Simulator/5.0/Applications/EEC6454E-1816-451E-BB9A-EE18222E1A8F/testSuite_spec.app"
-> App.name
+> BW::App.name
 # "testSuite"
-> App.identifier
+> BW::App.identifier
 # "io.bubblewrap.testSuite"
-> App.alert("BubbleWrap is awesome!")
+> BW::App.alert("BubbleWrap is awesome!")
 # creates and shows an alert message.
-> App.alert("BubbleWrap is awesome!", {cancel_button_title: "I know it is!", message: "Like, seriously awesome."})
+> BW::App.alert("BubbleWrap is awesome!", {cancel_button_title: "I know it is!", message: "Like, seriously awesome."})
 # creates and shows an alert message with optional parameters.
-> App.run_after(0.5) {  p "It's #{Time.now}"   }
+> BW::App.run_after(0.5) {  p "It's #{Time.now}"   }
 # Runs the block after 0.5 seconds.
-> App.open_url("http://matt.aimonetti.net")
+> BW::App.open_url("http://matt.aimonetti.net")
 # Opens the url using the device's browser. (accepts a string url or an instance of `NSURL`.
-> App::Persistence['channels'] # application specific persistence storage
+> BW::App::Persistence['channels'] # application specific persistence storage
 # ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
-> App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
+> BW::App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
 # ['TF1', 'France 2', 'France 3']
-> App.environment
+> BW::App.environment
 # 'test'
 ```
 
 Other available methods:
 
-* `App.notification_center`
-* `App.user_cache`
-* `App.states`
-* `App.frame`
-* `App.delegate`
-* `App.shared`
-* `App.window`
-* `App.current_locale`
-* `App.release?`
-* `App.test?`
-* `App.development?`
+* `BW::App.notification_center`
+* `BW::App.user_cache`
+* `BW::App.states`
+* `BW::App.frame`
+* `BW::App.delegate`
+* `BW::App.shared`
+* `BW::App.window`
+* `BW::App.current_locale`
+* `BW::App.release?`
+* `BW::App.test?`
+* `BW::App.development?`
 
 
 ### Device
@@ -215,31 +215,31 @@ A collection of useful methods about the current device:
 Examples:
 
 ```ruby
-> Device.iphone?
+> BW::Device.iphone?
 # true
-> Device.ipad?
+> BW::Device.ipad?
 # false
-> Device.camera.front?
+> BW::Device.camera.front?
 # true
-> Device.camera.rear?
+> BW::Device.camera.rear?
 # true
-> Device.orientation
+> BW::Device.orientation
 # :portrait
-> Device.interface_orientation
+> BW::Device.interface_orientation
 # :portrait
-> Device.simulator?
+> BW::Device.simulator?
 # true
-> Device.ios_version
+> BW::Device.ios_version
 # "6.0"
-> Device.retina?
+> BW::Device.retina?
 # false
-> Device.screen.width
+> BW::Device.screen.width
 # 320
-> Device.screen.height
+> BW::Device.screen.height
 # 480
-> Device.screen.width_for_orientation(:landscape_left)
+> BW::Device.screen.width_for_orientation(:landscape_left)
 # 480
-> Device.screen.height_for_orientation(:landscape_left)
+> BW::Device.screen.height_for_orientation(:landscape_left)
 # 320
 ```
 
@@ -287,22 +287,22 @@ Helper methods to give NSNotificationCenter a Ruby-like interface:
 
 ```ruby
 def viewWillAppear(animated)
-  @foreground_observer = App.notification_center.observe UIApplicationWillEnterForegroundNotification do |notification|
+  @foreground_observer = BW::App.notification_center.observe UIApplicationWillEnterForegroundNotification do |notification|
     loadAndRefresh
   end
 
-  @reload_observer = App.notification_center.observe 'ReloadNotification' do |notification|
+  @reload_observer = BW::App.notification_center.observe 'ReloadNotification' do |notification|
     loadAndRefresh
   end
 end
 
 def viewWillDisappear(animated)
-  App.notification_center.unobserve @foreground_observer
-  App.notification_center.unobserve @reload_observer
+  BW::App.notification_center.unobserve @foreground_observer
+  BW::App.notification_center.unobserve @reload_observer
 end
 
 def reload
-  App.notification_center.post 'ReloadNotification'
+  BW::App.notification_center.post 'ReloadNotification'
 end
 ```
 
@@ -310,7 +310,7 @@ end
 ### NSUserDefaults
 
 Helper methods added to the class repsonsible for user preferences used
-by the `App::Persistence` module shown below.
+by the `BW::App::Persistence` module shown below.
 
 ### Persistence
 
@@ -318,13 +318,13 @@ Offers a way to persist application specific information using a very
 simple interface:
 
 ``` ruby
-> App::Persistence['channels'] # application specific persistence storage
+> BW::App::Persistence['channels'] # application specific persistence storage
 # ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
-> App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
+> BW::App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
 # ['TF1', 'France 2', 'France 3']
-> App::Persistence.delete('channels')
+> BW::App::Persistence.delete('channels')
 # ['TF1', 'France 2', 'France 3']
-> App::Persistence['something__new'] # something previously never stored
+> BW::App::Persistence['something__new'] # something previously never stored
 # nil
 ```
 
@@ -713,9 +713,9 @@ BW::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
     json = BW::JSON.parse(response.body.to_str)
     p json['id']
   elsif response.status_code.to_s =~ /40\d/
-    App.alert("Login failed")
+    BW::App.alert("Login failed")
   else
-    App.alert(response.error_message)
+    BW::App.alert(response.error_message)
   end
 end
 ```
@@ -765,7 +765,7 @@ class HttpClient
     BW::HTTP.get(user_url(user_id)) do |response|
       # ..
     end
-  end 
+  end
 end
 ```
 

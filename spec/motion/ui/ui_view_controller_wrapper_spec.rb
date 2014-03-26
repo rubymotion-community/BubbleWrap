@@ -6,8 +6,8 @@ describe BW::UIViewControllerWrapper do
       end
 
       it "has the correct content frame" do
-        height   = App.frame.size.height
-        expected = CGRectMake(0, 0, App.frame.size.width, height)
+        height   = BW::App.frame.size.height
+        expected = CGRectMake(0, 0, BW::App.frame.size.width, height)
 
         @subject.content_frame.should.equal(expected)
       end
@@ -23,9 +23,9 @@ describe BW::UIViewControllerWrapper do
       end
 
       it "has the correct content frame" do
-        height   = App.frame.size.height
+        height   = BW::App.frame.size.height
         height   -= @subject.navigationController.navigationBar.frame.size.height
-        expected = CGRectMake(0, 0, App.frame.size.width, height)
+        expected = CGRectMake(0, 0, BW::App.frame.size.width, height)
 
         @subject.content_frame.should.equal(expected)
       end

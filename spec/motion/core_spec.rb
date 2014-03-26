@@ -29,7 +29,7 @@ describe 'BubbleWrap' do
 
     it "creates color with rgb devided by 255 with alpha=1" do
       r,g,b,a = [(@red/255.0), (@green/255.0), (@blue/255.0), 1]
-      if App.osx?
+      if BubbleWrap::App.osx?
         color = NSColor.colorWithDeviceRed(r, green:g, blue:b, alpha: a)
       else
         color = UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
@@ -40,7 +40,7 @@ describe 'BubbleWrap' do
     it "rgba_color uses the real alpha" do
       alpha = 0.4
       r,g,b,a = [(@red/255.0), (@green/255.0), (@blue/255.0), alpha]
-      if App.osx?
+      if BubbleWrap::App.osx?
         color = NSColor.colorWithDeviceRed(r, green:g, blue:b, alpha: a)
       else
         color = UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
@@ -51,7 +51,7 @@ describe 'BubbleWrap' do
   end
 
   describe "Localized string" do
-    
+
     it "loads the string from NSBundle" do
       key = 'real_key'
       value = 'Real Key'
@@ -66,11 +66,11 @@ describe 'BubbleWrap' do
     end
 
   end
-  
+
   describe "uuid" do
 
     it "creates always the new UUID" do
-      previous = BW.create_uuid  
+      previous = BW.create_uuid
       10.times do
         uuid = BW.create_uuid
         uuid.should.not.equal previous

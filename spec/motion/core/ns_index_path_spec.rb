@@ -1,7 +1,7 @@
 describe "NSIndexPathWrap" do
 
   before do
-    if App.osx?
+    if BubbleWrap::App.osx?
       @index = NSIndexPath.indexPathWithIndex(3)
     else
       @index = NSIndexPath.indexPathForRow(0, inSection:3)
@@ -17,7 +17,7 @@ describe "NSIndexPathWrap" do
     @index.each do |idx|
       i << idx
     end
-    if App.osx?
+    if BubbleWrap::App.osx?
       i.should == [3]
     else
       i.should == [3, 0]

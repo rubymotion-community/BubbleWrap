@@ -1,7 +1,7 @@
 describe BW::UIViewWrapper do
   describe "gestures" do
     before do
-      @view = App.delegate.window.rootViewController.view
+      @view = BW::App.delegate.window.rootViewController.view
       @orig = @view.isUserInteractionEnabled
       @view.setUserInteractionEnabled false
     end
@@ -76,12 +76,12 @@ describe BW::UIViewWrapper do
         end
 
         def dealloc
-          App.notification_center.post('ViewSuperView dealloc', nil, {'tag'=>tag})
+          BW::App.notification_center.post('ViewSuperView dealloc', nil, {'tag'=>tag})
           super
         end
       end
 
-      observer = App.notification_center.observe('ViewSuperView dealloc') do |obj|
+      observer = BW::App.notification_center.observe('ViewSuperView dealloc') do |obj|
         if obj.userInfo['tag'] == 1
           @weak_deallocated = true
         elsif obj.userInfo['tag'] == 2
@@ -96,7 +96,7 @@ describe BW::UIViewWrapper do
         v2 = ViewSuperView.new
         v2.tag = 2
       }
-      App.notification_center.unobserve(observer)
+      BW::App.notification_center.unobserve(observer)
       @weak_deallocated.should.equal true
       @strong_deallocated.should.equal nil
     end

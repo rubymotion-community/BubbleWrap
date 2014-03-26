@@ -20,7 +20,7 @@ describe BW::UIBarButtonItem do
     end
 
     def dealloc
-      App.notification_center.post('NavigationItemContainingBarButtonItem dealloc', nil, {'tag'=>tag})
+      BW::App.notification_center.post('NavigationItemContainingBarButtonItem dealloc', nil, {'tag'=>tag})
       super
     end
   end
@@ -184,7 +184,7 @@ describe BW::UIBarButtonItem do
 
     describe "with BubbleWrap.use_weak_callbacks=true" do
       it "removes cyclic references" do
-        observer = App.notification_center.observe('NavigationItemContainingBarButtonItem dealloc') do |obj|
+        observer = BW::App.notification_center.observe('NavigationItemContainingBarButtonItem dealloc') do |obj|
           if obj.userInfo['tag'] == 1
             @weak_deallocated = true
           elsif obj.userInfo['tag'] == 2
@@ -199,7 +199,7 @@ describe BW::UIBarButtonItem do
           v2 = NavigationItemContainingBarButtonItem.alloc.init_with_styled
           v2.tag = 2
         }
-        App.notification_center.unobserve(observer)
+        BW::App.notification_center.unobserve(observer)
         @weak_deallocated.should.equal true
         @strong_deallocated.should.equal nil
       end
@@ -278,7 +278,7 @@ describe BW::UIBarButtonItem do
 
     describe "with BubbleWrap.use_weak_callbacks=true" do
       it "removes cyclic references" do
-        observer = App.notification_center.observe('NavigationItemContainingBarButtonItem dealloc') do |obj|
+        observer = BW::App.notification_center.observe('NavigationItemContainingBarButtonItem dealloc') do |obj|
           if obj.userInfo['tag'] == 1
             @weak_deallocated = true
           elsif obj.userInfo['tag'] == 2
@@ -293,7 +293,7 @@ describe BW::UIBarButtonItem do
           v2 = NavigationItemContainingBarButtonItem.alloc.init_with_system
           v2.tag = 2
         }
-        App.notification_center.unobserve(observer)
+        BW::App.notification_center.unobserve(observer)
         @weak_deallocated.should.equal true
         @strong_deallocated.should.equal nil
       end

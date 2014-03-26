@@ -1,62 +1,62 @@
 describe BubbleWrap::App do
   describe '.documents_path' do
     it 'should end in "/Documents"' do
-      App.documents_path[-10..-1].should == '/Documents'
+      BubbleWrap::App.documents_path[-10..-1].should == '/Documents'
     end
   end
 
   describe '.resources_path' do
     it 'should end in "/testSuite.app"' do
-      if App.osx?
-        App.resources_path.should =~ /\/testSuite(_spec)?.app\/Contents\/Resources$/
+      if BubbleWrap::App.osx?
+        BubbleWrap::App.resources_path.should =~ /\/testSuite(_spec)?.app\/Contents\/Resources$/
       else
-        App.resources_path.should =~ /\/testSuite(_spec)?.app$/
+        BubbleWrap::App.resources_path.should =~ /\/testSuite(_spec)?.app$/
       end
     end
   end
 
   describe '.notification_center' do
     it 'should be a NSNotificationCenter' do
-      App.notification_center.should == NSNotificationCenter.defaultCenter
+      BubbleWrap::App.notification_center.should == NSNotificationCenter.defaultCenter
     end
   end
 
   describe '.user_cache' do
     it 'should be a NSUserDefaults' do
-      App.user_cache.should == NSUserDefaults.standardUserDefaults
+      BubbleWrap::App.user_cache.should == NSUserDefaults.standardUserDefaults
     end
   end
 
   describe '.states' do
     it 'returns a hash' do
-      App.states.class.should == Hash
+      BubbleWrap::App.states.class.should == Hash
     end
     it "returns the real instance variable" do
-      App.states.should == App.instance_variable_get(:@states)
+      BubbleWrap::App.states.should == BubbleWrap::App.instance_variable_get(:@states)
     end
   end
 
   describe '.info_plist' do
     it 'returns the information property list hash' do
-      App.info_plist.should == NSBundle.mainBundle.infoDictionary
+      BubbleWrap::App.info_plist.should == NSBundle.mainBundle.infoDictionary
     end
   end
 
   describe '.name' do
     it 'returns the application name' do
-      App.name.should == 'testSuite'
+      BubbleWrap::App.name.should == 'testSuite'
     end
   end
 
   describe '.identifier' do
     it 'returns the application identifier' do
-      App.identifier.should == 'io.bubblewrap.testSuite_spec'
+      BubbleWrap::App.identifier.should == 'io.bubblewrap.testSuite_spec'
     end
   end
 
   describe '.version' do
     it 'returns the application version' do
-      App.version.should == '1.2.3'
+      BubbleWrap::App.version.should == '1.2.3'
     end
   end
 
@@ -66,7 +66,7 @@ describe BubbleWrap::App do
     it 'should run a block after the provided delay' do
       @test_obj = DelayedRunAfterTest.new
 
-      App.run_after(0.1){ @test_obj.test_value = true }
+      BubbleWrap::App.run_after(0.1){ @test_obj.test_value = true }
       wait_for_change(@test_obj, 'test_value') do
         @test_obj.test_value.should == true
       end
@@ -77,7 +77,7 @@ describe BubbleWrap::App do
   describe ".environment" do
 
     it 'returns current application environment' do
-      App.environment.should.equal "test"
+      BubbleWrap::App.environment.should.equal "test"
     end
 
   end
@@ -85,15 +85,15 @@ describe BubbleWrap::App do
   describe ".test? .release? .development?" do
 
     it 'tests if current application environment is test' do
-      App.test?.should.equal true
+      BubbleWrap::App.test?.should.equal true
     end
 
     it 'tests if current application environment is release' do
-      App.release?.should.equal false
+      BubbleWrap::App.release?.should.equal false
     end
 
     it 'tests if current application environment is development' do
-      App.development?.should.equal false
+      BubbleWrap::App.development?.should.equal false
     end
 
   end

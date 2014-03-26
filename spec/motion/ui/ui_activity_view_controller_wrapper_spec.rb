@@ -14,8 +14,8 @@ describe BubbleWrap::UIActivityViewController do
   end
 
   after do
-    presenting_controller ||= App.window.rootViewController.presentedViewController
-    presenting_controller ||= App.window.rootViewController
+    presenting_controller ||= BW::App.window.rootViewController.presentedViewController
+    presenting_controller ||= BW::App.window.rootViewController
     presenting_controller.dismissViewControllerAnimated(false, completion:nil)
   end
 

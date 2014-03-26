@@ -99,4 +99,3 @@ module BubbleWrap
   end
 
 end
-::App = BubbleWrap::App unless defined?(::App)

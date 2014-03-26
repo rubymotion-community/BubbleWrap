@@ -367,7 +367,7 @@ describe BubbleWrap::HTTP::Query do
       @query.connection.was_started.should.equal true
     end
 
-    if App.ios?
+    if BubbleWrap::App.ios?
       it "should turn on the network indicator" do
         UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal true
       end
@@ -544,7 +544,7 @@ describe BubbleWrap::HTTP::Query do
       @fake_error = NSError.errorWithDomain('testing', code:7768, userInfo:nil)
     end
 
-    if App.ios?
+    if BubbleWrap::App.ios?
       it "should turn off network indicator" do
         UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should == true
         @query.connection(nil, didFailWithError:@fake_error)
@@ -588,7 +588,7 @@ describe BubbleWrap::HTTP::Query do
 
   describe "when connectionDidFinishLoading:" do
 
-    if App.ios?
+    if BubbleWrap::App.ios?
       it "should turn off the network indicator" do
         @query.connectionDidFinishLoading(nil)
         wait BW::NetworkIndicator::DELAY do
@@ -746,7 +746,7 @@ describe BubbleWrap::HTTP::Query do
       @doa_query.connection.was_cancelled.should.equal true
     end
 
-    if App.ios?
+    if BubbleWrap::App.ios?
       it "should turn off the network indicator" do
         wait BW::NetworkIndicator::DELAY do
           UIApplication.sharedApplication.isNetworkActivityIndicatorVisible.should.equal false
@@ -815,7 +815,7 @@ describe BubbleWrap::HTTP::Query do
   end
 
   after do
-    if App.ios?
+    if BubbleWrap::App.ios?
       sleep(BW::NetworkIndicator::DELAY) if BW::NetworkIndicator.counter > 0
       raise "I think you forgot to 'cancel' a query (in order for BW::NetworkIndicator to be tested properly, all queries must be canceled)" if BW::NetworkIndicator.counter > 0
     end
