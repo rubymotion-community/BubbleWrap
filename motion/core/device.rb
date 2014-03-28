@@ -13,4 +13,3 @@ module BubbleWrap
     end
   end
 end
-::Device = BubbleWrap::Device unless defined?(::Device)

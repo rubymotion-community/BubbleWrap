@@ -10,7 +10,7 @@ describe BubbleWrap::App do
 
       describe "with only one string argument" do
         before do
-          @alert = App.alert('1.21 Gigawatts!')
+          @alert = BubbleWrap::App.alert('1.21 Gigawatts!')
         end
 
         it 'returns an alert' do
@@ -34,7 +34,7 @@ describe BubbleWrap::App do
 
       describe "with only two string arguments" do
         before do
-          @alert = App.alert('1.21 Gigawatts!', 'Great Scott!')
+          @alert = BubbleWrap::App.alert('1.21 Gigawatts!', 'Great Scott!')
         end
 
         it 'returns an alert' do
@@ -58,7 +58,7 @@ describe BubbleWrap::App do
 
       describe "with variable args" do
         before do
-          @alert = App.alert('1.21 Gigawatts!', cancel_button_title: 'Great Scott!',
+          @alert = BubbleWrap::App.alert('1.21 Gigawatts!', cancel_button_title: 'Great Scott!',
                                                     message: 'Some random message')
         end
 
@@ -87,7 +87,7 @@ describe BubbleWrap::App do
 
       describe "with a block" do
         before do
-          @alert = App.alert('1.21 Gigawatts!') do |alert|
+          @alert = BubbleWrap::App.alert('1.21 Gigawatts!') do |alert|
             alert.message = 'My message!!'
           end
         end
@@ -118,38 +118,38 @@ describe BubbleWrap::App do
 
     describe '.frame' do
       it 'returns Application Frame' do
-        App.frame.should == UIScreen.mainScreen.applicationFrame
+        BubbleWrap::App.frame.should == UIScreen.mainScreen.applicationFrame
       end
     end
 
     describe '.bounds' do
       it 'returns Main Screen bounds' do
-        App.bounds.should == UIScreen.mainScreen.bounds
+        BubbleWrap::App.bounds.should == UIScreen.mainScreen.bounds
       end
     end
 
 
     describe '.delegate' do
       it 'returns a TestSuiteDelegate' do
-        App.delegate.should == UIApplication.sharedApplication.delegate
+        BubbleWrap::App.delegate.should == UIApplication.sharedApplication.delegate
       end
     end
 
     describe '.shared' do
       it 'returns UIApplication.sharedApplication' do
-        App.shared.should == UIApplication.sharedApplication
+        BubbleWrap::App.shared.should == UIApplication.sharedApplication
       end
     end
 
     describe '.windows' do
       it 'returns UIApplication.sharedApplication.windows' do
-        App.windows.should == UIApplication.sharedApplication.windows
+        BubbleWrap::App.windows.should == UIApplication.sharedApplication.windows
       end
     end
 
     describe '.window' do
       it 'returns UIApplication.sharedApplication.keyWindow' do
-        App.window.should == UIApplication.sharedApplication.keyWindow
+        BubbleWrap::App.window.should == UIApplication.sharedApplication.keyWindow
       end
 
       describe 'with UIActionSheet' do
@@ -158,16 +158,16 @@ describe BubbleWrap::App do
           action_sheet = UIActionSheet.alloc.init
           action_sheet.cancelButtonIndex = (action_sheet.addButtonWithTitle("Cancel"))
 
-          old_window = App.window
-          window_count = App.windows.count
-          action_sheet.showInView(App.window)
+          old_window = BubbleWrap::App.window
+          window_count = BubbleWrap::App.windows.count
+          action_sheet.showInView(BubbleWrap::App.window)
           wait 1 do
             UIApplication.sharedApplication.windows.count.should > window_count
-            App.window.should == old_window
+            BubbleWrap::App.window.should == old_window
 
             action_sheet.dismissWithClickedButtonIndex(action_sheet.cancelButtonIndex, animated: false)
 
-            App.window.should == old_window
+            BubbleWrap::App.window.should == old_window
           end
         end
       end
@@ -179,7 +179,7 @@ describe BubbleWrap::App do
       it 'should run a block after the provided delay' do
         @test_obj = DelayedRunAfterTest.new
 
-        App.run_after(0.1){ @test_obj.test_value = true }
+        BubbleWrap::App.run_after(0.1){ @test_obj.test_value = true }
         wait_for_change(@test_obj, 'test_value') do
           @test_obj.test_value.should == true
         end
@@ -195,11 +195,11 @@ describe BubbleWrap::App do
         def application.openURL(url); @url = url end
 
         url = NSURL.URLWithString('http://localhost')
-        App.open_url(url)
+        BubbleWrap::App.open_url(url)
         application.url.should.equal url
 
         url = 'http://localhost'
-        App.open_url(url)
+        BubbleWrap::App.open_url(url)
         application.url.class.should.equal NSURL
         application.url.description.should.equal url
       end

@@ -3,7 +3,7 @@ describe "RSSParser" do
   before do
     @feed_url = 'https://raw.github.com/gist/2952427/9f1522cbe5d77a72c7c96c4fdb4b77bd58d7681e/atom.xml'
     @ns_url = NSURL.alloc.initWithString(@feed_url)
-    @local_feed = File.join(App.resources_path, 'atom.xml')
+    @local_feed = File.join(BW::App.resources_path, 'atom.xml')
   end
 
   describe "initialization" do
@@ -53,7 +53,7 @@ describe "RSSParser" do
           alias_method :original_get, :get
           def get(url, options={}, &block)
             if url == 'https://raw.github.com/gist/2952427/9f1522cbe5d77a72c7c96c4fdb4b77bd58d7681e/atom.xml'
-              string = File.read(File.join(App.resources_path, 'atom.xml'))
+              string = File.read(File.join(BW::App.resources_path, 'atom.xml'))
               yield BW::HTTP::Response.new(body: string.to_data, status_code: 200)
             elsif url == 'http://doesnotexist.com'
               yield BW::HTTP::Response.new(status_code: nil)

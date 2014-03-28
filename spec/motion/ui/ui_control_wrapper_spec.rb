@@ -36,12 +36,12 @@ describe BW::UIControlWrapper do
         end
 
         def dealloc
-          App.notification_center.post('ControlSuperView dealloc', nil, {'tag'=>tag})
+          BubbleWrap::App.notification_center.post('ControlSuperView dealloc', nil, {'tag'=>tag})
           super
         end
       end
 
-      observer = App.notification_center.observe('ControlSuperView dealloc') do |obj|
+      observer = BubbleWrap::App.notification_center.observe('ControlSuperView dealloc') do |obj|
         if obj.userInfo['tag'] == 1
           @weak_deallocated = true
         elsif obj.userInfo['tag'] == 2
@@ -56,7 +56,7 @@ describe BW::UIControlWrapper do
         v2 = ControlSuperView.new
         v2.tag = 2
       }
-      App.notification_center.unobserve(observer)
+      BubbleWrap::App.notification_center.unobserve(observer)
       @weak_deallocated.should.equal true
       @strong_deallocated.should.equal nil
     end
