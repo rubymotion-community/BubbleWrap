@@ -152,6 +152,8 @@ BubbleWrap.rgb_color(23, 45, 12)
 => #<UICachedDeviceWhiteColor:0x8bb5be0>
 '#FF8A19'.to_color
 => #<UIDeviceRGBColor:0x8d54110>
+'#88FF8A19'.to_color # ARGB format
+=> #<UIDeviceRGBColor:0xca0fe00>
 ```
 
 Debug flag:

@@ -93,12 +93,23 @@ describe BubbleWrap::String do
 
   before do
     @blue_color = App.osx? ? NSColor.colorWithDeviceRed(0,green:0,blue:1,alpha:1) : UIColor.blueColor
-    r,g,b,a = [1, (138.0/255.0), (25.0/255.0), 1]
-    @orange_color = App.osx? ? NSColor.colorWithDeviceRed(r, green:g, blue:b, alpha: a) :
+    r,g,b,a = [1, (0x8A.to_f/0xFF.to_f), (0x19/0xFF.to_f), (0x88.to_f/0xFF.to_f)]
+    @orange_color = App.osx? ? NSColor.colorWithDeviceRed(r, green:g, blue:b, alpha: 1.0) :
+                                UIColor.colorWithRed(r, green:g, blue:b, alpha:1.0)
+    @orange_alpha_color = App.osx? ? NSColor.colorWithDeviceRed(r, green:g, blue:b, alpha: a) :
                                 UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
   end
 
   describe "A UIColor should be created from a String with a hex color" do
+    it "with 8 digits" do
+      @orange_color_from_hex = '88FF8A19'.to_color
+      @orange_color_from_hex.should == @orange_alpha_color
+    end
+
+    it "with 8 digits and # sign" do
+      @orange_color_from_hex = '#88FF8A19'.to_color
+      @orange_color_from_hex.should == @orange_alpha_color
+    end
 
     it "with 6 digits" do
       @orange_color_from_hex= '#FF8A19'.to_color
