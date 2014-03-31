@@ -9,9 +9,17 @@ describe BubbleWrap::Reactor::Eventable do
   end
 
   describe '.on' do
-    it 'registers events' do
+    it 'registers events passing a block' do
       proof = proc {  }
       @subject.on(:foo, &proof)
+      events = @subject.instance_variable_get(:@__events__)
+      events[:foo].member?(proof).should == true
+    end
+
+    it 'registers events passing a Method object' do
+      def bar; end
+      proof = method(:bar)
+      @subject.on(:foo, proof)
       events = @subject.instance_variable_get(:@__events__)
       events[:foo].member?(proof).should == true
     end
@@ -23,11 +31,20 @@ describe BubbleWrap::Reactor::Eventable do
   end
 
   describe '.off' do
-    it 'unregisters events' do
+    it 'unregisters proc events' do
       proof = proc { }
       @subject.on(:foo, &proof)
       events = @subject.instance_variable_get(:@__events__)
       @subject.off(:foo, &proof)
+      events[:foo].member?(proof).should == false
+    end
+
+    it 'unregisters method events' do
+      def bar; end
+      proof = method(:bar)
+      @subject.on(:foo, proof)
+      events = @subject.instance_variable_get(:@__events__)
+      @subject.off(:foo, proof)
       events[:foo].member?(proof).should == false
     end
 
@@ -57,11 +74,31 @@ describe BubbleWrap::Reactor::Eventable do
       @proxy.proof.should == true
     end
 
+    it 'calls event methods' do
+      @proxy.proof = false
+      def bar(r)
+        @proxy.proof = r
+      end
+      @subject.on(:foo, method(:bar))
+      @subject.trigger(:foo, true)
+      @proxy.proof.should == true
+    end
+
     it 'calls event procs for correct event' do
       @proxy.proof = false
       @subject.on(:foo) do |r|
         @proxy.proof = r
       end
+      @subject.trigger(:bar, true)
+      @proxy.proof.should == false
+    end
+
+    it 'calls event methods for correct event' do
+      @proxy.proof = false
+      def bar(r)
+        @proxy.proof = r
+      end
+      @subject.on(:foo, method(:bar))
       @subject.trigger(:bar, true)
       @proxy.proof.should == false
     end
@@ -75,12 +112,27 @@ describe BubbleWrap::Reactor::Eventable do
       @proxy.proof.should == 6
     end
 
+    it 'calls all the event methods' do
+      def bar(r); @proxy.proof += r; end
+      def baz(r); @proxy.proof += r; end
+      @proxy.proof = 0
+      @subject.on(:foo, method(:baz))
+      @subject.on(:foo, method(:bar))
+      @subject.trigger(:foo, 2)
+      @proxy.proof.should == 4
+    end
+
     class TestUIViewControllerWithEventable
       include BubbleWrap::Reactor::Eventable
       def test_on
         on(:foo) do
         end
+        method(:bar)
       end
+
+      def bar
+      end
+
       def dealloc
         $test_dealloc = true
         super
