@@ -43,6 +43,7 @@ module BubbleWrap; module HTTP; class Query
     @timeout = options.delete(:timeout) || 30.0
     @headers = escape_line_feeds(options.delete :headers)
     @format = options.delete(:format)
+    @allows_cellular_access = options.has_key?(:allows_cellular_access) ? options.delete(:allows_cellular_access) : true
     @cache_policy = options.delete(:cache_policy) || NSURLRequestUseProtocolCachePolicy
     @credential_persistence = options.delete(:credential_persistence) || NSURLCredentialPersistenceForSession
     @cookies = options.key?(:cookies) ? options.delete(:cookies) : true
@@ -200,6 +201,7 @@ Cache policy: #{@cache_policy}, response: #{@response.inspect} >"
     set_content_type
     append_auth_header
     request.setAllHTTPHeaderFields(@headers)
+    request.setAllowsCellularAccess(@allows_cellular_access)
     request.setHTTPBody(@body)
     request.setHTTPShouldHandleCookies(@cookies)
     patch_nsurl_request(request)
