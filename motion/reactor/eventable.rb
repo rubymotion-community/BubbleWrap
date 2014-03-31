@@ -6,14 +6,16 @@ module BubbleWrap
       # When `event` is triggered the block will execute
       # and be passed the arguments that are passed to
       # `trigger`.
-      def on(event, &blk)
-        __events__[event].push blk
+      def on(event, method = nil, &blk)
+        method_or_block = method ? method : blk
+        __events__[event].push method_or_block
       end
 
       # When `event` is triggered, do not call the given
       # block any more
-      def off(event, &blk)
-        __events__[event].delete_if { |b| b == blk }
+      def off(event, method = nil, &blk)
+        method_or_block = method ? method : blk
+        __events__[event].delete_if { |b| b == method_or_block }
         blk
       end
 
