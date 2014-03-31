@@ -95,6 +95,7 @@ module BubbleWrap
 
     # Stop getting locations
     def stop
+      return unless @options
       if @options[:significant]
         self.location_manager.stopMonitoringSignificantLocationChanges
       elsif @options[:compass]

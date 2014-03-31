@@ -229,5 +229,10 @@ describe BubbleWrap::Location do
 
       location_manager.instance_variable_get("@stopMonitoringSignificantLocationChanges").should == true
     end
+
+    it "should not throw an error stopping before it was started" do
+      Proc.new { BW::Location.stop }.should.not.raise Exception
+    end
+
   end
 end
