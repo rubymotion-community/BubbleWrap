@@ -45,11 +45,19 @@ describe BubbleWrap::KVO do
       unobserve(@label, method)
     end
 
-    #  def unobserve_all
-    #unobserve(@label, "text")
-    #unobserve(self, "items")
-    #end
+    def unobserve_all
+      unobserve("age")
+      unobserve(self, "items")
+      unobserve(@label, "text")
+    end
 
+    def isEqual(other)
+      @age == other.age
+    end
+
+    def hash
+      @age
+    end
   end
 
   describe "Callbacks" do
@@ -210,13 +218,25 @@ describe BubbleWrap::KVO do
         observed = true
       end
       @example.unobserve :age
-    
+
       @example.age = 2
       observed.should == false
     end
-  
+
+    # value objects
+    it "should observe if object overrides 'isEqual' and 'hash'" do
+      observe_count = 0
+      @example.observe :age do |old_value, new_value|
+        observe_count += 1
+      end
+
+      @example.age = 2
+      @example.age = 3
+
+      observe_count.should == 2
+    end
   end
- 
+
 =begin
   it "should be able to observe a collection" do
     observed = false
