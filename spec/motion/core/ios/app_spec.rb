@@ -205,5 +205,32 @@ describe BubbleWrap::App do
       end
 
     end
+
+    describe ".can_open_url" do
+
+      it "uses NSURL or converts NSString in NSURL and opens it" do
+        application = UIApplication.sharedApplication
+        def application.url; @url end
+        def application.canOpenURL(url); @url = url; super; end
+
+        url = NSURL.URLWithString('http://localhost')
+        App.can_open_url(url)
+        application.url.should.equal url
+
+        url = 'http://localhost'
+        App.can_open_url(url)
+        application.url.class.should.equal NSURL
+        application.url.description.should.equal url
+      end
+
+      it "returns false when it can't open the given url" do
+        App.can_open_url("inexistent_schema://").should.equal false
+      end
+
+      it "returns true when it can open the given url" do
+        App.can_open_url("http://google.com").should.equal true
+        App.can_open_url("rdar:").should.equal true
+      end
+    end
   end
 end
