@@ -186,7 +186,10 @@ A module with useful methods related to the running application
 > App.run_after(0.5) {  p "It's #{Time.now}"   }
 # Runs the block after 0.5 seconds.
 > App.open_url("http://matt.aimonetti.net")
-# Opens the url using the device's browser. (accepts a string url or an instance of `NSURL`.
+> App.open_url("tel://123456789")
+# Opens the url using the device's browser. Can also open custom URL schemas (accepts a string url or an instance of `NSURL`.)
+> App.can_open_url("tel://")
+# Returns whether the app can open a given URL resource.
 > App::Persistence['channels'] # application specific persistence storage
 # ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']
 > App::Persistence['channels'] = ['TF1', 'France 2', 'France 3']
@@ -767,7 +770,7 @@ class HttpClient
     BW::HTTP.get(user_url(user_id)) do |response|
       # ..
     end
-  end 
+  end
 end
 ```
 
