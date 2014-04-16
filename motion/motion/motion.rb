@@ -58,7 +58,7 @@ module BubbleWrap
 
     end
 
-    class Accelerometer
+    class Accelerometer < Generic
 
       def start(options={}, &handler)
         if options.key?(:interval)
@@ -111,7 +111,7 @@ module BubbleWrap
 
     end
 
-    class Gyroscope
+    class Gyroscope < Generic
 
       def start(options={}, &handler)
         if options.key?(:interval)
@@ -164,7 +164,7 @@ module BubbleWrap
 
     end
 
-    class Magnetometer
+    class Magnetometer < Generic
 
       def start(options={}, &handler)
         if options.key?(:interval)
@@ -218,7 +218,7 @@ module BubbleWrap
 
     end
 
-    class Device
+    class DeviceMotion < Generic
 
       def start(options={}, &handler)
         if options.key?(:interval)
