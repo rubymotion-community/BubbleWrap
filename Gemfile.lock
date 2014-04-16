@@ -1,14 +1,14 @@
 PATH
   remote: .
   specs:
-    bubble-wrap (1.6.0)
-      bubble-wrap-http (= 1.6.0)
+    bubble-wrap (1.6.0.rc1)
+      bubble-wrap-http (= 1.6.0.rc1)
 
 GEM
   remote: https://rubygems.org/
   specs:
     bacon (1.1.0)
-    bubble-wrap-http (1.6.0)
+    bubble-wrap-http (1.6.0.rc1)
     metaclass (0.0.1)
     mocha (0.11.4)
       metaclass (~> 0.0.1)
