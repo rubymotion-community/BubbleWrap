@@ -381,7 +381,7 @@ iso8601 formatted string into a Time instance.
 
 ## Location
 
-Added interface for Ruby-like GPS and compass access:
+Interface for Ruby-like GPS and compass access (the CoreLocation framework):
 
 ```ruby
 BW::Location.get do |result|
