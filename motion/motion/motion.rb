@@ -364,15 +364,19 @@ module BubbleWrap
     end
 
     def accelerometer
+      @accelerometer ||= Accelerometer.new(self.manager)
     end
 
     def gyroscope
+      @gyroscope ||= Gyroscope.new(self.manager)
     end
 
     def magnetometer
+      @magnetometer ||= Magnetometer.new(self.manager)
     end
 
     def device
+      @device ||= DeviceMotion.new(self.manager)
     end
 
   end
