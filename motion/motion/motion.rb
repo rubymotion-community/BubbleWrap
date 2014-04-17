@@ -39,7 +39,7 @@ module BubbleWrap
         return self
       end
 
-      def convert_queue(queue_name)
+      private def convert_queue(queue_name)
         case queue_name
         when :main, nil
           return NSOperationQueue.mainQueue
@@ -68,7 +68,7 @@ module BubbleWrap
         end
 
         if handler
-          queue = self.convert_queue(options[:queue])
+          queue = convert_queue(options[:queue])
           @manager.startAccelerometerUpdatesToQueue(queue, withHandler: lambda do |result_data, error|
             handle_result(result_data, error, &handler)
           end)
@@ -79,7 +79,7 @@ module BubbleWrap
         return self
       end
 
-      def handle_result(result_data, error, &handler)
+      private def handle_result(result_data, error, &handler)
         if result_data
           result = {
             data: result_data,
@@ -121,7 +121,7 @@ module BubbleWrap
         end
 
         if handler
-          queue = self.convert_queue(options[:queue])
+          queue = convert_queue(options[:queue])
           @manager.startGyroUpdatesToQueue(queue, withHandler: lambda do |result_data, error|
             handle_result(result_data, error, &handler)
           end)
@@ -132,7 +132,7 @@ module BubbleWrap
         return self
       end
 
-      def handle_result(result_data, error, &handler)
+      private def handle_result(result_data, error, &handler)
         if result_data
           result = {
             data: result_data,
@@ -175,7 +175,7 @@ module BubbleWrap
 
         if options.key?()
         if handler
-          queue = self.convert_queue(options[:queue])
+          queue = convert_queue(options[:queue])
           @manager.startMagnetometerUpdatesToQueue(queue, withHandler: lambda do |result_data, error|
             handle_result(result_data, error, &handler)
           end)
@@ -186,7 +186,7 @@ module BubbleWrap
         return self
       end
 
-      def handle_result(result_data, error, &handler)
+      private def handle_result(result_data, error, &handler)
         if result_data
           result = {
             data: result_data,
@@ -234,15 +234,15 @@ module BubbleWrap
         end
 
         if handler
-          queue = self.convert_queue(options[:queue])
+          queue = convert_queue(options[:queue])
 
           if reference_frame
             @manager.startDeviceMotionUpdatesUsingReferenceFrame(reference_frame, toQueue: queue, withHandler: lambda do |result_data, error|
-              self.handle_result(result_data, error, &handler)
+              handle_result(result_data, error, &handler)
             end)
           else
             @manager.startDeviceMotionUpdatesToQueue(queue, withHandler: lambda do |result_data, error|
-              self.handle_result(result_data, error, &handler)
+              handle_result(result_data, error, &handler)
             end)
           end
         else
@@ -256,7 +256,7 @@ module BubbleWrap
         return self
       end
 
-      def handle_result(result_data, error, &handler)
+      private def handle_result(result_data, error, &handler)
         if result_data
           result = {
             data: result_data,
