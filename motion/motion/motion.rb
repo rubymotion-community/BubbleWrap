@@ -12,8 +12,9 @@ module BubbleWrap
         @manager = manager
       end
 
-      def every(time=nil, options={} &block)
-        raise "A block is required" unless block
+      def every(time=nil, options={} &blk)
+        raise "A block is required" unless blk
+        blk.weak! if BubbleWrap.use_weak_callbacks?
 
         if time.is_a?(NSDictionary)
           options = time
@@ -22,15 +23,16 @@ module BubbleWrap
           options = options.merge(interval: time)
         end
 
-        start(options, &block)
+        self.start(options, &blk)
         return self
       end
 
-      def once(options={}, &block)
-        raise "A block is required" unless block
+      def once(options={}, &blk)
+        raise "A block is required" unless blk
+        blk.weak! if BubbleWrap.use_weak_callbacks?
 
         every(options) do |result|
-          block.call(result)
+          blk.call(result)
           self.stop
         end
 
