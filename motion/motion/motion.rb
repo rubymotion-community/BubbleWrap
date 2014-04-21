@@ -12,7 +12,7 @@ module BubbleWrap
         @manager = manager
       end
 
-      def every(time=nil, options={} &blk)
+      def every(time=nil, options={}, &blk)
         raise "A block is required" unless blk
         blk.weak! if BubbleWrap.use_weak_callbacks?
 
@@ -173,7 +173,6 @@ module BubbleWrap
           @manager.magnetometerUpdateInterval = options[:interval]
         end
 
-        if options.key?()
         if handler
           queue = convert_queue(options[:queue])
           @manager.startMagnetometerUpdatesToQueue(queue, withHandler: lambda do |result_data, error|
