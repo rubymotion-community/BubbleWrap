@@ -62,7 +62,8 @@ module BubbleWrap
 
     private
     def registered?(target, key_path)
-      !@targets.nil? && !@targets[target].nil? && @targets[target].has_key?(key_path.to_s)
+      target_id = target.object_id
+      !@targets.nil? && !@targets[target_id].nil? && @targets[target_id].has_key?(key_path.to_s)
     end
 
     def add_observer_block(target, key_path, &block)
@@ -70,17 +71,25 @@ module BubbleWrap
 
       block.weak! if BubbleWrap.use_weak_callbacks?
 
+      target_id = target.object_id
+
       @targets ||= {}
-      @targets[target] ||= {}
-      @targets[target][key_path.to_s] ||= []
-      @targets[target][key_path.to_s] << block
+      @targets[target_id] ||= {}
+      @targets[target_id][key_path.to_s] ||= []
+      @targets[target_id][key_path.to_s] << block
     end
 
     def remove_observer_block(target, key_path)
       return if @targets.nil? || target.nil? || key_path.nil?
 
-      key_paths = @targets[target]
+      target_id = target.object_id
+
+      key_paths = @targets[target_id]
       key_paths.delete(key_path.to_s) if !key_paths.nil?
+
+      if key_paths.size == 0
+        @targets.delete target_id
+      end
     end
 
     def remove_all_observer_blocks
@@ -90,8 +99,9 @@ module BubbleWrap
     # NSKeyValueObserving Protocol
 
     def observeValueForKeyPath(key_path, ofObject: target, change: change, context: context)
-      key_paths = @targets[target] || {}
+      key_paths = @targets[target.object_id] || {}
       blocks = key_paths[key_path] || []
+
       blocks.each do |block|
         args = [change[NSKeyValueChangeOldKey], change[NSKeyValueChangeNewKey]]
         args << change[NSKeyValueChangeIndexesKey] if collection?(change)
@@ -102,6 +112,5 @@ module BubbleWrap
     def collection?(change)
       COLLECTION_OPERATIONS.include?(change[NSKeyValueChangeKindKey])
     end
-
   end
 end
