@@ -429,7 +429,7 @@ The `CMDeviceMotion` interface (`BW::Motion.device`) accepts a `:reference`
 option, which specifies the `CMAttitudeReferenceFrame`.  The default value is
 the same as the one that `CMMotionManager` uses, which is returned by the
 `CMMotionManager#attitudeReferenceFrame` method.  This option should be passed
-to the `every` or `once` method.
+to the `repeat`, `every` or `once` methods.
 
 ###### Accelerometer
 ```ruby
@@ -445,6 +445,11 @@ listener = BW::Motion.accelerometer.every(5) do |result|
   p result[:y]  #          "          y direction
   p result[:z]  #          "          z direction
 end
+
+# repeat, but don't set the interval
+listener = BW::Motion.accelerometer.repeat do |result|
+end
+
 # you can specify a :queue where the operations will be executed.  See above for details
 listener = BW::Motion.accelerometer.every(5, queue: :background) { |result| ... }
 listener = BW::Motion.accelerometer.every(5, queue: :main) { |result| ... }
