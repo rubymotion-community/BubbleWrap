@@ -437,7 +437,7 @@ BW::Motion.accelerometer.available?
 BW::Motion.accelerometer.data  # returns CMAccelerometerData object or nil
 
 # ask the CMMotionManager to update every 5 seconds
-listener = BW::Motion.accelerometer.every(5) do |result|
+BW::Motion.accelerometer.every(5) do |result|
   # result contains the following data (from CMAccelerometerData#acceleration):
   p result[:data]  # the CMAccelerometerData object
   p result[:acceleration]  # the CMAcceleration struct
@@ -447,17 +447,17 @@ listener = BW::Motion.accelerometer.every(5) do |result|
 end
 
 # repeat, but don't set the interval
-listener = BW::Motion.accelerometer.repeat do |result|
+BW::Motion.accelerometer.repeat do |result|
 end
 
 # you can specify a :queue where the operations will be executed.  See above for details
-listener = BW::Motion.accelerometer.every(5, queue: :background) { |result| ... }
-listener = BW::Motion.accelerometer.every(5, queue: :main) { |result| ... }
-listener = BW::Motion.accelerometer.every(5, queue: :current) { |result| ... }
-listener = BW::Motion.accelerometer.every(5, queue: 'my queue') { |result| ... }
+BW::Motion.accelerometer.every(5, queue: :background) { |result| ... }
+BW::Motion.accelerometer.every(5, queue: :main) { |result| ... }
+BW::Motion.accelerometer.every(5, queue: :current) { |result| ... }
+BW::Motion.accelerometer.every(5, queue: 'my queue') { |result| ... }
 
 # later, you will need to turn off these events:
-listener.stop
+BW::Motion.accelerometer.stop
 
 BW::Motion.accelerometer.once do |result|
   # ...
@@ -470,7 +470,7 @@ BW::Motion.gyroscope.available?
 BW::Motion.gyroscope.data  # returns CMGyroData object or nil
 
 # ask the CMMotionManager to update every second.
-listener = BW::Motion.gyroscope.every(1) do |result|
+BW::Motion.gyroscope.every(1) do |result|
   # result contains the following data (from CMGyroData#rotationRate):
   p result[:data]  # the CMGyroData object
   p result[:rotation]  # the CMRotationRate struct
@@ -478,7 +478,7 @@ listener = BW::Motion.gyroscope.every(1) do |result|
   p result[:y]  #        "        y direction
   p result[:z]  #        "        z direction
 end
-listener.stop
+BW::Motion.gyroscope.stop
 
 BW::Motion.gyroscope.once do |result|
   # ...
@@ -491,7 +491,7 @@ BW::Motion.magnetometer.available?
 BW::Motion.magnetometer.data  # returns CMMagnetometerData object or nil
 
 # ask the CMMotionManager to update every second
-listener = BW::Motion.magnetometer.every(1) do |result|
+BW::Motion.magnetometer.every(1) do |result|
   # result contains the following data (from CMMagnetometerData#magneticField):
   p result[:data]  # the CMMagnetometerData object
   p result[:field]  # the CMMagneticField struct
@@ -499,7 +499,7 @@ listener = BW::Motion.magnetometer.every(1) do |result|
   p result[:y]  #           "           y direction
   p result[:z]  #           "           z direction
 end
-listener.stop
+BW::Motion.magnetometer.stop
 
 BW::Motion.magnetometer.once do |result|
   # ...
