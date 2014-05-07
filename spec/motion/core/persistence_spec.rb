@@ -30,6 +30,21 @@ describe BubbleWrap::Persistence do
       BubbleWrap::Persistence['arbitraryNumber'] = 42
       storage.instance_variable_get(:@sync_was_called).should.equal true
     end
+
+    it 'return persisted objects' do
+      persisted_number = (BubbleWrap::Persistence['arbitraryNumber'] ||= 42)
+      persisted_number.should.equal 42
+    end
+
+    it 'raise error if fail synchronize.' do
+      storage = NSUserDefaults.standardUserDefaults
+      def storage.synchronize; false; end
+
+      lambda do 
+        BubbleWrap::Persistence['arbitraryNumber'] = 42
+      end.
+        should.raise(BubbleWrap::Persistence::FailSynchronize)
+    end
   end
 
   describe "storing multiple objects" do
