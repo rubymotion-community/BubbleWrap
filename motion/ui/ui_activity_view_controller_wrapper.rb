@@ -41,11 +41,14 @@ module BW
     UIActivityTypePrint,
     UIActivityTypeCopyToPasteboard,
     UIActivityTypeAssignToContact,
-    UIActivityTypeSaveToCameraRoll,
+    UIActivityTypeSaveToCameraRoll
+  )
+
+  Constants.register(
     UIActivityTypeAddToReadingList,
     UIActivityTypePostToFlickr,
     UIActivityTypePostToVimeo,
     UIActivityTypePostToTencentWeibo,
     UIActivityTypeAirDrop
-  )
+  ) if Device.ios_version >= "7.0"
 end
