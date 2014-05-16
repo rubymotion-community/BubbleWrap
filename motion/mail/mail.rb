@@ -6,7 +6,7 @@ module BubbleWrap
     # Base method to create your in-app mail
     # ---------------------------------------
     # EX
-    #   BW::Mail.compose {
+    #   BW::Mail.compose(
     #     delegate: self, # optional, will use root view controller by default
     #     to: [ "tom@example.com" ],
     #     cc: [ "itchy@example.com", "scratchy@example.com" ],
@@ -15,7 +15,7 @@ module BubbleWrap
     #     subject: "My Subject",
     #     message: "This is my message. It isn't very long.",
     #     animated: false
-    #   } do |result, error|
+    #   ) do |result, error|
     #     result.sent?      # => boolean
     #     result.canceled?  # => boolean
     #     result.saved?     # => boolean
