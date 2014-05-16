@@ -331,6 +331,8 @@ simple interface:
 # ['TF1', 'France 2', 'France 3']
 > App::Persistence['something__new'] # something previously never stored
 # nil
+> App::Persistence.all
+# {'all':'values', 'stored':'by', 'bubblewrap':'as a hash!'}
 ```
 
 ### Observers
