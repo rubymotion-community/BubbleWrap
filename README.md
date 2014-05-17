@@ -391,6 +391,13 @@ iso8601 formatted string into a Time instance.
 Added interface for Ruby-like GPS and compass access:
 
 ```ruby
+> BW::Location.enabled? # Whether location services are enabled on the device
+=> true
+> BW::Location.authorized? # If your app is authorized to use location services
+=> false
+```
+
+```ruby
 BW::Location.get do |result|
   p "From Lat #{result[:from].latitude}, Long #{result[:from].longitude}"
   p "To Lat #{result[:to].latitude}, Long #{result[:to].longitude}"

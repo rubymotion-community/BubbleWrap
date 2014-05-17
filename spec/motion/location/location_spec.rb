@@ -16,9 +16,18 @@ class CLLocationManager
     @enabled = enable
   end
 
+  def self.authorize(authorize)
+    @authorized = authorize
+  end
+
   def self.locationServicesEnabled
     return true if @enabled.nil?
     @enabled
+  end
+
+  def self.authorizationStatus
+    return KCLAuthorizationStatusNotDetermined if @authorized.nil?
+    @authorized
   end
 
   def startUpdatingLocation
@@ -67,6 +76,22 @@ describe BubbleWrap::Location do
       end
 
       location_manager.purpose.should == "test"
+    end
+
+    it "should return false when not available" do
+      CLLocationManager.authorize(KCLAuthorizationStatusNotDetermined)
+      BW::Location.authorized?.should == false
+
+      CLLocationManager.authorize(KCLAuthorizationStatusRestricted)
+      BW::Location.authorized?.should == false
+
+      CLLocationManager.authorize(KCLAuthorizationStatusDenied)
+      BW::Location.authorized?.should == false
+    end
+
+    it "should return true when available" do
+      CLLocationManager.authorize(KCLAuthorizationStatusAuthorized)
+      BW::Location.authorized?.should == true
     end
 
     it "should throw error if not enabled" do
