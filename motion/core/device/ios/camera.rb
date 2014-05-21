@@ -196,7 +196,7 @@ module BubbleWrap
 
       def dismiss
         controller_to_dismiss = if @options[:dismiss_presenting]
-          self.picker.presentingViewController
+          self.picker.presentingViewController.presentingViewController
         else
           self.picker
         end
