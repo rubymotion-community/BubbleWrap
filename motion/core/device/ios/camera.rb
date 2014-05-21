@@ -201,7 +201,7 @@ module BubbleWrap
           self.picker
         end
         
-        controller.dismissViewControllerAnimated(@options[:animated], completion: nil)
+        controller_to_dismiss.dismissViewControllerAnimated(@options[:animated], completion: nil)
       end
 
       # @param [UIImagePickerControllerSourceType] source_type to check
