@@ -116,6 +116,11 @@ module BubbleWrap
       CLLocationManager.locationServicesEnabled
     end
 
+    # returns true/false whether services are enabled for the _app_
+    def authorized?
+      CLLocationManager.authorizationStatus == KCLAuthorizationStatusAuthorized
+    end
+
     def error(type)
       @callback && @callback.call({ error: type })
       @callback = nil

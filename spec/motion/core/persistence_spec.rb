@@ -66,6 +66,20 @@ describe BubbleWrap::Persistence do
     end
   end
 
+  describe "retrieving all objects" do
+    it 'can retrieve a dictionary of all objects' do
+      all = BubbleWrap::Persistence.all
+      all.is_a?(Hash).should == true
+
+      compare_to = {}
+      compare_to["anotherArbitraryNumber"] = 9001
+      compare_to["arbitraryNumber"]        = 42
+      compare_to["arbitraryString"]        = "test string"
+
+      all.should == compare_to
+    end
+  end
+
   describe "deleting object" do
     before do
       BubbleWrap::Persistence['arbitraryString'] = 'foobarbaz'
@@ -85,7 +99,7 @@ describe BubbleWrap::Persistence do
       def storage.synchronize; @sync_was_called = true; end
 
       BubbleWrap::Persistence.delete(:arbitraryString)
-      
+
       storage.instance_variable_get(:@sync_was_called).should.equal true
     end
 

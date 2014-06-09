@@ -331,6 +331,8 @@ simple interface:
 # ['TF1', 'France 2', 'France 3']
 > App::Persistence['something__new'] # something previously never stored
 # nil
+> App::Persistence.all
+# {'all':'values', 'stored':'by', 'bubblewrap':'as a hash!'}
 ```
 
 ### Observers
@@ -389,6 +391,13 @@ iso8601 formatted string into a Time instance.
 Added interface for Ruby-like GPS and compass access:
 
 ```ruby
+> BW::Location.enabled? # Whether location services are enabled on the device
+=> true
+> BW::Location.authorized? # If your app is authorized to use location services
+=> false
+```
+
+```ruby
 BW::Location.get do |result|
   p "From Lat #{result[:from].latitude}, Long #{result[:from].longitude}"
   p "To Lat #{result[:to].latitude}, Long #{result[:to].longitude}"
@@ -428,7 +437,7 @@ Wrapper for showing an in-app mail composer view.
 
 ```ruby
 # Opens as a modal in the current UIViewController
-BW::Mail.compose {
+BW::Mail.compose(
   delegate: self, # optional, defaults to rootViewController
   to: [ "tom@example.com" ],
   cc: [ "itchy@example.com", "scratchy@example.com" ],
@@ -437,7 +446,7 @@ BW::Mail.compose {
   subject: "My Subject",
   message: "This is my message. It isn't very long.",
   animated: false
-} do |result, error|
+) do |result, error|
   result.sent?      # => boolean
   result.canceled?  # => boolean
   result.saved?     # => boolean
@@ -1029,4 +1038,3 @@ Do you have a suggestion for a specific wrapper? Feel free to open an
 issue/ticket and tell us about what you are after. If you have a
 wrapper/helper you are using and are thinking that others might enjoy,
 please send a pull request (with tests if possible).
-

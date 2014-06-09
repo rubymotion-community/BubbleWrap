@@ -43,6 +43,15 @@ module BubbleWrap
     def storage_key(key)
       "#{app_key}_#{key}"
     end
+
+    def all
+      hash = storage.dictionaryRepresentation.select{|k,v| k.start_with?(app_key) }
+      new_hash = {}
+      hash.each do |k,v|
+        new_hash[k.sub("#{app_key}_", '')] = v
+      end
+      new_hash
+    end
   end
 
 end
