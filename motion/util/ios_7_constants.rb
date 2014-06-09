@@ -8,4 +8,5 @@ module BW
       UIActivityTypePostToTencentWeibo,
       UIActivityTypeAirDrop
     )
+  end
 end
