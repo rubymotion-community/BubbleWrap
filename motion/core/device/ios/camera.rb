@@ -45,7 +45,7 @@ module BubbleWrap
         end
         alias_method "photo_library", "any"
       end
-      
+
       def popover_from(view)
         @popover_in_view = view
         self
@@ -67,17 +67,17 @@ module BubbleWrap
         UIImagePickerController.isFlashAvailableForCameraDevice(camera_device)
       end
 
-      # @param [Hash] options to open the UIImagePickerController with 
+      # @param [Hash] options to open the UIImagePickerController with
       # the form {
       #   source_type: :photo_library, :camera, or :saved_photos_album; default :photo_library
       #   media_types: [] containing :image and/or :movie; default [:image]
       #   allows_editing: true/false; default false
       #   animated: true/false; default true
       # }
-      # 
+      #
       # @param [UIViewController] view controller from which to present the image picker;
       #   if nil, uses the keyWindow's rootViewController.
-      # 
+      #
       # @block for callback. takes one argument.
       #   - On error or cancelled, is called with a hash {error: BW::Camera::Error::<Type>}
       #   - On success, is called with a hash with a possible set of keys
@@ -95,6 +95,7 @@ module BubbleWrap
         @options = options
         @options[:allows_editing] = false if not @options.has_key? :allows_editing
         @options[:animated] = true if not @options.has_key? :animated
+        @options[:on_dismiss] = nil if not @options.has_key? :on_dismiss
         @options[:media_types] = [:image] if not @options.has_key? :media_types
 
         # If we're using Camera.any, by default use photo library
@@ -137,7 +138,7 @@ module BubbleWrap
 
         presenting_controller ||= App.window.rootViewController.presentedViewController # May be nil, but handles use case of container views
         presenting_controller ||= App.window.rootViewController
-        
+
         # use popover for iPad (ignore on iPhone)
         if Device.ipad? and source_type==UIImagePickerControllerSourceTypePhotoLibrary and @popover_in_view
           @popover = UIPopoverController.alloc.initWithContentViewController(picker)
@@ -146,7 +147,7 @@ module BubbleWrap
           presenting_controller.presentViewController(self.picker, animated:@options[:animated], completion: lambda {})
         end
       end
-      
+
       # iPad popover is dismissed
       def popoverControllerDidDismissPopover(popoverController)
         @popover = nil
@@ -194,7 +195,7 @@ module BubbleWrap
       end
 
       def dismiss
-        self.picker.dismissViewControllerAnimated(@options[:animated], completion: lambda {})
+        self.picker.dismissViewControllerAnimated(@options[:animated], completion: @options[:on_dismiss])
       end
 
       # @param [UIImagePickerControllerSourceType] source_type to check
