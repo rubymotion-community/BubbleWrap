@@ -95,6 +95,7 @@ module BubbleWrap
         @options = options
         @options[:allows_editing] = false if not @options.has_key? :allows_editing
         @options[:animated] = true if not @options.has_key? :animated
+        @options[:on_dismiss] = false if not @options.has_key? :on_dismiss
         @options[:media_types] = [:image] if not @options.has_key? :media_types
 
         # If we're using Camera.any, by default use photo library
@@ -194,7 +195,12 @@ module BubbleWrap
       end
 
       def dismiss
-        self.picker.dismissViewControllerAnimated(@options[:animated], completion: lambda {})
+        if @options[:on_dismiss]
+          @options[:on_dismiss].call(self.picker)
+          return
+        end
+
+        self.picker.dismissViewControllerAnimated(@options[:animated], completion: nil)
       end
 
       # @param [UIImagePickerControllerSourceType] source_type to check
