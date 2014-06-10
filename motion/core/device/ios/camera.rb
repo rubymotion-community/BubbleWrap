@@ -73,6 +73,7 @@ module BubbleWrap
       #   media_types: [] containing :image and/or :movie; default [:image]
       #   allows_editing: true/false; default false
       #   animated: true/false; default true
+      #   on_dismiss: lambda; default nil
       # }
       # 
       # @param [UIViewController] view controller from which to present the image picker;

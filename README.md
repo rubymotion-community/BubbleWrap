@@ -269,6 +269,13 @@ BW::Device.camera.any.picture(media_types: [:movie, :image]) do |result|
 end
 ```
 
+Options include:
+
+- `:allows_editing` - Boolean; whether a user can edit the photo/video before picking
+- `:animated` - Boolean; whether to display the camera with an animation (default true)
+- `:on_dismiss` - Lambda; called instead of the default dismissal logic
+- `:media_types` - Array; containing any of `[:movie, :image]`
+
 ### JSON
 
 `BW::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib. For apps building for iOS4, we suggest a different JSON alternative, like [AnyJSON](https://github.com/mattt/AnyJSON).
