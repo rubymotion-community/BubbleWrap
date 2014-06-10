@@ -1,6 +1,6 @@
 module BubbleWrap
   module UIControlWrapper
-    def when(events, options={}, &block)
+    def when(events, options = {}, &block)
       @callback ||= {}
       @callback[events] ||= []
 
