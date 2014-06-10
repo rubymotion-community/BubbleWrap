@@ -51,7 +51,7 @@ describe "RSSParser" do
           # To avoid interfering the http_spec's mocking, we only want to override HTTP.get if it's
           # for the RSSParser spec.
           alias_method :original_get, :get
-          def get(url, options={}, &block)
+          def get(url, options = {}, &block)
             if url == 'https://raw.github.com/gist/2952427/9f1522cbe5d77a72c7c96c4fdb4b77bd58d7681e/atom.xml'
               string = File.read(File.join(App.resources_path, 'atom.xml'))
               yield BW::HTTP::Response.new(body: string.to_data, status_code: 200)

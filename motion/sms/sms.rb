@@ -17,9 +17,9 @@ module BubbleWrap
     #   result.canceled?  # => boolean
     #   result.failed?    # => boolean
     #   error             # => NSError
-    #   }           
-  
-    def compose(options={}, &callback)
+    #   }
+
+    def compose(options = {}, &callback)
       @delegate = options[:delegate] || App.window.rootViewController
       @callback = callback
       @callback.weak! if @callback && BubbleWrap.use_weak_callbacks?
@@ -28,12 +28,12 @@ module BubbleWrap
       @message_is_animated = options[:animated] == false ? false : true
       @delegate.presentModalViewController(@message_controller, animated: @message_is_animated)
     end
-    
-    def create_message_controller(options={})
+
+    def create_message_controller(options = {})
       message_controller = MFMessageComposeViewController.alloc.init
       message_controller.messageComposeDelegate = self
-      message_controller.body = options[:message] 
-      message_controller.recipients = Array(options[:to])     
+      message_controller.body = options[:message]
+      message_controller.recipients = Array(options[:to])
       message_controller
     end
 

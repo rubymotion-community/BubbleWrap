@@ -93,12 +93,13 @@ module BubbleWrap
         @callback = block
         @callback.weak! if @callback && BubbleWrap.use_weak_callbacks?
 
-        @options = options
-        @options[:allows_editing] = false if not @options.has_key? :allows_editing
-        @options[:animated] = true if not @options.has_key? :animated
-        @options[:on_dismiss] = false if not @options.has_key? :on_dismiss
-        @options[:dismiss_completed] = nil if not @options.has_key? :dismiss_completed
-        @options[:media_types] = [:image] if not @options.has_key? :media_types
+        @options = {
+          allows_editing: false,
+          animated: true,
+          on_dismiss: false,
+          media_types: [:image],
+          dismiss_completed: nil
+        }.merge(options)
 
         # If we're using Camera.any, by default use photo library
         if !@options.has_key?(:source_type) and self.location == :none
