@@ -22,7 +22,7 @@ module BubbleWrap
     #     result.failed?    # => boolean
     #     error             # => NSError
     #   end
-    def compose(options={}, &callback)
+    def compose(options = {}, &callback)
       options = {
         delegate: App.window.rootViewController,
         animated: true,
@@ -43,7 +43,7 @@ module BubbleWrap
       @delegate.presentViewController(@mail_controller, animated: @mailer_is_animated, completion: options[:completion])
     end
 
-    def create_mail_controller(options={})
+    def create_mail_controller(options = {})
       mail_controller = MFMailComposeViewController.alloc.init
 
       mail_controller.mailComposeDelegate = self

@@ -64,6 +64,10 @@ module BubbleWrap
       #      self.view.addSubview media_player.view
       #    end
       def play(content_url, options = {}, &block)
+        options = {
+          delay_play: false
+        }.merge(options)
+
         display_modal = !!options[:modal]
 
         klass = display_modal ? MPMoviePlayerViewController : MPMoviePlayerController
@@ -73,7 +77,6 @@ module BubbleWrap
 
         self.media_player.prepareToPlay if not display_modal
 
-        options[:delay_play] = false if not options.has_key? :delay_play
         set_player_options(options)
 
         NSNotificationCenter.defaultCenter.observe MPMoviePlayerPlaybackDidFinishNotification do |notification|

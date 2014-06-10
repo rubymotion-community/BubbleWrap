@@ -51,13 +51,15 @@ module BubbleWrap
     def get(options = {}, &block)
       @callback = block
       @callback.weak! if @callback && BubbleWrap.use_weak_callbacks?
-      @options = options
+      @options = {
+        significant: false,
+        distance_filter: KCLDistanceFilterNone,
+        desired_accuracy: KCLLocationAccuracyBest,
+        retries: 5,
+        once: false
+      }.merge(options)
 
       @options[:significant] = false if @options[:significant].nil?
-      @options[:distance_filter] ||= KCLDistanceFilterNone
-      @options[:desired_accuracy] ||= KCLLocationAccuracyBest
-      @options[:retries] ||= 5
-      @options[:once] ||= false
       @retries = 0
 
       if not enabled?
