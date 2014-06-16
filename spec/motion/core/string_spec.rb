@@ -177,8 +177,14 @@ describe BubbleWrap::String do
       @raw_string.to_url_encoded(KCFStringEncodingUTF16).should.equal utf16
     end
 
-    it "automatically converts encodings" do
-      utf16 = CFURLCreateStringByAddingPercentEscapes(nil, @raw_string, nil, "!*'();:@&=+$,/?%#[]", NSUTF16StringEncoding)
+    it "automatically selects available encodings" do
+      encoding = if CFStringIsEncodingAvailable(NSUTF16StringEncoding)
+        NSUTF16StringEncoding
+      else
+        KCFStringEncodingUTF16
+      end
+
+      utf16 = CFURLCreateStringByAddingPercentEscapes(nil, @raw_string, nil, "!*'();:@&=+$,/?%#[]", encoding)
       @raw_string.to_url_encoded(NSUTF16StringEncoding).should.equal utf16
     end
 
