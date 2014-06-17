@@ -1,3 +1,18 @@
+class ArchivableClass
+  attr_accessor :value
+  def initWithCoder(decoder)
+    self.init
+
+    @value = decoder.decodeObjectForKey("value")
+
+    self
+  end
+
+  def encodeWithCoder(encoder)
+    encoder.encodeObject(@value, forKey: "value")
+  end
+end
+
 describe BubbleWrap::Persistence do
 
   describe '.app_key' do
@@ -76,7 +91,9 @@ describe BubbleWrap::Persistence do
       compare_to["arbitraryNumber"]        = 42
       compare_to["arbitraryString"]        = "test string"
 
-      all.should == compare_to
+      compare_to.each do |key, value|
+        all[key].should == value
+      end
     end
   end
 
@@ -101,6 +118,61 @@ describe BubbleWrap::Persistence do
       BubbleWrap::Persistence.delete(:arbitraryString)
 
       storage.instance_variable_get(:@sync_was_called).should.equal true
+    end
+
+  end
+
+  describe "archive" do
+    before do
+      @subject = ArchivableClass.new
+      @subject.value = 123
+    end
+
+    it 'can persist an object' do
+      lambda do
+        BubbleWrap::Persistence::Archive['an_object'] = @subject
+      end.
+        should.not.raise(Exception)
+
+      BubbleWrap::Persistence['an_object'].should.not == nil
+    end
+
+    it 'can retrieve a persisted object' do
+      BubbleWrap::Persistence::Archive['another_object'] = @subject
+      retrieved = BubbleWrap::Persistence::Archive[:another_object]
+      retrieved.should.be.kind_of(ArchivableClass)
+      retrieved.value.should == @subject.value
+    end
+
+    it 'can persist arrays of objects' do
+      other_subject = ArchivableClass.new
+      other_subject.value = 555
+
+      BubbleWrap::Persistence::Archive['array_of_objects'] = [@subject, other_subject, 123]
+
+      retrieved = BubbleWrap::Persistence::Archive[:array_of_objects]
+      retrieved.should.be.kind_of(Array)
+      retrieved.length.should == 3
+      retrieved[0].should.be.kind_of(ArchivableClass)
+      retrieved[0].value.should == @subject.value
+      retrieved[1].value.should == other_subject.value
+      retrieved[2].should == 123
+    end
+
+    it 'can persist hashes of objects' do
+      BubbleWrap::Persistence::Archive['hash_of_objects'] = {first: @subject}
+
+      retrieved = BubbleWrap::Persistence::Archive[:hash_of_objects]
+      retrieved.should.be.kind_of(Hash)
+      retrieved['first'].should.be.kind_of(ArchivableClass)
+      retrieved['first'].value.should == @subject.value
+    end
+
+    it 'cannot save NSData' do
+      lambda do
+        BubbleWrap::Persistence::Archive['some_data'] = NSData.new
+      end.
+        should.raise(Exception)
     end
 
   end
