@@ -164,26 +164,49 @@ describe BubbleWrap::String do
   describe "encoding" do
 
     before do
-      @raw_string = "hey ho let's {go}"
+      @raw_string = "hey ho let's {go} http://bubblewrap.io&rocks!"
     end
 
     it "to_url_encoded" do
-      real_encoded = @raw_string.stringByAddingPercentEscapesUsingEncoding NSUTF8StringEncoding
+      real_encoded = CFURLCreateStringByAddingPercentEscapes(nil, @raw_string, nil, "!*'();:@&=+$,/?%#[]", KCFStringEncodingUTF8)
       @raw_string.to_url_encoded.should.equal real_encoded
     end
 
     it "handles other encodings" do
-      utf16 = @raw_string.stringByAddingPercentEscapesUsingEncoding NSUTF16StringEncoding
+      utf16 = CFURLCreateStringByAddingPercentEscapes(nil, @raw_string, nil, "!*'();:@&=+$,/?%#[]", KCFStringEncodingUTF16)
+      @raw_string.to_url_encoded(KCFStringEncodingUTF16).should.equal utf16
+    end
+
+    it "automatically selects available encodings" do
+      encoding = if CFStringIsEncodingAvailable(NSUTF16StringEncoding)
+        NSUTF16StringEncoding
+      else
+        KCFStringEncodingUTF16
+      end
+
+      utf16 = CFURLCreateStringByAddingPercentEscapes(nil, @raw_string, nil, "!*'();:@&=+$,/?%#[]", encoding)
       @raw_string.to_url_encoded(NSUTF16StringEncoding).should.equal utf16
     end
 
     it "to_url_decoded" do
       encoded_string = "hey%20ho%20let's%20%7Bgo%7D"
-      real_decoded = encoded_string.stringByReplacingPercentEscapesUsingEncoding NSUTF8StringEncoding
-      
+      real_decoded = CFURLCreateStringByReplacingPercentEscapes(nil, encoded_string, nil)
       encoded_string.to_url_decoded.should.equal real_decoded
     end
 
+    it "to_url_decoded with encoding" do
+      real_encoded = @raw_string.to_url_encoded(KCFStringEncodingUTF16)
+      real_decoded = CFURLCreateStringByReplacingPercentEscapes(nil, real_encoded, nil, KCFStringEncodingUTF16)
+      real_encoded.to_url_decoded.should.equal real_decoded
+    end
+
+    it "should not contain disallowed characters" do
+      encoded_string = @raw_string.to_url_encoded
+      encoded_string.should.not.match(/\//)
+      encoded_string.should.not.match(/:/)
+      encoded_string.should.not.match(/!/)
+      encoded_string.should.not.match(/&/)
+    end
 
     describe "dataUsingEncoding" do
 

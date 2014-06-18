@@ -33,12 +33,27 @@ module BubbleWrap
       word
     end
 
-    def to_url_encoded(encoding = NSUTF8StringEncoding)
-      stringByAddingPercentEscapesUsingEncoding encoding
+    def to_url_encoded(encoding = nil, legacy = false)
+      if legacy
+        stringByAddingPercentEscapesUsingEncoding(encoding || NSUTF8StringEncoding)
+      else
+        encoding ||= KCFStringEncodingUTF8
+        encoding = CFStringConvertNSStringEncodingToEncoding(encoding) unless CFStringIsEncodingAvailable(encoding)
+        CFURLCreateStringByAddingPercentEscapes(nil, self, nil, "!*'();:@&=+$,/?%#[]", encoding)
+      end
     end
 
-    def to_url_decoded(encoding = NSUTF8StringEncoding)
-      stringByReplacingPercentEscapesUsingEncoding encoding
+    def to_url_decoded(encoding = nil, legacy = false)
+      if legacy
+        stringByReplacingPercentEscapesUsingEncoding(encoding || NSUTF8StringEncoding)
+      else
+        if encoding
+          encoding = CFStringConvertNSStringEncodingToEncoding(encoding) unless CFStringIsEncodingAvailable(encoding)
+          CFURLCreateStringByReplacingPercentEscapesUsingEncoding(nil, self, nil, encoding)
+        else
+          CFURLCreateStringByReplacingPercentEscapes(nil, self, nil)
+        end
+      end
     end
 
     def to_encoded_data(encoding = NSUTF8StringEncoding)
