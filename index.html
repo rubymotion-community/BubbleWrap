@@ -53,7 +53,7 @@
 <a href="https://groups.google.com/forum/#!forum/bubblewrap">BubbleWrap mailing list</a></p>
 
 <p><a href="https://codeclimate.com/github/rubymotion/BubbleWrap"><img src="https://codeclimate.com/github/rubymotion/BubbleWrap.png" alt="Code Climate"></a>
-<a href="https://travis-ci.org/rubymotion/BubbleWrap"><img src="https://travis-ci.org/rubymotion/BubbleWrap.png?branch=master" alt="Build Status"></a>
+<a href="https://travis-ci.org/rubymotion/BubbleWrap"><img src="https://travis-ci.org/rubymotion/BubbleWrap.svg?branch=master" alt="Build Status"></a>
 <a href="https://gemnasium.com/rubymotion/BubbleWrap"><img src="https://gemnasium.com/rubymotion/BubbleWrap.png" alt="Dependency Status"></a></p>
 
 <h2>Installation</h2>
@@ -168,6 +168,14 @@ include the core modules use the following line of code instead:</p>
 </div>
 
 
+<p>If you wish to only include the <code>NetworkIndicator</code> wrapper:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/network-indicator'</span>
+</pre>
+</div>
+
+
 <p>If you want to include everything (ie kitchen sink mode) you can save time and do:</p>
 
 <div class="highlight">
@@ -232,6 +240,8 @@ use the versioned gem.</p>
 <span class="o">=&gt;</span> <span class="c1">#&lt;UICachedDeviceWhiteColor:0x8bb5be0&gt;</span>
 <span class="s1">'#FF8A19'</span><span class="o">.</span><span class="n">to_color</span>
 <span class="o">=&gt;</span> <span class="c1">#&lt;UIDeviceRGBColor:0x8d54110&gt;</span>
+<span class="s1">'#88FF8A19'</span><span class="o">.</span><span class="n">to_color</span> <span class="c1"># ARGB format</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;UIDeviceRGBColor:0xca0fe00&gt;</span>
 </pre>
 </div>
 
@@ -269,7 +279,10 @@ use the versioned gem.</p>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">run_after</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span>  <span class="nb">p</span> <span class="s2">"It's </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="si">}</span><span class="s2">"</span>   <span class="p">}</span>
 <span class="c1"># Runs the block after 0.5 seconds.</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">open_url</span><span class="p">(</span><span class="s2">"http://matt.aimonetti.net"</span><span class="p">)</span>
-<span class="c1"># Opens the url using the device's browser. (accepts a string url or an instance of `NSURL`.</span>
+<span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">open_url</span><span class="p">(</span><span class="s2">"tel://123456789"</span><span class="p">)</span>
+<span class="c1"># Opens the url using the device's browser. Can also open custom URL schemas (accepts a string url or an instance of `NSURL`.)</span>
+<span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">can_open_url</span><span class="p">(</span><span class="s2">"tel://"</span><span class="p">)</span>
+<span class="c1"># Returns whether the app can open a given URL resource.</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">::</span><span class="no">Persistence</span><span class="o">[</span><span class="s1">'channels'</span><span class="o">]</span> <span class="c1"># application specific persistence storage</span>
 <span class="c1"># ['NBC', 'ABC', 'Fox', 'CBS', 'PBS']</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">::</span><span class="no">Persistence</span><span class="o">[</span><span class="s1">'channels'</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'TF1'</span><span class="p">,</span> <span class="s1">'France 2'</span><span class="p">,</span> <span class="s1">'France 3'</span><span class="o">]</span>
@@ -356,6 +369,20 @@ use the versioned gem.</p>
 </div>
 
 
+<p>Options include:</p>
+
+<ul>
+<li>
+<code>:allows_editing</code> - Boolean; whether a user can edit the photo/video before picking</li>
+<li>
+<code>:animated</code> - Boolean; whether to display the camera with an animation (default true)</li>
+<li>
+<code>:on_dismiss</code> - Lambda; called instead of the default dismissal logic</li>
+<li>
+<code>:media_types</code> - Array; containing any of <code>[:movie, :image]</code>
+</li>
+</ul>
+
 <h3>JSON</h3>
 
 <p><code>BW::JSON</code> wraps <code>NSJSONSerialization</code> available in iOS5 and offers the same API as Ruby's JSON std lib. For apps building for iOS4, we suggest a different JSON alternative, like <a href="https://github.com/mattt/AnyJSON">AnyJSON</a>.</p>
@@ -420,6 +447,8 @@ simple interface:</p>
 <span class="c1"># ['TF1', 'France 2', 'France 3']</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">::</span><span class="no">Persistence</span><span class="o">[</span><span class="s1">'something__new'</span><span class="o">]</span> <span class="c1"># something previously never stored</span>
 <span class="c1"># nil</span>
+<span class="o">&gt;</span> <span class="no">App</span><span class="o">::</span><span class="no">Persistence</span><span class="o">.</span><span class="n">all</span>
+<span class="c1"># {'all':'values', 'stored':'by', 'bubblewrap':'as a hash!'}</span>
 </pre>
 </div>
 
@@ -486,6 +515,15 @@ iso8601 formatted string into a Time instance.</p>
 <p>Added interface for Ruby-like GPS and compass access:</p>
 
 <div class="highlight">
+<pre><span class="o">&gt;</span> <span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">enabled?</span> <span class="c1"># Whether location services are enabled on the device</span>
+<span class="o">=&gt;</span> <span class="kp">true</span>
+<span class="o">&gt;</span> <span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">authorized?</span> <span class="c1"># If your app is authorized to use location services</span>
+<span class="o">=&gt;</span> <span class="kp">false</span>
+</pre>
+</div>
+
+
+<div class="highlight">
 <pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
   <span class="nb">p</span> <span class="s2">"From Lat </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:from</span><span class="o">].</span><span class="n">latitude</span><span class="si">}</span><span class="s2">, Long </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:from</span><span class="o">].</span><span class="n">longitude</span><span class="si">}</span><span class="s2">"</span>
   <span class="nb">p</span> <span class="s2">"To Lat </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:to</span><span class="o">].</span><span class="n">latitude</span><span class="si">}</span><span class="s2">, Long </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:to</span><span class="o">].</span><span class="n">longitude</span><span class="si">}</span><span class="s2">"</span>
@@ -531,7 +569,7 @@ iso8601 formatted string into a Time instance.</p>
 
 <div class="highlight">
 <pre><span class="c1"># Opens as a modal in the current UIViewController</span>
-<span class="no">BW</span><span class="o">::</span><span class="no">Mail</span><span class="o">.</span><span class="n">compose</span> <span class="p">{</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Mail</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
   <span class="n">delegate</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span> <span class="c1"># optional, defaults to rootViewController</span>
   <span class="n">to</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"tom@example.com"</span> <span class="o">]</span><span class="p">,</span>
   <span class="n">cc</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"itchy@example.com"</span><span class="p">,</span> <span class="s2">"scratchy@example.com"</span> <span class="o">]</span><span class="p">,</span>
@@ -540,7 +578,7 @@ iso8601 formatted string into a Time instance.</p>
   <span class="n">subject</span><span class="p">:</span> <span class="s2">"My Subject"</span><span class="p">,</span>
   <span class="n">message</span><span class="p">:</span> <span class="s2">"This is my message. It isn't very long."</span><span class="p">,</span>
   <span class="n">animated</span><span class="p">:</span> <span class="kp">false</span>
-<span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="o">|</span>
+<span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="o">|</span>
   <span class="n">result</span><span class="o">.</span><span class="n">sent?</span>      <span class="c1"># =&gt; boolean</span>
   <span class="n">result</span><span class="o">.</span><span class="n">canceled?</span>  <span class="c1"># =&gt; boolean</span>
   <span class="n">result</span><span class="o">.</span><span class="n">saved?</span>     <span class="c1"># =&gt; boolean</span>
@@ -569,6 +607,37 @@ iso8601 formatted string into a Time instance.</p>
        <span class="n">result</span><span class="o">.</span><span class="n">failed?</span>    <span class="c1"># =&gt; boolean</span>
        <span class="n">error</span>             <span class="c1"># =&gt; NSError</span>
       <span class="p">}</span>
+</pre>
+</div>
+
+
+<h2>NetworkIndicator</h2>
+
+<p>Wrapper for showing and hiding the network indicator (the status bar spinner).</p>
+
+<div class="highlight">
+<pre>    <span class="no">BW</span><span class="o">::</span><span class="no">NetworkIndicator</span><span class="o">.</span><span class="n">show</span>  <span class="c1"># starts the spinner</span>
+    <span class="no">BW</span><span class="o">::</span><span class="no">NetworkIndicator</span><span class="o">.</span><span class="n">hide</span>  <span class="c1"># stops it</span>
+
+    <span class="c1"># the nice thing is if you call 'show' multiple times, the 'hide' method will</span>
+    <span class="c1"># not have any effect until you've called it the same number of times.</span>
+    <span class="no">BW</span><span class="o">::</span><span class="no">NetworkIndicator</span><span class="o">.</span><span class="n">show</span>
+    <span class="c1"># ...somewhere else</span>
+    <span class="no">BW</span><span class="o">::</span><span class="no">NetworkIndicator</span><span class="o">.</span><span class="n">show</span>
+
+    <span class="c1"># ...down the line</span>
+    <span class="no">BW</span><span class="o">::</span><span class="no">NetworkIndicator</span><span class="o">.</span><span class="n">hide</span>
+    <span class="c1"># indicator is still visible</span>
+
+    <span class="no">BW</span><span class="o">::</span><span class="no">NetworkIndicator</span><span class="o">.</span><span class="n">hide</span>
+    <span class="c1"># NOW the indicator is hidden!</span>
+
+    <span class="c1"># If you *really* want to hide the indicator immediately, you can call `reset!`</span>
+    <span class="c1"># but this is in no way encouraged.</span>
+    <span class="no">BW</span><span class="o">::</span><span class="no">NetworkIndicator</span><span class="o">.</span><span class="n">reset!</span>
+
+    <span class="c1"># and for completeness, a check to see if the indicator is visible</span>
+    <span class="no">BW</span><span class="o">::</span><span class="no">NetworkIndicator</span><span class="o">.</span><span class="n">visible?</span>
 </pre>
 </div>
 
@@ -880,7 +949,7 @@ total amount of data expected.</p>
     <span class="no">BW</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user_url</span><span class="p">(</span><span class="n">user_id</span><span class="p">))</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
       <span class="c1"># ..</span>
     <span class="k">end</span>
-  <span class="k">end</span> 
+  <span class="k">end</span>
 <span class="k">end</span>
 </pre>
 </div>
