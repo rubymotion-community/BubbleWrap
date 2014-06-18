@@ -33,17 +33,26 @@ module BubbleWrap
       word
     end
 
-    def to_url_encoded(encoding = KCFStringEncodingUTF8)
-      encoding = CFStringConvertNSStringEncodingToEncoding(encoding) unless CFStringIsEncodingAvailable(encoding)
-      CFURLCreateStringByAddingPercentEscapes(nil, self, nil, "!*'();:@&=+$,/?%#[]", encoding)
+    def to_url_encoded(encoding = nil, legacy = false)
+      if legacy
+        stringByAddingPercentEscapesUsingEncoding(encoding || NSUTF8StringEncoding)
+      else
+        encoding ||= KCFStringEncodingUTF8
+        encoding = CFStringConvertNSStringEncodingToEncoding(encoding) unless CFStringIsEncodingAvailable(encoding)
+        CFURLCreateStringByAddingPercentEscapes(nil, self, nil, "!*'();:@&=+$,/?%#[]", encoding)
+      end
     end
 
-    def to_url_decoded(encoding = nil)
-      if encoding
-        encoding = CFStringConvertNSStringEncodingToEncoding(encoding) unless CFStringIsEncodingAvailable(encoding)
-        CFURLCreateStringByReplacingPercentEscapesUsingEncoding(nil, self, nil, encoding)
+    def to_url_decoded(encoding = nil, legacy = false)
+      if legacy
+        stringByReplacingPercentEscapesUsingEncoding(encoding || NSUTF8StringEncoding)
       else
-        CFURLCreateStringByReplacingPercentEscapes(nil, self, nil)
+        if encoding
+          encoding = CFStringConvertNSStringEncodingToEncoding(encoding) unless CFStringIsEncodingAvailable(encoding)
+          CFURLCreateStringByReplacingPercentEscapesUsingEncoding(nil, self, nil, encoding)
+        else
+          CFURLCreateStringByReplacingPercentEscapes(nil, self, nil)
+        end
       end
     end
 
