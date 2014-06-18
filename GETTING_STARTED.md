@@ -98,7 +98,7 @@ BW.require '/path/to/some/files/**/*.rb'
 ```
 
 For more information in using `BW.require` take a look at
-[the bubblewrap hacking guide](http://bubblewrap.io/hacking.html).
+[the bubblewrap hacking guide](hacking.html).
 
 ## Go forth and conquer!
 
