@@ -267,7 +267,14 @@ end
 BW::Device.camera.any.picture(media_types: [:movie, :image]) do |result|
   image_view = UIImageView.alloc.initWithImage(result[:original_image])
 end
+
+# Lets the user edit the photo (with access to the edited and original photos)
+BW::Device.camera.any.picture(allows_editing: true, media_types: [:image]) do |result|
+  edited_image_view = UIImageView.alloc.initWithImage(result[:edited_image])
+  original_image_view = UIImageView.alloc.initWithImage(result[:original_image])
+end
 ```
+
 
 Options include:
 
