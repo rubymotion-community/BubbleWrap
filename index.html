@@ -365,6 +365,12 @@ use the versioned gem.</p>
 <span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">any</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="n">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="p">,</span> <span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
   <span class="n">image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:original_image</span><span class="o">]</span><span class="p">)</span>
 <span class="k">end</span>
+
+<span class="c1"># Lets the user edit the photo (with access to the edited and original photos)</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">any</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="n">allows_editing</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="n">edited_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:edited_image</span><span class="o">]</span><span class="p">)</span>
+  <span class="n">original_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:original_image</span><span class="o">]</span><span class="p">)</span>
+<span class="k">end</span>
 </pre>
 </div>
 

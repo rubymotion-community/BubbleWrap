@@ -54,4 +54,5 @@ file 'index.html' => 'readme.html' do
   sh "mv readme.html index.html"
 end
 
+desc "Generate the BubbleWrap site"
 task :default => ['index.html', 'hacking.html', 'gem.html', 'getting_started.html', :clean]
