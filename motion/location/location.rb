@@ -83,6 +83,31 @@ module BubbleWrap
       get(options.merge(significant: true), &block)
     end
 
+    # Get the first returned location based on your options
+    # @param [Hash] options = {
+    #   significant: true/false; whether to listen for significant location changes or
+    #     all location changes (see Apple docs for info); default == false
+    #   distance_filter:  minimum change in distance to be updated about, in meters;
+    #     default == uses KCLDistanceFilterNone,
+    #   desired_accuracy: minimum accuracy for updates to arrive;
+    #     any of :best_for_navigation, :best, :nearest_ten_meters,
+    #     :hundred_meters, :kilometer, or :three_kilometers; default == :best
+    #   purpose: string to display when the system asks user for location,
+    #   retries: if location cant be found. how many errors do we retry; default == 5
+    # }
+    # @block for callback. takes one argument, `result`.
+    #   - On error or cancelled, is called with a hash {error: BW::Location::Error::<Type>}
+    #   - On success, it returns a CLLocation
+    #
+    #
+    # Example
+    # BW::Location.get_once(desired_accuracy: :three_kilometers, purpose: 'We need to use your GPS to show you how fun RM is') do |result|
+    #   if result.is_a?(CLLocation)
+    #     p "Lat #{result.latitude}, Long #{result.longitude}"
+    #   else
+    #     p "ERROR: #{result[:error]"
+    #   end
+    # end
     def get_once(options = {}, &block)
       get(options.merge(once: true), &block)
     end

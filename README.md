@@ -412,7 +412,7 @@ Added interface for Ruby-like GPS and compass access:
 ```
 
 ```ruby
-BW::Location.get do |result|
+BW::Location.get(purpose: 'We need to use your GPS because...') do |result|
   p "From Lat #{result[:from].latitude}, Long #{result[:from].longitude}"
   p "To Lat #{result[:to].latitude}, Long #{result[:to].longitude}"
 end
@@ -429,12 +429,16 @@ end
 
 `BW::Location.get_significant` is also available, for monitoring significant location changes.
 
-`BW::Location` also supports `get_once` methods, which will return the first result before ending the search:
+`BW::Location` also supports `get_once`-style methods, which will return the first result before ending the search:
 
 ```ruby
-BW::Location.get_once do |cl_location|
-  p location.coordinate.latitude
-  p location.coordinate.longitude
+BW::Location.get_once(desired_accuracy: :three_kilometers, ...) do |result|
+  if result.is_a?(CLLocation)
+    p result.coordinate.latitude
+    p result.coordinate.longitude
+  else
+    p "ERROR: #{result[:error]}"
+  end
 end
 
 BW::Location.get_compass_once do |heading|
