@@ -384,6 +384,16 @@ BW::Location.get do |result|
 end
 ```
 
+```ruby
+ BW::Location.get_once(desired_accuracy: :three_kilometers, purpose: 'We need to use your GPS to show you how fun RM is') do |result|
+  if result.is_a?(CLLocation)
+    p "Lat #{result.latitude}, Long #{result.longitude}"
+  else
+    p "ERROR: #{result[:error]"
+  end
+end
+```
+
 Also available is `BW::Location.get_significant`, for monitoring significant location changes.
 
 ## Media
