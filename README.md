@@ -427,7 +427,23 @@ BW::Location.get_compass do |result|
 end
 ```
 
-Also available is `BW::Location.get_significant`, for monitoring significant location changes.
+`BW::Location.get_significant` is also available, for monitoring significant location changes.
+
+`BW::Location` also supports `get_once` methods, which will return the first result before ending the search:
+
+```ruby
+BW::Location.get_once do |cl_location|
+  p location.coordinate.latitude
+  p location.coordinate.longitude
+end
+
+BW::Location.get_compass_once do |heading|
+  p result[:magnetic_heading]
+  p result[:true_heading]
+  p result[:accuracy]
+  p result[:timestamp]
+end
+```
 
 ## Media
 
