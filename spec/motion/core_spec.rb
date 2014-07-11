@@ -69,7 +69,7 @@ describe 'BubbleWrap' do
   
   describe "uuid" do
 
-    it "creates always the new UUID" do
+    it "always creates the new UUID" do
       previous = BW.create_uuid  
       10.times do
         uuid = BW.create_uuid
