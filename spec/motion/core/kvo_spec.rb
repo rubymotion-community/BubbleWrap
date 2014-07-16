@@ -45,6 +45,10 @@ describe BubbleWrap::KVO do
       unobserve(@label, method)
     end
 
+    def update_collection
+      self.items += [ "Rice" ]
+    end
+
     #  def unobserve_all
     #unobserve(@label, "text")
     #unobserve(self, "items")
@@ -214,7 +218,36 @@ describe BubbleWrap::KVO do
       @example.age = 2
       observed.should == false
     end
-  
+
+    # with multiple keypaths
+
+    it "should observe multiple key paths" do
+      observed = 0
+      @example.observe [:age, :items] do
+        observed += 1
+      end
+
+      @example.age = 2
+      @example.age = 3
+      @example.update_collection
+
+      observed.should.be == 3
+    end
+
+    it "should unobserve multiple key paths" do
+      observed = 0
+
+      @example.observe [:age, :items] do
+        observed += 1
+      end
+
+      @example.unobserve [:age]
+
+      @example.age = 2
+      @example.update_collection
+
+      observed.should.be == 1
+    end
   end
  
 =begin

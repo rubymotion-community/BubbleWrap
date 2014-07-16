@@ -29,8 +29,14 @@ module BubbleWrap
       key_path = arguments.pop
       target   = arguments.pop || self
 
-      target.addObserver(self, forKeyPath:key_path, options:DEFAULT_OPTIONS, context:nil) unless registered?(target, key_path)
-      add_observer_block(target, key_path, &block)
+      if key_path.is_a?(Array)
+        key_path.each do |path|
+          observe(target, path, &block)
+        end
+      else
+        target.addObserver(self, forKeyPath:key_path, options:DEFAULT_OPTIONS, context:nil) unless registered?(target, key_path)
+        add_observer_block(target, key_path, &block)
+      end
     end
 
     def unobserve(*arguments)
@@ -41,10 +47,16 @@ module BubbleWrap
       key_path = arguments.pop
       target   = arguments.pop || self
 
-      return unless registered?(target, key_path)
+      if key_path.is_a?(Array)
+        key_path.each do |path|
+          unobserve(target, path)
+        end
+      else
+        return unless registered?(target, key_path)
 
-      target.removeObserver(self, forKeyPath:key_path)
-      remove_observer_block(target, key_path)
+        target.removeObserver(self, forKeyPath:key_path)
+        remove_observer_block(target, key_path)
+      end
     end
 
     def unobserve_all
