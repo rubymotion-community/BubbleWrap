@@ -16,8 +16,11 @@ module BubbleWrap
       # block any more
       def off(event, method = nil, &blk)
         events = _events_for_key(event)
-        method_or_block = method ? method : blk
-        events.delete_if { |b| b == method_or_block }
+        if method
+          events.delete_if { |m| m.receiver == method.receiver and m.name == method.name }
+        else
+          events.delete_if { |b| b == blk }
+        end
         blk
       end
 
