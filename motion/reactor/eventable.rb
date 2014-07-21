@@ -8,8 +8,11 @@ module BubbleWrap
       # `trigger`.
       def on(event, method = nil, &blk)
         events = _events_for_key(event)
-        method_or_block = method ? method : blk
-        events.push method_or_block
+        if method
+          events.push method if events.select {|m| m.receiver == method.receiver and m.name == method.name }.empty?
+        else
+          events.push blk if events.select {|b| b == blk }.empty?
+        end
       end
 
       # When `event` is triggered, do not call the given
