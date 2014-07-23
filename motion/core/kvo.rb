@@ -53,7 +53,7 @@ module BubbleWrap
       @targets.each do |target, key_paths|
         key_paths.each_key do |key_path|
           target.removeObserver(self, forKeyPath:key_path)
-        end  
+        end
       end
       remove_all_observer_blocks
     end
@@ -81,6 +81,9 @@ module BubbleWrap
 
       key_paths = @targets[target]
       key_paths.delete(key_path.to_s) if !key_paths.nil?
+      if key_paths.nil? || key_paths.length == 0
+        @targets.delete(target)
+      end
     end
 
     def remove_all_observer_blocks
