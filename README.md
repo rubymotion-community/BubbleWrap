@@ -26,7 +26,7 @@ require 'bubble-wrap'
 If you using Bundler:
 
 ```ruby
-gem "bubble-wrap", "~> 1.5.0"
+gem "bubble-wrap", "~> 1.7.0"
 ```
 
 BubbleWrap is split into multiple modules so that you can easily choose which parts
