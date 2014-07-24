@@ -79,7 +79,7 @@
 <p>If you using Bundler:</p>
 
 <div class="highlight">
-<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.5.0"</span>
+<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.7.0"</span>
 </pre>
 </div>
 
@@ -530,7 +530,7 @@ iso8601 formatted string into a Time instance.</p>
 
 
 <div class="highlight">
-<pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">purpose</span><span class="p">:</span> <span class="s1">'We need to use your GPS because...'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
   <span class="nb">p</span> <span class="s2">"From Lat </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:from</span><span class="o">].</span><span class="n">latitude</span><span class="si">}</span><span class="s2">, Long </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:from</span><span class="o">].</span><span class="n">longitude</span><span class="si">}</span><span class="s2">"</span>
   <span class="nb">p</span> <span class="s2">"To Lat </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:to</span><span class="o">].</span><span class="n">latitude</span><span class="si">}</span><span class="s2">, Long </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:to</span><span class="o">].</span><span class="n">longitude</span><span class="si">}</span><span class="s2">"</span>
 <span class="k">end</span>
@@ -549,7 +549,29 @@ iso8601 formatted string into a Time instance.</p>
 </div>
 
 
-<p>Also available is <code>BW::Location.get_significant</code>, for monitoring significant location changes.</p>
+<p><code>BW::Location.get_significant</code> is also available, for monitoring significant location changes.</p>
+
+<p><code>BW::Location</code> also supports <code>get_once</code>-style methods, which will return the first result before ending the search:</p>
+
+<div class="highlight">
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get_once</span><span class="p">(</span><span class="n">desired_accuracy</span><span class="p">:</span> <span class="ss">:three_kilometers</span><span class="p">,</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">CLLocation</span><span class="p">)</span>
+    <span class="nb">p</span> <span class="n">result</span><span class="o">.</span><span class="n">coordinate</span><span class="o">.</span><span class="n">latitude</span>
+    <span class="nb">p</span> <span class="n">result</span><span class="o">.</span><span class="n">coordinate</span><span class="o">.</span><span class="n">longitude</span>
+  <span class="k">else</span>
+    <span class="nb">p</span> <span class="s2">"ERROR: </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:error</span><span class="o">]</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get_compass_once</span> <span class="k">do</span> <span class="o">|</span><span class="n">heading</span><span class="o">|</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:magnetic_heading</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:true_heading</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:accuracy</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:timestamp</span><span class="o">]</span>
+<span class="k">end</span>
+</pre>
+</div>
+
 
 <h2>Media</h2>
 
