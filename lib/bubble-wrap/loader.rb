@@ -47,14 +47,16 @@ unless defined?(BubbleWrap::LOADER_PRESENT)
     end
 
     def after_config(config)
-      ios7_files = 'motion/ios/7/uiactivity_view_controller_constants.rb'
-      if config.send(:deployment_target).to_f >= 7.0
-        ::BubbleWrap.require(ios7_files)
-        before_config(config)
-      else
-        config.files = config.files.reject {|s|
-          s.include?(ios7_files)
-        }
+      BubbleWrap.require_ios do
+        ios7_files = 'motion/ios/7/uiactivity_view_controller_constants.rb'
+        if config.send(:deployment_target).to_f >= 7.0
+          ::BubbleWrap.require(ios7_files)
+          before_config(config)
+        else
+          config.files = config.files.reject {|s|
+            s.include?(ios7_files)
+          }
+        end
       end
     end
   end
