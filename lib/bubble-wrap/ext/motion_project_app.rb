@@ -20,16 +20,16 @@ module BubbleWrap
     end
 
     module Config
-      def self.extended(base)
-        base.instance_eval do
-          def config_with_bubblewrap
-            config_without_bubblewrap.tap do |c|
-
-            end
-          end
-          alias :config_without_bubblewrap :config
-          alias :config :config_with_bubblewrap
+      def config_with_bubblewrap
+        config_without_bubblewrap.tap do |c|
+          ::BubbleWrap.after_config(c)
         end
+      end
+
+      def self.extended(base)
+        singleton_class = class << base; self; end
+        singleton_class.send :alias_method, :config_without_bubblewrap, :config
+        singleton_class.send :alias_method, :config, :config_with_bubblewrap
       end
     end
 
@@ -44,3 +44,5 @@ end
 Motion::Project::App.extend(BubbleWrap::Ext::BuildTask)
 
 Motion::Project::App.extend(BubbleWrap::Ext::Platforms)
+
+Motion::Project::App.extend(BubbleWrap::Ext::Config)
