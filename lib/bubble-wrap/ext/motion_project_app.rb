@@ -6,9 +6,7 @@ module BubbleWrap
         base.instance_eval do
           def setup_with_bubblewrap(*args, &block)
             bw_config = proc do |app|
-              app.files = ::BubbleWrap::Requirement.files(app.files)
-              app.files_dependencies ::BubbleWrap::Requirement.files_dependencies
-              app.frameworks = ::BubbleWrap::Requirement.frameworks(app.frameworks)
+              ::BubbleWrap.before_config(app)
               block.call(app) unless block.nil?
             end
 
@@ -19,6 +17,20 @@ module BubbleWrap
         end
       end
 
+    end
+
+    module Config
+      def self.extended(base)
+        base.instance_eval do
+          def config_with_bubblewrap
+            config_without_bubblewrap.tap do |c|
+
+            end
+          end
+          alias :config_without_bubblewrap :config
+          alias :config :config_with_bubblewrap
+        end
+      end
     end
 
     module Platforms

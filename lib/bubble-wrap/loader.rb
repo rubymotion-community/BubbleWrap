@@ -39,6 +39,19 @@ unless defined?(BubbleWrap::LOADER_PRESENT)
         puts "bubble-wrap/#{requirement} requires OS X to use." if requirement
       end
     end
+
+    def before_config(app)
+      app.files = ::BubbleWrap::Requirement.files(app.files)
+      app.files_dependencies ::BubbleWrap::Requirement.files_dependencies
+      app.frameworks = ::BubbleWrap::Requirement.frameworks(app.frameworks)
+    end
+
+    def after_config(config)
+      if config.send(:deployment_target).to_f >= 7.0
+        ::BubbleWrap.require('motion/ios/7/uiactivity_view_controller_constants.rb')
+        before_config(config)
+      end
+    end
   end
 
   BW = BubbleWrap unless defined?(BW)
