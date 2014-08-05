@@ -28,6 +28,8 @@ module BubbleWrap
     module_function
     # Start getting locations
     # @param [Hash] options = {
+    #   authorization_type: :always/:when_in_use to trigger the type of authorization you want
+    #     default == uses :always
     #   significant: true/false; whether to listen for significant location changes or
     #     all location changes (see Apple docs for info); default == false
     #   distance_filter:  minimum change in distance to be updated about, in meters;
@@ -52,6 +54,7 @@ module BubbleWrap
       @callback = block
       @callback.weak! if @callback && BubbleWrap.use_weak_callbacks?
       @options = {
+        authorization_type: :always,
         significant: false,
         distance_filter: KCLDistanceFilterNone,
         desired_accuracy: KCLLocationAccuracyBest,
@@ -65,6 +68,13 @@ module BubbleWrap
       if not enabled?
         error(Error::DISABLED) and return
       end
+
+      self.location_manager
+
+      if self.location_manager.respondsToSelector('requestAlwaysAuthorization')
+        @options[:authorization_type] == :always ? self.location_manager.requestAlwaysAuthorization : self.location_manager.requestWhenInUseAuthorization
+      end
+
 
       self.location_manager.distanceFilter = @options[:distance_filter]
       self.location_manager.desiredAccuracy = Constants.get("KCLLocationAccuracy", @options[:desired_accuracy])
