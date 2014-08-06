@@ -37,6 +37,7 @@ module BubbleWrap
     #     :hundred_meters, :kilometer, or :three_kilometers; default == :best
     #   purpose: string to display when the system asks user for location,
     #   retries: if location cant be found. how many errors do we retry; default == 5
+    #   calibration: if the OS should display the heading calibration to the user; default == false
     # }
     # @block for callback. takes one argument, `result`.
     #   - On error or cancelled, is called with a hash {error: BW::Location::Error::<Type>}
@@ -56,7 +57,8 @@ module BubbleWrap
         distance_filter: KCLDistanceFilterNone,
         desired_accuracy: KCLLocationAccuracyBest,
         retries: 5,
-        once: false
+        once: false,
+        calibration: false
       }.merge(options)
 
       @options[:significant] = false if @options[:significant].nil?
@@ -211,6 +213,10 @@ module BubbleWrap
       when KCLAuthorizationStatusDenied
         error(Error::PERMISSION_DENIED)
       end
+    end
+
+    def locationManagerShouldDisplayHeadingCalibration(manager)
+      @options[:calibration] ? @options[:calibration] : false
     end
   end
 end

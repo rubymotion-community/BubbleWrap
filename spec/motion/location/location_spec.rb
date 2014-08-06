@@ -176,6 +176,7 @@ describe BubbleWrap::Location do
       end
 
       location_manager.instance_variable_get("@startUpdatingHeading").should == true
+      BW::Location.locationManagerShouldDisplayHeadingCalibration(location_manager).should == false
     end
 
     it "should have correct heading when succeeding" do
@@ -195,6 +196,13 @@ describe BubbleWrap::Location do
       end
 
       BW::Location.locationManager(location_manager, didUpdateHeading: heading)
+    end
+
+    it "should show the calibration screen when needed" do
+      BW::Location.get_compass(calibration: true) do |result|
+      end
+
+      BW::Location.locationManagerShouldDisplayHeadingCalibration(location_manager).should == true
     end
   end
 
