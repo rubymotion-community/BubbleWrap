@@ -10,6 +10,8 @@ module BW
       :did_dismiss
     ]
 
+    attr_accessor :keyboard_type
+
     class << self
       attr_reader :callbacks
 
@@ -26,6 +28,7 @@ module BW
         view.style               = options[:style]
         view.delegate            = view
         view.cancel_button_index = options[:cancel_button_index]
+        view.keyboard_type       = options[:keyboard_type]
 
         view.instance_variable_set(:@handlers, {})
         block.weak! if block && BubbleWrap.use_weak_callbacks?
@@ -116,6 +119,8 @@ module BW
     # UIAlertViewDelegate protocol ################################################################
 
     def willPresentAlertView(alert)
+      textFieldAtIndex(0).keyboardType = alert.keyboard_type unless alert.keyboard_type.nil?
+      
       alert.clicked_button = nil
       handlers[:will_present].call(alert) if handlers[:will_present]
     end
