@@ -49,18 +49,18 @@ module BubbleWrap
         end
       end
 
-      def delegate_all(delegate)
-        delegate_failure(delegate)
-        delegate_success(delegate)
+      def delegate(delegate)
+        callback_delegate(delegate)
+        error_delegate(delegate)
       end
 
-      def delegate_failure(delegate)
+      def error_delegate(delegate)
         errback do |*args|
           delegate.fail *args
         end
       end
 
-      def delegate_success(delegate)
+      def callback_delegate(delegate)
         callback do |*args|
           delegate.succeed *args
         end
