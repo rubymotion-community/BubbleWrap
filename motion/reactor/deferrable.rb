@@ -49,6 +49,23 @@ module BubbleWrap
         end
       end
 
+      def delegate_all(delegate)
+        delegate_failure(delegate)
+        delegate_success(delegate)
+      end
+
+      def delegate_failure(delegate)
+        errback do |*args|
+          delegate.fail *args
+        end
+      end
+
+      def delegate_success(delegate)
+        callback do |*args|
+          delegate.succeed *args
+        end
+      end
+
       # Sugar for set_deferred_status(:failed, …)
       def fail(*args)
         set_deferred_status :failed, *args
