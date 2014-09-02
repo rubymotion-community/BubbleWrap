@@ -52,18 +52,21 @@ module BubbleWrap
       def delegate(delegate)
         callback_delegate(delegate)
         errback_delegate(delegate)
+        self
       end
 
       def errback_delegate(delegate)
         errback do |*args|
           delegate.fail *args
         end
+        self
       end
 
       def callback_delegate(delegate)
         callback do |*args|
           delegate.succeed *args
         end
+        self
       end
 
       # Sugar for set_deferred_status(:failed, …)
