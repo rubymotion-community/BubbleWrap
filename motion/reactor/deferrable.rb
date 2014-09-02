@@ -51,10 +51,10 @@ module BubbleWrap
 
       def delegate(delegate)
         callback_delegate(delegate)
-        error_delegate(delegate)
+        errback_delegate(delegate)
       end
 
-      def error_delegate(delegate)
+      def errback_delegate(delegate)
         errback do |*args|
           delegate.fail *args
         end
