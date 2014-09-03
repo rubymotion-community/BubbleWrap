@@ -359,9 +359,9 @@ class ExampleViewController < UIViewController
   include BW::KVO
 
   def viewDidLoad
-	@label = UILabel.alloc.initWithFrame [[20,20],[280,44]]
-	@label.text = ""
-	view.addSubview @label
+    @label = UILabel.alloc.initWithFrame [[20,20],[280,44]]
+    @label.text = ""
+    view.addSubview @label
 
     observe(@label, :text) do |old_value, new_value|
       puts "Hello from viewDidLoad!"
@@ -928,6 +928,9 @@ and timeout.  When you initially create a deferrable it is in an unknown
 state, however you can assign callbacks to be run when the object
 changes to either successful or failure state.
 
+Using `delegate`, `errback_delegate` and `callback_delegate` you can link
+deferrables together.
+
 #### Success
 
 ```ruby
@@ -950,6 +953,21 @@ Great justice!
 > d.fail "sadness"
 Great sadness!
 => nil
+```
+#### Delegate
+
+```ruby
+> d = EM::DefaultDeferrable.new
+=> #<BW::Reactor::DefaultDeferrable:0x8bf3ee0>
+> delegate = EM::DefaultDeferrable.new
+=> #<BW::Reactor::DefaultDeferrable:0x8bf5910>
+> d.delegate delegate
+=> #<BW::Reactor::DefaultDeferrable:0x8bf3ee0>
+> delegate.callback { |*args| puts args }
+=> [#<Proc:0x8bf3ef0>]
+> d.succeed :passed
+=> nil
+=> [:passed]
 ```
 
 #### Timeout
