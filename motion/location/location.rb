@@ -25,6 +25,10 @@ module BubbleWrap
         KCLLocationAccuracyNearestTenMeters, KCLLocationAccuracyHundredMeters,
         KCLLocationAccuracyKilometer, KCLLocationAccuracyThreeKilometers
 
+    # New additions to CLAuthorizationStatus in ios8
+    # see: https://developer.apple.com/library/prerelease/ios/documentation/CoreLocation/Reference/CLLocationManager_Class/index.html#//apple_ref/c/tdef/CLAuthorizationStatus
+    Constants.register KCLAuthorizationStatusAuthorizedWhenInUse, KCLAuthorizationStatusAuthorizedAlways
+
     module_function
     # Start getting locations
     # @param [Hash] options = {
@@ -150,14 +154,14 @@ module BubbleWrap
       @location_manager
     end
 
-    # returns true/false whether services are enabled for the _device_
+    # returns true/false whether services, or limited services, are enabled for the _device_
     def enabled?
       CLLocationManager.locationServicesEnabled
     end
 
     # returns true/false whether services are enabled for the _app_
     def authorized?
-      CLLocationManager.authorizationStatus == KCLAuthorizationStatusAuthorized
+      [KCLAuthorizationStatusAuthorized, KCLAuthorizationStatusAuthorizedAlways, KCLAuthorizationStatusAuthorizedWhenInUse].include?(CLLocationManager.authorizationStatus)
     end
 
     def error(type)

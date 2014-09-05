@@ -92,6 +92,12 @@ describe BubbleWrap::Location do
     it "should return true when available" do
       CLLocationManager.authorize(KCLAuthorizationStatusAuthorized)
       BW::Location.authorized?.should == true
+
+      CLLocationManager.authorize(KCLAuthorizationStatusAuthorizedWhenInUse)
+      BW::Location.authorized?.should == true
+
+      CLLocationManager.authorize(KCLAuthorizationStatusAuthorizedAlways)
+      BW::Location.authorized?.should == true
     end
 
     it "should throw error if not enabled" do
