@@ -1,4 +1,4 @@
-git@github.com:buffpojken/BubbleWrap.git# BubbleWrap for RubyMotion
+# BubbleWrap for RubyMotion
 
 A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKit code and provide more Ruby like APIs.
 
