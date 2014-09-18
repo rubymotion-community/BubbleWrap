@@ -1,4 +1,4 @@
-# BubbleWrap for RubyMotion
+git@github.com:buffpojken/BubbleWrap.git# BubbleWrap for RubyMotion
 
 A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKit code and provide more Ruby like APIs.
 
@@ -555,6 +555,12 @@ Extra methods on `UIView` for working with gesture recognizers. A gesture recogn
 ```
 
 There are similar methods for `pinched`, `rotated`, `swiped`, `panned`, and `pressed` (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
+
+In order to prevent retain cycles due to strong references within the passed block, use the use_weak_callbacks flag so the blocks do not retain a strong reference to self:
+
+```ruby
+BubbleWrap.use_weak_callbacks = true
+```
 
 ### UIViewController
 
