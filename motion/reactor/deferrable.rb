@@ -19,7 +19,7 @@ module BubbleWrap
         return unless blk
         @deferred_status ||= :unknown
         if @deferred_status == :succeeded
-          blk.call(*@deferred_args)
+          execute_block(&blk)
         elsif @deferred_status != :failed
           @callbacks ||= []
           @callbacks.unshift blk
@@ -42,11 +42,17 @@ module BubbleWrap
         return unless blk
         @deferred_status ||= :unknown
         if @deferred_status == :failed
+          execute_block(&blk)
           blk.call(*@deferred_args)
         elsif @deferred_status != :succeeded
           @errbacks ||= []
           @errbacks.unshift blk 
         end
+      end
+
+      def execute_block(&blk)
+        return unless blk
+        blk.call(*@deferred_args)
       end
 
       def delegate(delegate)
@@ -111,14 +117,14 @@ module BubbleWrap
         when :succeeded
           if @callbacks
             while cb = @callbacks.pop
-              cb.call(*@deferred_args)
+              execute_block(&cb)
             end
           end
           @errbacks.clear if @errbacks
         when :failed
           if @errbacks
             while eb = @errbacks.pop
-              eb.call(*@deferred_args)
+              execute_block(&eb)
             end
           end
           @callbacks.clear if @callbacks

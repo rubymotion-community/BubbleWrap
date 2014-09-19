@@ -937,6 +937,11 @@ changes to either successful or failure state.
 Using `delegate`, `errback_delegate` and `callback_delegate` you can link
 deferrables together.
 
+By default, callbacks will be made on the thread that the deferrable
+succeeds/fails on. For multithreaded environments, it can be useful to use
+EM::ThreadAwareDeferrable so that callbacks will be made on the threads they
+are declared on.
+
 #### Success
 
 ```ruby
@@ -974,6 +979,22 @@ Great sadness!
 > d.succeed :passed
 => nil
 => [:passed]
+```
+
+#### ThreadAwareDeferrable
+
+```ruby
+> d = EM::ThreadAwareDeferrable.new
+=> #<BW::Reactor::ThreadAwareDeferrable:0x8bf3ee0>
+
+> queue = Dispatch::Queue.new(:deferrable.to_s)
+> queue.async do 
+>   d.callback do |*args|
+>     Dispatch::Queue.current == queue
+>     => true # this is normally false
+>   end
+> end
+> d.succeed true
 ```
 
 #### Timeout
