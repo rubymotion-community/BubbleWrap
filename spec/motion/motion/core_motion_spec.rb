@@ -70,6 +70,12 @@ describe BubbleWrap::Motion do
         BubbleWrap::Motion.accelerometer.stop
       end.should.not.raise
     end
+    it 'should be able to run once' do
+      -> do
+        BubbleWrap::Motion.accelerometer.once {}
+        BubbleWrap::Motion.accelerometer.stop
+      end.should.not.raise
+    end
   end
 
   describe 'BubbleWrap::Motion.gyroscope' do
@@ -111,6 +117,12 @@ describe BubbleWrap::Motion do
     it 'should be able to repeat via every' do
       -> do
         BubbleWrap::Motion.gyroscope.every(5) {}
+        BubbleWrap::Motion.gyroscope.stop
+      end.should.not.raise
+    end
+    it 'should be able to run once' do
+      -> do
+        BubbleWrap::Motion.gyroscope.once {}
         BubbleWrap::Motion.gyroscope.stop
       end.should.not.raise
     end
@@ -158,6 +170,12 @@ describe BubbleWrap::Motion do
         BubbleWrap::Motion.magnetometer.stop
       end.should.not.raise
     end
+    it 'should be able to run once' do
+      -> do
+        BubbleWrap::Motion.magnetometer.once {}
+        BubbleWrap::Motion.magnetometer.stop
+      end.should.not.raise
+    end
   end
 
   describe 'BubbleWrap::Motion.device' do
@@ -199,6 +217,12 @@ describe BubbleWrap::Motion do
     it 'should be able to repeat via every' do
       -> do
         BubbleWrap::Motion.device.every(5) {}
+        BubbleWrap::Motion.device.stop
+      end.should.not.raise
+    end
+    it 'should be able to run once' do
+      -> do
+        BubbleWrap::Motion.device.once {}
         BubbleWrap::Motion.device.stop
       end.should.not.raise
     end
