@@ -1,12 +1,62 @@
 # Provides a nice DSL for interacting with the standard CMMotionManager from
 # CoreMotion
-#
 module BubbleWrap
+  # These module methods provide the main interface.  It uses a shared manager
+  # (per Apple's recommendation), and they all have a common set of supported
+  # methods:
+  #     available?
+  #     active?
+  #     repeat(opts)
+  #     once(opts)
+  #     every(time_interval, opts)
+  #
+  # @example
+  #     if BW::Motion.accelerometer.available?
+  #       BW::Motion.accelerometer.every(5) do |result|
+  #         # see the README for the keys that are available in result.
+  #       end
+  #     end
+  #
+  # If you insist on using your own manager, or you want more than one
+  # BW::Motion::Whatever running at the same time, you'll need to instantiate
+  # them yourself.
+  #
+  # @example
+  #     mgr = CMMotionManager.alloc.init
+  #     accel = BW::Motion::Accelerometer.new(mgr)
+  #     accel.once do |result_data|
+  #     end
+  #     # => BW::Motion::accelerometer.once do |result_data| ... end
+  module Motion
+    module_function
+
+    def manager
+      @manager ||= CMMotionManager.alloc.init
+    end
+
+    def accelerometer
+      @accelerometer ||= Accelerometer.new(self.manager)
+    end
+
+    def gyroscope
+      @gyroscope ||= Gyroscope.new(self.manager)
+    end
+
+    def magnetometer
+      @magnetometer ||= Magnetometer.new(self.manager)
+    end
+
+    def device
+      @device ||= DeviceMotion.new(self.manager)
+    end
+  end
+
+
   module Motion
     module Error
     end
 
-    class Generic
+    class GenericMotionInterface
 
       def initialize(manager)
         @manager = manager
@@ -65,9 +115,17 @@ module BubbleWrap
         end
       end
 
+      private def internal_handler(handler)
+        retval = -> (result_data, error) do
+          handle_result(result_data, error, handler)
+        end
+        retval.weak! if BubbleWrap.use_weak_callbacks?
+        retval
+      end
+
     end
 
-    class Accelerometer < Generic
+    class Accelerometer < GenericMotionInterface
 
       def start(options={}, &handler)
         if options.key?(:interval)
@@ -76,9 +134,7 @@ module BubbleWrap
 
         if handler
           queue = convert_queue(options[:queue])
-          @manager.startAccelerometerUpdatesToQueue(queue, withHandler: lambda do |result_data, error|
-            handle_result(result_data, error, &handler)
-          end)
+          @manager.startAccelerometerUpdatesToQueue(queue, withHandler: internal_handler(handler))
         else
           @manager.startAccelerometerUpdates
         end
@@ -86,7 +142,7 @@ module BubbleWrap
         return self
       end
 
-      private def handle_result(result_data, error, &handler)
+      private def handle_result(result_data, error, handler)
         if result_data
           result = {
             data: result_data,
@@ -111,7 +167,7 @@ module BubbleWrap
       end
 
       def data
-        @manager.result_data
+        @manager.accelerometerData
       end
 
       def stop
@@ -120,7 +176,7 @@ module BubbleWrap
 
     end
 
-    class Gyroscope < Generic
+    class Gyroscope < GenericMotionInterface
 
       def start(options={}, &handler)
         if options.key?(:interval)
@@ -129,9 +185,7 @@ module BubbleWrap
 
         if handler
           queue = convert_queue(options[:queue])
-          @manager.startGyroUpdatesToQueue(queue, withHandler: lambda do |result_data, error|
-            handle_result(result_data, error, &handler)
-          end)
+          @manager.startGyroUpdatesToQueue(queue, withHandler: internal_handler(handler))
         else
           @manager.startGyroUpdates
         end
@@ -139,7 +193,7 @@ module BubbleWrap
         return self
       end
 
-      private def handle_result(result_data, error, &handler)
+      private def handle_result(result_data, error, handler)
         if result_data
           result = {
             data: result_data,
@@ -173,7 +227,7 @@ module BubbleWrap
 
     end
 
-    class Magnetometer < Generic
+    class Magnetometer < GenericMotionInterface
 
       def start(options={}, &handler)
         if options.key?(:interval)
@@ -182,9 +236,7 @@ module BubbleWrap
 
         if handler
           queue = convert_queue(options[:queue])
-          @manager.startMagnetometerUpdatesToQueue(queue, withHandler: lambda do |result_data, error|
-            handle_result(result_data, error, &handler)
-          end)
+          @manager.startMagnetometerUpdatesToQueue(queue, withHandler: internal_handler(handler))
         else
           @manager.startMagnetometerUpdates
         end
@@ -192,7 +244,7 @@ module BubbleWrap
         return self
       end
 
-      private def handle_result(result_data, error, &handler)
+      private def handle_result(result_data, error, handler)
         if result_data
           result = {
             data: result_data,
@@ -226,7 +278,7 @@ module BubbleWrap
 
     end
 
-    class DeviceMotion < Generic
+    class DeviceMotion < GenericMotionInterface
 
       def start(options={}, &handler)
         if options.key?(:interval)
@@ -243,13 +295,9 @@ module BubbleWrap
           queue = convert_queue(options[:queue])
 
           if reference_frame
-            @manager.startDeviceMotionUpdatesUsingReferenceFrame(reference_frame, toQueue: queue, withHandler: lambda do |result_data, error|
-              handle_result(result_data, error, &handler)
-            end)
+              @manager.startDeviceMotionUpdatesUsingReferenceFrame(reference_frame, toQueue: queue, withHandler: internal_handler(handler))
           else
-            @manager.startDeviceMotionUpdatesToQueue(queue, withHandler: lambda do |result_data, error|
-              handle_result(result_data, error, &handler)
-            end)
+              @manager.startDeviceMotionUpdatesToQueue(queue, withHandler: internal_handler(handler))
           end
         else
           if reference_frame
@@ -262,7 +310,7 @@ module BubbleWrap
         return self
       end
 
-      private def handle_result(result_data, error, &handler)
+      private def handle_result(result_data, error, handler)
         if result_data
           result = {
             data: result_data,
@@ -363,28 +411,6 @@ module BubbleWrap
         @manager.stopDeviceMotionUpdates
       end
 
-    end
-
-    module_function
-
-    def manager
-      @manager ||= CMMotionManager.alloc.init
-    end
-
-    def accelerometer
-      @accelerometer ||= Accelerometer.new(self.manager)
-    end
-
-    def gyroscope
-      @gyroscope ||= Gyroscope.new(self.manager)
-    end
-
-    def magnetometer
-      @magnetometer ||= Magnetometer.new(self.manager)
-    end
-
-    def device
-      @device ||= DeviceMotion.new(self.manager)
     end
 
   end
