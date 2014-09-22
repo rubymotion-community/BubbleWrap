@@ -446,6 +446,9 @@ BW::Motion.accelerometer.every(5) do |result|
   p result[:z]  #          "          z direction
 end
 
+# every, start, and repeat all need to be stopped later.
+BW::Motion.accelerometer.stop
+
 # repeat, but don't set the interval
 BW::Motion.accelerometer.repeat do |result|
 end
@@ -455,9 +458,6 @@ BW::Motion.accelerometer.every(5, queue: :background) { |result| ... }
 BW::Motion.accelerometer.every(5, queue: :main) { |result| ... }
 BW::Motion.accelerometer.every(5, queue: :current) { |result| ... }
 BW::Motion.accelerometer.every(5, queue: 'my queue') { |result| ... }
-
-# later, you will need to turn off these events:
-BW::Motion.accelerometer.stop
 
 BW::Motion.accelerometer.once do |result|
   # ...
