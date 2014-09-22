@@ -88,8 +88,12 @@ module BubbleWrap
         raise "A block is required" unless blk
         blk.weak! if BubbleWrap.use_weak_callbacks?
 
-        every(options) do |result|
-          blk.call(result)
+        @called_once = false
+        every(options) do |result, error|
+          unless @called_once
+            @called_once = true
+            blk.call(result, error)
+          end
           self.stop
         end
 
