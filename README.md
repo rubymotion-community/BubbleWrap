@@ -449,6 +449,17 @@ BW::Location.get_compass_once do |heading|
 end
 ```
 
+### iOS 8 Location Requirements
+
+iOS 8 introduced stricter location services requirements. Although BubbleWrap will handle most of this for you automatically, you are required to add a few key/value pairs to the `Info.plist`. Add these two lines to your `Rakefile` (with your descriptions, obviously):
+
+```ruby
+app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
+app.info_plist['NSLocationWhenInUseUsageDescription'] = 'Description'
+```
+
+*Note: you need both keys to use `get_once`, so it's probably best to just include both no matter what.* See [Apple's documentation](https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW18) on iOS 8 location services requirements for more information.
+
 ## Motion
 
 Interface for the accelerometer, gyroscope, and magnetometer sensors (the
