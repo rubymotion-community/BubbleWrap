@@ -402,7 +402,7 @@ iso8601 formatted string into a Time instance.
 
 ## Location
 
-Added interface for Ruby-like GPS and compass access:
+Interface for Ruby-like GPS and compass access (the CoreLocation framework):
 
 ```ruby
 > BW::Location.enabled? # Whether location services are enabled on the device
@@ -446,6 +446,166 @@ BW::Location.get_compass_once do |heading|
   p result[:true_heading]
   p result[:accuracy]
   p result[:timestamp]
+end
+```
+
+## Motion
+
+Interface for the accelerometer, gyroscope, and magnetometer sensors (the
+CoreMotion framework).  You can access each sensor individually, or you can get
+data from all of them at once using the `BW::Motion.device` interface, which
+delegates to `CMMotionManager#deviceMotion`.
+
+Each sensor has an `every` and `once` method. `every` expects a time interval,
+and you will need to retain the object it returns and call `#stop` on it when
+you are done with the data.
+
+The `every` and `once` methods can accept a `:queue` option. The default value
+is a queue that runs on the main loop, so that UI updates can be processed in
+the block. This is useful, but not recommended by Apple, since the events can
+come in at a high rate. If you want to use a background queue, you can either
+specify an NSOperationQueue object, or you can use one of these symbols:
+
+- `:main` - `NSOperationQueue.mainQueue`, this is the default value.
+- `:background` - BubbleWrap will create a new `NSOperationQueue`.
+- `:current` - BubbleWrap will use `NSOperationQueue.currentQueue`.
+
+If you pass a string instead, a new queue will be created and its `name`
+property will be set to that string.
+
+The `CMDeviceMotion` interface (`BW::Motion.device`) accepts a `:reference`
+option, which specifies the `CMAttitudeReferenceFrame`.  The default value is
+the same as the one that `CMMotionManager` uses, which is returned by the
+`CMMotionManager#attitudeReferenceFrame` method.  This option should be passed
+to the `repeat`, `every` or `once` methods.
+
+###### Accelerometer
+```ruby
+BW::Motion.accelerometer.available?
+BW::Motion.accelerometer.data  # returns CMAccelerometerData object or nil
+
+# ask the CMMotionManager to update every 5 seconds
+BW::Motion.accelerometer.every(5) do |result|
+  # result contains the following data (from CMAccelerometerData#acceleration):
+  p result[:data]  # the CMAccelerometerData object
+  p result[:acceleration]  # the CMAcceleration struct
+  p result[:x]  # acceleration in the x direction
+  p result[:y]  #          "          y direction
+  p result[:z]  #          "          z direction
+end
+
+# every, start, and repeat all need to be stopped later.
+BW::Motion.accelerometer.stop
+
+# repeat, but don't set the interval
+BW::Motion.accelerometer.repeat do |result|
+end
+
+# you can specify a :queue where the operations will be executed.  See above for details
+BW::Motion.accelerometer.every(5, queue: :background) { |result| ... }
+BW::Motion.accelerometer.every(5, queue: :main) { |result| ... }
+BW::Motion.accelerometer.every(5, queue: :current) { |result| ... }
+BW::Motion.accelerometer.every(5, queue: 'my queue') { |result| ... }
+
+BW::Motion.accelerometer.once do |result|
+  # ...
+end
+```
+
+###### Gyroscope
+```ruby
+BW::Motion.gyroscope.available?
+BW::Motion.gyroscope.data  # returns CMGyroData object or nil
+
+# ask the CMMotionManager to update every second.
+BW::Motion.gyroscope.every(1) do |result|
+  # result contains the following data (from CMGyroData#rotationRate):
+  p result[:data]  # the CMGyroData object
+  p result[:rotation]  # the CMRotationRate struct
+  p result[:x]  # rotation in the x direction
+  p result[:y]  #        "        y direction
+  p result[:z]  #        "        z direction
+end
+BW::Motion.gyroscope.stop
+
+BW::Motion.gyroscope.once do |result|
+  # ...
+end
+```
+
+###### Magnetometer
+```ruby
+BW::Motion.magnetometer.available?
+BW::Motion.magnetometer.data  # returns CMMagnetometerData object or nil
+
+# ask the CMMotionManager to update every second
+BW::Motion.magnetometer.every(1) do |result|
+  # result contains the following data (from CMMagnetometerData#magneticField):
+  p result[:data]  # the CMMagnetometerData object
+  p result[:field]  # the CMMagneticField struct
+  p result[:x]  # magnetic field in the x direction
+  p result[:y]  #           "           y direction
+  p result[:z]  #           "           z direction
+end
+BW::Motion.magnetometer.stop
+
+BW::Motion.magnetometer.once do |result|
+  # ...
+end
+```
+
+###### Device Motion
+
+This is an amalgam of all the motion sensor data.
+
+```ruby
+BW::Motion.device.available?
+BW::Motion.device.data  # returns CMDeviceMotion object or nil
+
+BW::Motion.device.every(1) do |result|
+  # result contains the following data:
+  p result[:data]  # the CMDeviceMotion object
+  # orientation data, from CMDeviceMotion#attitude
+  p result[:attitude]  # the CMAttitude struct
+  p result[:roll]
+  p result[:pitch]
+  p result[:yaw]
+  # rotation data, from CMDeviceMotion#rotationRate
+  p result[:rotation]  # the CMRotationRate struct
+  p result[:rotation_x]
+  p result[:rotation_y]
+  p result[:rotation_z]
+  # gravity+acceleration vector, from CMDeviceMotion#gravity
+  p result[:gravity]  # the CMAcceleration struct
+  p result[:gravity_x]
+  p result[:gravity_y]
+  p result[:gravity_z]
+  # just the acceleration vector, from CMDeviceMotion#userAcceleration
+  p result[:acceleration]  # the CMAcceleration struct
+  p result[:acceleration_x]
+  p result[:acceleration_y]
+  p result[:acceleration_z]
+  # the magnetic data, from CMDeviceMotion#magneticField
+  p result[:magnetic]  # the CMCalibratedMagneticField struct
+  p result[:magnetic_field]  # the CMMagneticField struct from the CMCalibratedMagneticField
+  p result[:magnetic_x]
+  p result[:magnetic_y]
+  p result[:magnetic_z]
+  p result[:magnetic_accuracy]  # this will be a symbol, :low, :medium, :high, or nil if the magnetic data is uncalibrated
+
+  # less useful data from CMAttitude, unless you're into the whole linear algebra thing:
+  p result[:matrix]  # CMAttitude#rotationMatrix
+  p result[:quarternion]  # CMAttitude#quarternion
+end
+
+# the reference frame should be one of the CMAttitudeReferenceFrame constants...
+ref = CMAttitudeReferenceFrameXArbitraryZVertical
+# ... or one of these symbols: :arbitrary_z, :corrected_z, :magnetic_north, :true_north
+ref = :corrected_z
+BW::Motion.device.every(1, queue: :background, reference: ref) { |result| ... }
+
+BW::Motion.device.once do |result|
+  # ...
 end
 ```
 
