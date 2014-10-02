@@ -301,6 +301,11 @@ BW::JSON.parse "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
 Helper methods added to give `NSIndexPath` a bit more of a Ruby
 interface.
 
+```ruby
+index_path = table_view.indexPathForCell(cell)
+index_path + 1 # NSIndexPath for next cell in the same section
+=> #<NSIndexPath:0x120db8e0>
+```
 
 ### NSNotificationCenter
 
