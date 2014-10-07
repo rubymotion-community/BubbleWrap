@@ -288,7 +288,7 @@ Options include:
 `BW::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib. For apps building for iOS4, we suggest a different JSON alternative, like [AnyJSON](https://github.com/mattt/AnyJSON).
 
 ```ruby
-BW::JSON.generate({'foo => 1, 'bar' => [1,2,3], 'baz => 'awesome'})
+BW::JSON.generate({'foo' => 1, 'bar' => [1,2,3], 'baz' => 'awesome'})
 => "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
 BW::JSON.parse "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
 => {"foo"=>1, "bar"=>[1, 2, 3], "baz"=>"awesome"}
