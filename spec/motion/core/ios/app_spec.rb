@@ -159,10 +159,8 @@ describe BubbleWrap::App do
           action_sheet.cancelButtonIndex = (action_sheet.addButtonWithTitle("Cancel"))
 
           old_window = App.window
-          window_count = App.windows.count
           action_sheet.showInView(App.window)
           wait 1 do
-            UIApplication.sharedApplication.windows.count.should > window_count
             App.window.should == old_window
 
             action_sheet.dismissWithClickedButtonIndex(action_sheet.cancelButtonIndex, animated: false)
