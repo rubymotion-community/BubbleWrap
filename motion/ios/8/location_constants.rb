@@ -6,13 +6,13 @@ module BW
     KCLAuthorizationStatusAuthorizedAlways
   )
 
-#   module Location
-#     def authorized?
-#       [
-#         BW::Constants.get("KCLAuthorizationStatus", :authorized),
-#         BW::Constants.get("KCLAuthorizationStatus", :authorized_always),
-#         BW::Constants.get("KCLAuthorizationStatus", :authorized_when_in_use)
-#       ].include?(CLLocationManager.authorizationStatus)
-#     end
-#   end
+  module Location
+    def authorized?
+      [
+        BW::Constants.get("KCLAuthorizationStatus", :authorized),
+        BW::Constants.get("KCLAuthorizationStatus", :authorized_always),
+        BW::Constants.get("KCLAuthorizationStatus", :authorized_when_in_use)
+      ].include?(CLLocationManager.authorizationStatus)
+    end
+  end
 end
