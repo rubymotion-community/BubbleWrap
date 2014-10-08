@@ -246,6 +246,8 @@ Examples:
 # 480
 > Device.screen.height_for_orientation(:landscape_left)
 # 320
+> Device.vendor_identifier
+# <NSUUID>
 ```
 
 ### Camera

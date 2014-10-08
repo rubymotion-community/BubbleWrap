@@ -65,6 +65,12 @@ describe "iOS" do
     end
   end
 
+  describe '.vendor_identifier' do
+    it 'returns a value' do
+      BW::Device.vendor_identifier.should.not == nil
+    end
+  end
+
   describe '.orientation' do
     it 'delegates to BubbleWrap::Screen.orientation' do
       BW::Device.orientation.should == BW::Device::Screen.orientation
