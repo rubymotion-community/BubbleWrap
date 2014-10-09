@@ -69,5 +69,14 @@ describe BW::UIControlWrapper do
       @subject.sendActionsForControlEvents(UIControlEventTouchUpInside)
       @touched.should.equal ['for the very first time', 'touched']
     end
+
+    it "allows symbols for actions" do
+      @subject.when(:touch_up_inside) do
+        @touched << 'touched'
+      end
+
+      @subject.sendActionsForControlEvents(UIControlEventTouchUpInside)
+      @touched.should.equal ['touched']
+    end
   end
 end
