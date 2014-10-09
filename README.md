@@ -750,6 +750,26 @@ button.when(UIControlEventTouchUpInside) do
 end
 ```
 
+The `#when` method also accepts bitwise combinations of events:
+
+```ruby
+button.when(UIControlEventTouchUpInside | UIControlEventTouchUpOutside) do
+  self.view.backgroundColor = UIColor.redColor
+end
+```
+
+You can use symbols for events (but won't work with the bitwise operator):
+
+```ruby
+button.when(:touch_up_inside) do
+  self.view.backgroundColor = UIColor.redColor
+end
+
+button.when(:value_changed) do
+  self.view.backgroundColor = UIColor.blueColor
+end
+```
+
 Set the use_weak_callbacks flag so the blocks do not retain a strong reference to self:
 
 ```ruby
