@@ -642,6 +642,8 @@ BW::Media.play_modal("http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_s
 
 Wrapper for showing an in-app mail composer view.
 
+You should always determine if the device your app is running on is configured to send mail before displaying a mail composer window. `BW::Mail.can_send_mail?` will return `true` or `false`.
+
 ```ruby
 # Opens as a modal in the current UIViewController
 BW::Mail.compose(
@@ -665,6 +667,8 @@ end
 ## SMS
 
 Wrapper for showing an in-app message (SMS) composer view.
+
+You should always determine if the device your app is running on can send SMS messages before displaying a SMS composer window. `BW::SMS.can_send_sms?` will return `true` or `false`.
 
 ```ruby
 # Opens as a modal in the current UIViewController
