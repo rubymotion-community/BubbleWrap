@@ -38,9 +38,9 @@ describe BubbleWrap::Requirement do
 
     it 'can depend on another file' do
       @subject.scan(@root_path, 'motion/*.rb') do
-        file('motion/http.rb').depends_on('motion/core.rb')
+        file('motion/motion.rb').depends_on('motion/constants.rb')
       end
-      @subject.file('motion/http.rb').file_dependencies.should.include @subject.file('motion/core.rb')
+      @subject.file('motion/motion.rb').file_dependencies.should.include @subject.file('motion/constants.rb')
     end
 
     it 'can use a framework' do
