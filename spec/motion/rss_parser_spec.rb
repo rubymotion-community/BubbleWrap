@@ -1,4 +1,5 @@
 describe "RSSParser" do
+  extend WebStub::SpecHelpers
 
   before do
     @feed_url = 'https://raw.github.com/gist/2952427/9f1522cbe5d77a72c7c96c4fdb4b77bd58d7681e/atom.xml'
@@ -32,6 +33,11 @@ describe "RSSParser" do
     end
 
     it "parses url data" do
+      string = File.read(File.join(App.resources_path, 'atom.xml'))
+
+      stub_request(:get, @feed_url).
+        to_return(body: string, content_type: "application/xml")
+
       parser = BW::RSSParser.new(@feed_url)
       episodes = []
       parser.parse { |episode| episodes << episode }
@@ -40,28 +46,15 @@ describe "RSSParser" do
     end
 
     it "handles errors" do
-      parser = BW::RSSParser.new("http://doesnotexist.com")
-      parser.parse
-      parser.state.should.equal :errors
-    end
+      error_url = 'http://doesnotexist.com'
 
-    module BW
-      module HTTP
-        class << self
-          # To avoid interfering the http_spec's mocking, we only want to override HTTP.get if it's
-          # for the RSSParser spec.
-          alias_method :original_get, :get
-          def get(url, options = {}, &block)
-            if url == 'https://raw.github.com/gist/2952427/9f1522cbe5d77a72c7c96c4fdb4b77bd58d7681e/atom.xml'
-              string = File.read(File.join(App.resources_path, 'atom.xml'))
-              yield BW::HTTP::Response.new(body: string.to_data, status_code: 200)
-            elsif url == 'http://doesnotexist.com'
-              yield BW::HTTP::Response.new(status_code: nil)
-            else
-              original_get(url, options, &block)
-            end
-          end
-        end
+      stub_request(:get, error_url).
+        to_fail(code: NSURLErrorNotConnectedToInternet)
+
+      parser = BW::RSSParser.new(error_url)
+      parser.parse
+      wait 0.1 do
+        parser.state.should.equal :errors
       end
     end
   end

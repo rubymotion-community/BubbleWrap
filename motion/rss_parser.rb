@@ -76,6 +76,7 @@ module BubbleWrap
       @block = block
 
       fetch_source_data do |data|
+        data = data.to_data if data.is_a?(String)
         @parser = NSXMLParser.alloc.initWithData(data)
         @parser.shouldProcessNamespaces = true
         @parser.delegate ||= self
@@ -144,12 +145,17 @@ module BubbleWrap
 
     def fetch_source_data(&blk)
       if @source.is_a?(NSURL)
-        HTTP.get(@source.absoluteString) do |response|
-          if response.ok?
-            blk.call(response.body)
-          else
-            parser(parser, parseErrorOccurred:"HTTP request failed (#{response})")
+        if Kernel.const_defined?('AFMotion')
+          AFMotion::HTTP.get(@source.absoluteString) do |response|
+            if response.success?
+              blk.call(response.body)
+            else
+              parser(parser, parseErrorOccurred:"HTTP request failed (#{response})")
+            end
           end
+        else
+          puts "Please include afmotion in your Gemfile to use RSS Parsing."
+          parser(parser, parseErrorOccurred:"HTTP request failed (no networking library)")
         end
       else
         yield @source

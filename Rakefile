@@ -10,6 +10,7 @@ Bundler.require
 
 require 'bubble-wrap/all'
 require 'bubble-wrap/test'
+require 'webstub'
 
 module Motion
   module Project
