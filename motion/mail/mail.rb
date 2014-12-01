@@ -56,6 +56,10 @@ module BubbleWrap
       mail_controller
     end
 
+    def can_send_mail?
+      !!MFMailComposeViewController.canSendMail
+    end
+
     # Event when the MFMailComposeViewController is closed
     # -------------------------------------------------------------
     # the callback is fired if it was present in the constructor
