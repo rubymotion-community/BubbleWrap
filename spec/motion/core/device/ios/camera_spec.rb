@@ -99,23 +99,6 @@ describe BubbleWrap::Device::Camera do
         camera = BW::Device.camera.photo_library.popover_from(uiview)
         camera.instance_variable_get("@popover_in_view").should == uiview
       end
-
-      it 'should limit movie quality and length' do
-        camera = BW::Device.camera.front
-        camera.instance_variable_set("@picker_klass", @picker_klass)
-        info = example_info
-
-        camera.picture(
-          media_types: [:movie],
-          video_quality: :low,
-          video_maximum_duration: 12) do |result|
-          # Nothing
-        end
-
-        camera.picker
-        camera.picker.videoQuality.should == UIImagePickerControllerQualityTypeLow
-        camera.picker.videoMaximumDuration.should == 12
-      end
     end
   end
 
