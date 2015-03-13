@@ -22,5 +22,18 @@ module BubbleWrap
     def shared
       NSApplication.sharedApplication
     end
+
+    # Opens an url (string or instance of `NSURL`)
+    # in the device's web browser or in the correspondent app for custom schemas
+    # Usage Example:
+    #   App.open_url("http://matt.aimonetti.net")
+    #   App.open_url("fb://profile")
+    def open_url(url)
+      unless url.is_a?(NSURL)
+        url = NSURL.URLWithString(url)
+      end
+      NSWorkspace.sharedWorkspace.openURL(url)
+    end
+    
   end
 end
