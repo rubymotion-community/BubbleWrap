@@ -1204,6 +1204,10 @@ Flux capacitor!
 > o.trigger(:november_5_1955)
 Ow!
 => [nil]
+> o.on(:november_5_1955) { puts "Ow!" }
+> o.on(:november_5_1955) { puts "Another Ow!" }
+> o.off(:november_5_1955)
+=> nil
 ```
 
 # Suggestions?
