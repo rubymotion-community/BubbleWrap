@@ -16,9 +16,9 @@ Gem::Specification.new do |gem|
 
   gem.extra_rdoc_files = gem.files.grep(%r{motion})
 
-  gem.add_dependency 'bubble-wrap-http', BubbleWrap::VERSION
   gem.add_development_dependency 'mocha', '0.11.4'
   gem.add_development_dependency 'mocha-on-bacon'
   gem.add_development_dependency 'bacon'
   gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'webstub'
 end

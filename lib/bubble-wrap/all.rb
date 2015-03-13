@@ -2,7 +2,6 @@ require File.expand_path('../loader', __FILE__)
 [
   'core',
   'font',
-  'http',
   'location',
   'mail',
   'media',
