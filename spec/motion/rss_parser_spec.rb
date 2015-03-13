@@ -48,9 +48,6 @@ describe "RSSParser" do
     it "handles errors" do
       error_url = 'http://doesnotexist.com'
 
-      stub_request(:get, error_url).
-        to_fail(code: NSURLErrorNotConnectedToInternet)
-
       parser = BW::RSSParser.new(error_url)
       parser.parse
       wait 0.1 do
