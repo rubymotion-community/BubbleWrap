@@ -15,6 +15,13 @@ module BubbleWrap
       Constants.register UIImagePickerControllerSourceTypePhotoLibrary, UIImagePickerControllerSourceTypeCamera,
           UIImagePickerControllerSourceTypeSavedPhotosAlbum
 
+      Constants.register UIImagePickerControllerQualityTypeHigh,
+          UIImagePickerControllerQualityTypeMedium,
+          UIImagePickerControllerQualityTypeLow,
+          UIImagePickerControllerQualityType640x480,
+          UIImagePickerControllerQualityTypeIFrame1280x720,
+          UIImagePickerControllerQualityTypeIFrame960x540
+
       MEDIA_TYPE_HASH = {movie: KUTTypeMovie, image: KUTTypeImage}
 
       CAMERA_LOCATIONS = [:front, :rear, :none]
@@ -98,7 +105,9 @@ module BubbleWrap
           animated: true,
           on_dismiss: false,
           media_types: [:image],
-          dismiss_completed: nil
+          dismiss_completed: nil,
+          video_quality: :medium,
+          video_maximum_duration: 600
         }.merge(options)
 
         # If we're using Camera.any, by default use photo library
@@ -130,6 +139,8 @@ module BubbleWrap
         self.picker.sourceType = source_type
         self.picker.mediaTypes = media_types
         self.picker.allowsEditing = @options[:allows_editing]
+        self.picker.videoQuality = Constants.get("UIImagePickerControllerQualityType", @options[:video_quality])
+        self.picker.videoMaximumDuration = @options[:video_maximum_duration]
 
         if source_type_readable == :camera && ![:front, :rear].member?(self.location)
           raise Error::INVALID_CAMERA_LOCATION, "Can't use camera location #{self.location} with source type :camera"

@@ -93,7 +93,7 @@ describe BubbleWrap::Device::Camera do
         camera.imagePickerController(camera.instance_variable_get("@picker"), didFinishPickingMediaWithInfo: info)
         image_view.nil?.should == false
       end
-      
+
       it 'should set popover' do
         uiview = UIView.alloc
         camera = BW::Device.camera.photo_library.popover_from(uiview)
