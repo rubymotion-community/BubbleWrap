@@ -149,7 +149,7 @@ describe BubbleWrap::App do
 
     describe '.window' do
       it 'returns UIApplication.sharedApplication.keyWindow' do
-        App.window.class.should == UIApplication.sharedApplication.keyWindow.superclass
+        App.window.class.should == UIApplication.sharedApplication.keyWindow.class
       end
 
       describe 'with UIActionSheet' do

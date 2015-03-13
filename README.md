@@ -266,8 +266,12 @@ BW::Device.camera.any.picture(allows_editing: true, media_types: [:image]) do |r
   edited_image_view = UIImageView.alloc.initWithImage(result[:edited_image])
   original_image_view = UIImageView.alloc.initWithImage(result[:original_image])
 end
-```
 
+# Capture a low quality movie with a limit of 10 seconds
+BW::Device.camera.front.picture(media_types: [:movie], video_quality: :low, video_maximum_duration: 10) do |result|
+  video_file_path = result[:media_url]
+end
+```
 
 Options include:
 
@@ -275,6 +279,8 @@ Options include:
 - `:animated` - Boolean; whether to display the camera with an animation (default true)
 - `:on_dismiss` - Lambda; called instead of the default dismissal logic
 - `:media_types` - Array; containing any of `[:movie, :image]`
+- `:video_quality` - Symbol; one of `:high`, `:medium`, `low`, `"640x480".to_sym`, `iframe1280x720`, or `iframe960x540`. Defaults to `:medium`
+- `:video_maximum_duration` - Integer; limits movie recording length. Defaults to 600.
 
 ### JSON
 
@@ -1077,7 +1083,7 @@ Great sadness!
 => #<BW::Reactor::ThreadAwareDeferrable:0x8bf3ee0>
 
 > queue = Dispatch::Queue.new(:deferrable.to_s)
-> queue.async do 
+> queue.async do
 >   d.callback do |*args|
 >     Dispatch::Queue.current == queue
 >     => true # this is normally false
