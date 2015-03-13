@@ -149,7 +149,7 @@ describe BubbleWrap::App do
 
     describe '.window' do
       it 'returns UIApplication.sharedApplication.keyWindow' do
-        App.window.class.should == UIApplication.sharedApplication.keyWindow.superclass
+        App.window.class.should == UIApplication.sharedApplication.keyWindow.class
       end
 
       describe 'with UIActionSheet' do
@@ -181,25 +181,6 @@ describe BubbleWrap::App do
         wait_for_change(@test_obj, 'test_value') do
           @test_obj.test_value.should == true
         end
-      end
-
-    end
-
-    describe ".open_url" do
-
-      it "uses NSURL or converts NSString in NSURL and opens it" do
-        application = UIApplication.sharedApplication
-        def application.url; @url end
-        def application.openURL(url); @url = url end
-
-        url = NSURL.URLWithString('http://localhost')
-        App.open_url(url)
-        application.url.should.equal url
-
-        url = 'http://localhost'
-        App.open_url(url)
-        application.url.class.should.equal NSURL
-        application.url.description.should.equal url
       end
 
     end

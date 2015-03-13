@@ -5,7 +5,7 @@ A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKi
 [BubbleWrap website](http://rubymotion.github.io/BubbleWrap/)
 [BubbleWrap mailing list](https://groups.google.com/forum/#!forum/bubblewrap)
 
-[![Code Climate](https://codeclimate.com/github/rubymotion/BubbleWrap.png)](https://codeclimate.com/github/rubymotion/BubbleWrap)
+[![Code Climate](https://codeclimate.com/github/rubymotion/BubbleWrap.svg)](https://codeclimate.com/github/rubymotion/BubbleWrap)
 [![Build Status](https://travis-ci.org/rubymotion/BubbleWrap.svg?branch=master)](https://travis-ci.org/rubymotion/BubbleWrap)
 [![Dependency Status](https://gemnasium.com/rubymotion/BubbleWrap.png)](https://gemnasium.com/rubymotion/BubbleWrap)
 
@@ -266,8 +266,12 @@ BW::Device.camera.any.picture(allows_editing: true, media_types: [:image]) do |r
   edited_image_view = UIImageView.alloc.initWithImage(result[:edited_image])
   original_image_view = UIImageView.alloc.initWithImage(result[:original_image])
 end
-```
 
+# Capture a low quality movie with a limit of 10 seconds
+BW::Device.camera.front.picture(media_types: [:movie], video_quality: :low, video_maximum_duration: 10) do |result|
+  video_file_path = result[:media_url]
+end
+```
 
 Options include:
 
@@ -275,6 +279,8 @@ Options include:
 - `:animated` - Boolean; whether to display the camera with an animation (default true)
 - `:on_dismiss` - Lambda; called instead of the default dismissal logic
 - `:media_types` - Array; containing any of `[:movie, :image]`
+- `:video_quality` - Symbol; one of `:high`, `:medium`, `low`, `"640x480".to_sym`, `iframe1280x720`, or `iframe960x540`. Defaults to `:medium`
+- `:video_maximum_duration` - Integer; limits movie recording length. Defaults to 600.
 
 ### JSON
 
@@ -633,6 +639,8 @@ BW::Media.play_modal("http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_s
 
 Wrapper for showing an in-app mail composer view.
 
+You should always determine if the device your app is running on is configured to send mail before displaying a mail composer window. `BW::Mail.can_send_mail?` will return `true` or `false`.
+
 ```ruby
 # Opens as a modal in the current UIViewController
 BW::Mail.compose(
@@ -656,6 +664,8 @@ end
 ## SMS
 
 Wrapper for showing an in-app message (SMS) composer view.
+
+You should always determine if the device your app is running on can send SMS messages before displaying a SMS composer window. `BW::SMS.can_send_sms?` will return `true` or `false`.
 
 ```ruby
 # Opens as a modal in the current UIViewController
@@ -738,6 +748,26 @@ Helper methods to give `UIButton` a Ruby-like interface. Ex:
 ```ruby
 button.when(UIControlEventTouchUpInside) do
   self.view.backgroundColor = UIColor.redColor
+end
+```
+
+The `#when` method also accepts bitwise combinations of events:
+
+```ruby
+button.when(UIControlEventTouchUpInside | UIControlEventTouchUpOutside) do
+  self.view.backgroundColor = UIColor.redColor
+end
+```
+
+You can use symbols for events (but won't work with the bitwise operator):
+
+```ruby
+button.when(:touch_up_inside) do
+  self.view.backgroundColor = UIColor.redColor
+end
+
+button.when(:value_changed) do
+  self.view.backgroundColor = UIColor.blueColor
 end
 ```
 
@@ -1053,7 +1083,7 @@ Great sadness!
 => #<BW::Reactor::ThreadAwareDeferrable:0x8bf3ee0>
 
 > queue = Dispatch::Queue.new(:deferrable.to_s)
-> queue.async do 
+> queue.async do
 >   d.callback do |*args|
 >     Dispatch::Queue.current == queue
 >     => true # this is normally false
@@ -1174,6 +1204,10 @@ Flux capacitor!
 > o.trigger(:november_5_1955)
 Ow!
 => [nil]
+> o.on(:november_5_1955) { puts "Ow!" }
+> o.on(:november_5_1955) { puts "Another Ow!" }
+> o.off(:november_5_1955)
+=> nil
 ```
 
 # Suggestions?

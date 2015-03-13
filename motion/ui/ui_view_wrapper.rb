@@ -25,7 +25,7 @@ module BubbleWrap
     end
 
     def when_pressed(enableInteraction=true, &proc)
-      add_gesture_recognizer_helper(UILongPressGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture_pressed_on_begin:'), enableInteraction, proc)
+      add_gesture_recognizer_helper(UILongPressGestureRecognizer.alloc.initWithTarget(self, action:'handle_gesture:'), enableInteraction, proc)
     end
 
     def self.deprecated_methods
@@ -43,12 +43,6 @@ module BubbleWrap
 
     def handle_gesture(recognizer)
       @recognizers[recognizer].call(recognizer)
-    end
-
-    def handle_gesture_pressed_on_begin(recognizer)
-      if recognizer.state==UIGestureRecognizerStateBegan
-        @recognizers[recognizer].call(recognizer)
-      end
     end
 
     # Adds the recognizer and keeps a strong reference to the Proc object.
