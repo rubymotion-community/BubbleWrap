@@ -7,6 +7,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     motion-dryer (0.0.1)
+    rake (10.4.2)
 
 PLATFORMS
   ruby
@@ -14,3 +15,4 @@ PLATFORMS
 DEPENDENCIES
   bubble-wrap!
   motion-dryer
+  rake
