@@ -5,7 +5,7 @@ A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKi
 [BubbleWrap website](http://rubymotion.github.io/BubbleWrap/)
 [BubbleWrap mailing list](https://groups.google.com/forum/#!forum/bubblewrap)
 
-[![Code Climate](https://codeclimate.com/github/rubymotion/BubbleWrap.png)](https://codeclimate.com/github/rubymotion/BubbleWrap)
+[![Code Climate](https://codeclimate.com/github/rubymotion/BubbleWrap.svg)](https://codeclimate.com/github/rubymotion/BubbleWrap)
 [![Build Status](https://travis-ci.org/rubymotion/BubbleWrap.svg?branch=master)](https://travis-ci.org/rubymotion/BubbleWrap)
 [![Dependency Status](https://gemnasium.com/rubymotion/BubbleWrap.png)](https://gemnasium.com/rubymotion/BubbleWrap)
 
@@ -29,21 +29,7 @@ If you using Bundler:
 gem "bubble-wrap", "~> 1.7.1"
 ```
 
-BubbleWrap is split into multiple modules so that you can easily choose which parts
-are included at compile-time.
-
-The above example requires the `core` and `http` modules. If you wish to only
-include the core modules use the following line of code instead:
-
-```ruby
-require 'bubble-wrap/core'
-```
-
-If you wish to only include the `HTTP` wrapper:
-
-```ruby
-require 'bubble-wrap/http'
-```
+BubbleWrap is split into multiple modules so that you can easily choose which parts are included at compile-time.
 
 If you wish to only include the `RSS Parser` wrapper:
 
@@ -105,6 +91,11 @@ If you want to include everything (ie kitchen sink mode) you can save time and d
 require 'bubble-wrap/all'
 ```
 
+You can also do this directly in your `Gemfile` like so:
+
+```ruby
+gem 'bubble-wrap', require: %w[bubble-wrap/core bubble-wrap/location, bubble-wrap/reactor]
+```
 
 Note: **DON'T** use `app.files =` in your Rakefile to set up your files once you've required BubbleWrap.
 Make sure to append onto the array or use `+=`.
@@ -642,6 +633,8 @@ BW::Media.play_modal("http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_s
 
 Wrapper for showing an in-app mail composer view.
 
+You should always determine if the device your app is running on is configured to send mail before displaying a mail composer window. `BW::Mail.can_send_mail?` will return `true` or `false`.
+
 ```ruby
 # Opens as a modal in the current UIViewController
 BW::Mail.compose(
@@ -665,6 +658,8 @@ end
 ## SMS
 
 Wrapper for showing an in-app message (SMS) composer view.
+
+You should always determine if the device your app is running on can send SMS messages before displaying a SMS composer window. `BW::SMS.can_send_sms?` will return `true` or `false`.
 
 ```ruby
 # Opens as a modal in the current UIViewController
@@ -927,105 +922,6 @@ Built in activities that can be passed to the `excluded` option are defined as `
 :post_to_tencent_weibo
 :air_drop
 ```
-
-
-## HTTP
-
-`BW::HTTP` wraps `NSURLRequest`, `NSURLConnection` and friends to provide Ruby developers with a more familiar and easier to use API.
-The API uses async calls and blocks to stay as simple as possible.
-
-To enable it add the following require line to your `Rakefile`:
-```ruby
-require 'bubble-wrap/http'
-```
-
-Usage example:
-
-```ruby
-BW::HTTP.get("https://api.github.com/users/mattetti") do |response|
-  p response.body.to_str
-end
-```
-
-```ruby
-BW::HTTP.get("https://api.github.com/users/mattetti", {credentials: {username: 'matt', password: 'aimonetti'}}) do |response|
-  p response.body.to_str # prints the response's body
-end
-```
-
-```ruby
-data = {first_name: 'Matt', last_name: 'Aimonetti'}
-BW::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
-  if response.ok?
-    json = BW::JSON.parse(response.body.to_str)
-    p json['id']
-  elsif response.status_code.to_s =~ /40\d/
-    App.alert("Login failed")
-  else
-    App.alert(response.error_message)
-  end
-end
-```
-
-To upload files to a server, provide a `files:` hash:
-
-```ruby
-data = {token: "some-api-token"}
-avatar_data = UIImagePNGRepresentation(UIImage.imageNamed("some-image"))
-avatar = { data: avatar_data, filename: "some-image.png", content_type: "image/png" }
-
-BW::HTTP.post("http://foo.bar.com/", {payload: data}, files: { avatar: avatar }) do |response|
-  if response.ok?
-    # files are uploaded
-  end
-end
-```
-
-A `:download_progress` option can also be passed. The expected object
-would be a Proc that takes two arguments: a float representing the
-amount of data currently received and another float representing the
-total amount of data expected.
-
-Connections can also be cancelled. Just keep a refrence,
-
-```ruby
-@conn = BW::HTTP.get("https://api.github.com/users/mattetti") do |response|
-  p response.body.to_str
-end
-```
-
-and send the `cancel` method to it asynchronously as desired. The block will not be executed.
-
-```ruby
-@conn.cancel
-```
-
-### Gotchas
-
-Because of how RubyMotion currently works, you sometimes need to assign objects as `@instance_variables` in order to retain their callbacks.
-
-For example:
-
-```ruby
-class HttpClient
-  def get_user(user_id, &callback)
-    BW::HTTP.get(user_url(user_id)) do |response|
-      # ..
-    end
-  end
-end
-```
-
-This class should be invoked in your code as:
-
-```ruby
-@http_client = HttpClient.new
-@http_client.get_user(user_id) do |user|
-  # ..
-end
-```
-
-(instead of doing an instance-variable-less `HttpClient.new.get_user`)
 
 ## RSS Parser
 **Since: > version 1.0.0**
