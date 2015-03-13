@@ -185,6 +185,7 @@ describe BW::UIAlertView do
           :title                      => "title",
           :message                    => "message",
           :style                      => :plain_text_input,
+          :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
           :will_present               => -> { true },
@@ -312,6 +313,7 @@ describe BW::UIAlertView do
           :title                      => "title",
           :message                    => "message",
           :style                      => :plain_text_input,
+          :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
           :will_present               => -> { true },
@@ -403,6 +405,10 @@ describe BW::UIAlertView do
         @subject.plain_text_field.should.be.kind_of(UITextField)
       end
 
+      it "has no placeholder" do
+        @subject.plain_text_field.placeholder.should.be.nil
+      end
+
       it "has no secure text field" do
         @subject.secure_text_field.should.be.nil
       end
@@ -416,6 +422,20 @@ describe BW::UIAlertView do
       end
     end
 
+    ###############################################################################################
+
+    describe "given a text placeholder" do
+      before do
+        @options = {placeholder: "placeholder"}
+        @subject = BW::UIAlertView.plain_text_input(@options)
+      end
+
+      behaves_like "an instance with no options"
+
+      it "has the correct placeholder" do
+        @subject.plain_text_field.placeholder.should == "placeholder"
+      end
+    end
     ###############################################################################################
 
     describe "given no options with a block" do
@@ -454,6 +474,7 @@ describe BW::UIAlertView do
           :title                      => "title",
           :message                    => "message",
           :style                      => :default,
+          :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
           :will_present               => -> { true },
@@ -596,6 +617,7 @@ describe BW::UIAlertView do
           :title                      => "title",
           :message                    => "message",
           :style                      => :default,
+          :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
           :will_present               => -> { true },
@@ -738,6 +760,7 @@ describe BW::UIAlertView do
           :title                      => "title",
           :message                    => "message",
           :style                      => :default,
+          :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
           :will_present               => -> { true },
