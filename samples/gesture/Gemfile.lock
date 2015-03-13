@@ -1,12 +1,16 @@
-GEM
-  remote: http://rubygems.org/
+PATH
+  remote: ../../
   specs:
-    bubble-wrap (1.1.1)
+    bubble-wrap (1.7.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
     motion-dryer (0.0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  bubble-wrap (~> 1.1.0)
+  bubble-wrap!
   motion-dryer
