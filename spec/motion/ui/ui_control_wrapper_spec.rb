@@ -23,6 +23,21 @@ describe BW::UIControlWrapper do
       @touched.should.equal ['touched']
     end
 
+    it "allows bitwise operators" do
+      @subject.when(UIControlEventTouchUpInside | UIControlEventTouchUpOutside) do
+        @touched << 'touched'
+      end
+
+      @subject.sendActionsForControlEvents(UIControlEventTouchUpInside)
+      @touched.should.equal ['touched']
+
+      @touched = []
+      @touched.should.equal []
+
+      @subject.sendActionsForControlEvents(UIControlEventTouchUpOutside)
+      @touched.should.equal ['touched']
+    end
+
     it "BubbleWrap.use_weak_callbacks=true removes cyclic references" do
       class ControlSuperView < UIView
         def initWithFrame(frame)
@@ -68,6 +83,15 @@ describe BW::UIControlWrapper do
 
       @subject.sendActionsForControlEvents(UIControlEventTouchUpInside)
       @touched.should.equal ['for the very first time', 'touched']
+    end
+
+    it "allows symbols for actions" do
+      @subject.when(:touch_up_inside) do
+        @touched << 'touched'
+      end
+
+      @subject.sendActionsForControlEvents(UIControlEventTouchUpInside)
+      @touched.should.equal ['touched']
     end
   end
 end
