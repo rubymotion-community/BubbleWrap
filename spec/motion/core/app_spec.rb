@@ -77,7 +77,11 @@ describe BubbleWrap::App do
   describe ".open_url" do
 
     it "uses NSURL or converts NSString in NSURL and opens it" do
-      application = UIApplication.sharedApplication
+      if Kernel.const_defined?(:UIApplication)
+        application = UIApplication.sharedApplication
+      else
+        application = NSWorkspace.sharedWorkspace
+      end
       def application.url; @url end
       def application.openURL(url); @url = url end
 
