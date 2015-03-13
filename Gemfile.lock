@@ -19,9 +19,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bacon
+  bacon (~> 1.2)
   bubble-wrap!
-  mocha (= 0.11.4)
-  mocha-on-bacon
-  rake
-  webstub
+  mocha (~> 0.11)
+  mocha-on-bacon (~> 0.2)
+  rake (~> 10.0)
+  webstub (~> 1.1)

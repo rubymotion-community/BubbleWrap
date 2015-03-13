@@ -17,9 +17,9 @@ Gem::Specification.new do |gem|
 
   gem.extra_rdoc_files = gem.files.grep(%r{motion})
 
-  gem.add_development_dependency 'mocha', '0.11.4'
-  gem.add_development_dependency 'mocha-on-bacon'
-  gem.add_development_dependency 'bacon'
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'webstub'
+  gem.add_development_dependency 'mocha', '~> 0.11'
+  gem.add_development_dependency 'mocha-on-bacon', '~> 0.2'
+  gem.add_development_dependency 'bacon', '~> 1.2'
+  gem.add_development_dependency 'rake', '~> 10.0'
+  gem.add_development_dependency 'webstub', '~> 1.1'
 end
