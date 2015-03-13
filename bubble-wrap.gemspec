@@ -7,6 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = 'RubyMotion wrappers and helpers (Ruby for iOS and OS X) - Making Cocoa APIs more Ruby like, one API at a time. Fork away and send your pull request.'
   gem.summary       = 'RubyMotion wrappers and helpers (Ruby for iOS and OS X) - Making Cocoa APIs more Ruby like, one API at a time. Fork away and send your pull request.'
   gem.homepage      = 'http://rubymotion.github.io/BubbleWrap/'
+  gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($\)
   gem.test_files    = gem.files.grep(%r{^(test|spec|lib_spec|features)/})
