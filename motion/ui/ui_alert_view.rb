@@ -10,7 +10,21 @@ module BW
       :did_dismiss
     ]
 
-    attr_accessor :keyboard_type
+    KEYBOARD_TYPES = {
+      default: UIKeyboardTypeDefault,
+      ascii: UIKeyboardTypeASCIICapable,
+      numbers_punctuation: UIKeyboardTypeNumbersAndPunctuation,
+      url: UIKeyboardTypeURL,
+      number_pad: UIKeyboardTypeNumberPad,
+      phone_pad: UIKeyboardTypePhonePad,
+      name_phone_pad: UIKeyboardTypeNamePhonePad,
+      email_address: UIKeyboardTypeEmailAddress,
+      email: UIKeyboardTypeEmailAddress, # Duplicate to help developers
+      decimal_pad: UIKeyboardTypeDecimalPad,
+      twitter: UIKeyboardTypeTwitter,
+      web_search: UIKeyboardTypeWebSearch,
+      alphabet: UIKeyboardTypeASCIICapable
+    }
 
     class << self
       attr_reader :callbacks
@@ -28,7 +42,6 @@ module BW
         view.style               = options[:style]
         view.delegate            = view
         view.cancel_button_index = options[:cancel_button_index]
-        view.keyboard_type       = options[:keyboard_type]
 
         view.instance_variable_set(:@handlers, {})
         block.weak! if block && BubbleWrap.use_weak_callbacks?
@@ -53,7 +66,10 @@ module BW
                    cancel_button_index: 0}.merge!(options)
         options[:style] = :plain_text_input
         new(options, &block).tap do |view|
-          view.textFieldAtIndex(0).placeholder = options[:placeholder] if options[:placeholder]
+          view.textFieldAtIndex(0).tap do |tf|
+            tf.placeholder = options[:placeholder] if options[:placeholder]
+            tf.keyboardType = (KEYBOARD_TYPES[options[:keyboard_type]] || options[:keyboard_type]) if options[:keyboard_type]
+          end
         end
       end
 
@@ -121,8 +137,6 @@ module BW
     # UIAlertViewDelegate protocol ################################################################
 
     def willPresentAlertView(alert)
-      textFieldAtIndex(0).keyboardType = alert.keyboard_type unless alert.keyboard_type.nil?
-      
       alert.clicked_button = nil
       handlers[:will_present].call(alert) if handlers[:will_present]
     end

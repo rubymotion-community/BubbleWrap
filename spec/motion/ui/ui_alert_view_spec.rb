@@ -185,6 +185,7 @@ describe BW::UIAlertView do
           :title                      => "title",
           :message                    => "message",
           :style                      => :plain_text_input,
+          :keyboard_type              => UIKeyboardTypeURL,
           :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
@@ -409,6 +410,10 @@ describe BW::UIAlertView do
         @subject.plain_text_field.placeholder.should.be.nil
       end
 
+      it "has the default keyboard type" do
+        @subject.plain_text_field.keyboardType.should == UIKeyboardTypeDefault
+      end
+
       it "has no secure text field" do
         @subject.secure_text_field.should.be.nil
       end
@@ -426,7 +431,7 @@ describe BW::UIAlertView do
 
     describe "given a text placeholder" do
       before do
-        @options = {placeholder: "placeholder"}
+        @options = { placeholder: "placeholder" }
         @subject = BW::UIAlertView.plain_text_input(@options)
       end
 
@@ -436,6 +441,35 @@ describe BW::UIAlertView do
         @subject.plain_text_field.placeholder.should == "placeholder"
       end
     end
+
+    ###############################################################################################
+
+    describe "given a keyboard type" do
+      before do
+        @options = { keyboard_type: UIKeyboardTypeURL }
+        @subject = BW::UIAlertView.plain_text_input(@options)
+      end
+
+      behaves_like "an instance with no options"
+
+      it "has the correct placeholder" do
+        @subject.plain_text_field.keyboardType.should == UIKeyboardTypeURL
+      end
+    end
+
+    describe "given a keyboard type as a symbol" do
+      before do
+        @options = { keyboard_type: :email_address }
+        @subject = BW::UIAlertView.plain_text_input(@options)
+      end
+
+      behaves_like "an instance with no options"
+
+      it "has the correct placeholder" do
+        @subject.plain_text_field.keyboardType.should == UIKeyboardTypeEmailAddress
+      end
+    end
+
     ###############################################################################################
 
     describe "given no options with a block" do
