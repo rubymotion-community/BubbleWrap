@@ -1,7 +1,7 @@
 # Mocking the presentViewController
 class MessageViewController < UIViewController
   attr_accessor :expectation
-  
+
   def presentModalViewController(modal, animated: animated)
     expectation.call modal, animated
   end
@@ -32,21 +32,26 @@ describe BW::SMS do
         animated: false
       }
     end
-    
+
+    it "should determine if the device can send a text message" do
+      # False in simulator, but true on a device with SMS capability.
+      BW::SMS.can_send_sms?.should == (Device.iphone? && !Device.simulator?)
+    end
+
     it "should open the message controller in a modal" do
       @view_controller.expectation = lambda { |message_controller, animated|
         message_controller.should.be.kind_of(MFMessageComposeViewController)
       }
-      
+
       BW::SMS.compose @standard_message_options
     end
-    
+
     it "should create a message controller with the right recipient address set" do
       @view_controller.expectation = lambda { |message_controller, animated|
         message_controller.recipients.should.be.kind_of(Array)
         message_controller.recipients.should == @standard_message_options[:to]
       }
-      
+
       BubbleWrap::SMS.compose @standard_message_options
     end
 
@@ -56,7 +61,7 @@ describe BW::SMS do
         message_controller.body.should.be.kind_of(String)
         message_controller.body.should == @standard_message_options[:message]
       }
-      
+
       BubbleWrap::SMS.compose @standard_message_options
     end
 

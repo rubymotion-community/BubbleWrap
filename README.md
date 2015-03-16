@@ -5,7 +5,7 @@ A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKi
 [BubbleWrap website](http://rubymotion.github.io/BubbleWrap/)
 [BubbleWrap mailing list](https://groups.google.com/forum/#!forum/bubblewrap)
 
-[![Code Climate](https://codeclimate.com/github/rubymotion/BubbleWrap.png)](https://codeclimate.com/github/rubymotion/BubbleWrap)
+[![Code Climate](https://codeclimate.com/github/rubymotion/BubbleWrap.svg)](https://codeclimate.com/github/rubymotion/BubbleWrap)
 [![Build Status](https://travis-ci.org/rubymotion/BubbleWrap.svg?branch=master)](https://travis-ci.org/rubymotion/BubbleWrap)
 [![Dependency Status](https://gemnasium.com/rubymotion/BubbleWrap.png)](https://gemnasium.com/rubymotion/BubbleWrap)
 
@@ -26,24 +26,10 @@ require 'bubble-wrap'
 If you using Bundler:
 
 ```ruby
-gem "bubble-wrap", "~> 1.7.0"
+gem "bubble-wrap", "~> 1.8.0"
 ```
 
-BubbleWrap is split into multiple modules so that you can easily choose which parts
-are included at compile-time.
-
-The above example requires the `core` and `http` modules. If you wish to only
-include the core modules use the following line of code instead:
-
-```ruby
-require 'bubble-wrap/core'
-```
-
-If you wish to only include the `HTTP` wrapper:
-
-```ruby
-require 'bubble-wrap/http'
-```
+BubbleWrap is split into multiple modules so that you can easily choose which parts are included at compile-time.
 
 If you wish to only include the `RSS Parser` wrapper:
 
@@ -105,6 +91,11 @@ If you want to include everything (ie kitchen sink mode) you can save time and d
 require 'bubble-wrap/all'
 ```
 
+You can also do this directly in your `Gemfile` like so:
+
+```ruby
+gem 'bubble-wrap', require: %w[bubble-wrap/core bubble-wrap/location, bubble-wrap/reactor]
+```
 
 Note: **DON'T** use `app.files =` in your Rakefile to set up your files once you've required BubbleWrap.
 Make sure to append onto the array or use `+=`.
@@ -246,6 +237,8 @@ Examples:
 # 480
 > Device.screen.height_for_orientation(:landscape_left)
 # 320
+> Device.vendor_identifier
+# <NSUUID>
 ```
 
 ### Camera
@@ -273,8 +266,12 @@ BW::Device.camera.any.picture(allows_editing: true, media_types: [:image]) do |r
   edited_image_view = UIImageView.alloc.initWithImage(result[:edited_image])
   original_image_view = UIImageView.alloc.initWithImage(result[:original_image])
 end
-```
 
+# Capture a low quality movie with a limit of 10 seconds
+BW::Device.camera.front.picture(media_types: [:movie], video_quality: :low, video_maximum_duration: 10) do |result|
+  video_file_path = result[:media_url]
+end
+```
 
 Options include:
 
@@ -282,13 +279,15 @@ Options include:
 - `:animated` - Boolean; whether to display the camera with an animation (default true)
 - `:on_dismiss` - Lambda; called instead of the default dismissal logic
 - `:media_types` - Array; containing any of `[:movie, :image]`
+- `:video_quality` - Symbol; one of `:high`, `:medium`, `low`, `"640x480".to_sym`, `iframe1280x720`, or `iframe960x540`. Defaults to `:medium`
+- `:video_maximum_duration` - Integer; limits movie recording length. Defaults to 600.
 
 ### JSON
 
 `BW::JSON` wraps `NSJSONSerialization` available in iOS5 and offers the same API as Ruby's JSON std lib. For apps building for iOS4, we suggest a different JSON alternative, like [AnyJSON](https://github.com/mattt/AnyJSON).
 
 ```ruby
-BW::JSON.generate({'foo => 1, 'bar' => [1,2,3], 'baz => 'awesome'})
+BW::JSON.generate({'foo' => 1, 'bar' => [1,2,3], 'baz' => 'awesome'})
 => "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
 BW::JSON.parse "{\"foo\":1,\"bar\":[1,2,3],\"baz\":\"awesome\"}"
 => {"foo"=>1, "bar"=>[1, 2, 3], "baz"=>"awesome"}
@@ -359,9 +358,9 @@ class ExampleViewController < UIViewController
   include BW::KVO
 
   def viewDidLoad
-	@label = UILabel.alloc.initWithFrame [[20,20],[280,44]]
-	@label.text = ""
-	view.addSubview @label
+    @label = UILabel.alloc.initWithFrame [[20,20],[280,44]]
+    @label.text = ""
+    view.addSubview @label
 
     observe(@label, :text) do |old_value, new_value|
       puts "Hello from viewDidLoad!"
@@ -402,7 +401,7 @@ iso8601 formatted string into a Time instance.
 
 ## Location
 
-Added interface for Ruby-like GPS and compass access:
+Interface for Ruby-like GPS and compass access (the CoreLocation framework):
 
 ```ruby
 > BW::Location.enabled? # Whether location services are enabled on the device
@@ -449,6 +448,177 @@ BW::Location.get_compass_once do |heading|
 end
 ```
 
+### iOS 8 Location Requirements
+
+iOS 8 introduced stricter location services requirements. Although BubbleWrap will handle most of this for you automatically, you are required to add a few key/value pairs to the `Info.plist`. Add these two lines to your `Rakefile` (with your descriptions, obviously):
+
+```ruby
+app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
+app.info_plist['NSLocationWhenInUseUsageDescription'] = 'Description'
+```
+
+*Note: you need both keys to use `get_once`, so it's probably best to just include both no matter what.* See [Apple's documentation](https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW18) on iOS 8 location services requirements for more information.
+
+## Motion
+
+Interface for the accelerometer, gyroscope, and magnetometer sensors (the
+CoreMotion framework).  You can access each sensor individually, or you can get
+data from all of them at once using the `BW::Motion.device` interface, which
+delegates to `CMMotionManager#deviceMotion`.
+
+Each sensor has an `every` and `once` method. `every` expects a time interval,
+and you will need to retain the object it returns and call `#stop` on it when
+you are done with the data.
+
+The `every` and `once` methods can accept a `:queue` option. The default value
+is a queue that runs on the main loop, so that UI updates can be processed in
+the block. This is useful, but not recommended by Apple, since the events can
+come in at a high rate. If you want to use a background queue, you can either
+specify an NSOperationQueue object, or you can use one of these symbols:
+
+- `:main` - `NSOperationQueue.mainQueue`, this is the default value.
+- `:background` - BubbleWrap will create a new `NSOperationQueue`.
+- `:current` - BubbleWrap will use `NSOperationQueue.currentQueue`.
+
+If you pass a string instead, a new queue will be created and its `name`
+property will be set to that string.
+
+The `CMDeviceMotion` interface (`BW::Motion.device`) accepts a `:reference`
+option, which specifies the `CMAttitudeReferenceFrame`.  The default value is
+the same as the one that `CMMotionManager` uses, which is returned by the
+`CMMotionManager#attitudeReferenceFrame` method.  This option should be passed
+to the `repeat`, `every` or `once` methods.
+
+###### Accelerometer
+```ruby
+BW::Motion.accelerometer.available?
+BW::Motion.accelerometer.data  # returns CMAccelerometerData object or nil
+
+# ask the CMMotionManager to update every 5 seconds
+BW::Motion.accelerometer.every(5) do |result|
+  # result contains the following data (from CMAccelerometerData#acceleration):
+  p result[:data]  # the CMAccelerometerData object
+  p result[:acceleration]  # the CMAcceleration struct
+  p result[:x]  # acceleration in the x direction
+  p result[:y]  #          "          y direction
+  p result[:z]  #          "          z direction
+end
+
+# every, start, and repeat all need to be stopped later.
+BW::Motion.accelerometer.stop
+
+# repeat, but don't set the interval
+BW::Motion.accelerometer.repeat do |result|
+end
+
+# you can specify a :queue where the operations will be executed.  See above for details
+BW::Motion.accelerometer.every(5, queue: :background) { |result| ... }
+BW::Motion.accelerometer.every(5, queue: :main) { |result| ... }
+BW::Motion.accelerometer.every(5, queue: :current) { |result| ... }
+BW::Motion.accelerometer.every(5, queue: 'my queue') { |result| ... }
+
+BW::Motion.accelerometer.once do |result|
+  # ...
+end
+```
+
+###### Gyroscope
+```ruby
+BW::Motion.gyroscope.available?
+BW::Motion.gyroscope.data  # returns CMGyroData object or nil
+
+# ask the CMMotionManager to update every second.
+BW::Motion.gyroscope.every(1) do |result|
+  # result contains the following data (from CMGyroData#rotationRate):
+  p result[:data]  # the CMGyroData object
+  p result[:rotation]  # the CMRotationRate struct
+  p result[:x]  # rotation in the x direction
+  p result[:y]  #        "        y direction
+  p result[:z]  #        "        z direction
+end
+BW::Motion.gyroscope.stop
+
+BW::Motion.gyroscope.once do |result|
+  # ...
+end
+```
+
+###### Magnetometer
+```ruby
+BW::Motion.magnetometer.available?
+BW::Motion.magnetometer.data  # returns CMMagnetometerData object or nil
+
+# ask the CMMotionManager to update every second
+BW::Motion.magnetometer.every(1) do |result|
+  # result contains the following data (from CMMagnetometerData#magneticField):
+  p result[:data]  # the CMMagnetometerData object
+  p result[:field]  # the CMMagneticField struct
+  p result[:x]  # magnetic field in the x direction
+  p result[:y]  #           "           y direction
+  p result[:z]  #           "           z direction
+end
+BW::Motion.magnetometer.stop
+
+BW::Motion.magnetometer.once do |result|
+  # ...
+end
+```
+
+###### Device Motion
+
+This is an amalgam of all the motion sensor data.
+
+```ruby
+BW::Motion.device.available?
+BW::Motion.device.data  # returns CMDeviceMotion object or nil
+
+BW::Motion.device.every(1) do |result|
+  # result contains the following data:
+  p result[:data]  # the CMDeviceMotion object
+  # orientation data, from CMDeviceMotion#attitude
+  p result[:attitude]  # the CMAttitude struct
+  p result[:roll]
+  p result[:pitch]
+  p result[:yaw]
+  # rotation data, from CMDeviceMotion#rotationRate
+  p result[:rotation]  # the CMRotationRate struct
+  p result[:rotation_x]
+  p result[:rotation_y]
+  p result[:rotation_z]
+  # gravity+acceleration vector, from CMDeviceMotion#gravity
+  p result[:gravity]  # the CMAcceleration struct
+  p result[:gravity_x]
+  p result[:gravity_y]
+  p result[:gravity_z]
+  # just the acceleration vector, from CMDeviceMotion#userAcceleration
+  p result[:acceleration]  # the CMAcceleration struct
+  p result[:acceleration_x]
+  p result[:acceleration_y]
+  p result[:acceleration_z]
+  # the magnetic data, from CMDeviceMotion#magneticField
+  p result[:magnetic]  # the CMCalibratedMagneticField struct
+  p result[:magnetic_field]  # the CMMagneticField struct from the CMCalibratedMagneticField
+  p result[:magnetic_x]
+  p result[:magnetic_y]
+  p result[:magnetic_z]
+  p result[:magnetic_accuracy]  # this will be a symbol, :low, :medium, :high, or nil if the magnetic data is uncalibrated
+
+  # less useful data from CMAttitude, unless you're into the whole linear algebra thing:
+  p result[:matrix]  # CMAttitude#rotationMatrix
+  p result[:quarternion]  # CMAttitude#quarternion
+end
+
+# the reference frame should be one of the CMAttitudeReferenceFrame constants...
+ref = CMAttitudeReferenceFrameXArbitraryZVertical
+# ... or one of these symbols: :arbitrary_z, :corrected_z, :magnetic_north, :true_north
+ref = :corrected_z
+BW::Motion.device.every(1, queue: :background, reference: ref) { |result| ... }
+
+BW::Motion.device.once do |result|
+  # ...
+end
+```
+
 ## Media
 
 Added wrapper for playing remote and local media. Available are `modal` and custom presentation styles:
@@ -468,6 +638,8 @@ BW::Media.play_modal("http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_s
 ## Mail
 
 Wrapper for showing an in-app mail composer view.
+
+You should always determine if the device your app is running on is configured to send mail before displaying a mail composer window. `BW::Mail.can_send_mail?` will return `true` or `false`.
 
 ```ruby
 # Opens as a modal in the current UIViewController
@@ -492,6 +664,8 @@ end
 ## SMS
 
 Wrapper for showing an in-app message (SMS) composer view.
+
+You should always determine if the device your app is running on can send SMS messages before displaying a SMS composer window. `BW::SMS.can_send_sms?` will return `true` or `false`.
 
 ```ruby
 # Opens as a modal in the current UIViewController
@@ -556,6 +730,12 @@ Extra methods on `UIView` for working with gesture recognizers. A gesture recogn
 
 There are similar methods for `pinched`, `rotated`, `swiped`, `panned`, and `pressed` (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.
 
+In order to prevent retain cycles due to strong references within the passed block, use the use_weak_callbacks flag so the blocks do not retain a strong reference to self:
+
+```ruby
+BubbleWrap.use_weak_callbacks = true
+```
+
 ### UIViewController
 
 A custom method was added to `UIViewController` to return the content
@@ -568,6 +748,26 @@ Helper methods to give `UIButton` a Ruby-like interface. Ex:
 ```ruby
 button.when(UIControlEventTouchUpInside) do
   self.view.backgroundColor = UIColor.redColor
+end
+```
+
+The `#when` method also accepts bitwise combinations of events:
+
+```ruby
+button.when(UIControlEventTouchUpInside | UIControlEventTouchUpOutside) do
+  self.view.backgroundColor = UIColor.redColor
+end
+```
+
+You can use symbols for events (but won't work with the bitwise operator):
+
+```ruby
+button.when(:touch_up_inside) do
+  self.view.backgroundColor = UIColor.redColor
+end
+
+button.when(:value_changed) do
+  self.view.backgroundColor = UIColor.blueColor
 end
 ```
 
@@ -729,105 +929,6 @@ Built in activities that can be passed to the `excluded` option are defined as `
 :air_drop
 ```
 
-
-## HTTP
-
-`BW::HTTP` wraps `NSURLRequest`, `NSURLConnection` and friends to provide Ruby developers with a more familiar and easier to use API.
-The API uses async calls and blocks to stay as simple as possible.
-
-To enable it add the following require line to your `Rakefile`:
-```ruby
-require 'bubble-wrap/http'
-```
-
-Usage example:
-
-```ruby
-BW::HTTP.get("https://api.github.com/users/mattetti") do |response|
-  p response.body.to_str
-end
-```
-
-```ruby
-BW::HTTP.get("https://api.github.com/users/mattetti", {credentials: {username: 'matt', password: 'aimonetti'}}) do |response|
-  p response.body.to_str # prints the response's body
-end
-```
-
-```ruby
-data = {first_name: 'Matt', last_name: 'Aimonetti'}
-BW::HTTP.post("http://foo.bar.com/", {payload: data}) do |response|
-  if response.ok?
-    json = BW::JSON.parse(response.body.to_str)
-    p json['id']
-  elsif response.status_code.to_s =~ /40\d/
-    App.alert("Login failed")
-  else
-    App.alert(response.error_message)
-  end
-end
-```
-
-To upload files to a server, provide a `files:` hash:
-
-```ruby
-data = {token: "some-api-token"}
-avatar_data = UIImagePNGRepresentation(UIImage.imageNamed("some-image"))
-avatar = { data: avatar_data, filename: "some-image.png", content_type: "image/png" }
-
-BW::HTTP.post("http://foo.bar.com/", {payload: data}, files: { avatar: avatar }) do |response|
-  if response.ok?
-    # files are uploaded
-  end
-end
-```
-
-A `:download_progress` option can also be passed. The expected object
-would be a Proc that takes two arguments: a float representing the
-amount of data currently received and another float representing the
-total amount of data expected.
-
-Connections can also be cancelled. Just keep a refrence,
-
-```ruby
-@conn = BW::HTTP.get("https://api.github.com/users/mattetti") do |response|
-  p response.body.to_str
-end
-```
-
-and send the `cancel` method to it asynchronously as desired. The block will not be executed.
-
-```ruby
-@conn.cancel
-```
-
-### Gotchas
-
-Because of how RubyMotion currently works, you sometimes need to assign objects as `@instance_variables` in order to retain their callbacks.
-
-For example:
-
-```ruby
-class HttpClient
-  def get_user(user_id, &callback)
-    BW::HTTP.get(user_url(user_id)) do |response|
-      # ..
-    end
-  end
-end
-```
-
-This class should be invoked in your code as:
-
-```ruby
-@http_client = HttpClient.new
-@http_client.get_user(user_id) do |user|
-  # ..
-end
-```
-
-(instead of doing an instance-variable-less `HttpClient.new.get_user`)
-
 ## RSS Parser
 **Since: > version 1.0.0**
 
@@ -928,6 +1029,14 @@ and timeout.  When you initially create a deferrable it is in an unknown
 state, however you can assign callbacks to be run when the object
 changes to either successful or failure state.
 
+Using `delegate`, `errback_delegate` and `callback_delegate` you can link
+deferrables together.
+
+By default, callbacks will be made on the thread that the deferrable
+succeeds/fails on. For multithreaded environments, it can be useful to use
+EM::ThreadAwareDeferrable so that callbacks will be made on the threads they
+are declared on.
+
 #### Success
 
 ```ruby
@@ -950,6 +1059,37 @@ Great justice!
 > d.fail "sadness"
 Great sadness!
 => nil
+```
+#### Delegate
+
+```ruby
+> d = EM::DefaultDeferrable.new
+=> #<BW::Reactor::DefaultDeferrable:0x8bf3ee0>
+> delegate = EM::DefaultDeferrable.new
+=> #<BW::Reactor::DefaultDeferrable:0x8bf5910>
+> d.delegate delegate
+=> #<BW::Reactor::DefaultDeferrable:0x8bf3ee0>
+> delegate.callback { |*args| puts args }
+=> [#<Proc:0x8bf3ef0>]
+> d.succeed :passed
+=> nil
+=> [:passed]
+```
+
+#### ThreadAwareDeferrable
+
+```ruby
+> d = EM::ThreadAwareDeferrable.new
+=> #<BW::Reactor::ThreadAwareDeferrable:0x8bf3ee0>
+
+> queue = Dispatch::Queue.new(:deferrable.to_s)
+> queue.async do
+>   d.callback do |*args|
+>     Dispatch::Queue.current == queue
+>     => true # this is normally false
+>   end
+> end
+> d.succeed true
 ```
 
 #### Timeout
@@ -1064,6 +1204,10 @@ Flux capacitor!
 > o.trigger(:november_5_1955)
 Ow!
 => [nil]
+> o.on(:november_5_1955) { puts "Ow!" }
+> o.on(:november_5_1955) { puts "Another Ow!" }
+> o.off(:november_5_1955)
+=> nil
 ```
 
 # Suggestions?

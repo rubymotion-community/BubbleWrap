@@ -52,7 +52,9 @@ module BW
         options = {buttons: ["Cancel", "OK"],
                    cancel_button_index: 0}.merge!(options)
         options[:style] = :plain_text_input
-        new(options, &block)
+        new(options, &block).tap do |view|
+          view.textFieldAtIndex(0).placeholder = options[:placeholder] if options[:placeholder]
+        end
       end
 
       def secure_text_input(options = {}, &block)

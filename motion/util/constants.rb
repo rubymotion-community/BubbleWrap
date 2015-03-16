@@ -3,7 +3,7 @@ module BubbleWrap
   module Constants
     module_function
 
-    # Looks like RubyMotiononly  adds UIKit constants
+    # Looks like RubyMotion only adds UIKit constants
     # at compile time. If you don't use these
     # directly in your code, they don't get added
     # to Kernel and Constants.get crashes.

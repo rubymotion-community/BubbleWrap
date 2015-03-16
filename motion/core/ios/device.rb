@@ -51,6 +51,12 @@ module BubbleWrap
       UIDevice.currentDevice.systemVersion
     end
 
+    # Returns an identifier unique to the vendor across the vendors app.
+    # @return [NSUUID]
+    def vendor_identifier
+      UIDevice.currentDevice.identifierForVendor
+    end
+
     # Delegates to BubbleWrap::Screen.orientation
     def orientation
       screen.orientation

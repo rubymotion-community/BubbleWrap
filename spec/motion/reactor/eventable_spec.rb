@@ -48,6 +48,17 @@ describe BubbleWrap::Reactor::Eventable do
       events[:foo].member?(proof).should == false
     end
 
+    it 'unregisters all events' do
+      def bar; end
+      proof = method(:bar)
+      @subject.on(:foo, proof)
+      proof_2 = proc { }
+      @subject.on(:foo, &proof_2)
+      events = @subject.instance_variable_get(:@__events__)
+      @subject.off(:foo)
+      events[:foo].should == []
+    end
+
     it 'unregisters method events after kvo' do
       observing_object = Class.new do
         include BubbleWrap::KVO

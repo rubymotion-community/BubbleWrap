@@ -37,6 +37,10 @@ module BubbleWrap
       message_controller
     end
 
+    def can_send_sms?
+      !!MFMessageComposeViewController.canSendText
+    end
+
     # Event when the MFMessageComposeViewController is closed
     # -------------------------------------------------------------
     # the callback is fired if it was present in the constructor
