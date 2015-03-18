@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>BubbleWrap - A Cocoa wrapper by Matt Aimonetti</title>
+    <title>BubbleWrap - A RubyMotion Cocoa wrapper</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -52,7 +52,7 @@
 <p><a href="http://rubymotion.github.io/BubbleWrap/">BubbleWrap website</a>
 <a href="https://groups.google.com/forum/#!forum/bubblewrap">BubbleWrap mailing list</a></p>
 
-<p><a href="https://codeclimate.com/github/rubymotion/BubbleWrap"><img src="https://codeclimate.com/github/rubymotion/BubbleWrap.png" alt="Code Climate"></a>
+<p><a href="https://codeclimate.com/github/rubymotion/BubbleWrap"><img src="https://codeclimate.com/github/rubymotion/BubbleWrap.svg" alt="Code Climate"></a>
 <a href="https://travis-ci.org/rubymotion/BubbleWrap"><img src="https://travis-ci.org/rubymotion/BubbleWrap.svg?branch=master" alt="Build Status"></a>
 <a href="https://gemnasium.com/rubymotion/BubbleWrap"><img src="https://gemnasium.com/rubymotion/BubbleWrap.png" alt="Dependency Status"></a></p>
 
@@ -79,30 +79,12 @@
 <p>If you using Bundler:</p>
 
 <div class="highlight">
-<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.7.0"</span>
+<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.8.0"</span>
 </pre>
 </div>
 
 
-<p>BubbleWrap is split into multiple modules so that you can easily choose which parts
-are included at compile-time.</p>
-
-<p>The above example requires the <code>core</code> and <code>http</code> modules. If you wish to only
-include the core modules use the following line of code instead:</p>
-
-<div class="highlight">
-<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/core'</span>
-</pre>
-</div>
-
-
-<p>If you wish to only include the <code>HTTP</code> wrapper:</p>
-
-<div class="highlight">
-<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/http'</span>
-</pre>
-</div>
-
+<p>BubbleWrap is split into multiple modules so that you can easily choose which parts are included at compile-time.</p>
 
 <p>If you wish to only include the <code>RSS Parser</code> wrapper:</p>
 
@@ -184,6 +166,14 @@ include the core modules use the following line of code instead:</p>
 </div>
 
 
+<p>You can also do this directly in your <code>Gemfile</code> like so:</p>
+
+<div class="highlight">
+<pre><span class="n">gem</span> <span class="s1">'bubble-wrap'</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="sx">%w[bubble-wrap/core bubble-wrap/location, bubble-wrap/reactor]</span>
+</pre>
+</div>
+
+
 <p>Note: <strong>DON'T</strong> use <code>app.files =</code> in your Rakefile to set up your files once you've required BubbleWrap.
 Make sure to append onto the array or use <code>+=</code>.</p>
 
@@ -193,7 +183,7 @@ Make sure to append onto the array or use <code>+=</code>.</p>
 
 <div class="highlight">
 <pre><span class="k">class</span> <span class="nc">AppDelegate</span>
-  <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span><span class="ss">:launchOptions</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="ss">didFinishLaunchingWithOptions</span><span class="p">:</span><span class="n">launchOptions</span><span class="p">)</span>
     <span class="nb">puts</span> <span class="s2">"</span><span class="si">#{</span><span class="no">App</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="no">App</span><span class="o">.</span><span class="n">documents_path</span><span class="si">}</span><span class="s2">)"</span>
     <span class="kp">true</span>
   <span class="k">end</span>
@@ -274,7 +264,7 @@ use the versioned gem.</p>
 <span class="c1"># "io.bubblewrap.testSuite"</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">alert</span><span class="p">(</span><span class="s2">"BubbleWrap is awesome!"</span><span class="p">)</span>
 <span class="c1"># creates and shows an alert message.</span>
-<span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">alert</span><span class="p">(</span><span class="s2">"BubbleWrap is awesome!"</span><span class="p">,</span> <span class="p">{</span><span class="n">cancel_button_title</span><span class="p">:</span> <span class="s2">"I know it is!"</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="s2">"Like, seriously awesome."</span><span class="p">})</span>
+<span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">alert</span><span class="p">(</span><span class="s2">"BubbleWrap is awesome!"</span><span class="p">,</span> <span class="p">{</span><span class="ss">cancel_button_title</span><span class="p">:</span> <span class="s2">"I know it is!"</span><span class="p">,</span> <span class="ss">message</span><span class="p">:</span> <span class="s2">"Like, seriously awesome."</span><span class="p">})</span>
 <span class="c1"># creates and shows an alert message with optional parameters.</span>
 <span class="o">&gt;</span> <span class="no">App</span><span class="o">.</span><span class="n">run_after</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span>  <span class="nb">p</span> <span class="s2">"It's </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="si">}</span><span class="s2">"</span>   <span class="p">}</span>
 <span class="c1"># Runs the block after 0.5 seconds.</span>
@@ -342,6 +332,8 @@ use the versioned gem.</p>
 <span class="c1"># 480</span>
 <span class="o">&gt;</span> <span class="no">Device</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">height_for_orientation</span><span class="p">(</span><span class="ss">:landscape_left</span><span class="p">)</span>
 <span class="c1"># 320</span>
+<span class="o">&gt;</span> <span class="no">Device</span><span class="o">.</span><span class="n">vendor_identifier</span>
+<span class="c1"># &lt;NSUUID&gt;</span>
 </pre>
 </div>
 
@@ -352,24 +344,29 @@ use the versioned gem.</p>
 
 <div class="highlight">
 <pre><span class="c1"># Uses the front camera</span>
-<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">front</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="n">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="p">,</span> <span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">front</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="ss">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="p">,</span> <span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
   <span class="n">image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:original_image</span><span class="o">]</span><span class="p">)</span>
 <span class="k">end</span>
 
 <span class="c1"># Uses the rear camera</span>
-<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">rear</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="n">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="p">,</span> <span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">rear</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="ss">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="p">,</span> <span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
   <span class="n">image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:original_image</span><span class="o">]</span><span class="p">)</span>
 <span class="k">end</span>
 
 <span class="c1"># Uses the photo library</span>
-<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">any</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="n">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="p">,</span> <span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">any</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="ss">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="p">,</span> <span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
   <span class="n">image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:original_image</span><span class="o">]</span><span class="p">)</span>
 <span class="k">end</span>
 
 <span class="c1"># Lets the user edit the photo (with access to the edited and original photos)</span>
-<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">any</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="n">allows_editing</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">any</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="ss">allows_editing</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:image</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
   <span class="n">edited_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:edited_image</span><span class="o">]</span><span class="p">)</span>
   <span class="n">original_image_view</span> <span class="o">=</span> <span class="no">UIImageView</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithImage</span><span class="p">(</span><span class="n">result</span><span class="o">[</span><span class="ss">:original_image</span><span class="o">]</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Capture a low quality movie with a limit of 10 seconds</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Device</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">front</span><span class="o">.</span><span class="n">picture</span><span class="p">(</span><span class="ss">media_types</span><span class="p">:</span> <span class="o">[</span><span class="ss">:movie</span><span class="o">]</span><span class="p">,</span> <span class="ss">video_quality</span><span class="p">:</span> <span class="ss">:low</span><span class="p">,</span> <span class="ss">video_maximum_duration</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="n">video_file_path</span> <span class="o">=</span> <span class="n">result</span><span class="o">[</span><span class="ss">:media_url</span><span class="o">]</span>
 <span class="k">end</span>
 </pre>
 </div>
@@ -387,6 +384,11 @@ use the versioned gem.</p>
 <li>
 <code>:media_types</code> - Array; containing any of <code>[:movie, :image]</code>
 </li>
+<li>
+<code>:video_quality</code> - Symbol; one of <code>:high</code>, <code>:medium</code>, <code>low</code>, <code>"640x480".to_sym</code>, <code>iframe1280x720</code>, or <code>iframe960x540</code>. Defaults to <code>:medium</code>
+</li>
+<li>
+<code>:video_maximum_duration</code> - Integer; limits movie recording length. Defaults to 600.</li>
 </ul>
 
 <h3>JSON</h3>
@@ -394,7 +396,7 @@ use the versioned gem.</p>
 <p><code>BW::JSON</code> wraps <code>NSJSONSerialization</code> available in iOS5 and offers the same API as Ruby's JSON std lib. For apps building for iOS4, we suggest a different JSON alternative, like <a href="https://github.com/mattt/AnyJSON">AnyJSON</a>.</p>
 
 <div class="highlight">
-<pre><span class="no">BW</span><span class="o">::</span><span class="no">JSON</span><span class="o">.</span><span class="n">generate</span><span class="p">({</span><span class="s1">'foo =&gt; 1, '</span><span class="n">bar</span><span class="s1">' =&gt; [1,2,3], '</span><span class="n">baz</span> <span class="o">=&gt;</span> <span class="s1">'awesome'</span><span class="p">})</span>
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">JSON</span><span class="o">.</span><span class="n">generate</span><span class="p">({</span><span class="s1">'foo'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'bar'</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="s1">'baz'</span> <span class="o">=&gt;</span> <span class="s1">'awesome'</span><span class="p">})</span>
 <span class="o">=&gt;</span> <span class="s2">"{</span><span class="se">\"</span><span class="s2">foo</span><span class="se">\"</span><span class="s2">:1,</span><span class="se">\"</span><span class="s2">bar</span><span class="se">\"</span><span class="s2">:[1,2,3],</span><span class="se">\"</span><span class="s2">baz</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">awesome</span><span class="se">\"</span><span class="s2">}"</span>
 <span class="no">BW</span><span class="o">::</span><span class="no">JSON</span><span class="o">.</span><span class="n">parse</span> <span class="s2">"{</span><span class="se">\"</span><span class="s2">foo</span><span class="se">\"</span><span class="s2">:1,</span><span class="se">\"</span><span class="s2">bar</span><span class="se">\"</span><span class="s2">:[1,2,3],</span><span class="se">\"</span><span class="s2">baz</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">awesome</span><span class="se">\"</span><span class="s2">}"</span>
 <span class="o">=&gt;</span> <span class="p">{</span><span class="s2">"foo"</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"bar"</span><span class="o">=&gt;[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="s2">"baz"</span><span class="o">=&gt;</span><span class="s2">"awesome"</span><span class="p">}</span>
@@ -518,7 +520,7 @@ iso8601 formatted string into a Time instance.</p>
 
 <h2>Location</h2>
 
-<p>Added interface for Ruby-like GPS and compass access:</p>
+<p>Interface for Ruby-like GPS and compass access (the CoreLocation framework):</p>
 
 <div class="highlight">
 <pre><span class="o">&gt;</span> <span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">enabled?</span> <span class="c1"># Whether location services are enabled on the device</span>
@@ -530,7 +532,7 @@ iso8601 formatted string into a Time instance.</p>
 
 
 <div class="highlight">
-<pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">purpose</span><span class="p">:</span> <span class="s1">'We need to use your GPS because...'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="ss">purpose</span><span class="p">:</span> <span class="s1">'We need to use your GPS because...'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
   <span class="nb">p</span> <span class="s2">"From Lat </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:from</span><span class="o">].</span><span class="n">latitude</span><span class="si">}</span><span class="s2">, Long </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:from</span><span class="o">].</span><span class="n">longitude</span><span class="si">}</span><span class="s2">"</span>
   <span class="nb">p</span> <span class="s2">"To Lat </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:to</span><span class="o">].</span><span class="n">latitude</span><span class="si">}</span><span class="s2">, Long </span><span class="si">#{</span><span class="n">result</span><span class="o">[</span><span class="ss">:to</span><span class="o">].</span><span class="n">longitude</span><span class="si">}</span><span class="s2">"</span>
 <span class="k">end</span>
@@ -554,7 +556,7 @@ iso8601 formatted string into a Time instance.</p>
 <p><code>BW::Location</code> also supports <code>get_once</code>-style methods, which will return the first result before ending the search:</p>
 
 <div class="highlight">
-<pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get_once</span><span class="p">(</span><span class="n">desired_accuracy</span><span class="p">:</span> <span class="ss">:three_kilometers</span><span class="p">,</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get_once</span><span class="p">(</span><span class="ss">desired_accuracy</span><span class="p">:</span> <span class="ss">:three_kilometers</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
   <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">CLLocation</span><span class="p">)</span>
     <span class="nb">p</span> <span class="n">result</span><span class="o">.</span><span class="n">coordinate</span><span class="o">.</span><span class="n">latitude</span>
     <span class="nb">p</span> <span class="n">result</span><span class="o">.</span><span class="n">coordinate</span><span class="o">.</span><span class="n">longitude</span>
@@ -568,6 +570,195 @@ iso8601 formatted string into a Time instance.</p>
   <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:true_heading</span><span class="o">]</span>
   <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:accuracy</span><span class="o">]</span>
   <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:timestamp</span><span class="o">]</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h3>iOS 8 Location Requirements</h3>
+
+<p>iOS 8 introduced stricter location services requirements. Although BubbleWrap will handle most of this for you automatically, you are required to add a few key/value pairs to the <code>Info.plist</code>. Add these two lines to your <code>Rakefile</code> (with your descriptions, obviously):</p>
+
+<div class="highlight">
+<pre><span class="n">app</span><span class="o">.</span><span class="n">info_plist</span><span class="o">[</span><span class="s1">'NSLocationAlwaysUsageDescription'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'Description'</span>
+<span class="n">app</span><span class="o">.</span><span class="n">info_plist</span><span class="o">[</span><span class="s1">'NSLocationWhenInUseUsageDescription'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'Description'</span>
+</pre>
+</div>
+
+
+<p><em>Note: you need both keys to use <code>get_once</code>, so it's probably best to just include both no matter what.</em> See <a href="https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW18">Apple's documentation</a> on iOS 8 location services requirements for more information.</p>
+
+<h2>Motion</h2>
+
+<p>Interface for the accelerometer, gyroscope, and magnetometer sensors (the
+CoreMotion framework).  You can access each sensor individually, or you can get
+data from all of them at once using the <code>BW::Motion.device</code> interface, which
+delegates to <code>CMMotionManager#deviceMotion</code>.</p>
+
+<p>Each sensor has an <code>every</code> and <code>once</code> method. <code>every</code> expects a time interval,
+and you will need to retain the object it returns and call <code>#stop</code> on it when
+you are done with the data.</p>
+
+<p>The <code>every</code> and <code>once</code> methods can accept a <code>:queue</code> option. The default value
+is a queue that runs on the main loop, so that UI updates can be processed in
+the block. This is useful, but not recommended by Apple, since the events can
+come in at a high rate. If you want to use a background queue, you can either
+specify an NSOperationQueue object, or you can use one of these symbols:</p>
+
+<ul>
+<li>
+<code>:main</code> - <code>NSOperationQueue.mainQueue</code>, this is the default value.</li>
+<li>
+<code>:background</code> - BubbleWrap will create a new <code>NSOperationQueue</code>.</li>
+<li>
+<code>:current</code> - BubbleWrap will use <code>NSOperationQueue.currentQueue</code>.</li>
+</ul>
+
+<p>If you pass a string instead, a new queue will be created and its <code>name</code>
+property will be set to that string.</p>
+
+<p>The <code>CMDeviceMotion</code> interface (<code>BW::Motion.device</code>) accepts a <code>:reference</code>
+option, which specifies the <code>CMAttitudeReferenceFrame</code>.  The default value is
+the same as the one that <code>CMMotionManager</code> uses, which is returned by the
+<code>CMMotionManager#attitudeReferenceFrame</code> method.  This option should be passed
+to the <code>repeat</code>, <code>every</code> or <code>once</code> methods.</p>
+
+<h6>Accelerometer</h6>
+
+<div class="highlight">
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">available?</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># returns CMAccelerometerData object or nil</span>
+
+<span class="c1"># ask the CMMotionManager to update every 5 seconds</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="c1"># result contains the following data (from CMAccelerometerData#acceleration):</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:data</span><span class="o">]</span>  <span class="c1"># the CMAccelerometerData object</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:acceleration</span><span class="o">]</span>  <span class="c1"># the CMAcceleration struct</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:x</span><span class="o">]</span>  <span class="c1"># acceleration in the x direction</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:y</span><span class="o">]</span>  <span class="c1">#          "          y direction</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:z</span><span class="o">]</span>  <span class="c1">#          "          z direction</span>
+<span class="k">end</span>
+
+<span class="c1"># every, start, and repeat all need to be stopped later.</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">stop</span>
+
+<span class="c1"># repeat, but don't set the interval</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">repeat</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="k">end</span>
+
+<span class="c1"># you can specify a :queue where the operations will be executed.  See above for details</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="ss">queue</span><span class="p">:</span> <span class="ss">:background</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span> <span class="o">...</span> <span class="p">}</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="ss">queue</span><span class="p">:</span> <span class="ss">:main</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span> <span class="o">...</span> <span class="p">}</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="ss">queue</span><span class="p">:</span> <span class="ss">:current</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span> <span class="o">...</span> <span class="p">}</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="ss">queue</span><span class="p">:</span> <span class="s1">'my queue'</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span> <span class="o">...</span> <span class="p">}</span>
+
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">accelerometer</span><span class="o">.</span><span class="n">once</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h6>Gyroscope</h6>
+
+<div class="highlight">
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">gyroscope</span><span class="o">.</span><span class="n">available?</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">gyroscope</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># returns CMGyroData object or nil</span>
+
+<span class="c1"># ask the CMMotionManager to update every second.</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">gyroscope</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="c1"># result contains the following data (from CMGyroData#rotationRate):</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:data</span><span class="o">]</span>  <span class="c1"># the CMGyroData object</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:rotation</span><span class="o">]</span>  <span class="c1"># the CMRotationRate struct</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:x</span><span class="o">]</span>  <span class="c1"># rotation in the x direction</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:y</span><span class="o">]</span>  <span class="c1">#        "        y direction</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:z</span><span class="o">]</span>  <span class="c1">#        "        z direction</span>
+<span class="k">end</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">gyroscope</span><span class="o">.</span><span class="n">stop</span>
+
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">gyroscope</span><span class="o">.</span><span class="n">once</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h6>Magnetometer</h6>
+
+<div class="highlight">
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">magnetometer</span><span class="o">.</span><span class="n">available?</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">magnetometer</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># returns CMMagnetometerData object or nil</span>
+
+<span class="c1"># ask the CMMotionManager to update every second</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">magnetometer</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="c1"># result contains the following data (from CMMagnetometerData#magneticField):</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:data</span><span class="o">]</span>  <span class="c1"># the CMMagnetometerData object</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:field</span><span class="o">]</span>  <span class="c1"># the CMMagneticField struct</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:x</span><span class="o">]</span>  <span class="c1"># magnetic field in the x direction</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:y</span><span class="o">]</span>  <span class="c1">#           "           y direction</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:z</span><span class="o">]</span>  <span class="c1">#           "           z direction</span>
+<span class="k">end</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">magnetometer</span><span class="o">.</span><span class="n">stop</span>
+
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">magnetometer</span><span class="o">.</span><span class="n">once</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h6>Device Motion</h6>
+
+<p>This is an amalgam of all the motion sensor data.</p>
+
+<div class="highlight">
+<pre><span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">available?</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># returns CMDeviceMotion object or nil</span>
+
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="c1"># result contains the following data:</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:data</span><span class="o">]</span>  <span class="c1"># the CMDeviceMotion object</span>
+  <span class="c1"># orientation data, from CMDeviceMotion#attitude</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:attitude</span><span class="o">]</span>  <span class="c1"># the CMAttitude struct</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:roll</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:pitch</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:yaw</span><span class="o">]</span>
+  <span class="c1"># rotation data, from CMDeviceMotion#rotationRate</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:rotation</span><span class="o">]</span>  <span class="c1"># the CMRotationRate struct</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:rotation_x</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:rotation_y</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:rotation_z</span><span class="o">]</span>
+  <span class="c1"># gravity+acceleration vector, from CMDeviceMotion#gravity</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:gravity</span><span class="o">]</span>  <span class="c1"># the CMAcceleration struct</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:gravity_x</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:gravity_y</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:gravity_z</span><span class="o">]</span>
+  <span class="c1"># just the acceleration vector, from CMDeviceMotion#userAcceleration</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:acceleration</span><span class="o">]</span>  <span class="c1"># the CMAcceleration struct</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:acceleration_x</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:acceleration_y</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:acceleration_z</span><span class="o">]</span>
+  <span class="c1"># the magnetic data, from CMDeviceMotion#magneticField</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:magnetic</span><span class="o">]</span>  <span class="c1"># the CMCalibratedMagneticField struct</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:magnetic_field</span><span class="o">]</span>  <span class="c1"># the CMMagneticField struct from the CMCalibratedMagneticField</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:magnetic_x</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:magnetic_y</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:magnetic_z</span><span class="o">]</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:magnetic_accuracy</span><span class="o">]</span>  <span class="c1"># this will be a symbol, :low, :medium, :high, or nil if the magnetic data is uncalibrated</span>
+
+  <span class="c1"># less useful data from CMAttitude, unless you're into the whole linear algebra thing:</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:matrix</span><span class="o">]</span>  <span class="c1"># CMAttitude#rotationMatrix</span>
+  <span class="nb">p</span> <span class="n">result</span><span class="o">[</span><span class="ss">:quarternion</span><span class="o">]</span>  <span class="c1"># CMAttitude#quarternion</span>
+<span class="k">end</span>
+
+<span class="c1"># the reference frame should be one of the CMAttitudeReferenceFrame constants...</span>
+<span class="n">ref</span> <span class="o">=</span> <span class="no">CMAttitudeReferenceFrameXArbitraryZVertical</span>
+<span class="c1"># ... or one of these symbols: :arbitrary_z, :corrected_z, :magnetic_north, :true_north</span>
+<span class="n">ref</span> <span class="o">=</span> <span class="ss">:corrected_z</span>
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">every</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="ss">queue</span><span class="p">:</span> <span class="ss">:background</span><span class="p">,</span> <span class="ss">reference</span><span class="p">:</span> <span class="n">ref</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span> <span class="o">...</span> <span class="p">}</span>
+
+<span class="no">BW</span><span class="o">::</span><span class="no">Motion</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">once</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
+  <span class="c1"># ...</span>
 <span class="k">end</span>
 </pre>
 </div>
@@ -595,17 +786,19 @@ iso8601 formatted string into a Time instance.</p>
 
 <p>Wrapper for showing an in-app mail composer view.</p>
 
+<p>You should always determine if the device your app is running on is configured to send mail before displaying a mail composer window. <code>BW::Mail.can_send_mail?</code> will return <code>true</code> or <code>false</code>.</p>
+
 <div class="highlight">
 <pre><span class="c1"># Opens as a modal in the current UIViewController</span>
 <span class="no">BW</span><span class="o">::</span><span class="no">Mail</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
-  <span class="n">delegate</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span> <span class="c1"># optional, defaults to rootViewController</span>
-  <span class="n">to</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"tom@example.com"</span> <span class="o">]</span><span class="p">,</span>
-  <span class="n">cc</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"itchy@example.com"</span><span class="p">,</span> <span class="s2">"scratchy@example.com"</span> <span class="o">]</span><span class="p">,</span>
-  <span class="n">bcc</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"jerry@example.com"</span> <span class="o">]</span><span class="p">,</span>
-  <span class="n">html</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
-  <span class="n">subject</span><span class="p">:</span> <span class="s2">"My Subject"</span><span class="p">,</span>
-  <span class="n">message</span><span class="p">:</span> <span class="s2">"This is my message. It isn't very long."</span><span class="p">,</span>
-  <span class="n">animated</span><span class="p">:</span> <span class="kp">false</span>
+  <span class="ss">delegate</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span> <span class="c1"># optional, defaults to rootViewController</span>
+  <span class="ss">to</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"tom@example.com"</span> <span class="o">]</span><span class="p">,</span>
+  <span class="ss">cc</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"itchy@example.com"</span><span class="p">,</span> <span class="s2">"scratchy@example.com"</span> <span class="o">]</span><span class="p">,</span>
+  <span class="ss">bcc</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"jerry@example.com"</span> <span class="o">]</span><span class="p">,</span>
+  <span class="ss">html</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+  <span class="ss">subject</span><span class="p">:</span> <span class="s2">"My Subject"</span><span class="p">,</span>
+  <span class="ss">message</span><span class="p">:</span> <span class="s2">"This is my message. It isn't very long."</span><span class="p">,</span>
+  <span class="ss">animated</span><span class="p">:</span> <span class="kp">false</span>
 <span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="o">|</span>
   <span class="n">result</span><span class="o">.</span><span class="n">sent?</span>      <span class="c1"># =&gt; boolean</span>
   <span class="n">result</span><span class="o">.</span><span class="n">canceled?</span>  <span class="c1"># =&gt; boolean</span>
@@ -621,14 +814,16 @@ iso8601 formatted string into a Time instance.</p>
 
 <p>Wrapper for showing an in-app message (SMS) composer view.</p>
 
+<p>You should always determine if the device your app is running on can send SMS messages before displaying a SMS composer window. <code>BW::SMS.can_send_sms?</code> will return <code>true</code> or <code>false</code>.</p>
+
 <div class="highlight">
 <pre><span class="c1"># Opens as a modal in the current UIViewController</span>
     <span class="no">BW</span><span class="o">::</span><span class="no">SMS</span><span class="o">.</span><span class="n">compose</span> <span class="p">(</span>
     <span class="p">{</span>
-       <span class="n">delegate</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span> <span class="c1"># optional, will use root view controller by default</span>
-       <span class="n">to</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"1(234)567-8910"</span> <span class="o">]</span><span class="p">,</span>
-       <span class="n">message</span><span class="p">:</span> <span class="s2">"This is my message. It isn't very long."</span><span class="p">,</span>
-       <span class="n">animated</span><span class="p">:</span> <span class="kp">false</span>
+       <span class="ss">delegate</span><span class="p">:</span> <span class="nb">self</span><span class="p">,</span> <span class="c1"># optional, will use root view controller by default</span>
+       <span class="ss">to</span><span class="p">:</span> <span class="o">[</span> <span class="s2">"1(234)567-8910"</span> <span class="o">]</span><span class="p">,</span>
+       <span class="ss">message</span><span class="p">:</span> <span class="s2">"This is my message. It isn't very long."</span><span class="p">,</span>
+       <span class="ss">animated</span><span class="p">:</span> <span class="kp">false</span>
     <span class="p">})</span> <span class="p">{</span><span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="o">|</span>
        <span class="n">result</span><span class="o">.</span><span class="n">sent?</span>      <span class="c1"># =&gt; boolean</span>
        <span class="n">result</span><span class="o">.</span><span class="n">canceled?</span>  <span class="c1"># =&gt; boolean</span>
@@ -679,7 +874,7 @@ iso8601 formatted string into a Time instance.</p>
 <div class="highlight">
 <pre>    <span class="n">view</span><span class="o">.</span><span class="n">when_tapped</span> <span class="k">do</span>
       <span class="no">UIView</span><span class="o">.</span><span class="n">animateWithDuration</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">animations</span><span class="ss">:lambda</span> <span class="p">{</span>
+        <span class="ss">animations</span><span class="p">:</span><span class="nb">lambda</span> <span class="p">{</span>
           <span class="c1"># animate</span>
           <span class="c1"># @view.transform = ...</span>
         <span class="p">})</span>
@@ -689,6 +884,14 @@ iso8601 formatted string into a Time instance.</p>
 
 
 <p>There are similar methods for <code>pinched</code>, <code>rotated</code>, <code>swiped</code>, <code>panned</code>, and <code>pressed</code> (for long presses). All of the methods return the actual recognizer object, so it is possible to set the delegate if more fine-grained control is needed.</p>
+
+<p>In order to prevent retain cycles due to strong references within the passed block, use the use_weak_callbacks flag so the blocks do not retain a strong reference to self:</p>
+
+<div class="highlight">
+<pre><span class="no">BubbleWrap</span><span class="o">.</span><span class="n">use_weak_callbacks</span> <span class="o">=</span> <span class="kp">true</span>
+</pre>
+</div>
+
 
 <h3>UIViewController</h3>
 
@@ -702,6 +905,30 @@ frame of a view controller.</p>
 <div class="highlight">
 <pre><span class="n">button</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="no">UIControlEventTouchUpInside</span><span class="p">)</span> <span class="k">do</span>
   <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>The <code>#when</code> method also accepts bitwise combinations of events:</p>
+
+<div class="highlight">
+<pre><span class="n">button</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="no">UIControlEventTouchUpInside</span> <span class="o">|</span> <span class="no">UIControlEventTouchUpOutside</span><span class="p">)</span> <span class="k">do</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>You can use symbols for events (but won't work with the bitwise operator):</p>
+
+<div class="highlight">
+<pre><span class="n">button</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="ss">:touch_up_inside</span><span class="p">)</span> <span class="k">do</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">redColor</span>
+<span class="k">end</span>
+
+<span class="n">button</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="ss">:value_changed</span><span class="p">)</span> <span class="k">do</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="no">UIColor</span><span class="o">.</span><span class="n">blueColor</span>
 <span class="k">end</span>
 </pre>
 </div>
@@ -841,16 +1068,16 @@ frame of a view controller.</p>
 <div class="highlight">
 <pre><span class="c1"># Without a completion handler</span>
 <span class="no">BW</span><span class="o">::</span><span class="no">UIActivityViewController</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
-  <span class="n">items</span><span class="p">:</span> <span class="s2">"Some Text"</span><span class="p">,</span> <span class="c1"># or ["Some Text", NSURL.URLWithString('http://www.rubymotion.com')] or a UIImage</span>
-  <span class="n">animated</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="c1"># Defaults to true</span>
-  <span class="n">excluded</span><span class="p">:</span> <span class="ss">:add_to_reading_list</span> <span class="c1"># One item or an array</span>
+  <span class="ss">items</span><span class="p">:</span> <span class="s2">"Some Text"</span><span class="p">,</span> <span class="c1"># or ["Some Text", NSURL.URLWithString('http://www.rubymotion.com')] or a UIImage</span>
+  <span class="ss">animated</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="c1"># Defaults to true</span>
+  <span class="ss">excluded</span><span class="p">:</span> <span class="ss">:add_to_reading_list</span> <span class="c1"># One item or an array</span>
 <span class="p">)</span>
 
 <span class="c1"># With completion handler</span>
 <span class="no">BW</span><span class="o">::</span><span class="no">UIActivityViewController</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
-  <span class="n">items</span><span class="p">:</span> <span class="s2">"Some Text"</span><span class="p">,</span>
-  <span class="n">animated</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
-  <span class="n">excluded</span><span class="p">:</span> <span class="o">[</span><span class="ss">:add_to_reading_list</span><span class="p">,</span> <span class="ss">:print</span><span class="p">,</span> <span class="ss">:air_drop</span><span class="o">]</span>
+  <span class="ss">items</span><span class="p">:</span> <span class="s2">"Some Text"</span><span class="p">,</span>
+  <span class="ss">animated</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+  <span class="ss">excluded</span><span class="p">:</span> <span class="o">[</span><span class="ss">:add_to_reading_list</span><span class="p">,</span> <span class="ss">:print</span><span class="p">,</span> <span class="ss">:air_drop</span><span class="o">]</span>
 <span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">activity_type</span><span class="p">,</span> <span class="n">completed</span><span class="o">|</span>
   <span class="nb">puts</span> <span class="s2">"completed with activity: </span><span class="si">#{</span><span class="n">activity_type</span><span class="si">}</span><span class="s2"> - finished?: </span><span class="si">#{</span><span class="n">completed</span><span class="si">}</span><span class="s2">"</span>
 <span class="k">end</span>
@@ -878,123 +1105,6 @@ frame of a view controller.</p>
 </pre>
 </div>
 
-
-<h2>HTTP</h2>
-
-<p><code>BW::HTTP</code> wraps <code>NSURLRequest</code>, <code>NSURLConnection</code> and friends to provide Ruby developers with a more familiar and easier to use API.
-The API uses async calls and blocks to stay as simple as possible.</p>
-
-<p>To enable it add the following require line to your <code>Rakefile</code>:</p>
-
-<div class="highlight">
-<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/http'</span>
-</pre>
-</div>
-
-
-<p>Usage example:</p>
-
-<div class="highlight">
-<pre><span class="no">BW</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"https://api.github.com/users/mattetti"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
-  <span class="nb">p</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">to_str</span>
-<span class="k">end</span>
-</pre>
-</div>
-
-
-<div class="highlight">
-<pre><span class="no">BW</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"https://api.github.com/users/mattetti"</span><span class="p">,</span> <span class="p">{</span><span class="n">credentials</span><span class="p">:</span> <span class="p">{</span><span class="n">username</span><span class="p">:</span> <span class="s1">'matt'</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="s1">'aimonetti'</span><span class="p">}})</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
-  <span class="nb">p</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">to_str</span> <span class="c1"># prints the response's body</span>
-<span class="k">end</span>
-</pre>
-</div>
-
-
-<div class="highlight">
-<pre><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">first_name</span><span class="p">:</span> <span class="s1">'Matt'</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s1">'Aimonetti'</span><span class="p">}</span>
-<span class="no">BW</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"http://foo.bar.com/"</span><span class="p">,</span> <span class="p">{</span><span class="n">payload</span><span class="p">:</span> <span class="n">data</span><span class="p">})</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
-  <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">ok?</span>
-    <span class="n">json</span> <span class="o">=</span> <span class="no">BW</span><span class="o">::</span><span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">to_str</span><span class="p">)</span>
-    <span class="nb">p</span> <span class="n">json</span><span class="o">[</span><span class="s1">'id'</span><span class="o">]</span>
-  <span class="k">elsif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="o">.</span><span class="n">to_s</span> <span class="o">=~</span> <span class="sr">/40\d/</span>
-    <span class="no">App</span><span class="o">.</span><span class="n">alert</span><span class="p">(</span><span class="s2">"Login failed"</span><span class="p">)</span>
-  <span class="k">else</span>
-    <span class="no">App</span><span class="o">.</span><span class="n">alert</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre>
-</div>
-
-
-<p>To upload files to a server, provide a <code>files:</code> hash:</p>
-
-<div class="highlight">
-<pre><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">token</span><span class="p">:</span> <span class="s2">"some-api-token"</span><span class="p">}</span>
-<span class="n">avatar_data</span> <span class="o">=</span> <span class="no">UIImagePNGRepresentation</span><span class="p">(</span><span class="no">UIImage</span><span class="o">.</span><span class="n">imageNamed</span><span class="p">(</span><span class="s2">"some-image"</span><span class="p">))</span>
-<span class="n">avatar</span> <span class="o">=</span> <span class="p">{</span> <span class="n">data</span><span class="p">:</span> <span class="n">avatar_data</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="s2">"some-image.png"</span><span class="p">,</span> <span class="n">content_type</span><span class="p">:</span> <span class="s2">"image/png"</span> <span class="p">}</span>
-
-<span class="no">BW</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"http://foo.bar.com/"</span><span class="p">,</span> <span class="p">{</span><span class="n">payload</span><span class="p">:</span> <span class="n">data</span><span class="p">},</span> <span class="n">files</span><span class="p">:</span> <span class="p">{</span> <span class="n">avatar</span><span class="p">:</span> <span class="n">avatar</span> <span class="p">})</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
-  <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">ok?</span>
-    <span class="c1"># files are uploaded</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre>
-</div>
-
-
-<p>A <code>:download_progress</code> option can also be passed. The expected object
-would be a Proc that takes two arguments: a float representing the
-amount of data currently received and another float representing the
-total amount of data expected.</p>
-
-<p>Connections can also be cancelled. Just keep a refrence,</p>
-
-<div class="highlight">
-<pre><span class="vi">@conn</span> <span class="o">=</span> <span class="no">BW</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"https://api.github.com/users/mattetti"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
-  <span class="nb">p</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">to_str</span>
-<span class="k">end</span>
-</pre>
-</div>
-
-
-<p>and send the <code>cancel</code> method to it asynchronously as desired. The block will not be executed.</p>
-
-<div class="highlight">
-<pre><span class="vi">@conn</span><span class="o">.</span><span class="n">cancel</span>
-</pre>
-</div>
-
-
-<h3>Gotchas</h3>
-
-<p>Because of how RubyMotion currently works, you sometimes need to assign objects as <code>@instance_variables</code> in order to retain their callbacks.</p>
-
-<p>For example:</p>
-
-<div class="highlight">
-<pre><span class="k">class</span> <span class="nc">HttpClient</span>
-  <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">callback</span><span class="p">)</span>
-    <span class="no">BW</span><span class="o">::</span><span class="no">HTTP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user_url</span><span class="p">(</span><span class="n">user_id</span><span class="p">))</span> <span class="k">do</span> <span class="o">|</span><span class="n">response</span><span class="o">|</span>
-      <span class="c1"># ..</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre>
-</div>
-
-
-<p>This class should be invoked in your code as:</p>
-
-<div class="highlight">
-<pre><span class="vi">@http_client</span> <span class="o">=</span> <span class="no">HttpClient</span><span class="o">.</span><span class="n">new</span>
-<span class="vi">@http_client</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
-  <span class="c1"># ..</span>
-<span class="k">end</span>
-</pre>
-</div>
-
-
-<p>(instead of doing an instance-variable-less <code>HttpClient.new.get_user</code>)</p>
 
 <h2>RSS Parser</h2>
 
@@ -1105,6 +1215,14 @@ and timeout.  When you initially create a deferrable it is in an unknown
 state, however you can assign callbacks to be run when the object
 changes to either successful or failure state.</p>
 
+<p>Using <code>delegate</code>, <code>errback_delegate</code> and <code>callback_delegate</code> you can link
+deferrables together.</p>
+
+<p>By default, callbacks will be made on the thread that the deferrable
+succeeds/fails on. For multithreaded environments, it can be useful to use
+EM::ThreadAwareDeferrable so that callbacks will be made on the threads they
+are declared on.</p>
+
 <h4>Success</h4>
 
 <div class="highlight">
@@ -1129,6 +1247,42 @@ changes to either successful or failure state.</p>
 <span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">fail</span> <span class="s2">"sadness"</span>
 <span class="no">Great</span> <span class="n">sadness!</span>
 <span class="o">=&gt;</span> <span class="kp">nil</span>
+</pre>
+</div>
+
+
+<h4>Delegate</h4>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="no">EM</span><span class="o">::</span><span class="no">DefaultDeferrable</span><span class="o">.</span><span class="n">new</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BW::Reactor::DefaultDeferrable:0x8bf3ee0&gt;</span>
+<span class="o">&gt;</span> <span class="n">delegate</span> <span class="o">=</span> <span class="no">EM</span><span class="o">::</span><span class="no">DefaultDeferrable</span><span class="o">.</span><span class="n">new</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BW::Reactor::DefaultDeferrable:0x8bf5910&gt;</span>
+<span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">delegate</span> <span class="n">delegate</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BW::Reactor::DefaultDeferrable:0x8bf3ee0&gt;</span>
+<span class="o">&gt;</span> <span class="n">delegate</span><span class="o">.</span><span class="n">callback</span> <span class="p">{</span> <span class="o">|*</span><span class="n">args</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">args</span> <span class="p">}</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0x8bf3ef0&gt;]</span>
+<span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">succeed</span> <span class="ss">:passed</span>
+<span class="o">=&gt;</span> <span class="kp">nil</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:passed</span><span class="o">]</span>
+</pre>
+</div>
+
+
+<h4>ThreadAwareDeferrable</h4>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="no">EM</span><span class="o">::</span><span class="no">ThreadAwareDeferrable</span><span class="o">.</span><span class="n">new</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BW::Reactor::ThreadAwareDeferrable:0x8bf3ee0&gt;</span>
+
+<span class="o">&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:deferrable</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">queue</span><span class="o">.</span><span class="n">async</span> <span class="k">do</span>
+<span class="o">&gt;</span>   <span class="n">d</span><span class="o">.</span><span class="n">callback</span> <span class="k">do</span> <span class="o">|*</span><span class="n">args</span><span class="o">|</span>
+<span class="o">&gt;</span>     <span class="no">Dispatch</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">current</span> <span class="o">==</span> <span class="n">queue</span>
+<span class="o">&gt;</span>     <span class="o">=&gt;</span> <span class="kp">true</span> <span class="c1"># this is normally false</span>
+<span class="o">&gt;</span>   <span class="k">end</span>
+<span class="o">&gt;</span> <span class="k">end</span>
+<span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">succeed</span> <span class="kp">true</span>
 </pre>
 </div>
 
@@ -1255,6 +1409,10 @@ idiom it is available as a public API.</p>
 <span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">trigger</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span>
 <span class="no">Ow</span><span class="o">!</span>
 <span class="o">=&gt;</span> <span class="o">[</span><span class="kp">nil</span><span class="o">]</span>
+<span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"Ow!"</span> <span class="p">}</span>
+<span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"Another Ow!"</span> <span class="p">}</span>
+<span class="o">&gt;</span> <span class="n">o</span><span class="o">.</span><span class="n">off</span><span class="p">(</span><span class="ss">:november_5_1955</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="kp">nil</span>
 </pre>
 </div>
 
@@ -1271,13 +1429,14 @@ please send a pull request (with tests if possible).</p>
        <footer>
        <p>Maintained by:</p>
        <ul>
-         <li><a href="https://github.com/clayallsopp"><img src="https://secure.gravatar.com/avatar/f6c4ef1904591e41f767ba68268971cf?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">Clay Allsopp</a><a href="http://twitter.com/clayallsopp"><small>@clayallsopp</small></a></li>
-         <li><a href="https://github.com/jamesotron"><img src="https://secure.gravatar.com/avatar/d468b182b11cdee834dd1f9777645b79?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">James Harton</a><a href="http://twitter.com/jamesotron"><small>@jamesotron</small></a></li>
-         <li><a href="https://github.com/mneorr"><img src="https://secure.gravatar.com/avatar/9ee164729035736549e4ae6e6e2d7cfc?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-24.png">Marin Usalj</a><a href="http://twitter.com/mneorr"><small>@mneorr</small></a></li>
+         <li><a href="https://github.com/markrickert"><img src="https://avatars0.githubusercontent.com/u/139261?v=3&s=24">Mark Rickert</a><a href="http://twitter.com/markrickert"><small>@markrickert</small></a></li>
+         <li><a href="https://github.com/clayallsopp"><img src="https://avatars0.githubusercontent.com/u/153704?v=3&s=24">Clay Allsopp</a><a href="http://twitter.com/clayallsopp"><small>@clayallsopp</small></a></li>
+         <li><a href="https://github.com/jamesotron"><img src="https://avatars0.githubusercontent.com/u/59449?v=3&s=24">James Harton</a><a href="http://twitter.com/jamesotron"><small>@jamesotron</small></a></li>
+         <li><a href="https://github.com/supermarin"><img src="https://avatars0.githubusercontent.com/u/627285?v=3&s=24">Marin Usalj</a><a href="http://twitter.com/_supermarin"><small>@_supermarin</small></a></li>
        </ul>
        <p>Started by:</p>
        <ul>
-         <li><a href="https://github.com/mattetti/"><img src="https://secure.gravatar.com/avatar/c69521d6e22fc0bbd69337ec8b1698df?s=24&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-24.png">Matt Aimonetti</a><a href="http://twitter.com/merbist"><small>@merbist</small></a><li>
+         <li><a href="https://github.com/mattetti/"><img src="https://avatars0.githubusercontent.com/u/113?v=3&s=24">Matt Aimonetti</a><a href="http://twitter.com/merbist"><small>@merbist</small></a><li>
        </ul>
        </footer>
      </div>
