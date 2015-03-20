@@ -16,7 +16,7 @@ module BubbleWrap
         if options[:common_modes]
           NSLog "[DEPRECATED - Option :common_modes] a Run Loop Mode is no longer needed."
         end
-        
+
         self.interval = interval
 
         leeway = interval

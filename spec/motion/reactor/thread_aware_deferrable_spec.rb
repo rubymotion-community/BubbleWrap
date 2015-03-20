@@ -7,7 +7,7 @@ shared :queue_caching_deferrable_method do
   end
 
   it "stores the queue, even if its not the main" do
-    @queue.async do 
+    @queue.async do
       @subject.send(@method, &@blk)
       Dispatch::Queue.main.async { resume }
     end
@@ -21,7 +21,7 @@ end
 
 shared :queue_block_execution do
   it "calls the block on the right thread, with deferred argument once the deferrable is finished" do
-    @queue.async do 
+    @queue.async do
       @subject.send(@block_method) do |*args|
         Dispatch::Queue.current.to_s.should.equal @queue.to_s
         args.should.equal [true]
@@ -34,7 +34,7 @@ shared :queue_block_execution do
   end
 
   it "removes the queue from internal cache once the deferrable is finished" do
-    @subject.send(@block_method) do |*args| 
+    @subject.send(@block_method) do |*args|
       Dispatch::Queue.main.async { resume }
     end
     @subject.send(@status_method, true)

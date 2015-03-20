@@ -18,7 +18,7 @@ module BubbleWrap
       def failed?
         self.result == MessageComposeResultFailed
       end
-      
+
     end
   end
 end

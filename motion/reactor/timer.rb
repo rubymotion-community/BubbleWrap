@@ -14,7 +14,7 @@ module BubbleWrap
           ensure
             src.cancel!
           end
-        end        
+        end
       end
 
       # Cancel the timer

@@ -15,7 +15,7 @@ class NSNotificationCenter
     removeObserver(observer)
     observers.delete(observer)
   end
-  
+
   def post(name, object=nil, info=nil)
     self.postNotificationName(name, object: object, userInfo: info)
   end
