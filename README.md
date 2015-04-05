@@ -1210,9 +1210,18 @@ Ow!
 => nil
 ```
 
-# Suggestions?
+# Contributing
 
 Do you have a suggestion for a specific wrapper? Feel free to open an
 issue/ticket and tell us about what you are after. If you have a
 wrapper/helper you are using and are thinking that others might enjoy,
-please send a pull request (with tests if possible).
+please send a pull request with tests. If you need help writing the tests,
+send the pull request anyways and we'll try to help you out with that.
+
+1. Create an issue in GitHub to make sure your PR will be accepted
+2. Fork the BubbleWrap repository
+3. Create your feature branch (`git checkout -b my-new-feature`)
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Write tests for your changes and ensure they pass locally (`bundle exec rake spec && bundle exec rake spec osx=true`)
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create new Pull Request
