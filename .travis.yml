@@ -5,11 +5,14 @@ before_install:
   - sudo mkdir -p ~/Library/RubyMotion/build
   - sudo chown -R travis ~/Library/RubyMotion/build
   - sudo motion update
+  - /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/simctl create seven com.apple.CoreSimulator.SimDeviceType.iPhone-5 com.apple.CoreSimulator.SimRuntime.iOS-7-1
 gemfile:
   - Gemfile
 script:
   - bundle install --jobs=3 --retry=3
   - bundle exec rake clean
   - bundle exec rake spec
+  - bundle exec rake clean
+  - bundle exec rake spec device_name=seven
   - bundle exec rake clean
   - bundle exec rake spec osx=true
