@@ -21,10 +21,10 @@ module BubbleWrap
       raise ParserError, error[0].description if error[0]
       if block_given?
         yield obj
-      else 
+      else
         obj
       end
-      
+
     end
 
     def self.generate(obj)
