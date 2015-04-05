@@ -3,7 +3,7 @@ module BubbleWrap
     class ThreadAwareDeferrable < DefaultDeferrable
       include ::BubbleWrap::Reactor::Deferrable
 
-      
+
       # need to store the the queue in callback / errback
       def callback(&blk)
         return unless blk

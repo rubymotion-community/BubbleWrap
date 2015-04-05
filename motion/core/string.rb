@@ -1,6 +1,6 @@
 module BubbleWrap
-  # This module contains simplified version of the `camelize` and 
-  # `underscore` methods from ActiveSupport, since these are such 
+  # This module contains simplified version of the `camelize` and
+  # `underscore` methods from ActiveSupport, since these are such
   # common operations when dealing with the Cocoa API.
   module String
 
@@ -67,8 +67,8 @@ module BubbleWrap
       return color_klass.send(keyword_selector) if color_klass.respond_to? keyword_selector
 
       # Next attempt to convert from hex
-      hex_color = self.gsub("#", "")   
-      case hex_color.size 
+      hex_color = self.gsub("#", "")
+      case hex_color.size
         when 3
           colors = hex_color.scan(%r{[0-9A-Fa-f]}).map!{ |el| (el * 2).to_i(16) }
         when 6
@@ -77,15 +77,15 @@ module BubbleWrap
           colors = hex_color.scan(%r<[0-9A-Fa-f]{2}>).map!{ |el| el.to_i(16) }
         else
           raise ArgumentError
-      end 
+      end
       if colors.size == 3
         BubbleWrap.rgb_color(colors[0], colors[1], colors[2])
       elsif colors.size == 4
         BubbleWrap.rgba_color(colors[1], colors[2], colors[3], colors[0])
       else
         raise ArgumentError
-      end 
-    end  
+      end
+    end
 
   end
 end

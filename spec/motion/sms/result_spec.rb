@@ -1,19 +1,19 @@
 describe BW::SMS::Result do
-  
+
   before do
     @subject = BW::SMS::Result.new(MessageComposeResultCancelled)
   end
-  
+
   it "should set sent? when sent" do
     @subject.result = MessageComposeResultSent
     @subject.should.be.sent
   end
-  
+
   it "should not set sent? when not sent" do
     @subject.result = MessageComposeResultFailed
     @subject.should.not.be.sent
   end
-  
+
   it "should set canceled? when canceled" do
     @subject.result = MessageComposeResultCancelled
     @subject.should.be.canceled
@@ -23,8 +23,8 @@ describe BW::SMS::Result do
     @subject.result = MessageComposeResultFailed
     @subject.should.not.be.canceled
   end
-  
-  
+
+
   it "should set failed? when failed" do
     @subject.result = MessageComposeResultFailed
     @subject.should.be.failed

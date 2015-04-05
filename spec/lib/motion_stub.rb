@@ -5,7 +5,7 @@ module Motion
       def self.setup
       end
     end
-    
+
     class Config
       def files_dependencies
       end

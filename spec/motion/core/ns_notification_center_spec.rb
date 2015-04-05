@@ -4,7 +4,7 @@ describe "NSNotificationCenter" do
   after do
     @observer = nil
   end
-  
+
   after do
     BW::App.notification_center.unobserve(@observer) if @observer
   end
@@ -23,13 +23,13 @@ describe "NSNotificationCenter" do
       note.userInfo[:status].should == "ok"
     end
 
-    lambda { 
+    lambda {
       BW::App.notification_center.post SampleNotification, Time.now, {:status => "ok"}
     }.should.change { @notified }
   end
 
   it "remove observer" do
-    lambda { 
+    lambda {
       @observer = BW::App.notification_center.observe(SampleNotification) {}
       BW::App.notification_center.unobserve(@observer)
     }.should.not.change { BW::App.notification_center.observers.size }

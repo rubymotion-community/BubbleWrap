@@ -40,7 +40,7 @@ describe BubbleWrap::String do
 
   describe 'camelCase input' do
     describe '.camelize(true)' do
-      it "upper cases the first character" do 
+      it "upper cases the first character" do
         'camelCase'.camelize(true).should == 'CamelCase'
       end
     end
@@ -113,19 +113,19 @@ describe BubbleWrap::String do
 
     it "with 6 digits" do
       @orange_color_from_hex= '#FF8A19'.to_color
-      @orange_color_from_hex.should == @orange_color    
-    end 
+      @orange_color_from_hex.should == @orange_color
+    end
 
-    it "with 3 digits" do 
+    it "with 3 digits" do
       @blue_color_from_hex = '#00F'.to_color
-      @blue_color_from_hex.should ==  @blue_color   
-    end 
+      @blue_color_from_hex.should ==  @blue_color
+    end
 
-    it "with no # sign" do  
+    it "with no # sign" do
       @orange_color_from_hex= 'FF8A19'.to_color
-      @orange_color_from_hex.should == @orange_color    
-    end 
-  end 
+      @orange_color_from_hex.should == @orange_color
+    end
+  end
 
   describe "a string with a color keyword (blue, red, lightText)" do
     it "should return the corresponding color" do
@@ -150,16 +150,16 @@ describe BubbleWrap::String do
     it "an invalid hex color" do
       should.raise( ArgumentError ) {
         'XXX'.to_color
-      }     
+      }
     end
-    
+
     it "a hex color with the wrong number of digits" do
       should.raise( ArgumentError ) {
         'FFFF'.to_color
-      }     
+      }
     end
-    
-  end 
+
+  end
 
   describe "encoding" do
 
@@ -214,7 +214,7 @@ describe BubbleWrap::String do
         utf8 = @raw_string.dataUsingEncoding NSUTF8StringEncoding
         @raw_string.to_encoded_data.should.equal utf8
       end
-      
+
       it "handles multiple encodings" do
         utf16 = @raw_string.dataUsingEncoding NSUTF16StringEncoding
         @raw_string.to_encoded_data(NSUTF16StringEncoding).should.equal utf16

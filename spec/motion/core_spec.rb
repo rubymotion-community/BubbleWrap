@@ -51,7 +51,7 @@ describe 'BubbleWrap' do
   end
 
   describe "Localized string" do
-    
+
     it "loads the string from NSBundle" do
       key = 'real_key'
       value = 'Real Key'
@@ -66,11 +66,11 @@ describe 'BubbleWrap' do
     end
 
   end
-  
+
   describe "uuid" do
 
     it "always creates the new UUID" do
-      previous = BW.create_uuid  
+      previous = BW.create_uuid
       10.times do
         uuid = BW.create_uuid
         uuid.should.not.equal previous

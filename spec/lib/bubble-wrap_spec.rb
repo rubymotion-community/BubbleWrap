@@ -19,7 +19,7 @@ describe BubbleWrap do
       BW::Requirement.clear!
       BW.require '../motion/core.rb'
       BW::Requirement.files.member?(File.expand_path('../../../motion/core.rb', __FILE__)).should == true
-    end 
+    end
 
     it 'finds files with absolute paths' do
       BW::Requirement.clear!
