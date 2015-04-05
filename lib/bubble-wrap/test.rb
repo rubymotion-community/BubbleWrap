@@ -1,3 +1,4 @@
+require 'webstub'
 require 'bubble-wrap/loader'
 BW.require 'motion/util/*.rb'
 BW.require 'motion/test_suite_delegate.rb'

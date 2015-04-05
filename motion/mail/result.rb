@@ -23,7 +23,7 @@ module BubbleWrap
       def failed?
         self.result == MFMailComposeResultFailed || self.error
       end
-      
+
     end
   end
 end

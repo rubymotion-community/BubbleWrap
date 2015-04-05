@@ -7,13 +7,13 @@ module BubbleWrap
       #   base.extend ::BubbleWrap::Reactor::Future
       # end
 
-      # Specify a block to be executed if and when the Deferrable object 
-      # receives a status of :succeeded. See set_deferred_status for more 
+      # Specify a block to be executed if and when the Deferrable object
+      # receives a status of :succeeded. See set_deferred_status for more
       # information.
-      # Calling this method on a Deferrable object whose status is not yet 
-      # known will cause the callback block to be stored on an internal 
-      # list. If you call this method on a Deferrable whose status is 
-      # :succeeded, the block will be executed immediately, receiving 
+      # Calling this method on a Deferrable object whose status is not yet
+      # known will cause the callback block to be stored on an internal
+      # list. If you call this method on a Deferrable whose status is
+      # :succeeded, the block will be executed immediately, receiving
       # the parameters given to the prior set_deferred_status call.
       def callback(&blk)
         return unless blk
@@ -35,8 +35,8 @@ module BubbleWrap
         end
       end
 
-      # Specify a block to be executed if and when the Deferrable object 
-      # receives a status of :failed. See set_deferred_status for more 
+      # Specify a block to be executed if and when the Deferrable object
+      # receives a status of :failed. See set_deferred_status for more
       # information.
       def errback(&blk)
         return unless blk
@@ -46,7 +46,7 @@ module BubbleWrap
           blk.call(*@deferred_args)
         elsif @deferred_status != :succeeded
           @errbacks ||= []
-          @errbacks.unshift blk 
+          @errbacks.unshift blk
         end
       end
 
@@ -81,31 +81,31 @@ module BubbleWrap
       end
       alias set_deferred_failure fail
 
-      # Sets the “disposition” (status) of the Deferrable object. See also 
-      # the large set of sugarings for this method. Note that if you call 
-      # this method without arguments, no arguments will be passed to the 
-      # callback/errback. If the user has coded these with arguments, 
-      # then the user code will throw an argument exception. Implementors 
-      # of deferrable classes must document the arguments they will supply 
+      # Sets the “disposition” (status) of the Deferrable object. See also
+      # the large set of sugarings for this method. Note that if you call
+      # this method without arguments, no arguments will be passed to the
+      # callback/errback. If the user has coded these with arguments,
+      # then the user code will throw an argument exception. Implementors
+      # of deferrable classes must document the arguments they will supply
       # to user callbacks.
-      # OBSERVE SOMETHING VERY SPECIAL here: you may call this method even 
-      # on the INSIDE of a callback. This is very useful when a 
-      # previously-registered callback wants to change the parameters that 
+      # OBSERVE SOMETHING VERY SPECIAL here: you may call this method even
+      # on the INSIDE of a callback. This is very useful when a
+      # previously-registered callback wants to change the parameters that
       # will be passed to subsequently-registered ones.
       # You may give either :succeeded or :failed as the status argument.
-      # If you pass :succeeded, then all of the blocks passed to the object 
-      # using the callback method (if any) will be executed BEFORE the 
-      # set_deferred_status method returns. All of the blocks passed to the 
+      # If you pass :succeeded, then all of the blocks passed to the object
+      # using the callback method (if any) will be executed BEFORE the
+      # set_deferred_status method returns. All of the blocks passed to the
       # object using errback will be discarded.
-      # If you pass :failed, then all of the blocks passed to the object 
-      # using the errback method (if any) will be executed BEFORE the 
-      # set_deferred_status method returns. All of the blocks passed to the 
+      # If you pass :failed, then all of the blocks passed to the object
+      # using the errback method (if any) will be executed BEFORE the
+      # set_deferred_status method returns. All of the blocks passed to the
       # object using # callback will be discarded.
-      # If you pass any arguments to set_deferred_status in addition to the 
-      # status argument, they will be passed as arguments to any callbacks 
-      # or errbacks that are executed. It’s your responsibility to ensure 
-      # that the argument lists specified in your callbacks and errbacks match 
-      # the arguments given in calls to set_deferred_status, otherwise Ruby 
+      # If you pass any arguments to set_deferred_status in addition to the
+      # status argument, they will be passed as arguments to any callbacks
+      # or errbacks that are executed. It’s your responsibility to ensure
+      # that the argument lists specified in your callbacks and errbacks match
+      # the arguments given in calls to set_deferred_status, otherwise Ruby
       # will raise an ArgumentError.
       def set_deferred_status(status, *args)
         cancel_timeout
@@ -137,9 +137,9 @@ module BubbleWrap
       end
       alias set_deferred_success succeed
 
-      # Setting a timeout on a Deferrable causes it to go into the failed 
-      # state after the Timeout expires (passing no arguments to the object’s 
-      # errbacks). Setting the status at any time prior to a call to the 
+      # Setting a timeout on a Deferrable causes it to go into the failed
+      # state after the Timeout expires (passing no arguments to the object’s
+      # errbacks). Setting the status at any time prior to a call to the
       # expiration of the timeout will cause the timer to be cancelled.
       def timeout(seconds)
         cancel_timeout

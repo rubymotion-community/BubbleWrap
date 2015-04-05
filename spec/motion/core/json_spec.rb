@@ -27,7 +27,7 @@ EOS
   end
 
   describe "parsing a basic JSON string without block" do
-    
+
     before do
       @parsed = BubbleWrap::JSON.parse(@json_string)
     end
@@ -60,10 +60,17 @@ EOS
       obj.size.should == 3
     end
 
+    it "should parse String generated from NSData" do
+      #A contrived example to produce NSString(s) created from NSData instances
+      text = NSString.alloc.initWithData(@json_string.to_data, encoding:NSUTF8StringEncoding)
+      parsed = BW::JSON.parse(text)
+      parsed['login'].should == 'mattetti'
+    end
+
   end
 
     describe "parsing a basic JSON string with block" do
-    
+
     before do
       BubbleWrap::JSON.parse(@json_string) do |parsed|
         @parsed = parsed
@@ -95,11 +102,11 @@ EOS
   describe "generating a JSON string from an object" do
 
     before do
-      @obj = { foo: 'bar', 
-               'bar' => 'baz', 
-               baz: 123, 
-               foobar: [1,2,3], 
-               foobaz: {'a' => 1, 'b' => 2} 
+      @obj = { foo: 'bar',
+               'bar' => 'baz',
+               baz: 123,
+               foobar: [1,2,3],
+               foobaz: {'a' => 1, 'b' => 2}
             }
     end
 
@@ -112,20 +119,33 @@ EOS
     it "should encode and decode and object losslessly" do
       json = BubbleWrap::JSON.generate(@obj)
       obj = BubbleWrap::JSON.parse(json)
-      
+
       obj["foo"].should == 'bar'
       obj["bar"].should == 'baz'
       obj["baz"].should == 123
-      obj["foobar"].should == [1,2,3]  
+      obj["foobar"].should == [1,2,3]
       obj["foobaz"].should == {"a" => 1, "b" => 2}
 
       # TODO Find out why following line cause runtime error
       # obj.keys.sort.should == @obj.keys.sort
       # obj.values.sort.should == @obj.values.sort
-      obj.keys.sort { |a, b| a.to_s <=> b.to_s }.should == @obj.keys.sort { |a, b| a.to_s <=> b.to_s }      
+      obj.keys.sort { |a, b| a.to_s <=> b.to_s }.should == @obj.keys.sort { |a, b| a.to_s <=> b.to_s }
       obj.values.sort { |a, b| a.to_s <=> b.to_s }.should == @obj.values.sort { |a, b| a.to_s <=> b.to_s }
     end
 
+  end
+
+  describe "rescuing from parser errors" do
+    it "should rescue from invalid data" do
+      begin
+        BubbleWrap::JSON.parse("{")
+        success = true
+      rescue BubbleWrap::JSON::ParserError
+        failure = true
+      end
+      success.should == nil
+      failure.should == true
+    end
   end
 
 end

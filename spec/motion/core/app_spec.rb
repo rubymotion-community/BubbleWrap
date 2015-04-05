@@ -74,6 +74,29 @@ describe BubbleWrap::App do
 
   end
 
+  describe ".open_url" do
+
+    it "uses NSURL or converts NSString in NSURL and opens it" do
+      if Kernel.const_defined?(:UIApplication)
+        application = UIApplication.sharedApplication
+      else
+        application = NSWorkspace.sharedWorkspace
+      end
+      def application.url; @url end
+      def application.openURL(url); @url = url end
+
+      url = NSURL.URLWithString('http://localhost')
+      App.open_url(url)
+      application.url.should.equal url
+
+      url = 'http://localhost'
+      App.open_url(url)
+      application.url.class.should.equal NSURL
+      application.url.description.should.equal url
+    end
+
+  end
+
   describe ".environment" do
 
     it 'returns current application environment' do

@@ -10,6 +10,22 @@ module BW
       :did_dismiss
     ]
 
+    KEYBOARD_TYPES = {
+      default: UIKeyboardTypeDefault,
+      ascii: UIKeyboardTypeASCIICapable,
+      numbers_punctuation: UIKeyboardTypeNumbersAndPunctuation,
+      url: UIKeyboardTypeURL,
+      number_pad: UIKeyboardTypeNumberPad,
+      phone_pad: UIKeyboardTypePhonePad,
+      name_phone_pad: UIKeyboardTypeNamePhonePad,
+      email_address: UIKeyboardTypeEmailAddress,
+      email: UIKeyboardTypeEmailAddress, # Duplicate to help developers
+      decimal_pad: UIKeyboardTypeDecimalPad,
+      twitter: UIKeyboardTypeTwitter,
+      web_search: UIKeyboardTypeWebSearch,
+      alphabet: UIKeyboardTypeASCIICapable
+    }
+
     class << self
       attr_reader :callbacks
 
@@ -49,7 +65,12 @@ module BW
         options = {buttons: ["Cancel", "OK"],
                    cancel_button_index: 0}.merge!(options)
         options[:style] = :plain_text_input
-        new(options, &block)
+        new(options, &block).tap do |view|
+          view.textFieldAtIndex(0).tap do |tf|
+            tf.placeholder = options[:placeholder] if options[:placeholder]
+            tf.keyboardType = (KEYBOARD_TYPES[options[:keyboard_type]] || options[:keyboard_type]) if options[:keyboard_type]
+          end
+        end
       end
 
       def secure_text_input(options = {}, &block)

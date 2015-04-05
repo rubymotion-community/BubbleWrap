@@ -73,11 +73,12 @@ module BubbleWrap
         klass = display_modal ? MPMoviePlayerViewController : MPMoviePlayerController
 
         content_url = content_url.is_a?(NSURL) ? content_url : NSURL.URLWithString(content_url)
-        @media_player = klass.alloc.initWithContentURL(content_url)
+        @media_player = klass.alloc.init
 
         self.media_player.prepareToPlay if not display_modal
 
         set_player_options(options)
+        self.media_player.setContentURL(content_url)
 
         NSNotificationCenter.defaultCenter.observe MPMoviePlayerPlaybackDidFinishNotification do |notification|
           h = notification.userInfo

@@ -10,11 +10,11 @@ describe BubbleWrap::Requirement do
   describe '.scan' do
     before do
       @subject.clear!
-      @root_path = File.expand_path('../../../../', __FILE__) 
+      @root_path = File.expand_path('../../../../', __FILE__)
     end
 
     it 'asking for a not-yet-found file raises an exception' do
-      should.raise(Exception) do 
+      should.raise(Exception) do
         @subject.find('foo')
       end
     end
@@ -38,9 +38,9 @@ describe BubbleWrap::Requirement do
 
     it 'can depend on another file' do
       @subject.scan(@root_path, 'motion/*.rb') do
-        file('motion/http.rb').depends_on('motion/core.rb')
+        file('motion/motion.rb').depends_on('motion/constants.rb')
       end
-      @subject.file('motion/http.rb').file_dependencies.should.include @subject.file('motion/core.rb')
+      @subject.file('motion/motion.rb').file_dependencies.should.include @subject.file('motion/constants.rb')
     end
 
     it 'can use a framework' do

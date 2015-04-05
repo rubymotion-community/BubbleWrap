@@ -1,7 +1,7 @@
 # Mocking the presentViewController
 class MailViewController < UIViewController
   attr_accessor :expectation
-  
+
   def presentViewController(modal, animated: animated, completion: completion)
     expectation.call modal, animated
   end
@@ -13,23 +13,23 @@ end
 # but it's testable.
 class MFMailComposeViewController
   attr_accessor :toRecipients, :ccRecipients, :bccRecipients, :subject, :message, :html
-  
+
   def setToRecipients(r)
     self.toRecipients = r
   end
-  
+
   def setCcRecipients(r)
     self.ccRecipients = r
   end
-  
+
   def setBccRecipients(r)
     self.bccRecipients = r
   end
-  
+
   def setSubject(r)
     self.subject = r
   end
-  
+
   def setMessageBody(message, isHTML: html)
     self.message = message
     self.html = html
@@ -51,21 +51,25 @@ describe BW::Mail do
         animated: false
       }
     end
-    
+
+    it "should determine if the device can send mail or not" do
+      [true, false].include? BW::Mail.can_send_mail?.should == true
+    end
+
     it "should open the mail controller in a modal" do
       @view_controller.expectation = lambda { |mail_controller, animated|
         mail_controller.should.be.kind_of(MFMailComposeViewController)
       }
-      
+
       BubbleWrap::Mail.compose @standard_mail_options
     end
-    
+
     it "should create a mail controller with the right to: address set" do
       @view_controller.expectation = lambda { |mail_controller, animated|
         mail_controller.toRecipients.should.be.kind_of(Array)
         mail_controller.toRecipients.should == @standard_mail_options[:to]
       }
-      
+
       BubbleWrap::Mail.compose @standard_mail_options
     end
 
@@ -74,7 +78,7 @@ describe BW::Mail do
         mail_controller.ccRecipients.should.be.kind_of(Array)
         mail_controller.ccRecipients.should == @standard_mail_options[:cc]
       }
-      
+
       BubbleWrap::Mail.compose @standard_mail_options
     end
 
@@ -83,7 +87,7 @@ describe BW::Mail do
         mail_controller.bccRecipients.should.be.kind_of(Array)
         mail_controller.bccRecipients.should == @standard_mail_options[:bcc]
       }
-      
+
       BubbleWrap::Mail.compose @standard_mail_options
     end
 
@@ -92,7 +96,7 @@ describe BW::Mail do
         mail_controller.subject.should.be.kind_of(String)
         mail_controller.subject.should == @standard_mail_options[:subject]
       }
-      
+
       BubbleWrap::Mail.compose @standard_mail_options
     end
 
@@ -101,7 +105,7 @@ describe BW::Mail do
         mail_controller.message.should.be.kind_of(String)
         mail_controller.message.should == @standard_mail_options[:message]
       }
-      
+
       BubbleWrap::Mail.compose @standard_mail_options
     end
 
@@ -109,7 +113,7 @@ describe BW::Mail do
       @view_controller.expectation = lambda { |mail_controller, animated|
         mail_controller.html.should == @standard_mail_options[:html]
       }
-      
+
       BubbleWrap::Mail.compose @standard_mail_options
     end
 
@@ -117,7 +121,7 @@ describe BW::Mail do
       @view_controller.expectation = lambda { |mail_controller, animated|
         animated.should.be.false
       }
-      
+
       BubbleWrap::Mail.compose @standard_mail_options
     end
 

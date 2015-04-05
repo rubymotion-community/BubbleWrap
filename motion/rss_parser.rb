@@ -50,9 +50,11 @@ module BubbleWrap
       if data
         data_to_parse = input.respond_to?(:to_data) ? input.to_data : input
         @source = data_to_parse
+        @source_type = :data
       else
         url = input.is_a?(NSURL) ? input : NSURL.alloc.initWithString(input)
         @source = url
+        @source_type = :url
       end
       self.state = :initializes
       self
@@ -75,12 +77,15 @@ module BubbleWrap
     def parse(&block)
       @block = block
 
-      fetch_source_data do |data|
-        @parser = NSXMLParser.alloc.initWithData(data)
-        @parser.shouldProcessNamespaces = true
-        @parser.delegate ||= self
-        @parser.parse
+      if @source_type == :url
+        @parser = NSXMLParser.alloc.initWithContentsOfURL(@source)
+      else
+        @parser = NSXMLParser.alloc.initWithData(@source)
       end
+
+      @parser.shouldProcessNamespaces = true
+      @parser.delegate ||= self
+      @parser.parse
     end
 
     # Delegate getting called when parsing starts
@@ -129,7 +134,7 @@ module BubbleWrap
     # If a block was set, it will be called on each parsed items
     def parserDidEndDocument(parser)
       puts "done parsing" if debug
-      self.state = :is_done
+      self.state = :is_done unless self.state == :errors
     end
 
     def parserError
@@ -140,20 +145,5 @@ module BubbleWrap
     # parser:validationErrorOccurred:
     # parser:foundCDATA:
 
-    protected
-
-    def fetch_source_data(&blk)
-      if @source.is_a?(NSURL)
-        HTTP.get(@source.absoluteString) do |response|
-          if response.ok?
-            blk.call(response.body)
-          else
-            parser(parser, parseErrorOccurred:"HTTP request failed (#{response})")
-          end
-        end
-      else
-        yield @source
-      end
-    end
   end
 end

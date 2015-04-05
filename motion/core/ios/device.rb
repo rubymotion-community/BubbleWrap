@@ -13,7 +13,7 @@ module BubbleWrap
     def ipad?(idiom=UIDevice.currentDevice.userInterfaceIdiom)
       idiom == UIUserInterfaceIdiomPad
     end
-    
+
     # Verifies that the device having a long screen (4 inch iPhone/iPod)
     # @return [TrueClass, FalseClass] true will be returned if the device is an iPhone/iPod with 4 inche screen, false otherwise.
     def long_screen?(idiom=UIDevice.currentDevice.userInterfaceIdiom, screen_height=UIScreen.mainScreen.bounds.size.height)
@@ -49,6 +49,12 @@ module BubbleWrap
     # @return [String] the IOS SDK version currently running
     def ios_version
       UIDevice.currentDevice.systemVersion
+    end
+
+    # Returns an identifier unique to the vendor across the vendors app.
+    # @return [NSUUID]
+    def vendor_identifier
+      UIDevice.currentDevice.identifierForVendor
     end
 
     # Delegates to BubbleWrap::Screen.orientation

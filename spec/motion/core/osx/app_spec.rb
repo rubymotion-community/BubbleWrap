@@ -1,5 +1,6 @@
 describe BubbleWrap::App do
   describe "OS X" do
+
     describe '.delegate' do
       it 'returns a TestSuiteDelegate' do
         App.delegate.should == NSApplication.sharedApplication.delegate

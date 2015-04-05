@@ -18,8 +18,10 @@ module BubbleWrap
         events = _events_for_key(event)
         if method
           events.delete_if { |m| m.receiver == method.receiver and m.name == method.name }
-        else
+        elsif blk
           events.delete_if { |b| b == blk }
+        else
+          __events__[event] = Array.new
         end
         blk
       end
