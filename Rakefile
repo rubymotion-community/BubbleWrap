@@ -24,6 +24,7 @@ end
 Motion::Project::App.setup do |app|
   app.name = 'testSuite'
   app.identifier = 'io.bubblewrap.testSuite'
+  app.deployment_target = '7.1'
   app.specs_dir = './spec/motion'
   app.spec_files
   if Motion::Project::App.osx?

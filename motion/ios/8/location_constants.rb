@@ -2,11 +2,14 @@ module BW
   # New additions to CLAuthorizationStatus in ios8
   # see: https://developer.apple.com/library/prerelease/ios/documentation/CoreLocation/Reference/CLLocationManager_Class/index.html#//apple_ref/c/tdef/CLAuthorizationStatus
   Constants.register(
+    KCLAuthorizationStatusAuthorized,
     KCLAuthorizationStatusAuthorizedWhenInUse,
     KCLAuthorizationStatusAuthorizedAlways
   )
 
   module Location
+    module_function
+
     def authorized?
       [
         BW::Constants.get("KCLAuthorizationStatus", :authorized),
