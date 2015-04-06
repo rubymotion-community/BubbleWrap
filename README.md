@@ -79,6 +79,12 @@ If you wish to only include the `SMS` wrapper:
 require 'bubble-wrap/sms'
 ```
 
+If you wish to only include the `Motion` (CoreMotion) wrapper:
+
+```ruby
+require 'bubble-wrap/motion'
+```
+
 If you wish to only include the `NetworkIndicator` wrapper:
 
 ```ruby
