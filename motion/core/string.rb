@@ -90,4 +90,12 @@ module BubbleWrap
   end
 end
 
-NSString.send(:include, BubbleWrap::String)
+# Strange fix for https://github.com/rubymotion/BubbleWrap/issues/456
+#
+# Originally:
+# NSString.send("include", BubbleWrap::String)
+
+class NSString
+  include BubbleWrap::String
+end
+
