@@ -66,6 +66,7 @@ def reset
 end
 
 describe BubbleWrap::Location do
+
   describe ".get" do
     before do
       reset
@@ -79,25 +80,33 @@ describe BubbleWrap::Location do
     end
 
     it "should return false when not available" do
-      CLLocationManager.authorize(KCLAuthorizationStatusNotDetermined)
-      BW::Location.authorized?.should == false
+      if defined?(KCLAuthorizationStatusAuthorizedAlways)
+        CLLocationManager.authorize(KCLAuthorizationStatusNotDetermined)
+        BW::Location.authorized?.should == false
 
-      CLLocationManager.authorize(KCLAuthorizationStatusRestricted)
-      BW::Location.authorized?.should == false
+        CLLocationManager.authorize(KCLAuthorizationStatusRestricted)
+        BW::Location.authorized?.should == false
 
-      CLLocationManager.authorize(KCLAuthorizationStatusDenied)
-      BW::Location.authorized?.should == false
+        CLLocationManager.authorize(KCLAuthorizationStatusDenied)
+        BW::Location.authorized?.should == false
+      else
+        true.should == true
+      end
     end
 
     it "should return true when available" do
-      CLLocationManager.authorize(KCLAuthorizationStatusAuthorized)
-      BW::Location.authorized?.should == true
+      if defined?(KCLAuthorizationStatusAuthorizedAlways)
+        CLLocationManager.authorize(KCLAuthorizationStatusAuthorized)
+        BW::Location.authorized?.should == true
 
-      CLLocationManager.authorize(KCLAuthorizationStatusAuthorizedWhenInUse)
-      BW::Location.authorized?.should == true
+        CLLocationManager.authorize(KCLAuthorizationStatusAuthorizedWhenInUse)
+        BW::Location.authorized?.should == true
 
-      CLLocationManager.authorize(KCLAuthorizationStatusAuthorizedAlways)
-      BW::Location.authorized?.should == true
+        CLLocationManager.authorize(KCLAuthorizationStatusAuthorizedAlways)
+        BW::Location.authorized?.should == true
+      else
+        true.should == true
+      end
     end
 
     it "should throw error if not enabled" do

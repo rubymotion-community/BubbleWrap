@@ -27,7 +27,8 @@ module BubbleWrap
 
     # New additions to CLAuthorizationStatus in ios8
     # see: https://developer.apple.com/library/prerelease/ios/documentation/CoreLocation/Reference/CLLocationManager_Class/index.html#//apple_ref/c/tdef/CLAuthorizationStatus
-    Constants.register KCLAuthorizationStatusAuthorizedWhenInUse, KCLAuthorizationStatusAuthorizedAlways
+    Constants.register(KCLAuthorizationStatusAuthorizedWhenInUse) if defined? KCLAuthorizationStatusAuthorizedWhenInUse
+    Constants.register(KCLAuthorizationStatusAuthorizedAlways) if defined? KCLAuthorizationStatusAuthorizedAlways
 
     module_function
     # Start getting locations
