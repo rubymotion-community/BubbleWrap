@@ -85,9 +85,11 @@ module BubbleWrap
     def observeValueForKeyPath(key_path, ofObject: target, change: change, context: context)
       key_paths = @targets[target] || {}
       blocks = key_paths[key_path] || []
+
+      args = [change[NSKeyValueChangeOldKey], change[NSKeyValueChangeNewKey]]
+      args << change[NSKeyValueChangeIndexesKey] if collection?(change)
+
       blocks.each do |block|
-        args = [change[NSKeyValueChangeOldKey], change[NSKeyValueChangeNewKey]]
-        args << change[NSKeyValueChangeIndexesKey] if collection?(change)
         block.call(*args)
       end
     end
