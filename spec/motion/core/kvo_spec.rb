@@ -136,7 +136,7 @@ describe BubbleWrap::KVO do
       block = lambda { |old_value, new_value| }
       @example.send(:add_observer_block, target, "key_path", &block)
       @example.send(:remove_observer_block, target, "key_path")
-      @example.instance_variable_get(:@targets).length.should == 0
+      @example.send(:observer_blocks).length.should == 0
     end
 
     it "should not remove target from targets if observers remain" do
@@ -145,7 +145,7 @@ describe BubbleWrap::KVO do
       @example.send(:add_observer_block, target, "key_path1", &block)
       @example.send(:add_observer_block, target, "key_path2", &block)
       @example.send(:remove_observer_block, target, "key_path1")
-      @example.instance_variable_get(:@targets).length.should > 0
+      @example.send(:observer_blocks).length.should > 0
     end
 
   end

@@ -38,21 +38,32 @@ module BubbleWrap
     end
 
     def unobserve_all
-      return if @targets.nil?
-
-      @targets.each do |target, key_paths|
+      observer_blocks.each do |target, key_paths|
         key_paths.each_key do |key_path|
           target.removeObserver(self, forKeyPath:key_path)
         end
       end
+
       remove_all_observer_blocks
     end
 
     # Observer blocks
 
     private
+    # Returns hash of hashes of arrays.
+    # Note the side effect: access to key that is not exist will create
+    # that key with default value. But this is should not be a problem
+    # as long as you depend on has_key method to check existence.
+    def observer_blocks
+      @observer_blocks ||= Hash.new do |hash, key|
+        hash[key] = Hash.new do |subhash, subkey|
+          subhash[subkey] = Array.new
+        end
+      end
+    end
+
     def registered?(target, key_path)
-      !@targets.nil? && !@targets[target].nil? && @targets[target].has_key?(key_path.to_s)
+      observer_blocks[target].has_key? key_path.to_s
     end
 
     def add_observer_block(target, key_path, &block)
@@ -60,33 +71,33 @@ module BubbleWrap
 
       block.weak! if BubbleWrap.use_weak_callbacks?
 
-      @targets ||= {}
-      @targets[target] ||= {}
-      @targets[target][key_path.to_s] ||= []
-      @targets[target][key_path.to_s] << block
+      observer_blocks[target][key_path.to_s] << block
     end
 
     def remove_observer_block(target, key_path)
-      return if @targets.nil? || target.nil? || key_path.nil?
+      return if target.nil? || key_path.nil?
 
-      key_paths = @targets[target]
-      key_paths.delete(key_path.to_s) if !key_paths.nil?
-      if key_paths.nil? || key_paths.length == 0
-        @targets.delete(target)
+      key_path = key_path.to_s
+
+      observer_blocks[target].delete(key_path)
+
+      # If there no key_paths left for target, remove the target key
+      if observer_blocks[target].empty?
+        observer_blocks.delete(target)
       end
     end
 
     def remove_all_observer_blocks
-      @targets.clear unless @targets.nil?
+      observer_blocks.clear
     end
 
     # NSKeyValueObserving Protocol
 
     def observeValueForKeyPath(key_path, ofObject: target, change: change, context: context)
-      key_paths = @targets[target] || {}
+      key_paths = observer_blocks[target] || {}
       blocks = key_paths[key_path] || []
 
-      args = [change[NSKeyValueChangeOldKey], change[NSKeyValueChangeNewKey]]
+      args = change.values_at(NSKeyValueChangeOldKey, NSKeyValueChangeNewKey)
       args << change[NSKeyValueChangeIndexesKey] if collection?(change)
 
       blocks.each do |block|
