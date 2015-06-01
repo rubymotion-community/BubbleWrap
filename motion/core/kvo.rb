@@ -89,48 +89,52 @@ module BubbleWrap
         blocks = key_paths[key_path] || []
 
         args = change.values_at(*keys)
-        args << change[NSKeyValueChangeIndexesKey] if collection?(change)
+        args << key_path
 
         blocks.each do |block|
           block.call(*args)
         end
-      end
-
-      def collection?(change)
-        COLLECTION_OPERATIONS.include?(change[NSKeyValueChangeKindKey])
       end
     end
 
     DEFAULT_OPTIONS = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
     IMMIDEATE_OPTIONS = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 
-    def observe(target = self, key_path, &block)
-      if not observers_registry.registered?(target, key_path)
-        target.addObserver(observers_registry, forKeyPath:key_path, options:DEFAULT_OPTIONS, context:nil)
-      end
+    def observe(target = self, key_paths, &block)
+      key_paths = [key_paths].flatten
 
-      # Add block even if observer is registed, so multiplie blocks can be invoked.
-      observers_registry.add(target, key_path, &block)
-    end
+      key_paths.each do |key_path|
+        if not observers_registry.registered?(target, key_path)
+          target.addObserver(observers_registry, forKeyPath:key_path, options:DEFAULT_OPTIONS, context:nil)
+        end
 
-    def observe!(target = self, key_path, &block)
-      registered = immediate_observers_registry.registered?(target, key_path)
-
-      immediate_observers_registry.add(target, key_path, &block)
-
-      # We need to first register the block, and then call addObserver, because
-      # observeValueForKeyPath will fire immedeately.
-      if not registered
-        target.addObserver(immediate_observers_registry, forKeyPath:key_path, options: IMMIDEATE_OPTIONS, context:nil)
+        # Add block even if observer is registed, so multiplie blocks can be invoked.
+        observers_registry.add(target, key_path, &block)
       end
     end
 
-    def unobserve(target = self, key_path)
-      remove_from_registry_if_exists(target, key_path, observers_registry)
+    def observe!(target = self, key_paths, &block)
+      key_paths = [key_paths].flatten
+
+      key_paths.each do |key_path|
+        registered = immediate_observers_registry.registered?(target, key_path)
+
+        immediate_observers_registry.add(target, key_path, &block)
+
+        # We need to first register the block, and then call addObserver, because
+        # observeValueForKeyPath will fire immedeately.
+        if not registered
+          target.addObserver(immediate_observers_registry, forKeyPath:key_path, options: IMMIDEATE_OPTIONS, context:nil)
+        end
+      end
     end
 
-    def unobserve!(target = self, key_path)
-      remove_from_registry_if_exists(target, key_path, immediate_observers_registry)
+    def unobserve(target = self, key_paths)
+      remove_from_registry_if_exists(target, key_paths, observers_registry)
+    end
+
+    def unobserve!(target = self, key_paths)
+      remove_from_registry_if_exists(target, key_paths, immediate_observers_registry)
     end
 
     def unobserve_all
@@ -155,10 +159,14 @@ module BubbleWrap
       @immediate_observers_registry ||= Registry.new([:new])
     end
 
-    def remove_from_registry_if_exists(target, key_path, registry)
-      if registry.registered?(target, key_path)
-        target.removeObserver(registry, forKeyPath:key_path)
-        registry.remove(target, key_path)
+    def remove_from_registry_if_exists(target, key_paths, registry)
+      key_paths = [key_paths].flatten
+
+      key_paths.each do |key_path|
+        if registry.registered?(target, key_path)
+          target.removeObserver(registry, forKeyPath:key_path)
+          registry.remove(target, key_path)
+        end
       end
     end
   end

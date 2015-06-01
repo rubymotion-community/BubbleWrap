@@ -54,6 +54,10 @@ describe BubbleWrap::KVO do
       App.osx? ? NSTextField : UILabel
     end
 
+    def update_collection
+      self.items += [ "Rice" ]
+    end
+
     #  def unobserve_all
     #unobserve(@label, "text")
     #unobserve(self, "items")
@@ -264,19 +268,96 @@ describe BubbleWrap::KVO do
       observed.should == false
     end
 
-  end
+    # with multiple keypaths
 
-=begin
-  it "should be able to observe a collection" do
-    observed = false
-    @example.observe_collection do |old_value, new_value, indexes|
-      puts "#{collection} #{old_value} #{new_value} #{indexes}"
-      observed = true
+    it "should observe multiple key paths" do
+      observed = []
+      @example.observe [:age, :items] do |old_value, new_value|
+        observed << [old_value, new_value]
+      end
+
+      @example.age = 2
+      @example.age = 3
+      @example.update_collection
+
+      observed.should.be == [
+        [1, 2],
+        [2, 3],
+        [
+          ["Apple", "Banana", "Chickpeas"],
+          ["Apple", "Banana", "Chickpeas", "Rice"]
+        ]
+      ]
     end
 
-    @example.items << "Dragonfruit"
-    observed.should == true
+    it "should observe multiple key paths with key_path argument" do
+      observed_changes = []
+      @example.observe [:age, :items] do |old_value, new_value, key_path|
+        observed_changes << { key_path => [old_value, new_value] }
+      end
+
+      @example.age = 2
+      @example.age = 3
+      @example.update_collection
+
+      observed_changes.should.be == [
+        {"age" => [1, 2]},
+        {"age" => [2, 3]},
+        {
+          "items" => [
+            ["Apple", "Banana", "Chickpeas"],
+            ["Apple", "Banana", "Chickpeas", "Rice"]
+          ]
+        }
+      ]
+    end
+
+    it "should immediately observe multiple key paths" do
+      observed_changes = []
+      @example.observe! [:age, :items] do |new_value|
+        observed_changes << new_value
+      end
+
+      @example.age = 2
+      @example.age = 3
+      @example.update_collection
+
+      observed_changes.should.be == [1, ["Apple", "Banana", "Chickpeas"], 2, 3, ["Apple", "Banana", "Chickpeas", "Rice"]]
+    end
+
+    it "should immediately observe multiple key paths with key_path argument" do
+      observed_changes = []
+      @example.observe! [:age, :items] do |new_value, key_path|
+        observed_changes << { key_path => new_value }
+      end
+
+      @example.age = 2
+      @example.age = 3
+      @example.update_collection
+
+      observed_changes.should.be == [
+        {"age" => 1},
+        {"items" => ["Apple", "Banana", "Chickpeas"]},
+        {"age" => 2},
+        {"age" => 3},
+        {"items" => ["Apple", "Banana", "Chickpeas", "Rice"]}
+      ]
+    end
+
+    it "should unobserve multiple key paths" do
+      observed = 0
+
+      @example.observe [:age, :items] do
+        observed += 1
+      end
+
+      @example.unobserve [:age]
+
+      @example.age = 2
+      @example.update_collection
+
+      observed.should.be == 1
+    end
   end
-=end
 
 end
