@@ -184,10 +184,12 @@ describe BubbleWrap::KVO do
     end
 
     it "should immediately observe a key path" do
+      @example.set_text "Foo"
+
       observed = false
       @example.observe_label! do |new_value|
         observed = true
-        new_value.should == nil
+        new_value.should == "Foo"
       end
 
       observed.should == true

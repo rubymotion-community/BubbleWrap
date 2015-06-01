@@ -20,10 +20,24 @@ module BubbleWrap
   module KVO
     class Registry
       COLLECTION_OPERATIONS = [ NSKeyValueChangeInsertion, NSKeyValueChangeRemoval, NSKeyValueChangeReplacement ]
+      OPTION_MAP = {
+        new: NSKeyValueChangeNewKey,
+        old: NSKeyValueChangeOldKey
+      }
 
-      attr_reader :callbacks
+      attr_reader :callbacks, :keys
 
-      def initialize
+      def initialize(value_keys = [:old, :new])
+        @keys = value_keys.inject([]) do |acc, key|
+          value_change_key = OPTION_MAP[key]
+
+          if value_change_key.nil?
+            raise RuntimeError, "Unknown value change key #{key}. Possible keys: #{OPTION_MAP.keys}"
+          end
+
+          acc << value_change_key
+        end
+
         @callbacks = Hash.new do |hash, key|
           hash[key] = Hash.new do |subhash, subkey|
             subhash[subkey] = Array.new
@@ -74,7 +88,7 @@ module BubbleWrap
         key_paths = callbacks[target] || {}
         blocks = key_paths[key_path] || []
 
-        args = change.values_at(NSKeyValueChangeOldKey, NSKeyValueChangeNewKey)
+        args = change.values_at(*keys)
         args << change[NSKeyValueChangeIndexesKey] if collection?(change)
 
         blocks.each do |block|
@@ -88,6 +102,7 @@ module BubbleWrap
     end
 
     DEFAULT_OPTIONS = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+    IMMIDEATE_OPTIONS = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 
     def observe(target = self, key_path, &block)
       if not observers_registry.registered?(target, key_path)
@@ -106,7 +121,7 @@ module BubbleWrap
       # We need to first register the block, and then call addObserver, because
       # observeValueForKeyPath will fire immedeately.
       if not registered
-        target.addObserver(immediate_observers_registry, forKeyPath:key_path, options: NSKeyValueObservingOptionInitial, context:nil)
+        target.addObserver(immediate_observers_registry, forKeyPath:key_path, options: IMMIDEATE_OPTIONS, context:nil)
       end
     end
 
@@ -137,7 +152,7 @@ module BubbleWrap
     end
 
     def immediate_observers_registry
-      @immediate_observers_registry ||= Registry.new
+      @immediate_observers_registry ||= Registry.new([:new])
     end
 
     def remove_from_registry_if_exists(target, key_path, registry)
