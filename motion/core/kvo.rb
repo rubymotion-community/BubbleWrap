@@ -18,96 +18,133 @@
 # @see https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html#//apple_ref/doc/uid/10000177i
 module BubbleWrap
   module KVO
-    COLLECTION_OPERATIONS = [ NSKeyValueChangeInsertion, NSKeyValueChangeRemoval, NSKeyValueChangeReplacement ]
+    class Registry
+      COLLECTION_OPERATIONS = [ NSKeyValueChangeInsertion, NSKeyValueChangeRemoval, NSKeyValueChangeReplacement ]
+
+      attr_reader :callbacks
+
+      def initialize
+        @callbacks = Hash.new do |hash, key|
+          hash[key] = Hash.new do |subhash, subkey|
+            subhash[subkey] = Array.new
+          end
+        end
+      end
+
+      def add(target, key_path, &block)
+        return if target.nil? || key_path.nil? || block.nil?
+
+        block.weak! if BubbleWrap.use_weak_callbacks?
+
+        callbacks[target][key_path.to_s] << block
+      end
+
+      def remove(target, key_path)
+        return if target.nil? || key_path.nil?
+
+        key_path = key_path.to_s
+
+        callbacks[target].delete(key_path)
+
+        # If there no key_paths left for target, remove the target key
+        if callbacks[target].empty?
+          callbacks.delete(target)
+        end
+      end
+
+      def registered?(target, key_path)
+        callbacks[target].has_key? key_path.to_s
+      end
+
+      def remove_all
+        callbacks.clear
+      end
+
+      def each_key_path
+        callbacks.each do |target, key_paths|
+          key_paths.each_key do |key_path|
+            yield target, key_path
+          end
+        end
+      end
+
+      private
+
+      def observeValueForKeyPath(key_path, ofObject: target, change: change, context: context)
+        key_paths = callbacks[target] || {}
+        blocks = key_paths[key_path] || []
+
+        args = change.values_at(NSKeyValueChangeOldKey, NSKeyValueChangeNewKey)
+        args << change[NSKeyValueChangeIndexesKey] if collection?(change)
+
+        blocks.each do |block|
+          block.call(*args)
+        end
+      end
+
+      def collection?(change)
+        COLLECTION_OPERATIONS.include?(change[NSKeyValueChangeKindKey])
+      end
+    end
+
     DEFAULT_OPTIONS = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
 
     def observe(target = self, key_path, &block)
-      if not registered?(target, key_path)
-        target.addObserver(self, forKeyPath:key_path, options:DEFAULT_OPTIONS, context:nil)
+      if not observers_registry.registered?(target, key_path)
+        target.addObserver(observers_registry, forKeyPath:key_path, options:DEFAULT_OPTIONS, context:nil)
       end
 
       # Add block even if observer is registed, so multiplie blocks can be invoked.
-      add_observer_block(target, key_path, &block)
+      observers_registry.add(target, key_path, &block)
+    end
+
+    def observe!(target = self, key_path, &block)
+      registered = immediate_observers_registry.registered?(target, key_path)
+
+      immediate_observers_registry.add(target, key_path, &block)
+
+      # We need to first register the block, and then call addObserver, because
+      # observeValueForKeyPath will fire immedeately.
+      if not registered
+        target.addObserver(immediate_observers_registry, forKeyPath:key_path, options: NSKeyValueObservingOptionInitial, context:nil)
+      end
     end
 
     def unobserve(target = self, key_path)
-      if registered?(target, key_path)
-        target.removeObserver(self, forKeyPath:key_path)
-        remove_observer_block(target, key_path)
-      end
+      remove_from_registry_if_exists(target, key_path, observers_registry)
+    end
+
+    def unobserve!(target = self, key_path)
+      remove_from_registry_if_exists(target, key_path, immediate_observers_registry)
     end
 
     def unobserve_all
-      observer_blocks.each do |target, key_paths|
-        key_paths.each_key do |key_path|
-          target.removeObserver(self, forKeyPath:key_path)
-        end
+      observers_registry.each_key_path do |target, key_path|
+        target.removeObserver(observers_registry, forKeyPath:key_path)
       end
 
-      remove_all_observer_blocks
-    end
+      immediate_observers_registry.each_key_path do |target, key_path|
+        target.removeObserver(immediate_observers_registry, forKeyPath:key_path)
+      end
 
-    # Observer blocks
+      observers_registry.remove_all
+      immediate_observers_registry.remove_all
+    end
 
     private
-    # Returns hash of hashes of arrays.
-    # Note the side effect: access to key that is not exist will create
-    # that key with default value. But this is should not be a problem
-    # as long as you depend on has_key method to check existence.
-    def observer_blocks
-      @observer_blocks ||= Hash.new do |hash, key|
-        hash[key] = Hash.new do |subhash, subkey|
-          subhash[subkey] = Array.new
-        end
+    def observers_registry
+      @observers_registry ||= Registry.new
+    end
+
+    def immediate_observers_registry
+      @immediate_observers_registry ||= Registry.new
+    end
+
+    def remove_from_registry_if_exists(target, key_path, registry)
+      if registry.registered?(target, key_path)
+        target.removeObserver(registry, forKeyPath:key_path)
+        registry.remove(target, key_path)
       end
     end
-
-    def registered?(target, key_path)
-      observer_blocks[target].has_key? key_path.to_s
-    end
-
-    def add_observer_block(target, key_path, &block)
-      return if target.nil? || key_path.nil? || block.nil?
-
-      block.weak! if BubbleWrap.use_weak_callbacks?
-
-      observer_blocks[target][key_path.to_s] << block
-    end
-
-    def remove_observer_block(target, key_path)
-      return if target.nil? || key_path.nil?
-
-      key_path = key_path.to_s
-
-      observer_blocks[target].delete(key_path)
-
-      # If there no key_paths left for target, remove the target key
-      if observer_blocks[target].empty?
-        observer_blocks.delete(target)
-      end
-    end
-
-    def remove_all_observer_blocks
-      observer_blocks.clear
-    end
-
-    # NSKeyValueObserving Protocol
-
-    def observeValueForKeyPath(key_path, ofObject: target, change: change, context: context)
-      key_paths = observer_blocks[target] || {}
-      blocks = key_paths[key_path] || []
-
-      args = change.values_at(NSKeyValueChangeOldKey, NSKeyValueChangeNewKey)
-      args << change[NSKeyValueChangeIndexesKey] if collection?(change)
-
-      blocks.each do |block|
-        block.call(*args)
-      end
-    end
-
-    def collection?(change)
-      COLLECTION_OPERATIONS.include?(change[NSKeyValueChangeKindKey])
-    end
-
   end
 end
