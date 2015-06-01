@@ -388,7 +388,27 @@ class ExampleViewController < UIViewController
 end
 ```
 
+You can remove observers using `unobserve` method.
+
 **Since: > version 1.9.0**
+
+Optionally, multiple key paths can be passed to the `observer` method:
+
+``` ruby
+class ExampleViewController < UIViewController
+  include BW::KVO
+
+  def viewDidLoad
+    @label = UILabel.alloc.initWithFrame [[20,20],[280,44]]
+    @label.text = ""
+    view.addSubview @label
+
+    observe(@label, [:text, :textColor]) do |old_value, new_value, key_path|
+      puts "Hello from viewDidLoad for #{key_path}!"
+    end
+  end
+end
+```
 
 Also you can use `observe!` method to register observer that will immediately
 return initial value. Note that in this case only new value will be passed to
