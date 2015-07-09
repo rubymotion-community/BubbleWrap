@@ -35,7 +35,9 @@ Motion::Project::App.setup do |app|
   else
     app.spec_files -= Dir.glob("./spec/motion/**/osx/**.rb")
   end
-  app.version = '1.2.3'
+
+  app.version       = '1.2.3'
+  app.short_version = '3.2.1'
 
   app.entitlements['com.apple.locationd.authorizeapplications'] = true
   app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
