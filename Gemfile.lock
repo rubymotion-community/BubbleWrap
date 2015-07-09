@@ -25,3 +25,6 @@ DEPENDENCIES
   mocha-on-bacon (~> 0.2)
   rake (~> 10.0)
   webstub (~> 1.1)
+
+BUNDLED WITH
+   1.10.4

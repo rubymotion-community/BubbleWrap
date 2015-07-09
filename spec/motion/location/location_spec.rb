@@ -94,6 +94,8 @@ describe BubbleWrap::Location do
       BW::Location.authorized?.should == true
 
       if Device.ios_version.to_f >= 8.0
+        CLLocationManager.setAuthorizationStatus(true, forBundleIdentifier:NSBundle.mainBundle.bundleIdentifier)
+
         CLLocationManager.authorize(KCLAuthorizationStatusAuthorizedWhenInUse)
         BW::Location.authorized?.should == true
 
