@@ -62,6 +62,10 @@ module BubbleWrap
       info_plist['CFBundleVersion']
     end
 
+    def short_version
+      info_plist['CFBundleShortVersionString']
+    end
+
     # @return [NSLocale] locale of user settings
     def current_locale
       languages = NSLocale.preferredLanguages
