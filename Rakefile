@@ -24,7 +24,6 @@ end
 Motion::Project::App.setup do |app|
   app.name = 'testSuite'
   app.identifier = 'io.bubblewrap.testSuite'
-  app.deployment_target = '7.1'
   app.specs_dir = './spec/motion'
   app.spec_files
   if Motion::Project::App.osx?
@@ -33,6 +32,7 @@ Motion::Project::App.setup do |app|
       app.spec_files -= Dir.glob("./spec/motion/#{package}/**/*.rb")
     end
   else
+    app.deployment_target = '7.1'
     app.spec_files -= Dir.glob("./spec/motion/**/osx/**.rb")
   end
 
