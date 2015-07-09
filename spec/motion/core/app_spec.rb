@@ -60,6 +60,12 @@ describe BubbleWrap::App do
     end
   end
 
+  describe '.short_version' do
+    it 'returns the application short version' do
+      App.short_version.should == '3.2.1'
+    end
+  end
+
   describe '.run_after' do
     class DelayedRunAfterTest; attr_accessor :test_value end
 
