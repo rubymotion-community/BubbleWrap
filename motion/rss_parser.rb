@@ -28,10 +28,10 @@ module BubbleWrap
     # RSSItem is a simple class that holds all of RSS items.
     # Extend this class to display/process the item differently.
     class RSSItem
-      attr_accessor :title, :description, :link, :guid, :pubDate, :enclosure
+      attr_accessor :title, :description, :link, :guid, :pubDate, :creator, :category, :encoded, :enclosure
 
       def initialize
-        @title, @description, @link, @pubDate, @guid = '', '', '', '', ''
+        @title, @description, @link, @pubDate, @guid, @creator, @category, @encoded = '', '', '', '', ''
       end
 
       def to_hash
@@ -41,6 +41,9 @@ module BubbleWrap
           :link         => link,
           :pubDate      => pubDate,
           :guid         => guid,
+          :enclosure    => enclosure,
+          :category     => category,
+          :encoded      => encoded,
           :enclosure    => enclosure
         }
       end
@@ -56,7 +59,6 @@ module BubbleWrap
         @source = url
         @source_type = :url
       end
-      self.state = :initializes
       self
     end
 
@@ -85,6 +87,7 @@ module BubbleWrap
 
       @parser.shouldProcessNamespaces = true
       @parser.delegate ||= self
+      self.state = :initializes
       @parser.parse
     end
 

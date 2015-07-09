@@ -11,29 +11,27 @@ describe BubbleWrap::KVO do
       @items = [ "Apple", "Banana", "Chickpeas" ]
       @age = 1
 
-      if App.osx?
-        @label = NSTextField.alloc.initWithFrame [[0,0],[320, 30]]
-        @label.stringValue = "Foo"
-      else
-        @label = UILabel.alloc.initWithFrame [[0,0],[320, 30]]
-        @label.text = "Foo"
-      end
+      @label = text_class.alloc.initWithFrame [[0,0],[320, 30]]
+
+      set_text "Foo"
     end
 
     # Test helper
 
     def get_text
-      App.osx? ? @label.stringValue : @label.text
+      @label.send(text_method_name)
     end
 
     def set_text(text)
-      method = App.osx? ? :stringValue : :text
-      @label.send("#{method}=", text)
+      @label.send("#{text_method_name}=", text)
     end
 
     def observe_label(&block)
-      method = App.osx? ? :stringValue : :text
-      observe(@label, method, &block)
+      observe(@label, text_method_name, &block)
+    end
+
+    def observe_label!(&block)
+      observe!(@label, text_method_name, &block)
     end
 
     def observe_collection(&block)
@@ -41,8 +39,23 @@ describe BubbleWrap::KVO do
     end
 
     def unobserve_label
-      method = App.osx? ? :stringValue : :text
-      unobserve(@label, method)
+      unobserve(@label, text_method_name)
+    end
+
+    def unobserve_label!
+      unobserve!(@label, text_method_name)
+    end
+
+    def text_method_name
+      App.osx? ? :stringValue : :text
+    end
+
+    def text_class
+      App.osx? ? NSTextField : UILabel
+    end
+
+    def update_collection
+      self.items += [ "Rice" ]
     end
 
     #  def unobserve_all
@@ -52,9 +65,9 @@ describe BubbleWrap::KVO do
 
   end
 
-  describe "Callbacks" do
+  describe "Registry" do
     before do
-      @example = KvoExample.new
+      @example = BW::KVO::Registry.new
     end
 
     after do
@@ -66,21 +79,21 @@ describe BubbleWrap::KVO do
     it "should add an observer block" do
       target = Object.new
       block = lambda { |old_value, new_value| }
-      @example.send(:add_observer_block, target, "key_path", &block)
-      @example.send(:registered?, target, "key_path").should == true
+      @example.add(target, "key_path", &block)
+      @example.registered?(target, "key_path").should == true
     end
 
     it "should not add an observer block if the key path is not present" do
       target = Object.new
       block = lambda { |old_value, new_value| }
-      @example.send(:add_observer_block, target, nil, &block)
-      @example.send(:registered?, target, nil).should == false
+      @example.add(target, nil, &block)
+      @example.registered?(target, nil).should == false
     end
 
     it "should not add an observer block if the block is not present" do
       target = Object.new
-      @example.send(:add_observer_block, target, "key_path")
-      @example.send(:registered?, target, "key_path").should == false
+      @example.add(target, "key_path")
+      @example.registered?(target, "key_path").should == false
     end
 
     # remove
@@ -88,35 +101,35 @@ describe BubbleWrap::KVO do
     it "should remove an observer block" do
       target = Object.new
       block = lambda { |old_value, new_value| }
-      @example.send(:add_observer_block, target, "key_path", &block)
-      @example.send(:remove_observer_block, target, "key_path")
-      @example.send(:registered?, target, "key_path").should == false
+      @example.add(target, "key_path", &block)
+      @example.remove(target, "key_path")
+      @example.registered?(target, "key_path").should == false
     end
 
     it "should not remove an observer block if the target is not present" do
       target = Object.new
       block = lambda { |old_value, new_value| }
-      @example.send(:add_observer_block, target, "key_path", &block)
-      @example.send(:remove_observer_block, nil, "key_path")
-      @example.send(:registered?, target, "key_path").should == true
+      @example.add(target, "key_path", &block)
+      @example.remove(nil, "key_path")
+      @example.registered?(target, "key_path").should == true
     end
 
     it "should not remove an observer block if the key path is not present" do
       target = Object.new
       block = lambda { |old_value, new_value| }
-      @example.send(:add_observer_block, target, "key_path", &block)
-      @example.send(:remove_observer_block, target, nil)
-      @example.send(:registered?, target, "key_path").should == true
+      @example.add(target, "key_path", &block)
+      @example.remove(target, nil)
+      @example.registered?(target, "key_path").should == true
     end
 
     it "should remove only one observer block" do
       target = Object.new
       block = lambda { |old_value, new_value| }
-      @example.send(:add_observer_block, target, "key_path1", &block)
-      @example.send(:add_observer_block, target, "key_path2", &block)
-      @example.send(:remove_observer_block, target, "key_path1")
-      @example.send(:registered?, target, "key_path1").should == false
-      @example.send(:registered?, target, "key_path2").should == true
+      @example.add(target, "key_path1", &block)
+      @example.add(target, "key_path2", &block)
+      @example.remove(target, "key_path1")
+      @example.registered?(target, "key_path1").should == false
+      @example.registered?(target, "key_path2").should == true
     end
 
     # remove all
@@ -124,28 +137,28 @@ describe BubbleWrap::KVO do
     it "should remove all observer blocks" do
       target = Object.new
       block = lambda { |old_value, new_value| }
-      @example.send(:add_observer_block, target, "key_path1", &block)
-      @example.send(:add_observer_block, target, "key_path2", &block)
-      @example.send(:remove_all_observer_blocks)
-      @example.send(:registered?, target, "key_path1").should == false
-      @example.send(:registered?, target, "key_path2").should == false
+      @example.add(target, "key_path1", &block)
+      @example.add(target, "key_path2", &block)
+      @example.remove_all
+      @example.registered?(target, "key_path1").should == false
+      @example.registered?(target, "key_path2").should == false
     end
 
     it "should remove target from targets if no observers remain" do
       target = Object.new
       block = lambda { |old_value, new_value| }
-      @example.send(:add_observer_block, target, "key_path", &block)
-      @example.send(:remove_observer_block, target, "key_path")
-      @example.instance_variable_get(:@targets).length.should == 0
+      @example.add(target, "key_path", &block)
+      @example.remove(target, "key_path")
+      @example.callbacks.length.should == 0
     end
 
     it "should not remove target from targets if observers remain" do
       target = Object.new
       block = lambda { |old_value, new_value| }
-      @example.send(:add_observer_block, target, "key_path1", &block)
-      @example.send(:add_observer_block, target, "key_path2", &block)
-      @example.send(:remove_observer_block, target, "key_path1")
-      @example.instance_variable_get(:@targets).length.should > 0
+      @example.add(target, "key_path1", &block)
+      @example.add(target, "key_path2", &block)
+      @example.remove(target, "key_path1")
+      @example.callbacks.length.should > 0
     end
 
   end
@@ -171,6 +184,18 @@ describe BubbleWrap::KVO do
       end
 
       @example.set_text "Bar"
+      observed.should == true
+    end
+
+    it "should immediately observe a key path" do
+      @example.set_text "Foo"
+
+      observed = false
+      @example.observe_label! do |new_value|
+        observed = true
+        new_value.should == "Foo"
+      end
+
       observed.should == true
     end
 
@@ -207,6 +232,17 @@ describe BubbleWrap::KVO do
       observed.should == false
     end
 
+    it "should unobserve immediate observer" do
+      observed_times = 0
+      @example.observe_label do |old_value, new_value|
+        observed_times += 1
+      end
+      @example.unobserve_label!
+
+      @example.set_text "Bar"
+      observed_times.should == 1
+    end
+
     # without target
 
     it "should observe a key path without a target" do
@@ -232,19 +268,96 @@ describe BubbleWrap::KVO do
       observed.should == false
     end
 
-  end
+    # with multiple keypaths
 
-=begin
-  it "should be able to observe a collection" do
-    observed = false
-    @example.observe_collection do |old_value, new_value, indexes|
-      puts "#{collection} #{old_value} #{new_value} #{indexes}"
-      observed = true
+    it "should observe multiple key paths" do
+      observed = []
+      @example.observe [:age, :items] do |old_value, new_value|
+        observed << [old_value, new_value]
+      end
+
+      @example.age = 2
+      @example.age = 3
+      @example.update_collection
+
+      observed.should.be == [
+        [1, 2],
+        [2, 3],
+        [
+          ["Apple", "Banana", "Chickpeas"],
+          ["Apple", "Banana", "Chickpeas", "Rice"]
+        ]
+      ]
     end
 
-    @example.items << "Dragonfruit"
-    observed.should == true
+    it "should observe multiple key paths with key_path argument" do
+      observed_changes = []
+      @example.observe [:age, :items] do |old_value, new_value, key_path|
+        observed_changes << { key_path => [old_value, new_value] }
+      end
+
+      @example.age = 2
+      @example.age = 3
+      @example.update_collection
+
+      observed_changes.should.be == [
+        {"age" => [1, 2]},
+        {"age" => [2, 3]},
+        {
+          "items" => [
+            ["Apple", "Banana", "Chickpeas"],
+            ["Apple", "Banana", "Chickpeas", "Rice"]
+          ]
+        }
+      ]
+    end
+
+    it "should immediately observe multiple key paths" do
+      observed_changes = []
+      @example.observe! [:age, :items] do |new_value|
+        observed_changes << new_value
+      end
+
+      @example.age = 2
+      @example.age = 3
+      @example.update_collection
+
+      observed_changes.should.be == [1, ["Apple", "Banana", "Chickpeas"], 2, 3, ["Apple", "Banana", "Chickpeas", "Rice"]]
+    end
+
+    it "should immediately observe multiple key paths with key_path argument" do
+      observed_changes = []
+      @example.observe! [:age, :items] do |new_value, key_path|
+        observed_changes << { key_path => new_value }
+      end
+
+      @example.age = 2
+      @example.age = 3
+      @example.update_collection
+
+      observed_changes.should.be == [
+        {"age" => 1},
+        {"items" => ["Apple", "Banana", "Chickpeas"]},
+        {"age" => 2},
+        {"age" => 3},
+        {"items" => ["Apple", "Banana", "Chickpeas", "Rice"]}
+      ]
+    end
+
+    it "should unobserve multiple key paths" do
+      observed = 0
+
+      @example.observe [:age, :items] do
+        observed += 1
+      end
+
+      @example.unobserve [:age]
+
+      @example.age = 2
+      @example.update_collection
+
+      observed.should.be == 1
+    end
   end
-=end
 
 end
