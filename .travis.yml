@@ -12,4 +12,6 @@ script:
   - bundle exec rake clean
   - bundle exec rake spec
   - bundle exec rake clean
+  - bundle exec rake spec target=7.1
+  - bundle exec rake clean
   - bundle exec rake spec osx=true

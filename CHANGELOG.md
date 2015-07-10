@@ -1,10 +1,28 @@
 ## Unreleased
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.4.0...master)
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.0...master)
+
+## 1.9.0
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.8.0...v1.9.0)
+
+* Add support for `keyboardType` on first input field of `BW::UIAlertView` ([#406](https://github.com/rubymotion/BubbleWrap/pull/406))
+* Implement #+ and #- for NSIndexPath to incr/decr row ([#420](https://github.com/rubymotion/BubbleWrap/pull/420))
+* Extract CoreMotion classes to make it easier to use and more maintainable ([#454](https://github.com/rubymotion/BubbleWrap/pull/454))
+* Motion extract classes ([#454](https://github.com/rubymotion/BubbleWrap/pull/454))
+* Added RSS fields: creator, category, encoded  ([#461](https://github.com/rubymotion/BubbleWrap/pull/461))
+* KVO `observe!` and ability to pass multiple key paths to `observe` ([#460](https://github.com/rubymotion/BubbleWrap/pull/460))
+* `App.short_version` ([#466](https://github.com/rubymotion/BubbleWrap/pull/466))
+* Bump the required version of iOS to >= 7 ([#424](https://github.com/rubymotion/BubbleWrap/pull/424))
+* Bump the required version of iOS to >= 7 ([#424](https://github.com/rubymotion/BubbleWrap/pull/424))
+* Fixes to CoreLocation ([#422](https://github.com/rubymotion/BubbleWrap/pull/422)) & ([#432](https://github.com/rubymotion/BubbleWrap/pull/432))
+* Bump the minimum required RubyMotion version to `3.12`.
+
+## ... nothing to see here... move along.
 
 ## 1.4.0
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.3.0...master)
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.3.0...v1.4.0)
 
 * Added `BW::Mail` for sending emails ([#247](https://github.com/rubymotion/BubbleWrap/pull/247))
 * Added `BW::SMS` for sending SMS/iMessages ([#287](https://github.com/rubymotion/BubbleWrap/pull/287))

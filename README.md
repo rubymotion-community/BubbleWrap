@@ -27,7 +27,7 @@ require 'bubble-wrap'
 If you using Bundler:
 
 ```ruby
-gem "bubble-wrap", "~> 1.8.0"
+gem "bubble-wrap", "~> 1.9.0"
 ```
 
 BubbleWrap is split into multiple modules so that you can easily choose which parts are included at compile-time.
@@ -388,6 +388,32 @@ class ExampleViewController < UIViewController
 end
 ```
 
+You can remove observers using `unobserve` method.
+
+**Since: > version 1.9.0**
+
+Optionally, multiple key paths can be passed to the `observer` method:
+
+``` ruby
+class ExampleViewController < UIViewController
+  include BW::KVO
+
+  def viewDidLoad
+    @label = UILabel.alloc.initWithFrame [[20,20],[280,44]]
+    @label.text = ""
+    view.addSubview @label
+
+    observe(@label, [:text, :textColor]) do |old_value, new_value, key_path|
+      puts "Hello from viewDidLoad for #{key_path}!"
+    end
+  end
+end
+```
+
+Also you can use `observe!` method to register observer that will immediately
+return initial value. Note that in this case only new value will be passed to
+the block.
+
 
 ### String
 
@@ -428,6 +454,10 @@ BW::Location.get(purpose: 'We need to use your GPS because...') do |result|
   p "To Lat #{result[:to].latitude}, Long #{result[:to].longitude}"
 end
 ```
+*Note: `result[:from]` will return `nil` the first time location services are started.*
+
+The `:previous` key in the `BW::Location.get()` result hash will always return an array of zero or more additional `CLLocation` objects aside from the locations returned from the `:to` and `:from` hash keys.  While in most scenarios this array will be empty, per [Apple's Documentation](https://developer.apple.com/library/IOs/documentation/CoreLocation/Reference/CLLocationManagerDelegate_Protocol/index.html#//apple_ref/occ/intfm/CLLocationManagerDelegate/locationManager:didUpdateLocations:) if there are deferred updates or multiple locations that arrived before they could be delivered, multiple locations will be returned in an order of oldest to newest.
+
 
 ```ruby
 BW::Location.get_compass do |result|
