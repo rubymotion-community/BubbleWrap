@@ -2,6 +2,10 @@
 
 [Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.0...master)
 
+## 1.9.1
+
+* Fix issue in loading iOS 8 constants for CoreLocation
+
 ## 1.9.0
 
 [Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.8.0...v1.9.0)

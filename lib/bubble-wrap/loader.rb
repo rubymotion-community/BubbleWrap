@@ -47,6 +47,7 @@ unless defined?(BubbleWrap::LOADER_PRESENT)
     end
 
     def after_config(config)
+      return unless ::BubbleWrap::Requirement.frameworks.include?("CoreLocation")
       BubbleWrap.require_ios do
         ios8_files = 'motion/ios/8/location_constants.rb'
         if config.send(:deployment_target).to_f >= 8.0
