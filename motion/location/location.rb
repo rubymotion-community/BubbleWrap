@@ -43,12 +43,15 @@ module BubbleWrap
     # }
     # @block for callback. takes one argument, `result`.
     #   - On error or cancelled, is called with a hash {error: BW::Location::Error::<Type>}
-    #   - On success, is called with a hash {to: #<CLLocation>, from: #<CLLocation>}
+    #   - On success, is called with a hash {to: #<CLLocation>, from: #<CLLocation>, previous: [#<CLLocation>,...]}
+    #   -- :previous will return an Array of CLLocation objects, ordered from oldest to newest, excluding the 
+    #        locations :to and :from, returning an empty Array if no additional locations were provided
     #
     # Example
     # BW::Location.get(distance_filter: 10, desired_accuracy: :nearest_ten_meters) do |result|
     #   result[:to].class == CLLocation
     #   result[:from].class == CLLocation
+    #   result[:previous].class == NSArray<CLLocation>
     #   p "Lat #{result[:to].latitude}, Long #{result[:to].longitude}"
     # end
     def get(options = {}, &block)
@@ -66,6 +69,7 @@ module BubbleWrap
 
       @options[:significant] = false if @options[:significant].nil?
       @retries = 0
+      @from_location = nil
 
       if not enabled?
         error(Error::DISABLED) and return
@@ -170,13 +174,19 @@ module BubbleWrap
 
     ##########
     # CLLocationManagerDelegate Methods
-    def locationManager(manager, didUpdateToLocation:newLocation, fromLocation:oldLocation)
+    def locationManager(manager, didUpdateLocations:locations)
       if @options[:once]
-        @callback && @callback.call(newLocation)
+        @callback && @callback.call(locations.last)
         @callback = proc { |result| }
         stop
       else
-        @callback && @callback.call({to: newLocation, from: oldLocation})
+        size = locations.count
+        result = {to: locations.last, 
+          from: ( (size > 1) ? locations.last(2).first : @from_location ), 
+          previous: ( (size > 2) ? locations.first(size - 2) : [] )
+        }
+        @from_location = result[:to]
+        @callback && @callback.call(result)
       end
     end
 

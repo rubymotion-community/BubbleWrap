@@ -149,7 +149,7 @@ describe BubbleWrap::Location do
         result[:from].longitude.should == 49
       end
 
-      BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+      BW::Location.locationManager(location_manager, didUpdateLocations: [from, to])
     end
   end
 
@@ -165,11 +165,11 @@ describe BubbleWrap::Location do
         @number_times += 1
       end
 
-      BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+      BW::Location.locationManager(location_manager, didUpdateLocations: [from, to])
 
       to = CLLocation.alloc.initWithLatitude(0, longitude: 0)
       from = CLLocation.alloc.initWithLatitude(0, longitude: 0)
-      BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+      BW::Location.locationManager(location_manager, didUpdateLocations: [from, to])
       @number_times.should == 1
     end
   end
@@ -235,7 +235,46 @@ describe BubbleWrap::Location do
         result[:from].longitude.should == 49
       end
 
-      BW::Location.locationManager(location_manager, didUpdateToLocation: to, fromLocation: from)
+      BW::Location.locationManager(location_manager, didUpdateLocations: [from, to])
+    end
+    
+    it "should include previous locations" do
+      to = CLLocation.alloc.initWithLatitude(100, longitude: 50)
+      from = CLLocation.alloc.initWithLatitude(100, longitude: 49)
+      previous = CLLocation.alloc.initWithLatitude(100, longitude: 48)
+
+      BW::Location.get_significant do |result|
+        result[:to].longitude.should == 50
+        result[:from].longitude.should == 49
+        result[:previous].last.longitude.should == 48
+      end
+
+      BW::Location.locationManager(location_manager, didUpdateLocations: [previous, from, to])
+    end
+    
+    it "should preserve previous location when delegate method only returns current location" do
+      to = CLLocation.alloc.initWithLatitude(100, longitude: 49)
+
+      @number_times = 0
+      BW::Location.get_significant do |result|
+        if @number_times == 0
+          result[:to].longitude.should == 49
+          result[:from].should == nil
+          result[:previous].last.should == nil
+        else
+          result[:to].longitude.should == 50
+          result[:from].longitude.should == 49
+          result[:previous].last.should == nil
+        end
+        @number_times += 1
+      end
+
+      BW::Location.locationManager(location_manager, didUpdateLocations: [to])
+      
+      to = CLLocation.alloc.initWithLatitude(100, longitude: 50)
+      BW::Location.locationManager(location_manager, didUpdateLocations: [to])
+
+      @number_times.should == 2
     end
   end
 

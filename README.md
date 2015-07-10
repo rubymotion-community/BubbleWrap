@@ -454,6 +454,10 @@ BW::Location.get(purpose: 'We need to use your GPS because...') do |result|
   p "To Lat #{result[:to].latitude}, Long #{result[:to].longitude}"
 end
 ```
+*Note: `result[:from]` will return `nil` the first time location services are started.*
+
+The `:previous` key in the `BW::Location.get()` result hash will always return an array of zero or more additional `CLLocation` objects aside from the locations returned from the `:to` and `:from` hash keys.  While in most scenarios this array will be empty, per [Apple's Documentation](https://developer.apple.com/library/IOs/documentation/CoreLocation/Reference/CLLocationManagerDelegate_Protocol/index.html#//apple_ref/occ/intfm/CLLocationManagerDelegate/locationManager:didUpdateLocations:) if there are deferred updates or multiple locations that arrived before they could be delivered, multiple locations will be returned in an order of oldest to newest.
+
 
 ```ruby
 BW::Location.get_compass do |result|
