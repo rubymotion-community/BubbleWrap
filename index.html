@@ -54,6 +54,7 @@
 
 <p><a href="https://codeclimate.com/github/rubymotion/BubbleWrap"><img src="https://codeclimate.com/github/rubymotion/BubbleWrap.svg" alt="Code Climate"></a>
 <a href="https://travis-ci.org/rubymotion/BubbleWrap"><img src="https://travis-ci.org/rubymotion/BubbleWrap.svg?branch=master" alt="Build Status"></a>
+<a href="http://badge.fury.io/rb/bubble-wrap"><img src="https://badge.fury.io/rb/bubble-wrap.png" alt="Gem Version"></a>
 <a href="https://gemnasium.com/rubymotion/BubbleWrap"><img src="https://gemnasium.com/rubymotion/BubbleWrap.png" alt="Dependency Status"></a></p>
 
 <h2>Installation</h2>
@@ -79,7 +80,7 @@
 <p>If you using Bundler:</p>
 
 <div class="highlight">
-<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.8.0"</span>
+<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.9.0"</span>
 </pre>
 </div>
 
@@ -146,6 +147,14 @@
 
 <div class="highlight">
 <pre><span class="nb">require</span> <span class="s1">'bubble-wrap/sms'</span>
+</pre>
+</div>
+
+
+<p>If you wish to only include the <code>Motion</code> (CoreMotion) wrapper:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'bubble-wrap/motion'</span>
 </pre>
 </div>
 
@@ -409,6 +418,14 @@ use the versioned gem.</p>
 <p>Helper methods added to give <code>NSIndexPath</code> a bit more of a Ruby
 interface.</p>
 
+<div class="highlight">
+<pre><span class="n">index_path</span> <span class="o">=</span> <span class="n">table_view</span><span class="o">.</span><span class="n">indexPathForCell</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+<span class="n">index_path</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># NSIndexPath for next cell in the same section</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;NSIndexPath:0x120db8e0&gt;</span>
+</pre>
+</div>
+
+
 <h3>NSNotificationCenter</h3>
 
 <p>Helper methods to give NSNotificationCenter a Ruby-like interface:</p>
@@ -492,6 +509,34 @@ simple interface:</p>
 </div>
 
 
+<p>You can remove observers using <code>unobserve</code> method.</p>
+
+<p><strong>Since: &gt; version 1.9.0</strong></p>
+
+<p>Optionally, multiple key paths can be passed to the <code>observer</code> method:</p>
+
+<div class="highlight">
+<pre><span class="k">class</span> <span class="nc">ExampleViewController</span> <span class="o">&lt;</span> <span class="no">UIViewController</span>
+  <span class="kp">include</span> <span class="no">BW</span><span class="o">::</span><span class="no">KVO</span>
+
+  <span class="k">def</span> <span class="nf">viewDidLoad</span>
+    <span class="vi">@label</span> <span class="o">=</span> <span class="no">UILabel</span><span class="o">.</span><span class="n">alloc</span><span class="o">.</span><span class="n">initWithFrame</span> <span class="o">[[</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">280</span><span class="p">,</span><span class="mi">44</span><span class="o">]]</span>
+    <span class="vi">@label</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">addSubview</span> <span class="vi">@label</span>
+
+    <span class="n">observe</span><span class="p">(</span><span class="vi">@label</span><span class="p">,</span> <span class="o">[</span><span class="ss">:text</span><span class="p">,</span> <span class="ss">:textColor</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">old_value</span><span class="p">,</span> <span class="n">new_value</span><span class="p">,</span> <span class="n">key_path</span><span class="o">|</span>
+      <span class="nb">puts</span> <span class="s2">"Hello from viewDidLoad for </span><span class="si">#{</span><span class="n">key_path</span><span class="si">}</span><span class="s2">!"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Also you can use <code>observe!</code> method to register observer that will immediately
+return initial value. Note that in this case only new value will be passed to
+the block.</p>
+
 <h3>String</h3>
 
 <p>The Ruby <code>String</code> class was extended to add <code>#camelize</code> and
@@ -539,6 +584,10 @@ iso8601 formatted string into a Time instance.</p>
 </pre>
 </div>
 
+
+<p><em>Note: <code>result[:from]</code> will return <code>nil</code> the first time location services are started.</em></p>
+
+<p>The <code>:previous</code> key in the <code>BW::Location.get()</code> result hash will always return an array of zero or more additional <code>CLLocation</code> objects aside from the locations returned from the <code>:to</code> and <code>:from</code> hash keys.  While in most scenarios this array will be empty, per <a href="https://developer.apple.com/library/IOs/documentation/CoreLocation/Reference/CLLocationManagerDelegate_Protocol/index.html#//apple_ref/occ/intfm/CLLocationManagerDelegate/locationManager:didUpdateLocations:">Apple's Documentation</a> if there are deferred updates or multiple locations that arrived before they could be delivered, multiple locations will be returned in an order of oldest to newest.</p>
 
 <div class="highlight">
 <pre><span class="no">BW</span><span class="o">::</span><span class="no">Location</span><span class="o">.</span><span class="n">get_compass</span> <span class="k">do</span> <span class="o">|</span><span class="n">result</span><span class="o">|</span>
@@ -1417,12 +1466,23 @@ idiom it is available as a public API.</p>
 </div>
 
 
-<h1>Suggestions?</h1>
+<h1>Contributing</h1>
 
 <p>Do you have a suggestion for a specific wrapper? Feel free to open an
 issue/ticket and tell us about what you are after. If you have a
 wrapper/helper you are using and are thinking that others might enjoy,
-please send a pull request (with tests if possible).</p>
+please send a pull request with tests. If you need help writing the tests,
+send the pull request anyways and we'll try to help you out with that.</p>
+
+<ol>
+<li>Create an issue in GitHub to make sure your PR will be accepted</li>
+<li>Fork the BubbleWrap repository</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Write tests for your changes and ensure they pass locally (<code>bundle exec rake spec &amp;&amp; bundle exec rake spec osx=true</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
 </body></html>
 
        </section>
