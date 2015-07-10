@@ -16,6 +16,7 @@
 * Bump the required version of iOS to >= 7 ([#424](https://github.com/rubymotion/BubbleWrap/pull/424))
 * Bump the required version of iOS to >= 7 ([#424](https://github.com/rubymotion/BubbleWrap/pull/424))
 * Fixes to CoreLocation ([#422](https://github.com/rubymotion/BubbleWrap/pull/422)) & ([#432](https://github.com/rubymotion/BubbleWrap/pull/432))
+* Adds default text option to BW::UIAlertView ([#467](https://github.com/rubymotion/BubbleWrap/pull/467))
 * Bump the minimum required RubyMotion version to `3.12`.
 
 ## ... nothing to see here... move along.
