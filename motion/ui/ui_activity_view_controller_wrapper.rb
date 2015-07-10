@@ -41,6 +41,11 @@ module BW
     UIActivityTypePrint,
     UIActivityTypeCopyToPasteboard,
     UIActivityTypeAssignToContact,
-    UIActivityTypeSaveToCameraRoll
+    UIActivityTypeSaveToCameraRoll,
+    UIActivityTypeAddToReadingList,
+    UIActivityTypePostToFlickr,
+    UIActivityTypePostToVimeo,
+    UIActivityTypePostToTencentWeibo,
+    UIActivityTypeAirDrop
   )
 end

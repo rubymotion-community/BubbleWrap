@@ -32,8 +32,13 @@ Motion::Project::App.setup do |app|
       app.spec_files -= Dir.glob("./spec/motion/#{package}/**/*.rb")
     end
   else
+    app.deployment_target = '7.1'
+    app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
+    app.info_plist['NSLocationWhenInUseUsageDescription'] = 'Description'
+
     app.spec_files -= Dir.glob("./spec/motion/**/osx/**.rb")
   end
+
   app.version       = '1.2.3'
   app.short_version = '3.2.1'
 end
