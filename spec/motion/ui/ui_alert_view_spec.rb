@@ -186,6 +186,7 @@ describe BW::UIAlertView do
           :message                    => "message",
           :style                      => :plain_text_input,
           :keyboard_type              => UIKeyboardTypeURL,
+          :text                       => "text",
           :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
@@ -314,6 +315,7 @@ describe BW::UIAlertView do
           :title                      => "title",
           :message                    => "message",
           :style                      => :plain_text_input,
+          :text                       => "text",
           :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
@@ -410,6 +412,10 @@ describe BW::UIAlertView do
         @subject.plain_text_field.placeholder.should.be.nil
       end
 
+      it "has no text" do
+        @subject.plain_text_field.text.should == ""
+      end
+
       it "has the default keyboard type" do
         @subject.plain_text_field.keyboardType.should == UIKeyboardTypeDefault
       end
@@ -444,6 +450,21 @@ describe BW::UIAlertView do
 
     ###############################################################################################
 
+    describe "given text" do
+      before do
+        @options = { text: "text" }
+        @subject = BW::UIAlertView.plain_text_input(@options)
+      end
+
+      behaves_like "an instance with no options"
+
+      it "has the correct text" do
+        @subject.plain_text_field.text.should == "text"
+      end
+    end
+
+    ###############################################################################################
+
     describe "given a keyboard type" do
       before do
         @options = { keyboard_type: UIKeyboardTypeURL }
@@ -452,7 +473,7 @@ describe BW::UIAlertView do
 
       behaves_like "an instance with no options"
 
-      it "has the correct placeholder" do
+      it "has the correct keyboard type" do
         @subject.plain_text_field.keyboardType.should == UIKeyboardTypeURL
       end
     end
@@ -465,7 +486,7 @@ describe BW::UIAlertView do
 
       behaves_like "an instance with no options"
 
-      it "has the correct placeholder" do
+      it "has the correct keyboard type" do
         @subject.plain_text_field.keyboardType.should == UIKeyboardTypeEmailAddress
       end
     end
@@ -508,6 +529,7 @@ describe BW::UIAlertView do
           :title                      => "title",
           :message                    => "message",
           :style                      => :default,
+          :text                       => "text",
           :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
@@ -651,6 +673,7 @@ describe BW::UIAlertView do
           :title                      => "title",
           :message                    => "message",
           :style                      => :default,
+          :text                       => "text",
           :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
@@ -794,6 +817,7 @@ describe BW::UIAlertView do
           :title                      => "title",
           :message                    => "message",
           :style                      => :default,
+          :text                       => "text",
           :placeholder                => "placeholder",
           :buttons                    => "button title",
           :cancel_button_index        => 0,
