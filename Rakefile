@@ -33,15 +33,14 @@ Motion::Project::App.setup do |app|
     end
   else
     app.deployment_target = '7.1'
+    app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
+    app.info_plist['NSLocationWhenInUseUsageDescription'] = 'Description'
+
     app.spec_files -= Dir.glob("./spec/motion/**/osx/**.rb")
   end
 
   app.version       = '1.2.3'
   app.short_version = '3.2.1'
-
-  app.entitlements['com.apple.locationd.authorizeapplications'] = true
-  app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
-  app.info_plist['NSLocationWhenInUseUsageDescription'] = 'Description'
 end
 
 namespace :spec do
