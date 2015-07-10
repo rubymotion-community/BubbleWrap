@@ -86,13 +86,8 @@ module BubbleWrap
       self.location_manager.desiredAccuracy = Constants.get("KCLLocationAccuracy", @options[:desired_accuracy])
       self.location_manager.purpose = @options[:purpose] if @options[:purpose]
 
-      if @options[:significant]
-        self.location_manager.startMonitoringSignificantLocationChanges
-      elsif @options[:compass]
-        self.location_manager.startUpdatingHeading
-      else
-        self.location_manager.startUpdatingLocation
-      end
+      @initialized = true
+      start
     end
 
     def get_significant(options = {}, &block)
@@ -136,6 +131,18 @@ module BubbleWrap
       get_compass(options.merge(once: true), &block)
     end
 
+    # Start getting locations
+    def start
+      return unless initialized?
+      if @options[:significant]
+        self.location_manager.startMonitoringSignificantLocationChanges
+      elsif @options[:compass]
+        self.location_manager.startUpdatingHeading
+      else
+        self.location_manager.startUpdatingLocation
+      end
+    end
+
     # Stop getting locations
     def stop
       return unless @options
@@ -157,6 +164,11 @@ module BubbleWrap
     # returns true/false whether services, or limited services, are enabled for the _device_
     def enabled?
       CLLocationManager.locationServicesEnabled
+    end
+
+    # returns true/false if CLLocationManager has been initialized with the provided or default options
+    def initialized?
+      @initialized ||= false
     end
 
     # returns true/false whether services are enabled for the _app_
@@ -219,8 +231,8 @@ module BubbleWrap
           if @retries > @options[:retries]
             error(Error::LOCATION_UNKNOWN)
           else
-            self.location_manager.stopUpdatingLocation
-            self.location_manager.startUpdatingLocation
+            stop
+            start
           end
         when KCLErrorNetwork
           error(Error::NETWORK_FAILURE)

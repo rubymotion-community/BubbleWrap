@@ -278,6 +278,17 @@ describe BubbleWrap::Location do
     end
   end
 
+  describe ".start" do
+    before do
+      reset
+    end
+    
+    it "should not throw an error starting when the Location Manager has not been initialized" do
+      Proc.new { BW::Location.start }.should.not.raise Exception
+    end
+    
+  end
+
   describe ".stop" do
     before do
       reset
