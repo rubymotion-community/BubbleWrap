@@ -67,6 +67,7 @@ module BW
         options[:style] = :plain_text_input
         new(options, &block).tap do |view|
           view.textFieldAtIndex(0).tap do |tf|
+            tf.text = options[:text] if options[:text]
             tf.placeholder = options[:placeholder] if options[:placeholder]
             tf.keyboardType = (KEYBOARD_TYPES[options[:keyboard_type]] || options[:keyboard_type]) if options[:keyboard_type]
           end
