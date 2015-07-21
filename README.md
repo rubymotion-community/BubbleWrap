@@ -24,7 +24,7 @@ gem install bubble-wrap
 require 'bubble-wrap'
 ```
 
-If you using Bundler:
+If you use Bundler:
 
 ```ruby
 gem "bubble-wrap", "~> 1.9.1"
