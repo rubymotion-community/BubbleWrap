@@ -77,10 +77,10 @@
 </div>
 
 
-<p>If you using Bundler:</p>
+<p>If you use Bundler:</p>
 
 <div class="highlight">
-<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.9.1"</span>
+<pre><span class="n">gem</span> <span class="s2">"bubble-wrap"</span><span class="p">,</span> <span class="s2">"~&gt; 1.9.2"</span>
 </pre>
 </div>
 
@@ -1314,6 +1314,28 @@ are declared on.</p>
 <span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">succeed</span> <span class="ss">:passed</span>
 <span class="o">=&gt;</span> <span class="kp">nil</span>
 <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:passed</span><span class="o">]</span>
+</pre>
+</div>
+
+
+<h4>DependentDeferrable</h4>
+
+<p><code>DependentDeferrable</code> depends on children deferrables. A <code>DependentDeferrable</code>
+succeeds only when every child succeeds and fails immediately when any child
+fails</p>
+
+<div class="highlight">
+<pre><span class="o">&gt;</span> <span class="n">d1</span> <span class="o">=</span> <span class="no">EM</span><span class="o">::</span><span class="no">DefaultDeferrable</span><span class="o">.</span><span class="n">new</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BubbleWrap::Reactor::DefaultDeferrable:0x10c713750&gt;</span>
+<span class="o">&gt;</span> <span class="n">d2</span> <span class="o">=</span> <span class="no">EM</span><span class="o">::</span><span class="no">DefaultDeferrable</span><span class="o">.</span><span class="n">new</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BubbleWrap::Reactor::DefaultDeferrable:0x10370bb10&gt;</span>
+<span class="o">&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="no">EM</span><span class="o">::</span><span class="no">DependentDeferrable</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;BubbleWrap::Reactor::DependentDeferrable:0x106c17b80&gt;</span>
+<span class="o">&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">callback</span> <span class="p">{</span><span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">"a: </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2"> b: </span><span class="si">#{</span><span class="n">b</span><span class="si">}</span><span class="s2">"</span><span class="p">}</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;Proc:0x103075210&gt;]</span>
+<span class="o">&gt;</span> <span class="n">d1</span><span class="o">.</span><span class="n">succeed</span> <span class="s1">'one'</span><span class="p">,</span> <span class="s1">'one more'</span>
+<span class="o">&gt;</span> <span class="n">d2</span><span class="o">.</span><span class="n">succeed</span> <span class="ss">:two</span>
+<span class="ss">a</span><span class="p">:</span> <span class="o">[</span><span class="s2">"one"</span><span class="p">,</span> <span class="s2">"one more"</span><span class="o">]</span> <span class="ss">b</span><span class="p">:</span> <span class="o">[</span><span class="ss">:two</span><span class="o">]</span>
 </pre>
 </div>
 
