@@ -1118,6 +1118,26 @@ Great sadness!
 => [:passed]
 ```
 
+#### DependentDeferrable
+
+`DependentDeferrable` depends on children deferrables. A `DependentDeferrable` 
+succeeds only when every child succeeds and fails immediately when any child 
+fails
+
+```ruby
+> d1 = EM::DefaultDeferrable.new
+=> #<BubbleWrap::Reactor::DefaultDeferrable:0x10c713750>
+> d2 = EM::DefaultDeferrable.new
+=> #<BubbleWrap::Reactor::DefaultDeferrable:0x10370bb10>
+> d = EM::DependentDeferrable.on(d1, d2)
+=> #<BubbleWrap::Reactor::DependentDeferrable:0x106c17b80>
+> d.callback {|a, b| puts "a: #{a} b: #{b}"}
+=> [#<Proc:0x103075210>]
+> d1.succeed 'one', 'one more'
+> d2.succeed :two
+a: ["one", "one more"] b: [:two]
+```
+
 #### ThreadAwareDeferrable
 
 ```ruby

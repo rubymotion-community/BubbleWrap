@@ -147,6 +147,14 @@ module BubbleWrap
         @deferred_timeout = Timer.new(seconds) {me.fail}
       end
 
+      def deferred_status
+        @deferred_status ||= :unknown
+      end
+
+      def deferred_args
+        @deferred_args
+      end
+
     end
   end
 end
