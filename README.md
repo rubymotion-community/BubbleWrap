@@ -27,7 +27,7 @@ require 'bubble-wrap'
 If you use Bundler:
 
 ```ruby
-gem "bubble-wrap", "~> 1.9.1"
+gem "bubble-wrap", "~> 1.9.2"
 ```
 
 BubbleWrap is split into multiple modules so that you can easily choose which parts are included at compile-time.
@@ -1120,8 +1120,8 @@ Great sadness!
 
 #### DependentDeferrable
 
-`DependentDeferrable` depends on children deferrables. A `DependentDeferrable` 
-succeeds only when every child succeeds and fails immediately when any child 
+`DependentDeferrable` depends on children deferrables. A `DependentDeferrable`
+succeeds only when every child succeeds and fails immediately when any child
 fails
 
 ```ruby

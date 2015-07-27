@@ -1,6 +1,12 @@
 ## Unreleased
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.1...master)
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.2...master)
+
+## 1.9.2
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.1...v1.9.2)
+
+* Added `DependentDeferrable`. ([#469](https://github.com/rubymotion/BubbleWrap/pull/469))
 
 ## 1.9.1
 
