@@ -44,7 +44,6 @@ module BubbleWrap
           :enclosure    => enclosure,
           :category     => category,
           :encoded      => encoded,
-          :enclosure    => enclosure
         }
       end
     end
