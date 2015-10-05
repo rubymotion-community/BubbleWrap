@@ -42,7 +42,7 @@ module BubbleWrap
     end
 
     def simulator?
-      @simulator_state ||= !(UIDevice.currentDevice.model =~ /simulator/i).nil?
+      @simulator_state ||= !(NSBundle.mainBundle.bundlePath.start_with? '/var/').nil?
     end
 
     # Returns the IOS SDK version currently running (i.e. "5.1" or "6.0" etc)
