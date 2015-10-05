@@ -1,6 +1,12 @@
 ## Unreleased
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.2...master)
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.3...master)
+
+## 1.9.3
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.2...v1.9.3)
+
+* Fixed `Device.simulator?` for iOS 9. ([#473](https://github.com/rubymotion/BubbleWrap/pull/473))
 
 ## 1.9.2
 
