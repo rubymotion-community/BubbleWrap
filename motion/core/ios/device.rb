@@ -45,6 +45,14 @@ module BubbleWrap
       @simulator_state ||= !NSBundle.mainBundle.bundlePath.start_with?('/var/')
     end
 
+    def force_touch?
+      if defined?(UIForceTouchCapabilityAvailable) && defined?(UIScreen.mainScreen.traitCollection) && defined?(UIScreen.mainScreen.traitCollection.forceTouchCapability)
+        UIScreen.mainScreen.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable
+      else
+        false
+      end
+    end
+
     # Returns the IOS SDK version currently running (i.e. "5.1" or "6.0" etc)
     # @return [String] the IOS SDK version currently running
     def ios_version
