@@ -1,6 +1,12 @@
 ## Unreleased
 
-[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.4...master)
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.5...master)
+
+## 1.9.5
+
+[Commit history](https://github.com/rubymotion/BubbleWrap/compare/v1.9.4...v1.9.5)
+
+* Fixed 'simulator?' so it returns the correct value, when running ios 8 or below on device. ([#481](https://github.com/rubymotion/BubbleWrap/pull/481))
 
 ## ~~1.9.3~~ 1.9.4
 
