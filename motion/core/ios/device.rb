@@ -41,8 +41,16 @@ module BubbleWrap
       picker.isCameraDeviceAvailable(UIImagePickerControllerCameraDeviceRear)
     end
 
+    # Return whether app is being run in simulator
+    # @return [TrueClass, FalseClass] true will be returned if simulator, false otherwise.
     def simulator?
-      @simulator_state ||= !NSBundle.mainBundle.bundlePath.start_with?('/var/')
+      @simulator_state ||= begin
+        if ios_version.to_i >= 9
+          !NSBundle.mainBundle.bundlePath.start_with?('/var/')
+        else
+          !(UIDevice.currentDevice.model =~ /simulator/i).nil?
+        end
+      end
     end
 
     # Returns the IOS SDK version currently running (i.e. "5.1" or "6.0" etc)
