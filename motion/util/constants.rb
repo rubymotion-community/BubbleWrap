@@ -24,6 +24,7 @@ module BubbleWrap
     # get("UIImagePickerControllerSourceType", ["photo_library", "camera", "saved_photos_album"]) => 3
     # get("UIActivityType", [:air_drop, :print]) => ["com.apple.UIKit.activity.AirDrop", "com.apple.UIKit.activity.Print"]
     def get(base, *values)
+      values = Array(values)
       value = values.size == 1 ? values.first : values.flatten
       case value
       when Numeric

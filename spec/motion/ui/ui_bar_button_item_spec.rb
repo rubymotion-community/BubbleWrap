@@ -23,6 +23,14 @@ describe BW::UIBarButtonItem do
       App.notification_center.post('NavigationItemContainingBarButtonItem dealloc', nil, {'tag'=>tag})
       super
     end
+
+    def tag
+      leftBarButtonItem.tag
+    end
+
+    def tag=(value)
+      leftBarButtonItem.tag = value
+    end
   end
 
   describe ".styled" do

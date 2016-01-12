@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bubble-wrap (1.9.4)
+    bubble-wrap (1.9.5)
 
 GEM
   remote: https://rubygems.org/
@@ -27,4 +27,4 @@ DEPENDENCIES
   webstub (~> 1.1)
 
 BUNDLED WITH
-   1.10.4
+   1.10.6
