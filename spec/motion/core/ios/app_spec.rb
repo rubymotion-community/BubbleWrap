@@ -214,7 +214,6 @@ describe BubbleWrap::App do
 
       it "returns true when it can open the given url" do
         App.can_open_url("http://google.com").should.equal true
-        App.can_open_url("rdar:").should.equal true
       end
     end
   end

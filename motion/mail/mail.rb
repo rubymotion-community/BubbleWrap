@@ -44,6 +44,12 @@ module BubbleWrap
     end
 
     def create_mail_controller(options = {})
+      unless can_send_mail?
+        controller = UIAlertController.alertControllerWithTitle("Email", message:"Cannot compose an email. Please run on device.", preferredStyle:UIAlertControllerStyleAlert)
+        controller.addAction(UIAlertAction.actionWithTitle:"OK",style:UIAlertActionStyleDefault, handler:@callback)
+        return controller
+      end
+
       mail_controller = MFMailComposeViewController.alloc.init
 
       mail_controller.mailComposeDelegate = self

@@ -9,6 +9,9 @@ describe BW::UIBarButtonItem do
       self
     end
 
+    def tag=(value)
+      @tag = value
+    end
 
     def init_with_system
       initWithTitle('dummy')
@@ -20,7 +23,7 @@ describe BW::UIBarButtonItem do
     end
 
     def dealloc
-      App.notification_center.post('NavigationItemContainingBarButtonItem dealloc', nil, {'tag'=>tag})
+      App.notification_center.post('NavigationItemContainingBarButtonItem dealloc', nil, {'tag'=>@tag})
       super
     end
   end

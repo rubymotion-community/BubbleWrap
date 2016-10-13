@@ -61,7 +61,7 @@ describe "iOS" do
   describe '.ios_version' do
     it 'returns true' do
       # exact value depends on system where specs run. 4.0 seems like a safe guess
-      BW::Device.ios_version.should > '4.0'
+      BW::Device.ios_version.to_f.should > 4.0
     end
   end
 
