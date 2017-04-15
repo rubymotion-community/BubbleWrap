@@ -94,4 +94,28 @@ describe BW::UIControlWrapper do
       @touched.should.equal ['touched']
     end
   end
+
+  describe "#off" do
+    before do
+      @subject = UIControl.alloc.init
+      @touched = []
+
+      @subject.when(UIControlEventTouchUpInside) do
+        @touched << 'for the very first time'
+      end
+    end
+
+    it "should not invoke the block" do
+      @subject.off(UIControlEventTouchUpInside)
+      @subject.sendActionsForControlEvents(UIControlEventTouchUpInside)
+      @touched.should.be.empty
+    end
+
+    it "should empty the ivar" do
+      callback = @subject.instance_variable_get("@callback")
+      callback[UIControlEventTouchUpInside].should.not.be.nil
+      @subject.off(UIControlEventTouchUpInside)
+      callback[UIControlEventTouchUpInside].should.be.nil
+    end
+  end
 end
