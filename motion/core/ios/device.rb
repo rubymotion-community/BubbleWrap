@@ -7,7 +7,13 @@ module BubbleWrap
     def iphone?(idiom=UIDevice.currentDevice.userInterfaceIdiom)
       idiom == UIUserInterfaceIdiomPhone
     end
-
+    
+    # Verifies that the device running the app is an iPhone X.
+    # @return [TrueClass, FalseClass] true will be returned if the device is an iPhone X, false otherwise.
+    def iphonex?(idiom=UIDevice.currentDevice.userInterfaceIdiom)
+      (idiom == UIUserInterfaceIdiomPhone) && UIScreen.mainScreen.bounds.size.height==812.0
+    end
+    
     # Verifies that the device running the app is an iPad.
     # @return [TrueClass, FalseClass] true will be returned if the device is an iPad, false otherwise.
     def ipad?(idiom=UIDevice.currentDevice.userInterfaceIdiom)
