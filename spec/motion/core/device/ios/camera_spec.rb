@@ -103,6 +103,14 @@ describe BubbleWrap::Device::Camera do
   end
 
   describe '.imagePickerControllerDidCancel' do
+    before do
+      UIImagePickerController.instance_eval do
+        def self.isSourceTypeAvailable(c)
+          return true
+        end
+      end
+    end
+
     it 'should yield the correct error when canceled' do
       callback_ran = false
 

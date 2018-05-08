@@ -47,6 +47,8 @@ Motion::Project::App.setup do |app|
     end
   else
     app.deployment_target = '11.3'
+    app.info_plist['NSCameraUsageDescription'] = 'Description'
+    app.info_plist['NSPhotoLibraryUsageDescription'] = 'Description'
     app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
     app.info_plist['NSLocationWhenInUseUsageDescription'] = 'Description'
 
