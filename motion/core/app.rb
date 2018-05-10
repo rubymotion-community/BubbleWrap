@@ -98,7 +98,11 @@ module BubbleWrap
     end
 
     def ios?
-      Kernel.const_defined?(:UIApplication)
+      Kernel.const_defined?(:UIApplication) && !tvos?
+    end
+
+    def tvos?
+      UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomTV
     end
   end
 

@@ -25,7 +25,23 @@ unless defined?(BubbleWrap::LOADER_PRESENT)
     end
 
     def require_ios(requirement = nil, &callback)
-      if !Motion::Project::App.osx?
+      if !(Motion::Project::App.osx? || Motion::Project::App.tvos?)
+        callback.call
+      else
+        puts "bubble-wrap/#{requirement} requires iOS to use." if requirement
+      end
+    end
+
+    def require_tvos(requirement = nil, &callback)
+      if Motion::Project::App.tvos?
+        callback.call
+      else
+        puts "bubble-wrap/#{requirement} requires tvOS to use." if requirement
+      end
+    end
+
+    def require_xos(requirement = nil, &callback) # tvos & ios, not macos
+      if !(Motion::Project::App.osx?)
         callback.call
       else
         puts "bubble-wrap/#{requirement} requires iOS to use." if requirement

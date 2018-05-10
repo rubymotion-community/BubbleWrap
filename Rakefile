@@ -12,8 +12,7 @@ end
 Bundler.setup
 Bundler.require
 
-require 'bubble-wrap/all' unless ENV['BW_PLATFORM'] == 'tvos'
-require 'bubble-wrap/tv' if ENV['BW_PLATFORM'] == 'tvos'
+require 'bubble-wrap/all'
 require 'bubble-wrap/test'
 
 module Motion
@@ -42,8 +41,11 @@ Motion::Project::App.setup do |app|
     app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
     app.info_plist['NSLocationWhenInUseUsageDescription'] = 'Description'
     app.spec_files -= Dir.glob("./spec/motion/**/osx/**.rb")
-    %w(mail sms).each do |package|
+    %w(font mail media motion sms ui).each do |package|
       app.spec_files -= Dir.glob("./spec/motion/#{package}/**/*.rb")
+    end
+    %w(ios osx).each do |platform|
+      app.spec_files -= Dir.glob("./spec/motion/**/#{platform}/**.rb")
     end
   else
     app.deployment_target = '11.3'
@@ -52,7 +54,9 @@ Motion::Project::App.setup do |app|
     app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
     app.info_plist['NSLocationWhenInUseUsageDescription'] = 'Description'
 
-    app.spec_files -= Dir.glob("./spec/motion/**/osx/**.rb")
+    %w(osx tvos).each do |platform|
+      app.spec_files -= Dir.glob("./spec/motion/**/#{platform}/**.rb")
+    end
   end
 
   app.version       = '1.2.3'
