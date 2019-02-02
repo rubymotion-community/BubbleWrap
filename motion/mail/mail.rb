@@ -67,7 +67,7 @@ module BubbleWrap
 mp "AAAA"
 mp options[:attachment]
 mp "BBBB"
-mp options[:attachment_mime_type],
+mp options[:attachment_mime_type]
 mp "CCCC"
 mp options[:attachment_file_name]
       mail_controller.addAttachmentData(options[:attachment],
