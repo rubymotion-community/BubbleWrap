@@ -65,11 +65,7 @@ module BubbleWrap
       mail_controller.setSubject(options[:subject])
       mail_controller.setMessageBody(options[:message], isHTML: !!options[:html])
 mp "AAAA"
-mp options[:attachment]
-mp "BBBB"
-mp options[:attachment_mime_type]
-mp "CCCC"
-mp options[:attachment_file_name]
+mp options
       mail_controller.addAttachmentData(options[:attachment],
         mimeType: options[:attachment_mime_type],
         fileName: options[:attachment_file_name]
