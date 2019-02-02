@@ -14,7 +14,10 @@ module BubbleWrap
     #     html: false,
     #     subject: "My Subject",
     #     message: "This is my message. It isn't very long.",
-    #     animated: false
+    #     animated: false,
+    #     attachment: data
+    #     attachment_mime_type: "text/csv",
+    #     attachment_file_name: "results.csv"
     #   ) do |result, error|
     #     result.sent?      # => boolean
     #     result.canceled?  # => boolean
@@ -30,7 +33,10 @@ module BubbleWrap
         to: [],
         cc: [],
         bcc: [],
-        subject: 'Contact'
+        subject: 'Contact',
+        attachment: "",
+        attachment_mime_type: "text/csv",
+        attachment_file_name: "data.csv"
       }.merge(options)
 
       @delegate = options[:delegate]
@@ -58,7 +64,10 @@ module BubbleWrap
       mail_controller.setBccRecipients(Array(options[:bcc]))
       mail_controller.setSubject(options[:subject])
       mail_controller.setMessageBody(options[:message], isHTML: !!options[:html])
-
+      mail_controller.addAttachmentData(options[:attachment],
+        mimeType: options[:attachment_mime_type],
+        fileName: options[:attachment_file_name]
+      )
       mail_controller
     end
 
