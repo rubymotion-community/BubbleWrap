@@ -693,7 +693,11 @@ BW::Mail.compose(
   html: false,
   subject: "My Subject",
   message: "This is my message. It isn't very long.",
-  animated: false
+  animated: false,
+  attachments: [
+    {data: nsdata-object, mime_type: "mime/type", file_name: "file.name"},
+    ...
+  ]
 ) do |result, error|
   result.sent?      # => boolean
   result.canceled?  # => boolean
