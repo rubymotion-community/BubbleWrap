@@ -65,7 +65,13 @@ module BubbleWrap
       mail_controller.setSubject(options[:subject])
       mail_controller.setMessageBody(options[:message], isHTML: !!options[:html])
 mp "AAAA"
-mp options
+options.each do |k,v|
+mp "key"
+mp k
+mp "value"
+mp v
+mp "--------------"
+end
       mail_controller.addAttachmentData(options[:attachment],
         mimeType: options[:attachment_mime_type],
         fileName: options[:attachment_file_name]
