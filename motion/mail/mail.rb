@@ -15,9 +15,10 @@ module BubbleWrap
     #     subject: "My Subject",
     #     message: "This is my message. It isn't very long.",
     #     animated: false,
-    #     attachment: data
-    #     attachment_mime_type: "text/csv",
-    #     attachment_file_name: "results.csv"
+    #     attachments: [ { data: nsdata-object1, mime_type: "xxx1/yyy1", file_name: "aaa1.bb1"},
+    #                    { data: nsdata-object2, mime_type: "xxx2/yyy2", file_name: "aaa2.bb2"},
+    #                    ...
+    #                   ]
     #   ) do |result, error|
     #     result.sent?      # => boolean
     #     result.canceled?  # => boolean
@@ -34,9 +35,7 @@ module BubbleWrap
         cc: [],
         bcc: [],
         subject: 'Contact',
-        attachment: "",
-        attachment_mime_type: "text/csv",
-        attachment_file_name: "data.csv"
+        attachments: []
       }.merge(options)
 
       @delegate = options[:delegate]
@@ -64,18 +63,9 @@ module BubbleWrap
       mail_controller.setBccRecipients(Array(options[:bcc]))
       mail_controller.setSubject(options[:subject])
       mail_controller.setMessageBody(options[:message], isHTML: !!options[:html])
-mp "AAAA"
-options.each do |k,v|
-mp "key"
-mp k
-mp "value"
-mp v
-mp "--------------"
-end
-      mail_controller.addAttachmentData(options[:attachment],
-        mimeType: options[:attachment_mime_type],
-        fileName: options[:attachment_file_name]
-      )
+      options[:attachments].each do |ad|
+        mail_controller.addAttachmentData(ad[:data], mimeType: ad[:mime_type], fileName: ad[:file_name])
+      end
       mail_controller
     end
 
