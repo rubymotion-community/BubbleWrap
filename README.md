@@ -8,7 +8,6 @@ A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKi
 [![Code Climate](https://codeclimate.com/github/rubymotion/BubbleWrap.svg)](https://codeclimate.com/github/rubymotion/BubbleWrap)
 [![Build Status](https://travis-ci.org/rubymotion/BubbleWrap.svg?branch=master)](https://travis-ci.org/rubymotion/BubbleWrap)
 [![Gem Version](https://badge.fury.io/rb/bubble-wrap.png)](http://badge.fury.io/rb/bubble-wrap)
-[![Dependency Status](https://gemnasium.com/rubymotion/BubbleWrap.png)](https://gemnasium.com/rubymotion/BubbleWrap)
 
 ## Installation
 
