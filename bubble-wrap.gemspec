@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ['mattaimonetti@gmail.com', 'francis@ignition.hk', 'james@sociable.co.nz', 'clay.allsopp@gmail.com', 'dylan@dylanmarkow.com', 'jan@dreimannzelt.de', 'marin2211@gmail.com']
   gem.description   = 'RubyMotion wrappers and helpers (Ruby for iOS and OS X) - Making Cocoa APIs more Ruby like, one API at a time. Fork away and send your pull request.'
   gem.summary       = 'RubyMotion wrappers and helpers (Ruby for iOS and OS X) - Making Cocoa APIs more Ruby like, one API at a time. Fork away and send your pull request.'
-  gem.homepage      = 'http://rubymotion.github.io/BubbleWrap/'
+  gem.homepage      = 'https://github.com/rubymotion-community/BubbleWrap'
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($\)
