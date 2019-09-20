@@ -1,10 +1,21 @@
 ## Unreleased
 
-[Commit history](https://github.com/rubymotion-community/BubbleWrap/compare/v1.9.6...master)
+[Commit history](https://github.com/rubymotion-community/BubbleWrap/compare/v1.9.7...master)
+
+## 1.9.7
+
+[Commit history](https://github.com/rubymotion-community/BubbleWrap/compare/v1.9.6...v1.9.7)
+
+* [iOS] Fix iOS 11 photo library crash ([#493](https://github.com/rubymotion-community/BubbleWrap/pull/493))
+* [iOS] Updated Device.simulator? to work in iOS 13+ ([#499](https://github.com/rubymotion-community/BubbleWrap/pull/499))
+* [iOS] Add MobileCoreServices to list of required frameworks. Fixes issue with missing KUTTypeMovie constant.
 
 ## 1.9.6
 
 [Commit history](https://github.com/rubymotion-community/BubbleWrap/compare/v1.9.5...v1.9.6)
+
+* [iOS] Add Device.force_touch? ([#478](https://github.com/rubymotion-community/BubbleWrap/pull/478))
+* [iOS] Fixes for iOS 10 ([#489](https://github.com/rubymotion-community/BubbleWrap/pull/489))
 
 ## 1.9.5
 
