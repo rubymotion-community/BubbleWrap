@@ -2,9 +2,6 @@
 
 A collection of (tested) helpers and wrappers used to wrap Cocoa Touch and AppKit code and provide more Ruby like APIs.
 
-[BubbleWrap website](http://rubymotion.github.io/BubbleWrap/)
-[BubbleWrap mailing list](https://groups.google.com/forum/#!forum/bubblewrap)
-
 [![Code Climate](https://codeclimate.com/github/rubymotion/BubbleWrap.svg)](https://codeclimate.com/github/rubymotion/BubbleWrap)
 [![Build Status](https://travis-ci.org/rubymotion/BubbleWrap.svg?branch=master)](https://travis-ci.org/rubymotion/BubbleWrap)
 [![Gem Version](https://badge.fury.io/rb/bubble-wrap.png)](http://badge.fury.io/rb/bubble-wrap)
