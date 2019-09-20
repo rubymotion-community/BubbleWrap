@@ -1,5 +1,6 @@
 require "bundler/gem_tasks"
 $:.unshift("/Library/RubyMotion/lib")
+$:.unshift("~/.rubymotion/rubymotion-templates")
 if ENV['osx']
   require 'motion/project/template/osx'
 else
