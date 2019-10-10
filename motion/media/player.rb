@@ -23,9 +23,12 @@ module BubbleWrap
       #   NOTE: if you're playing a remote file, your server needs to support
       #   range requests for that URL.
       #
-      # @param [Hash] options to open the MPMoviePlayerController with
+      # @param [Hash] options to open the AVPlayerController with
       # the form {
-      #   ### These are properties of MPMoviePlayerController
+      #   ### These are properties of AVPlayerViewController
+
+
+
       #   allows_air_play: true/false; default false,
       #   control_style: [MPMovieControlStyle]; default MPMovieControlStyleDefault,
       #   end_playback_time: [Integer] end time (in seconds) for media; default is -1,
@@ -70,33 +73,28 @@ module BubbleWrap
 
         display_modal = !!options[:modal]
 
-        klass = display_modal ? MPMoviePlayerViewController : MPMoviePlayerController
-
         content_url = content_url.is_a?(NSURL) ? content_url : NSURL.URLWithString(content_url)
-        @media_player = klass.alloc.init
+        player = AVPlayer.playerWithURL(content_url)
+        player.addObserver(self, forKeyPath:"status", options:0, context:nil)
+        player.automaticallyWaitsToMinimizeStalling = true
 
-        self.media_player.prepareToPlay if not display_modal
 
-        set_player_options(options)
-        self.media_player.setContentURL(content_url)
-
-        NSNotificationCenter.defaultCenter.observe MPMoviePlayerPlaybackDidFinishNotification do |notification|
-          h = notification.userInfo
-          error = h["error"]
-          if error
-            p "BW::Media::Player error: #{error.userInfo.inspect}"
-            p "Code: #{error.code}, Domain: #{error.domain}"
-          end
+        @media_player = AVPlayerViewController.alloc.init.tap do |avvc|
+          avvc.delegate = self
+          avvc.showsPlaybackControls = true
+          avvc.allowsPictureInPicturePlayback = false
+          avvc.entersFullScreenWhenPlaybackBegins = true
+          avvc.videoGravity = AVLayerVideoGravityResizeAspect
+          avvc.requiresLinearPlayback = false
+          avvc.player = player
         end
+
+        # set_player_options(options)
 
         if display_modal
           @presenting_controller = options[:controller]
           @presenting_controller ||= App.window.rootViewController
-          if Device.ios_version < "7.0"
-            @presenting_controller.presentMoviePlayerViewControllerAnimated(@media_player)
-          else
-            @presenting_controller.presentViewController(@media_player, animated:true, completion:nil)
-          end
+          @presenting_controller.presentViewController(@media_player, animated:true, completion:nil)
         else
           if block.nil?
             raise Error::NilPlayerCallback, "no block callback given in #play; you need\
@@ -104,47 +102,78 @@ module BubbleWrap
           end
           block.call(@media_player)
         end
-
-        if not display_modal and not options[:delay_play]
-          @media_player.play
-        end
       end
 
       # Stops playback for a Media::Player
       def stop
-        if @media_player.is_a? MPMoviePlayerViewController
-          if Device.ios_version < "7.0"
-            @presenting_controller.dismissMoviePlayerViewControllerAnimated
-          else
-            @presenting_controller.dismissViewControllerAnimated(true, completion:nil)
-          end
+        if @media_player.is_a? AVPlayerViewController
+          @presenting_controller.dismissViewControllerAnimated(true, completion:nil)
           @presenting_controller = nil
         else
-          @media_player.stop
+          @media_player.player.pause
         end
         @media_player = nil
       end
 
-      def media_player
-        if @media_player.is_a? MPMoviePlayerViewController
-          return @media_player.moviePlayer
+      private
+
+      def observeValueForKeyPath(keyPath, ofObject:object, change:ch, context:cx)
+        mp 'observed'
+        mp object
+
+        if object == @media_player.player && keyPath == "status"
+          case object.status
+          when AVPlayerStatusFailed
+            p "BW::Media::Player error: #AVPlayerStatusFailed"
+          when AVPlayerStatusReadyToPlay
+            p "BW::Media::Player succcess: AVPlayerStatusReadyToPlay"
+
+            # video = @media_player.player.currentItem
+            # mp video
+            # video.seekToTime(video.currentTime, completionHandler: -> finished {
+            #   mp 'seeking ... '
+            #   if finished
+            #     mp 'playing'
+            #     @media_player.player.pause
+                @media_player.player.play
+            #   end
+            # })
+          when AVPlayerItemStatusUnknown
+            p "BW::Media::Player error: #AVPlayerStatusFailed"
+          end
+          p 'remove observer'
+          object.removeObserver(self, forKeyPath:"status", context:nil)
         end
-        @media_player
       end
 
-      private
       # RubyMotion has a problem calling some objective-c methods at runtime, so we can't
       # do any cool `camelize` tricks.
       def set_player_options(options)
-        self.media_player.allowsAirPlay = options[:allows_air_play] if options.has_key? :allows_air_play
-        self.media_player.controlStyle = options[:control_style] if options.has_key? :control_style
-        self.media_player.endPlaybackTime = options[:end_playback_time] if options.has_key? :end_playback_time
-        self.media_player.initialPlaybackTime = options[:initial_playback_time] if options.has_key? :initial_playback_time
-        self.media_player.movieSourceType = options[:movie_source_type] if options.has_key? :movie_source_type
-        self.media_player.repeatMode = options[:repeat_mode] if options.has_key? :repeat_mode
-        self.media_player.scalingMode = options[:scaling_mode] if options.has_key? :scaling_mode
-        self.media_player.shouldAutoplay = options[:should_autoplay] if options.has_key? :should_autoplay
-        self.media_player.useApplicationAudioSession = options[:use_application_audio_session] if options.has_key? :use_application_audio_session
+        # self.media_player.showsPlaybackControls
+        # self.media_player.playbackControlsIncludeInfoViews
+        # self.media_player.playbackControlsIncludeTransportBar
+        # self.media_player.allowsPictureInPicturePlayback
+        # self.media_player.contentOverlayView
+        # self.media_player.entersFullScreenWhenPlaybackBegins
+        # self.media_player.exitsFullScreenWhenPlaybackEnds
+        # self.media_player.readyForDisplay
+        # self.media_player.videoBounds
+        # self.media_player.videoGravity
+        # self.media_player.requiresLinearPlayback
+        # self.media_player.unobscuredContentGuide
+        # self.media_player.updatesNowPlayingInfoCenter
+        # self.media_player.appliesPreferredDisplayCriteriaAutomatically
+        # self.media_player.customInfoViewController
+
+        # self.media_player.allowsAirPlay = options[:allows_air_play] if options.has_key? :allows_air_play
+        # self.media_player.controlStyle = options[:control_style] if options.has_key? :control_style
+        # self.media_player.endPlaybackTime = options[:end_playback_time] if options.has_key? :end_playback_time
+        # self.media_player.initialPlaybackTime = options[:initial_playback_time] if options.has_key? :initial_playback_time
+        # self.media_player.movieSourceType = options[:movie_source_type] if options.has_key? :movie_source_type
+        # self.media_player.repeatMode = options[:repeat_mode] if options.has_key? :repeat_mode
+        # self.media_player.scalingMode = options[:scaling_mode] if options.has_key? :scaling_mode
+        # self.media_player.shouldAutoplay = options[:should_autoplay] if options.has_key? :should_autoplay
+        # self.media_player.useApplicationAudioSession = options[:use_application_audio_session] if options.has_key? :use_application_audio_session
       end
     end
   end
