@@ -7,7 +7,13 @@ module BubbleWrap
     def iphone?(idiom=UIDevice.currentDevice.userInterfaceIdiom)
       idiom == UIUserInterfaceIdiomPhone
     end
-
+    
+    # Verifies that the device running the app is an iPhone X.
+    # @return [TrueClass, FalseClass] true will be returned if the device is an iPhone X, false otherwise.
+    def iphonex?(idiom=UIDevice.currentDevice.userInterfaceIdiom)
+      (idiom == UIUserInterfaceIdiomPhone) && [UIScreen.mainScreen.bounds.size.height, UIScreen.mainScreen.bounds.size.width].max==812.0
+    end
+    
     # Verifies that the device running the app is an iPad.
     # @return [TrueClass, FalseClass] true will be returned if the device is an iPad, false otherwise.
     def ipad?(idiom=UIDevice.currentDevice.userInterfaceIdiom)
@@ -17,7 +23,7 @@ module BubbleWrap
     # Verifies that the device having a long screen (4 inch iPhone/iPod)
     # @return [TrueClass, FalseClass] true will be returned if the device is an iPhone/iPod with 4 inche screen, false otherwise.
     def long_screen?(idiom=UIDevice.currentDevice.userInterfaceIdiom, screen_height=UIScreen.mainScreen.bounds.size.height)
-      iphone?(idiom) && screen_height == 568.0
+      iphone?(idiom) && [UIScreen.mainScreen.bounds.size.height, UIScreen.mainScreen.bounds.size.width].max == 568.0
     end
 
     # Use this to make a DSL-style call for picking images
