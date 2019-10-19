@@ -13,6 +13,7 @@ module BubbleWrap
     # `cancel_timer`
     def add_timer(interval, callback=nil, &blk)
       @timers ||= {}
+      blk.weak! if BubbleWrap.use_weak_callbacks?
       timer = Timer.new(interval,callback,&blk)
       timer.on(:fired) do
         @timers.delete(timer.object_id)
@@ -44,6 +45,7 @@ module BubbleWrap
     # the default runloop mode.
     def add_periodic_timer(interval, *args, &blk)
       @timers ||= {}
+      blk.weak! if BubbleWrap.use_weak_callbacks?
       timer = PeriodicTimer.new(interval,*args,&blk)
       timer.on(:cancelled) do
         @timers.delete(timer)
