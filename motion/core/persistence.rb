@@ -1,6 +1,7 @@
 # Persistence module built on top of NSUserDefaults
 module BubbleWrap
   module Persistence
+    class FailSynchronize < RuntimeError; end
     module_function
 
     def app_key
@@ -9,7 +10,11 @@ module BubbleWrap
 
     def []=(key, value)
       storage.setObject(value, forKey: storage_key(key))
-      storage.synchronize
+      if storage.synchronize
+        value
+      else
+        raise FailSynchronize
+      end
     end
 
     def [](key)
