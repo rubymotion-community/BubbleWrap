@@ -7,6 +7,7 @@ BubbleWrap.require_ios("camera") do
   BubbleWrap.require('motion/core/device/ios/*.rb') do
     file('motion/core/device/ios/camera_wrapper.rb').depends_on 'motion/core/device/ios/camera.rb'
     file('motion/core/device/ios/camera.rb').depends_on ['motion/core/ios/device.rb', 'motion/util/constants.rb']
+    file('motion/core/device/ios/camera.rb').uses_framework 'MobileCoreServices'
     file('motion/core/device/ios/screen.rb').depends_on 'motion/core/ios/device.rb'
   end
 end

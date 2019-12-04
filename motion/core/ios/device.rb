@@ -46,7 +46,7 @@ module BubbleWrap
     def simulator?
       @simulator_state ||= begin
         if ios_version.to_i >= 9
-          !NSBundle.mainBundle.bundlePath.start_with?('/var/')
+          NSBundle.mainBundle.bundlePath !~ /^(\/private)?\/var/
         else
           !(UIDevice.currentDevice.model =~ /simulator/i).nil?
         end
