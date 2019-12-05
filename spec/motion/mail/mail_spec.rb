@@ -12,7 +12,7 @@ end
 # This of course breaks MFMailComposeViewController from actually working,
 # but it's testable.
 class MFMailComposeViewController
-  attr_accessor :toRecipients, :ccRecipients, :bccRecipients, :subject, :message, :html
+  attr_accessor :toRecipients, :ccRecipients, :bccRecipients, :subject, :message, :html, :spec_attachments
 
   def setToRecipients(r)
     self.toRecipients = r
@@ -34,6 +34,11 @@ class MFMailComposeViewController
     self.message = message
     self.html = html
   end
+
+  def addAttachmentData(attachment)
+    self.spec_attachments << attachment
+  end
+
 end
 
 describe BW::Mail do
@@ -49,6 +54,21 @@ describe BW::Mail do
         subject: "My Subject",
         message: "This is my message. It isn't very long.",
         animated: false
+      }
+      @mail_options_with_attachments = {
+        delegate: @view_controller,
+        to: [ "tom@example.com" ],
+        cc: [ "itchy@example.com", "scratchy@example.com" ],
+        bcc: [ "jerry@example.com" ],
+        html: false,
+        subject: "My Subject",
+        message: "This is my message. It isn't very long.",
+        animated: false,
+        attachments: [
+          {data: "mock data", mime_type: "mocktype", file_name: "mock name"},
+          {data: "mock data", mime_type: "mocktype", file_name: "mock name"},
+          {data: "mock data", mime_type: "mocktype", file_name: "mock name"},
+        ]
       }
     end
 
@@ -125,6 +145,22 @@ describe BW::Mail do
 
         BubbleWrap::Mail.compose @standard_mail_options
       end
+
+      it "should create a mail controller with several attachments" do
+        @view_controller.expectation = lambda { |mail_controller, animated|
+          mail_controller.spec_attachments.should.be.kind_of(Array)
+          mail_controller.spec_attachments.size.should == 3
+          mail_controller.spec_attachments.each do |sa|
+            sa.should.be.kind_of(Hash)
+            sa.keys[0].should == "data"
+            sa.keys[1].should == "mime_type"
+            sa.keys[2].should == "file_name"
+          end
+        }
+
+        BubbleWrap::Mail.compose @mail_options_with_attachments
+      end
+
     end
 
   end
