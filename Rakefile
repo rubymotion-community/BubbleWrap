@@ -36,6 +36,17 @@ Motion::Project::App.setup do |app|
     app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
     app.info_plist['NSLocationWhenInUseUsageDescription'] = 'Description'
 
+    app.codesign_certificate = MotionProvisioning.certificate(
+      platform: :ios,
+      type: :development
+    )
+    app.provisioning_profile = MotionProvisioning.profile(
+      bundle_identifier: app.identifier,
+      app_name: app.name,
+      platform: :ios,
+      type: :development
+    )
+
     app.spec_files -= Dir.glob("./spec/motion/**/osx/**.rb")
   end
 

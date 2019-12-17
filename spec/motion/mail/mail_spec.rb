@@ -12,7 +12,7 @@ end
 # This of course breaks MFMailComposeViewController from actually working,
 # but it's testable.
 class MFMailComposeViewController
-  attr_accessor :toRecipients, :ccRecipients, :bccRecipients, :subject, :message, :html, :spec_attachments
+  attr_accessor :toRecipients, :ccRecipients, :bccRecipients, :subject, :message, :html, :attachments
 
   def setToRecipients(r)
     self.toRecipients = r
@@ -35,8 +35,11 @@ class MFMailComposeViewController
     self.html = html
   end
 
-  def addAttachmentData(attachment)
-    self.spec_attachments << attachment
+  def addAttachmentData(d, mimeType: mt, fileName: fn)
+    if self.attachments == nil
+      self.attachments = []
+    end
+    self.attachments << {:data => d, :mime_type => mt, :file_name => fn}
   end
 
 end
@@ -53,7 +56,12 @@ describe BW::Mail do
         html: false,
         subject: "My Subject",
         message: "This is my message. It isn't very long.",
-        animated: false
+        animated: false,
+        attachments: [
+          {data: "mock data", mime_type: "mocktype", file_name: "mock name"},
+          {data: "mock data", mime_type: "mocktype", file_name: "mock name"},
+          {data: "mock data", mime_type: "mocktype", file_name: "mock name"},
+        ]
       }
       @mail_options_with_attachments = {
         delegate: @view_controller,
@@ -138,7 +146,8 @@ describe BW::Mail do
         BubbleWrap::Mail.compose @standard_mail_options
       end
 
-      it "should create a mail controller with the right animation" do
+
+      it "should create a mail controller with the right bnimation" do
         @view_controller.expectation = lambda { |mail_controller, animated|
           animated.should.be.false
         }
@@ -148,17 +157,17 @@ describe BW::Mail do
 
       it "should create a mail controller with several attachments" do
         @view_controller.expectation = lambda { |mail_controller, animated|
-          mail_controller.spec_attachments.should.be.kind_of(Array)
-          mail_controller.spec_attachments.size.should == 3
-          mail_controller.spec_attachments.each do |sa|
+          mail_controller.attachments.should.be.kind_of(Array)
+          mail_controller.attachments.size.should == 3
+          mail_controller.attachments.each do |sa|
             sa.should.be.kind_of(Hash)
-            sa.keys[0].should == "data"
-            sa.keys[1].should == "mime_type"
-            sa.keys[2].should == "file_name"
+            sa.keys[0].should == :data
+            sa.keys[1].should == :mime_type
+            sa.keys[2].should == :file_name
           end
         }
 
-        BubbleWrap::Mail.compose @mail_options_with_attachments
+        BubbleWrap::Mail.compose @standard_mail_options
       end
 
     end
