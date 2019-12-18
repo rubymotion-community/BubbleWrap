@@ -12,7 +12,7 @@ end
 # This of course breaks MFMailComposeViewController from actually working,
 # but it's testable.
 class MFMailComposeViewController
-  attr_accessor :toRecipients, :ccRecipients, :bccRecipients, :subject, :message, :html
+  attr_accessor :toRecipients, :ccRecipients, :bccRecipients, :subject, :message, :html, :attachments
 
   def setToRecipients(r)
     self.toRecipients = r
@@ -34,6 +34,14 @@ class MFMailComposeViewController
     self.message = message
     self.html = html
   end
+
+  def addAttachmentData(d, mimeType: mt, fileName: fn)
+    if self.attachments == nil
+      self.attachments = []
+    end
+    self.attachments << {:data => d, :mime_type => mt, :file_name => fn}
+  end
+
 end
 
 describe BW::Mail do
@@ -48,7 +56,12 @@ describe BW::Mail do
         html: false,
         subject: "My Subject",
         message: "This is my message. It isn't very long.",
-        animated: false
+        animated: false,
+        attachments: [
+          {data: "mock dataset A", mime_type: "mock/typeA", file_name: "mock_name_A"},
+          {data: "mock dataset B", mime_type: "mock/typeB", file_name: "mock_name_B"},
+          {data: "mock dataset C", mime_type: "mock/typeC", file_name: "mock_name_C"},
+        ]
       }
     end
 
@@ -118,9 +131,58 @@ describe BW::Mail do
         BubbleWrap::Mail.compose @standard_mail_options
       end
 
+
       it "should create a mail controller with the right animation" do
         @view_controller.expectation = lambda { |mail_controller, animated|
           animated.should.be.false
+        }
+
+        BubbleWrap::Mail.compose @standard_mail_options
+      end
+
+      it "should create a mail controller with an array of attachments" do
+        @view_controller.expectation = lambda { |mail_controller, animated|
+          mail_controller.attachments.should.be.kind_of(Array)
+        }
+
+        BubbleWrap::Mail.compose @standard_mail_options
+      end
+
+      it "should create a mail controller with the right number of attachments" do
+        @view_controller.expectation = lambda { |mail_controller, animated|
+          mail_controller.attachments.size.should == 3
+        }
+
+        BubbleWrap::Mail.compose @standard_mail_options
+      end
+
+      it "should create a mail controller with several attachments, the first of which is a hash of attachments" do
+        @view_controller.expectation = lambda { |mail_controller, animated|
+          mail_controller.attachments.first.should.be.kind_of(Hash)
+        }
+
+        BubbleWrap::Mail.compose @standard_mail_options
+      end
+
+      it "should create a mail controller with several attachments, the last of which has 3 keys" do
+        @view_controller.expectation = lambda { |mail_controller, animated|
+          mail_controller.attachments.last.keys.size.should == 3
+        }
+
+        BubbleWrap::Mail.compose @standard_mail_options
+      end
+
+      it "should create a mail controller with several attachments, the last of which has a first key :data" do
+        @view_controller.expectation = lambda { |mail_controller, animated|
+          mail_controller.attachments.last.keys.first.should == :data
+        }
+
+        BubbleWrap::Mail.compose @standard_mail_options
+      end
+
+      it "should create a mail controller with several attachments, the second of which has the expected mime-type" do
+        @view_controller.expectation = lambda { |mail_controller, animated|
+          mail_controller.attachments.first[:mime_type] == "mock/typeA"
         }
 
         BubbleWrap::Mail.compose @standard_mail_options
