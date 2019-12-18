@@ -22,4 +22,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'bacon', '~> 1.2'
   gem.add_development_dependency 'rake', '~> 10.0'
   gem.add_development_dependency 'webstub', '~> 1.1'
+  gem.add_development_dependency 'motion-provisioning', '~> 1.0.2'
 end
