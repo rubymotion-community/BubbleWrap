@@ -15,6 +15,11 @@ BubbleWrap.require_ios do
   require 'bubble-wrap/ui'
 end
 
+BubbleWrap.require_tvos do
+  BubbleWrap.require('motion/core/tvos/**/*.rb')
+  BubbleWrap.require('motion/core/device/tvos/**/*.rb')
+end
+
 BubbleWrap.require_osx do
   BubbleWrap.require('motion/core/osx/**/*.rb')
   BubbleWrap.require('motion/core/device/osx/**/*.rb')

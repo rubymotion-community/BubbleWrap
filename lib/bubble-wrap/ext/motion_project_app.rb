@@ -37,6 +37,9 @@ module BubbleWrap
       def osx?
         self.respond_to?(:template) && self.template == :osx
       end
+      def tvos?
+        self.respond_to?(:template) && self.template == :tvos
+      end
     end
   end
 end

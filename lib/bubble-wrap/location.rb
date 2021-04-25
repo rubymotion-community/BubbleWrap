@@ -1,6 +1,6 @@
 require 'bubble-wrap/loader'
 
-BubbleWrap.require_ios("location") do
+BubbleWrap.require_xos("location") do
   BubbleWrap.require('motion/util/constants.rb')
   BubbleWrap.require('motion/core/string.rb')
   BubbleWrap.require('motion/location/**/*.rb') do
