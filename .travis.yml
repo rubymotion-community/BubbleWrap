@@ -24,6 +24,6 @@ script:
   - bundle exec rake clean
   - bundle exec rake spec target=10
   - bundle exec rake clean
-  - bundle exec rake spec osx=true
+  - BW_PLATFORM=osx bundle exec rake spec
   - bundle exec rake clean
-  - bundle exec rake spec tvos=true
+  - BW_PLATFORM=tvos bundle exec rake spec
