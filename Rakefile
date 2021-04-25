@@ -1,12 +1,13 @@
-require "bundler/gem_tasks"
 $:.unshift("/Library/RubyMotion/lib")
+$:.unshift("~/.rubymotion/rubymotion-templates")
+require 'motion/project/template/gem/gem_tasks'
 case ENV['BW_PLATFORM']
-  when 'osx'
-    require 'motion/project/template/osx'
-  when 'tvos'
-    require 'motion/project/template/tvos'
-  else
-    require 'motion/project/template/ios'
+when 'osx'
+  require 'motion/project/template/osx'
+when 'tvos'
+  require 'motion/project/template/tvos'
+else
+  require 'motion/project/template/ios'
 end
 
 Bundler.setup
@@ -37,7 +38,6 @@ Motion::Project::App.setup do |app|
       app.spec_files -= Dir.glob("./spec/motion/#{package}/**/*.rb")
     end
   when Motion::Project::App.tvos?
-    app.deployment_target = '10.2'
     app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
     app.info_plist['NSLocationWhenInUseUsageDescription'] = 'Description'
     app.spec_files -= Dir.glob("./spec/motion/**/osx/**.rb")
@@ -48,7 +48,6 @@ Motion::Project::App.setup do |app|
       app.spec_files -= Dir.glob("./spec/motion/**/#{platform}/**.rb")
     end
   else
-    app.deployment_target = '11.3'
     app.info_plist['NSCameraUsageDescription'] = 'Description'
     app.info_plist['NSPhotoLibraryUsageDescription'] = 'Description'
     app.info_plist['NSLocationAlwaysUsageDescription'] = 'Description'
