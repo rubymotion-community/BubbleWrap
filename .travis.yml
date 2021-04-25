@@ -1,7 +1,22 @@
 language: objective-c
-osx_image: xcode8
+osx_image: xcode12.4
+env:
+  global:
+    - RUBYMOTION_LICENSE=1dcac45cc434293009f74b33037bdf7361a3a1ff # Official license key for open-source projects
+    - TMP_DIR=./tmp # For motion repo, so it doesn't attempt to use /tmp, to which it has no access
+    - OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 before_install:
+  - brew update
+  - brew outdated xctool || brew upgrade xctool
+  - (xcrun simctl list)
+  - wget http://travisci.rubymotion.com/ -O RubyMotion-TravisCI.pkg
+  - sudo installer -pkg RubyMotion-TravisCI.pkg -target /
+  - sudo mkdir -p ~/Library/RubyMotion/build
+  - sudo chown -R travis ~/Library/RubyMotion
+  - eval "sudo motion activate $RUBYMOTION_LICENSE"
   - sudo motion update
+  - (motion --version)
+  - (ruby --version)
   - motion repo
 script:
   - bundle exec rake clean
@@ -10,3 +25,5 @@ script:
   - bundle exec rake spec target=10
   - bundle exec rake clean
   - bundle exec rake spec osx=true
+  - bundle exec rake clean
+  - bundle exec rake spec tvos=true
